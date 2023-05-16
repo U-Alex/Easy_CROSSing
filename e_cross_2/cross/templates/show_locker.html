@@ -1,0 +1,334 @@
+{% extends 'main.html' %}
+
+{% block cross %}
+
+{% if lo_list %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1300px" align="left">
+                <h3>
+                    &nbsp&nbsp<a href="/cross/build={{ bu.id }}">{{ bu.name }}&nbsp{{ bu.house_num }}</a>,
+                    &nbsp&nbsp<label style="color:blue">УД:&nbsp{{ lo.name }}</label>
+                </h3>
+            </td>
+            <td width="300px" align="right">
+                {% if kv.id != 1 %}
+                квартал: {{ kv.name }}&nbsp&nbsp
+                <a href="/statist/bu_doc={{ bu.id }}" target="_blank"><b>карточка ввода</b>&nbsp&nbsp</a>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+    
+    <table width="1404px" border="1" id="templ_header2">
+    <caption>Узлы доступа:</caption>
+        <tr>
+            <td width="26px"></td>
+            <td width="200px" align="center">название</td>
+            <td width="200px" align="center">тип УД</td>
+            <td width="90px" align="center">операции</td>
+            <td width="86px" align="center">статус</td>
+            <td width="100px" align="center">дата приемки</td>
+            <td width="70px" align="center">офис</td>
+            <td width="8%" align="center">расположение</td>
+            <td width="8%" align="center">ключ от УД</td>
+            <td align="center">примечание</td>
+            <td width="8%" align="center">владелец</td>
+            <td width="20px" align="center">?</td>
+        </tr>
+    {% for ob in lo_list %}
+        {% if lo.name == ob.name %}
+        <tr id="tr_hover" style="background-color:#D8FF93">
+        {% else %}
+        <tr id="tr_hover" style="background-color:white">
+        {% endif %}
+        {% if ob.agr %}
+            <td align="center"><img src="/static/images/lo1.png" alt=" " title="" width="15" height="15"></td>
+        {% elif ob.detached %}
+            <td align="center"><img src="/static/images/lo2.png" alt=" " title="" width="14" height="14"></td>
+        {% else %}
+            <td align="center"><img src="/static/images/lo3.png" alt=" " title="" width="14" height="14"></td>
+        {% endif %}
+            <td>&nbsp<strong><a style="color:black" href="../locker={{ ob.id }}/">{{ ob.name }}</a></strong>&nbsp</td>
+            <td>&nbsp<a style="color:black" href="/cross/build={{ bu.id }}/locker={{ ob.id }}/racks/">{{ ob.name_type }}</a>&nbsp</td>
+            <td align="center">
+            {% if ob.coord_x > 30 and ob.coord_y > 30 %}
+                <a href="/find/map/?coord={{ ob.coord_x }},{{ ob.coord_y }}" target="_blank"><img src="/static/images/selector-search.gif" alt="map" title="найти на карте" width="15" height="15"></a>
+            {% else %}
+                <a href="/find/map/" target="_blank"><img src="/static/img/icon_error.gif" alt="no_coord" title="не внесены координаты" width="15" height="15"></a>
+            {% endif %}
+            {% if ob.coup %}
+                <a href="/cable/coup={{ ob.coup.id }}/" target="_blank"><img src="/static/images/mufta.png" alt="M" title="просмотр муфты" width="16" height="16"></a>
+            {% else %}
+                <img src="/static/images/blank.png" alt="" title="" width="15" height="15">
+            {% endif %}
+                <a href="../locker={{ ob.id }}/edit"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="16" height="16"></a>
+                <a href="../locker={{ ob.id }}/energy"><img src="/static/images/shut_{{ ob.en_model }}.png" alt="ред." title="электроэнергия" width="15" height="15"></a>
+            </td>
+            <td style="background-color:{{ ob.status2.0 }}" align="center">{{ ob.status2.1.1 }}</td>
+            {% if ob.date_ent|date:"d.m.Y" != "" %}<!-- != "01.01.2009"-->
+                <td align="center">&nbsp{% if ob.status == 2 %}{{ ob.date_ent|date:"d.m.Y" }}{% endif %}&nbsp</td>
+            {% else %}
+                <td align="center">&nbsp{% if ob.status == 2 %}----{% endif %}&nbsp</td>
+            {% endif %}
+            <td align="center">&nbsp{{ ob.co }}&nbsp</td>
+            <td align="center">&nbsp{{ ob.rasp }}&nbsp</td>
+            <td align="center">&nbsp{{ ob.cab_door }}&nbsp{% if ob.cab_door == 'в ключнице' %}{{ ob.cab_key }}&nbsp{% endif %}</td>
+            <td>&nbsp{{ ob.prim }}&nbsp</td>
+            <td>&nbsp{{ ob.object_owner }}&nbsp</td>
+            <td style="background-color:#bbbbbb" align="center"><a href="/core/logs/t=1/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
+        </tr>
+    {% endfor %}
+        <tr id="templ_footer">
+            <td colspan="3">&nbsp</td>
+            <td align="center">
+            {% if perms.core.can_new %}
+                <a href="../new_locker/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить УД" height="11"></a>
+            {% endif %}
+            </td>
+            <td colspan="8"></td>
+        </tr>
+    </table>
+{% else %}
+    <p>&nbsp&nbspУД отсутствуют<br><a href="../new_locker/">&nbsp&nbsp добавить УД</a></p>
+{% endif %}
+
+{% if cr_list %}
+    <table width="1404px" border="1" id="templ_header2">
+    <caption>кроссы:</caption>
+        <tr>
+            <td width="26px"></td>
+            <td width="200px" align="center">название</td>
+            <td width="240px" align="center">модель</td>
+            <td width="30px" align="center">...</td>
+            <td colspan="2" align="center">кроссировки</td>
+            <td align="center">примечание</td>
+            <td width="8%" align="center">владелец</td>
+            <td width="20px" align="center">&nbsp</td>
+            <td width="20px" align="center">&nbsp</td>
+        </tr>
+    {% for ob in cr_list %}
+        <tr id="tr_hover" style="background-color:white">
+            <td align="center"><img src="/static/images/laser2.png" alt=" " title="" height="15"></td>
+            <td>&nbsp<strong><a style="color:black" href="cr={{ ob.id }}/" title="просмотр кроссировок">{{ ob.name }}</a></strong>&nbsp</td>
+            <td>&nbsp{{ ob.name_type }}&nbsp</td>
+            <td align="center">
+                <a href="cr={{ ob.id }}/edit"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="16" height="16"></a>
+            </td>
+            <td width="60px" align="center">
+                <label title="свободные">{{ ob.st_list1.0 }}/{{ ob.st_list2.0 }}</label></td>
+            <td width="30px" align="center"  {% if ob.st_list1.5 != 0 %} style="background-color:gray"{% endif %}>
+            {% if ob.st_list1.5 != 0 %}
+                <label title="неисправные">{{ ob.st_list1.5 }}</label>
+            {% endif %}
+            </td>
+            <td>&nbsp{{ ob.prim }}&nbsp</td>
+            <td>&nbsp{{ ob.object_owner }}&nbsp</td>
+            <td align="center"><a href="del_cross={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" width="12" height="12"></a></td>
+            <td style="background-color:#bbbbbb" align="center"><a href="/core/logs/t=2/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
+        </tr>
+    {% endfor %}
+        <tr id="templ_footer">
+            <td colspan="3">&nbsp</td>
+            <td align="center">
+            {% if perms.core.can_new %}
+                <a href="new_cr/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить кросс" height="11"></a>
+            {% endif %}
+            </td>
+            <td colspan="10"></td>
+        </tr>
+    </table>
+{% else %}
+    <p>&nbsp&nbsp кроссы отсутствуют<br><a href="new_cr/">добавить</a></p>
+{% endif %}
+
+{% if dev_list %}
+    <table width="1404px" border="1" id="templ_header2">
+    <caption>активное оборудование:</caption>
+        <tr>
+            <td width="26px"></td>
+            <td width="200px" align="center">название</td>
+            <td width="200px" align="center">модель</td>
+            <td width="70px" align="center">...</td>
+            <td colspan="2" align="center">кроссировки</td>
+            <td width="110px" align="center">ip - адрес</td>
+            <!--<td width="60px" align="center">vlan</td>-->
+            <td align="center">примечание</td>
+            <td width="8%" align="center">владелец</td>
+            <td width="20px" align="center">&nbsp</td>
+            <td width="20px" align="center">&nbsp</td>
+            <td width="20px" align="center">&nbsp</td>
+        </tr>
+    {% for ob in dev_list %}
+        <tr id="tr_hover" style="background-color:white">
+            <td align="center"><img src="{{ ob.pic }}" alt=" " title="" width="22"></td>
+            <td>&nbsp<strong><a style="color:black" href="dev={{ ob.id }}/" title="просмотр кроссировок">{{ ob.name }}</a></strong>&nbsp</td>
+            <td>&nbsp{{ ob.name_type }}&nbsp</td>
+            <td align="center">
+                <a href="dev={{ ob.id }}/l2=1"><img src="/static/images/chain3.png" alt="config" title="конфигурация" width="16" height="16"></a>
+                <a href="dev={{ ob.id }}/ips"><img src="/static/images/stat.png" alt="config" title="коммутация" width="16" height="16"></a>
+                <a href="dev={{ ob.id }}/edit"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="16" height="16"></a>
+            </td>
+            <td width="60px" align="center">
+                <label title="свободные">{{ ob.st_list.0 }}</label></td>
+            <td width="30px" align="center" {% if ob.st_list.5 != 0 %} style="background-color:gray"{% endif %}>
+            {% if ob.st_list.5 != 0 %}
+                <label title="неисправные">{{ ob.st_list.5 }}</label>
+            {% endif %}
+            </td>
+            <td>&nbsp{{ ob.ip_addr }}&nbsp</td>
+            <td>&nbsp{{ ob.prim }}&nbsp</td>
+            <td>&nbsp{{ ob.object_owner }}&nbsp</td>
+            <td align="center">
+                <a href="/statist/agr_to_abon={{ ob.id }}" target="_blank"><img src="/static/images/eq_inf.png" alt="i" title="абоненты" width="20" height="14"></a>
+            </td>
+            <td align="center">
+                <a href="del_dev={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" width="12" height="12"></a>
+            </td>
+            <td style="background-color:#bbbbbb" align="center">
+                <a href="/core/logs/t=3/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a>
+            </td>
+        </tr>
+    {% endfor %}
+        <tr id="templ_footer">
+            <td colspan="3">&nbsp</td>
+            <td align="center">
+            {% if perms.core.can_new %}
+                <a href="new_dev/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить оборудование" height="11"></a>
+            {% endif %}
+            </td>
+            <td colspan="12"></td>
+        </tr>
+    </table>
+{% else %}
+    <p>&nbsp&nbsp оборудование отсутствует<br><a href="new_dev/">добавить</a></p>
+{% endif %}
+
+{% if box_list %}
+    <table width="1404px" border="1" id="templ_header2">
+    <caption>КРТ:</caption>
+        <tr>
+            <td width="26px"></td>
+            <td width="200px" align="center">название</td>
+            <td width="240px" align="center">модель (кол-во плинтов)</td>
+            <td width="30px" align="center">...</td>
+            <td colspan="2" align="center">кроссировки</td>
+            <td width="50px" align="center">&nbspпод.&nbsp</td>
+            <td width="50px" align="center">&nbspэтаж&nbsp</td>
+            <td align="center">зона действия</td>
+            <td align="center">примечание</td>
+            <td width="20px" align="center">&nbsp</td>
+            <td width="20px" align="center">&nbsp</td>
+        </tr>
+    {% for ob in box_list %}
+        <tr id="tr_hover" style="background-color:white">
+            <td align="center">
+            {% if ob.name == '0' %}
+                <img src="/static/images/rj45_1.png" alt=" " title="" height="13">
+            {% else %}
+                <img src="/static/images/rj45_2.png" alt=" " title="" height="15">
+            {% endif %}
+            </td>
+            <td>&nbsp<strong><a style="color:black" href="box={{ ob.id }}/" title="просмотр кроссировок">{{ ob.name }}-{{ ob.num }}</a></strong>&nbsp</td>
+            <td>&nbsp{{ ob.name_type }}&nbsp&nbsp&nbsp({{ ob.num_plints }})</td>
+            <td align="center"><a href="box={{ ob.id }}/edit"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="16" height="16"></a></td>
+            <td width="60px" align="center">
+                <label title="свободные">{{ ob.st_list1.0 }}/{{ ob.st_list2.0 }}</label></td>
+            <td width="30px" align="center" {% if ob.st_list1.5 != 0 %} style="background-color:gray"{% endif %}>
+            {% if ob.st_list1.5 != 0 %}
+                <label title="неисправные">{{ ob.st_list1.5 }}</label>
+            {% endif %}
+            </td>
+            <td align="center">&nbsp{{ ob.stairway }}&nbsp</td>
+            <td align="center">&nbsp{{ ob.floor }}&nbsp</td>
+            <td>&nbsp{{ ob.serv_area }}&nbsp</td>
+            <td>&nbsp{{ ob.prim }}&nbsp</td>
+            <td align="center"><a href="del_box={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" width="12" height="12"></a></td>
+            <td style="background-color:#bbbbbb" align="center"><a href="/core/logs/t=4/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
+        </tr>
+    {% endfor %}
+        <tr id="templ_footer">
+            <td colspan="3">&nbsp</td>
+            <td align="center">
+            {% if perms.core.can_new %}
+                <a href="new_box/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить КРТ" height="11"></a>
+            {% endif %}
+            </td>
+            <td colspan="11"></td>
+        </tr>
+    </table>
+{% else %}
+    <p>&nbsp&nbsp КРТ отсутствуют<br><a href="new_box/">добавить</a></p>
+{% endif %}
+
+{% if subunit_list %}
+    <table width="1404px" border="1" id="templ_header2">
+    <caption>служебные устройства:</caption>
+        <tr>
+            <td width="26px"></td>
+            <td width="200px" align="center">название</td>
+            <td width="240px" align="center">модель</td>
+            <td width="30px" align="center">...</td>
+            <td width="150px" align="center">кроссировки</td>
+            <td width="40px" align="center"><img src="/static/images/shut_3.png" alt="PoE" title="эл.питание" width="14" height="14"></td>
+            <td width="40px" align="center">&nbspпод.&nbsp</td>
+            <td width="40px" align="center">&nbspэтаж&nbsp</td>
+            <td align="center">примечание</td>
+            <td width="8%" align="center">владелец</td>
+            <td width="20px" align="center">&nbsp</td>
+            <td width="20px" align="center">&nbsp</td>
+        </tr>
+    {% for ob in subunit_list %}
+        <tr id="tr_hover" style="background-color:white">
+            <td align="center"><img src="{{ ob.pic }}" alt=" " title="" height="13"></td>
+            <td>&nbsp<strong>{{ ob.name }}</strong>&nbsp</td>
+            <td><label title="{{ ob.name_type.1 }}">&nbsp{{ ob.name_type.0 }}&nbsp</label></td>
+            <td align="center">
+                <a href="subunit={{ ob.id }}"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="16" height="16"></a>
+            </td>
+        {% if ob.box %}
+            <td style="background-color:{{ color.3 }}">
+                <a href="box={{ ob.box.parrent.id }}/?sel={{ ob.box.id }}">&nbsp{{ ob.box.parrent.name }}-{{ ob.box.parrent.num }}-{{ ob.box.p_alias }}&nbsp</a>
+        {% else %}
+            <td>
+        {% endif %}
+            </td>
+            <td align="center"><img src="{{ ob.poe.1 }}" alt=" " title="{{ ob.poe.0 }}" height="15"></td>
+            <td align="center">&nbsp{{ ob.stairway }}&nbsp</td>
+            <td align="center">&nbsp{{ ob.floor }}&nbsp</td>
+            <td>&nbsp{{ ob.prim }}&nbsp</td>
+            <td>&nbsp{{ ob.object_owner }}&nbsp</td>
+            <td align="center"><a href="del_subunit={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" width="12" height="12"></a></td>
+            <td style="background-color:#bbbbbb" align="center"><a href="/core/logs/t=13/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
+        </tr>
+    {% endfor %}
+        <tr id="templ_footer">
+            <td colspan="3">&nbsp</td>
+            <td align="center">
+            {% if perms.core.can_new %}
+                <a href="new_su/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить устройство" height="11"></a>
+            {% endif %}
+            </td>
+            <td colspan="8"></td>
+        </tr>
+    </table>
+    <br>
+{% else %}
+    {% if perms.core.can_new %}
+        <p><a href="new_su/">добавить абонентское устройство</a></p>
+    {% endif %}
+{% endif %}
+
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="1000px">&nbsp</td>
+            <td width="600px" align="right">
+            <input type="button" id="id_add" value=" &#10144; &#9993; " onClick='location.href="/mess/mess=0/lo={{ lo.id }}"' style="width:60px">&nbsp&nbsp
+            <input type="button" value="закрыть" onClick='location.href="/cross/build={{ bu.id }}"'>&nbsp
+            </td>
+        </tr>
+    </table>
+
+
+{% endblock %}

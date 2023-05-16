@@ -1,0 +1,55 @@
+{% extends 'main.html' %}
+
+{% block statist %}
+
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="900px" align="left">
+                <h3>&nbsp&nbspНайдено {{count}} договоров</h3>
+            </td>
+            <td width="500px" align="right">
+                <input type="button" value="закрыть" onClick='location.href="/kpp/service"'>&nbsp
+            </td>
+        </tr>
+    </table>
+
+<br>
+
+    <table border="1">
+        <tr align="center" style="background-color:#B5FFCE" id="templ_header">
+            <td width="120px">договор</td>
+            <td width="500px">ФИО / название</td>
+            <td width="160px">УД</td>
+            <td width="300px">адрес</td>
+            <td width="100px">СО</td>
+        </tr>
+    {% for ob in abon_list %}
+        <tr>
+            <td align="center">
+                <a href="/cross/build={{ ob.parrent.parrent.parrent_id }}/locker={{ ob.parrent.parrent_id }}/box={{ ob.parrent_id }}/?sel={{ ob.id }}" target="_blank">
+                    &nbsp{{ ob.dogovor }}&nbsp
+                </a>
+            </td>
+            <td align="left">&nbsp{{ ob.ab_fio }}&nbsp</td>
+            <td align="left">&nbsp{{ ob.parrent.parrent.name }}&nbsp</td>
+            <td align="left">&nbsp{{ ob.parrent.parrent.parrent.name }}&nbsp{{ ob.parrent.parrent.parrent.house_num }}&nbsp</td>
+            <td align="left">&nbsp{{ ob.parrent.parrent.co }}&nbsp</td>
+            
+        </tr>
+    {% endfor %}
+    </table>
+
+    <br>
+    
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="900px">&nbsp</td>
+            <td width="500px" align="right">
+                <input type="button" value="закрыть" onClick='location.href="/kpp/service"'>&nbsp
+            </td>
+        </tr>
+    </table>
+
+
+{% endblock %}

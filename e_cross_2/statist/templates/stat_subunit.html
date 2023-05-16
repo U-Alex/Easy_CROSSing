@@ -1,0 +1,105 @@
+{% extends 'main.html' %}
+
+{% block statist %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1280px" align="left">
+                <div>
+                {% for ob in t_choices %}{% if forloop.counter != 1 %}|{% endif %}&nbsp
+                    {% if nav.2 == ob.0 %}<label style="color:blue"><b>{{ ob.1 }}</b></label>&nbsp
+                    {% else %}                   <a href="/statist/stat_subunit/f={{ nav.0 }}/c={{ nav.1 }}/t={{ ob.0 }}/">{{ob.1}}</a>&nbsp
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </td>
+            <td width="10px" align="right"></td>
+            <td width="190px" align="right"><input type="button" value="экспорт в excel" onClick='location.href="/statist/stat_subunit/f={{ nav.0 }}/c={{ nav.1 }}/t={{ nav.2 }}/xls=1/"'>&nbsp</td>
+            </td>
+        </tr>
+    </table>
+    <br>
+
+<div align="left" style="width:1484px;background-color:#D4DCC7">
+    <div align="left" style="width:100%;overflow-y:auto;background-color:#D4DCC7">
+    <table border="1" style="width:1460px">
+    <caption>
+        количество позиций:&nbsp<strong>{{ su_count }}</strong>&nbsp&nbsp&nbsp
+        сортировка:&nbsp<strong>
+        {% if nav.0 == '1' %}<a href="/statist/stat_subunit/f=0/c={{ nav.1 }}/t={{ nav.2 }}/">&uarr;&uarr;&uarr;
+        {% else %}<a href="/statist/stat_subunit/f=1/c={{ nav.1 }}/t={{ nav.2 }}/">&darr;&darr;&darr;
+        {% endif %}</a></strong>
+    </caption>
+        <tr id="templ_header">
+            <td align="center">
+            {% if nav.1 != '0' %}<a href="/statist/stat_subunit/f={{ nav.0 }}/c=0/t={{ nav.2 }}/">
+            {% else %}<label style="color:blue"><b>{% endif %}адрес</b></label></a>
+            </td>
+            <td width="140px" align="center">
+            {% if nav.1 != '1' %}<a href="/statist/stat_subunit/f={{ nav.0 }}/c=1/t={{ nav.2 }}/">
+            {% else %}<label style="color:blue"><b>{% endif %}УД</b></label></a>
+            </td>
+            <td width="150px" align="center">
+            {% if nav.1 != '2' %}<a href="/statist/stat_subunit/f={{ nav.0 }}/c=2/t={{ nav.2 }}/">
+            {% else %}<label style="color:blue"><b>{% endif %}имя</b></label></a>
+            </td>
+            <td width="240px" align="center">
+            {% if nav.1 != '3' %}<a href="/statist/stat_subunit/f={{ nav.0 }}/c=3/t={{ nav.2 }}/">
+            {% else %}<label style="color:blue"><b>{% endif %}тип</b></label></a>
+            </td>
+            <td width="100px" align="center">ip-адрес</td>
+            <td width="130px" align="center">mac-адрес</td>
+            <td width="180px" align="center">
+            {% if nav.1 != '4' %}<a href="/statist/stat_subunit/f={{ nav.0 }}/c=4/t={{ nav.2 }}/">
+            {% else %}<label style="color:blue"><b>{% endif %}серийный номер</b></label></a>
+            </td>
+            <td width="120px" align="center">
+            {% if nav.1 != '5' %}<a href="/statist/stat_subunit/f={{ nav.0 }}/c=5/t={{ nav.2 }}/">
+            {% else %}<label style="color:blue"><b>{% endif %}владелец</b></label></a>
+            </td>
+            <td width="90px" align="center">
+            {% if nav.1 != '6' %}<a href="/statist/stat_subunit/f={{ nav.0 }}/c=6/t={{ nav.2 }}/">
+            {% else %}<label style="color:blue"><b>{% endif %}дата ввода</b></label></a>
+            </td>
+            <td width="90px" align="center">
+            {% if nav.1 != '7' %}<a href="/statist/stat_subunit/f={{ nav.0 }}/c=7/t={{ nav.2 }}/">
+            {% else %}<label style="color:blue"><b>{% endif %}дата замены</b></label></a>
+            </td>
+        </tr>
+    </table>
+    </div>
+    <div align="left" style="width:100%;height:650px;overflow-y:auto;background-color:#D4DCC7">
+    <table border="1" style="width:1460px">
+    {% for ob in su_list %}
+    <!--{{ ob.full_name|upper }}<br />-->
+        <tr>
+            <!--<td align="left">{{ ob.parrent.parrent.name }} {{ ob.parrent.parrent.house_num }}</td>-->
+            <!--<td align="left">{{ob.addr.parrent.name}} {{ob.addr.parrent.house_num}}</td>-->
+            <td align="left">{{ob.addr2}}</td>
+            <td width="140px"  align="left">
+                <!--<strong><a href="/cross/build={{ ob.parrent.parrent.id }}/locker={{ ob.parrent.id }}" target="_blank">{{ ob.parrent.name }}</a></strong>-->
+                <strong><a href="/cross/build={{ ob.addr.parrent.id }}/locker={{ ob.addr.id }}" target="_blank">{{ ob.addr.name }}</a></strong>
+            </td>
+            <td width="150px"><strong>{{ ob.name }}</strong></td>
+            <td width="240px">{{ ob.con_type2 }}</td>
+            <td width="100px">{{ ob.ip_addr }}</td>
+            <td width="130px">{{ ob.mac_addr }}</td>
+            <td width="180px">{{ ob.sn }}</td>
+            <td width="120px">{{ ob.object_owner }}</td>
+            <td width="90px">{% if ob.date_ent|date:"d.m.Y" != "" %}&nbsp{{ ob.date_ent|date:"d.m.Y" }}&nbsp{% endif %}</td>
+            <td width="90px">{% if ob.date_repl|date:"d.m.Y" != "" %}&nbsp{{ ob.date_repl|date:"d.m.Y" }}&nbsp{% endif %}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    </div>
+</div>
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="1200px">&nbsp</td>
+            <td width="280px" align="right"><input type="button" value="назад" onClick='location.href="/kpp/service"'>&nbsp</td>
+        </tr>
+    </table>
+
+
+{% endblock %}

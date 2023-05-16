@@ -1,0 +1,53 @@
+{% extends 'main.html' %}
+
+{% block cross %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1000px" align="left">
+                {% if cr %}
+                <h3>&nbspкросс: {{ cr.name }}</h3>
+                {% elif dev %}
+                <h3>&nbspкоммутатор: {{ dev.name }}</h3>
+                {% elif box %}
+                <h3>&nbspКРТ: {{ box.name }}-{{ box.num }}</h3>
+                {% endif %}
+            </td>
+            <td width="280px" align="right">&nbsp</td>
+        </tr>
+    </table>
+    <br>
+    
+    {% if del_ok %}
+    <form method="post">
+        {% csrf_token %}
+        <h3 style="color:red">удалить объект?</h3>
+        <br>
+        <table border="0" id="templ_footer">
+            <tr>
+                <td width="640px" align="right">
+                    <input type="submit" value="     OK     ">&nbsp
+                </td>
+                <td width="640px" align="left">
+                    <input type="button" value="отмена" onClick='location.href="../"'>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    {% else %}
+        <h3 style="color:red">удаление невозможно</h3>
+        <h3>есть кроссировки</h3>
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="1280px" align="center">
+                <input type="button" value="назад" onClick='location.href="../"'>
+            </td>
+        </tr>
+    </table>
+
+    {% endif %}
+
+
+{% endblock %}

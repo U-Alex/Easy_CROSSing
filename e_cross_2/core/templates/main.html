@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="robots" content="NONE,NOARCHIVE" />
+        {#{% if app %}  <title>Дог.: {{ app.dogovor }}</title>#}
+        {% if title %}  <title>{{ title }}</title>
+        {% elif bu %}   <title>{{ bu.name }} {{ bu.house_num }}</title>
+        {% elif lo %}   <title>{{ lo.parrent.name }} {{ lo.parrent.house_num }}</title>
+        {% elif port %} <title>{{ port.parrent.parrent.parrent.name }} {{ port.parrent.parrent.parrent.house_num }}</title>
+        {% elif coup %} <title>м: {{ coup.name }}</title>
+        {% elif map %}  <title>Схема сети</title>
+        {% elif his %}  <title>История операций</title>
+        {% else %}      <title>Easy CROSSing</title>
+        {% endif %}
+        <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}" />
+        <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}">
+    </head>
+
+<body>
+
+    <div id="fixed-top">
+        <div id="header">
+            <div id="branding">
+                <h1 id="site-name">&nbsp<a href="/"><b>Easy CROSSing</b></a></h1>
+            </div>
+            <div id="user-tools1">
+            &nbsp&nbsp&nbsp
+            {% if bu %}    <a href="/find/str={{ bu.parrent_id }}"><b>Поиск</b></a>
+            {% elif lo %}  <a href="/find/str={{ lo.parrent.parrent_id }}"><b>Поиск</b></a>
+            {% else %}     <a href="/find/"><b>Поиск</b></a>
+            {% endif %}
+                |&nbsp<a href="/find/map"><b>Схема сети</b></a>
+                |&nbsp<a href="/app/status=0"><b>Заявки</b></a>
+                |&nbsp<a href="/cable">Муфты</a>
+                <!--|&nbsp<a href="">Аренда</a>-->
+                <!--|&nbsp<a href="">Сообщения</a>-->
+                <!--|&nbsp<a href="/plan">Строительство</a>-->
+                |&nbsp<a href="/core/service">Сервис</a>
+                <!--|&nbsp<a href="/hard">Архив</a>-->
+            {% if perms.core.can_adm %}
+                |&nbsp<a href="/admin" target="_blank">Админка</a>
+            {% endif %}
+                |&nbsp<a href="/manual" target="_blank">Помощь</a>
+            </div>
+            <div id="user-tools2">
+            {% if user.is_authenticated %}  <a href="/core/logout/">Выйти <strong>({{ user.get_full_name }})</strong></a>
+            {% else %}                      <a href="/core/login/">Войти</a>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div id="content" align="center">
+    {% block index %}{% endblock %}
+    {% block core %}{% endblock %}
+    {% block cross %}{% endblock %}
+    {% block find %}{% endblock %}
+    {% block app %}{% endblock %}
+    {% block cable %}{% endblock %}
+    {% block statist %}{% endblock %}
+    {% block service %}{% endblock %}
+    {% block plan %}{% endblock %}
+    {% block manual %}{% endblock %}
+    {% block equip %}{% endblock %}
+    {% block hard %}{% endblock %}
+    {% block mess %}{% endblock %}
+    </div>
+
+    <div id="fixed-bottom">
+        <div id="footer" align="right">
+            &nbsp<!--<a href="/statist/talkback/" target="_blank">сообщить разработчику&nbsp</a>-->
+        </div>
+    </div>
+
+
+</body>
+</html>
+

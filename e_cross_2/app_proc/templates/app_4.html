@@ -1,0 +1,46 @@
+{% extends 'app.html' %}
+
+{% block app_3 %}
+
+
+    <table width="1404px" border="1">
+    <caption></caption>
+        <tr style="background-color:pink">
+            <td colspan="2" align="center">дата поступления</td>
+            <td width="80px" align="center">операция</td>
+            <td width="90px" align="center">договор</td>
+            <td width="160px" align="center"><strong><a href="/app/status=4/sort/">улица</a></strong></td>
+            <td width="60px" align="center">дом</td>
+            <td width="40px" align="center">кв.</td>
+            <td align="center">ФИО</td>
+            <td colspan="2" align="center">дата обработки</td>
+            <td width="190px" align="center">причина откладывания</td>
+        </tr>
+        {% for ob in app_list %}
+        <tr id="tr_hover">
+            <td width="75px" align="center"><label title="id: {{ ob.id }}">{{ ob.date_1|date:"d.m.Y" }}</label></td>
+            <td width="50px" align="center"><label title="id: {{ ob.id }}">{{ ob.date_1|time:"H:i" }}</label></td>
+            {% if ob.type_proc %}
+                <td align="center"><strong><a style="color:black" href="/app/remove={{ ob.id }}/">снятие</a></td>
+            {% else %}
+                <td align="center"><strong><a style="color:black" href="/app/install={{ ob.id }}/">установка</a></td>
+            {% endif %}
+            <!--<td align="center"><strong>{{ ob.dogovor }}</strong></td>-->
+            <td align="center">{{ ob.n_order }}</td>
+            <td align="center">{{ ob.street }}</td>
+            <td align="center">{{ ob.build }}</td>
+            <td align="center">&nbsp{{ ob.kv }}&nbsp</td>
+            <td><label title="{{ ob.prim }}">&nbsp{{ ob.fio }}&nbsp</label></td>
+            <td width="75px" align="center"><label title="оператор: {{ ob.man_oper }}">{{ ob.date_2|date:"d.m.Y" }}</label></td>
+            <td width="50px" align="center"><label title="оператор: {{ ob.man_oper }}">{{ ob.date_2|time:"H:i" }}</label></td>
+            <td><label title="{{ ob.comment }}">&nbsp{{ ob.pause_type }}&nbsp</label></td>
+        </tr>
+        {% endfor %}
+        <tr style="background-color:pink">
+            <td colspan="11">&nbsp</td>
+        </tr>
+    </table>
+    <br>
+    
+    
+{% endblock %}

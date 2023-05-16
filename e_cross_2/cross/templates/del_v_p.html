@@ -1,0 +1,34 @@
+{% extends 'main.html' %}
+
+{% block cross %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1000px" align="left">
+                {% if v_p %}
+                <h3>&nbspакт.об: {{ v_p.parrent.name }}, порт: {{ v_p.p_alias }}</h3>
+                {% endif %}
+            </td>
+            <td width="280px" align="right">&nbsp</td>
+        </tr>
+    </table>
+    <br>
+
+    <form method="post">
+        {% csrf_token %}
+        <h3 style="color:red">удалить порт?</h3>
+        <br>
+        <table border="0" id="templ_footer">
+            <tr>
+                <td width="640px" align="right">
+                    <input type="submit" value="     OK     ">&nbsp
+                </td>
+                <td width="640px" align="left">
+                    <input type="button" value="отмена" onClick='location.href="../l2=1/"'>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+
+{% endblock %}

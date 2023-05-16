@@ -1,0 +1,76 @@
+{% extends 'app.html' %}
+
+{% block edit_app %}
+
+<form method="post">
+    {% csrf_token %}
+    
+<table border="1">
+    <tr>
+        <td>
+            <table border="0">
+                <caption style="background-color:bisque"><i>редактирование заявки</i></caption>
+                <tr valign="top">
+                    <td align="center">
+                        {% if app_edit.type_proc == 0 or app_edit.type_proc == '0' %}
+                        &nbspтип операции&nbsp<br>&nbsp<label style="color:teal"><strong>установка</strong></label>&nbsp
+                        {% elif app_edit.type_proc == 1 or app_edit.type_proc == '1' %}
+                        &nbspтип операции&nbsp<br>&nbsp<label style="color:teal"><strong>снятие</strong></label>&nbsp
+                        {% endif %}
+                    </td>
+                    <td align="center">
+                        ул: {{ app_edit.street }}<br>{{ form.street }}
+                    </td>
+                    <td align="center">
+                        {{ form.house_num.label }}<br>{{ form.house_num }}
+                    </td>
+                    <td align="center">
+                        {{ form.kv.label }}<br>{{ form.kv }}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        &nbspордер&nbsp<br>&nbsp<label style="color:teal"><strong>{{ app_edit.n_order }}</strong></label>&nbsp
+                    </td>
+                    <td colspan="3" align="center">
+                        &nbsp{{ form.fio.label }}&nbsp<br>&nbsp{{ form.fio }}&nbsp
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+                    {% if app_edit.type_proc == 1 %}
+                        &nbspдоговор&nbsp<br>&nbsp<label style="color:teal"><strong>{{ app_edit.dogovor }}</strong></label>&nbsp
+                    {% endif %}
+                    </td>
+                    <td colspan="3" align="center">
+                        &nbsp{{ form.prim.label }}&nbsp<br>&nbsp{{ form.prim }}&nbsp
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        &nbsp
+                    </td>
+                    <td colspan="3" align="center">
+                        &nbsp{{ form.comment.label }}&nbsp<br>&nbsp{{ form.comment }}&nbsp
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="700px" align="right">
+                <input type="submit" value="     OK     ">&nbsp
+            </td>
+            <td width="700px" align="left">
+                <input type="button" value="отмена" onClick='location.href="/app/status=0/"'>
+            </td>
+        </tr>
+    </table>
+    
+</form>
+
+
+{% endblock %}

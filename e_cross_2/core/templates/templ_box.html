@@ -1,0 +1,35 @@
+{% extends 'main.html' %}
+
+{% block service %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="880px" align="left"><h3>&nbsp КРТ:&nbsp&nbsp{% if box %}{{ box.name }}{% else %}(новый шаблон){% endif %}</h3></td>
+            <td width="400px" align="right"></td>
+        </tr>
+    </table>
+    <br>
+
+<form method="post">
+    {% csrf_token %}
+    <table border="0">
+        <tr>
+            <td align="right">&nbsp{{ form.name.label }}:&nbsp</td>
+            <td align="left">&nbsp{{ form.name }}&nbsp</td>
+        </tr>
+        <tr>
+            <td align="right">&nbsp{{ form.units.label }}:&nbsp</td>
+            <td align="left">&nbsp{{ form.units }}&nbsp</td>
+        </tr>
+    </table>
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="640px" align="right"><input type="submit" id="id_ok" value="     OK     ">&nbsp</td>
+            <td width="640px" align="left"><input type="button" value="отмена" onClick='location.href="/core/templ/"'></td>
+        </tr>
+    </table>
+</form>
+
+
+{% endblock %}

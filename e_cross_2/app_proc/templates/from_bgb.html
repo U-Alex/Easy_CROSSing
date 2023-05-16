@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'main.css' %}" />
+
+<html>
+<body style="background-color:#bbbbbb">
+
+<div align="left">
+    {% if c_par.personType %}юр.лицо {% else %}физ.лицо {% endif %}<br>
+    {% if c_par.sub %}<b>суб</b>договор: {% elif c_par.superCid %}<b>супер</b>договор: {% else %}договор: {% endif %}
+    <b>{{ c_par.title }}</b><br>
+    {% if c_par.hidden %}скрытый <br>{% endif %}
+    <hr>
+    дата открытия периода: <b>{{ c_par.dateFrom }}</b><br>
+    дата закрытия периода: {% if c_par.dateTo %}<b><label style="color:red">{{ c_par.dateTo }}</label></b>{% endif %}<br>
+    <hr>
+    статус договора: <b>{{ c_par.status }}</b><br>
+    дата смены статуса договора: <b>{{ c_par.statusTimeChange }}</b><br>
+    <hr>
+    комментарий договора: <b>{{ c_par.comment }}</b><br>
+    
+    {% if c_tv %}
+    <hr><br>
+    TV-приставки на договоре:<br>
+        {% for ob in c_tv %}
+        sn: {{ ob.0 }} 
+        дата уст.: {{ ob.1|date:"d.m.Y" }}
+        <br>
+        {% endfor %}
+    {% endif %}
+</div>
+
+
+</body>
+</html>

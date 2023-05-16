@@ -1,0 +1,116 @@
+{% extends 'main.html' %}
+
+{% block cross %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1000px" align="left">
+                <h3>&nbsp&nbsp
+                    <a href="/cross/build={{ lo.parrent.id }}">{{ lo.parrent.name }} {{ lo.parrent.house_num }}</a>,&nbsp&nbsp<a href="/cross/build={{ lo.parrent.id }}/locker={{ lo.id }}">УД: {{ lo.name }}</a>,&nbsp&nbsp<a href="/cross/build={{ lo.parrent.id }}/locker={{ lo.id }}/box={{ cur_box_p.parrent.id }}/">крт: {{ cur_box_p.parrent.name }}-{{ cur_box_p.parrent.num }}-{{ cur_box_p.p_alias }}</a>
+                {% if cur_box_p.changed %}
+                    &nbsp&nbsp<label style="color:fuchsia">ВНИМАНИЕ !  запланировано снятие </label>
+                {% endif %}
+                </h3>
+            </td>
+            <td width="280px" align="right">
+                {% if kv.id != 1 %}
+                квартал: {{ kv.name }}&nbsp&nbsp
+                <a href="/statist/bu_doc={{ lo.parrent.id }}" target="_blank"><b>карточка ввода</b>&nbsp&nbsp</a>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+    <br>
+
+<form method="post">
+    {% csrf_token %}
+    
+<table border="1"><tr><td>
+    <table border="0">
+        <tr>
+            <td colspan="3" align="right">
+                <label style="color:red">договор: </label>{{ form.dog }}
+                кв: {{ form.kvar }}
+                ФИО: {{ form.fio }}&nbsp
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" align="right">
+                &nbspпримечание: 
+                <input type="text" size="32" name="prim_l" value="{{ txt_p }}{{ txt_l }}" disabled="1" style="color:teal">
+                <input type="hidden" name="prim_2" value="{{ txt_p }}{{ txt_l }}">
+                {{ form.prim }}&nbsp
+            </td>
+        </tr>
+        <tr>
+            <td width="160px" align="left">&nbspстатус&nbspкроссировки:</td>
+            <td width="400px" align="left">
+                <label style="color:green">{{ form.status.1 }}&nbsp&nbsp</label>
+                <label style="color:orange">{{ form.status.2 }}&nbsp&nbsp</label>
+                <label style="color:violet">{{ form.status.3 }}</label>
+            </td>
+            <td>
+                <a href="../cr_su=0/" title="cr_su" style="color:violet">подключение служебных устройств</a>
+            </td>
+        </tr>
+        <tr>
+            <td align="right"></td>
+            <td align="left">
+                <input type="radio" name="ch_port" id="0" value="0" checked="checked">
+                {% if cur_dev_id == 0 or cur_dev_id == '0' %}
+                    <label style="color:red" for="0">свободный порт отсутствует </label>
+                {% else %}
+                    <label style="color:teal" for="0">выбранный порт:&nbsp&nbsp</label>
+                    <label style="color:red"><b> {{ cur_dev_p.num }}</b></label>
+                    <br>&nbsp&nbsp&nbsp&nbsp&nbspкоммутатор: <strong><a href="../../../dev={{ cur_dev_p.parrent.id }}/" title="просмотр кроссировок" target="_blank">{{ cur_dev_p.parrent.name }}</a></strong>&nbsp&nbsp({{ cur_dev_p.parrent.ip_addr }})
+                {% endif %}
+            </td>
+            <td align="right">
+                <input type="submit" value="     OK     " />
+                <input type="button" value="отмена" onClick='location.href="../../"'>&nbsp
+            </td>
+        </tr>
+    </table>
+</td></tr></table>
+    <br>
+    <input type="hidden" name="c_port" value="{{ cur_dev_id }}">
+    
+    <table border="1"> 
+        <tr>
+        {% for ob in dev_list %}
+            <td align="center">
+                <a href="../../../dev={{ ob.id }}" target="_blank">{{ ob.name }}</a>
+            </td>
+        {% endfor %}
+        </tr>
+        <tr>
+        {% for ob in dev_p_cl %}
+            <td style="vertical-align: top">
+            {% for ob2 in ob %}
+                &nbsp
+                <input type="radio" name="ch_port" id="{{ ob2.id }}" value="{{ ob2.id }}" {% if ob2.dis == True %} disabled="1" {% endif %}>
+                <label for="{{ ob2.id }}" style="color:black"><b>{{ ob2.num }}</b>&nbsp</label>
+                <label for="{{ ob2.id }}" style="color:{{ ob2.col }}">{{ ob2.cr_text }}</label>
+                &nbsp<br>
+            {% endfor %}
+            </td>
+        {% endfor %}
+        </tr>
+    </table>
+    <br>
+</form>
+
+    <table border="0">
+    <caption><i>история пары</i></caption>
+        <tr>
+            <td style="background-color:#bbbbbb" colspan="3" align="center">
+                &nbspдоговор: <b>{{ cur_box_p.his_dogovor }}</b>
+                &nbspкв: <b>{{ cur_box_p.his_ab_kv }}</b>
+                &nbspФИО: <b>{{ cur_box_p.his_ab_fio }}</b>
+                &nbspпримечание: <b>{{ cur_box_p.his_ab_prim }}</b>&nbsp
+            </td>
+        </tr>
+    </table>
+    
+
+{% endblock %}

@@ -1,0 +1,361 @@
+{% extends 'main.html' %}
+
+{% block app %}
+
+    <table width="1404px" border="0" id="templ_header">
+        <tr>
+            <!--<td align="left">&nbsp
+                <input type="button" value="необработано" onClick='location.href="/app/status=0/"' style="background:white; border-color:silver; color:black; border-radius:4px; width:110px; height:24px">&nbsp
+                <input type="button" value="забронировано" onClick='location.href="/app/status=1/"' style="background:yellow; border-color:silver; color:black; border-radius:4px; width:110px; height:24px">&nbsp
+                <input type="button" value="выполнено" onClick='location.href="/app/status=2/"' style="background:#00EE76; border-color:silver; color:black; border-radius:4px; width:110px; height:24px">&nbsp
+                <input type="button" value="отказано" onClick='location.href="/app/status=3/"' style="background:gray; border-color:silver; color:black; border-radius:4px; width:110px; height:24px">&nbsp
+                <input type="button" value="отложено" onClick='location.href="/app/status=4/"' style="background:pink; border-color:silver; color:black; border-radius:4px; width:110px; height:24px">&nbsp
+                <input type="button" value="на сверку" onClick='location.href="/app/status=5/"' style="background:aqua; border-color:silver; color:black; border-radius:4px; width:110px; height:24px">&nbsp
+            </td>-->
+            <td align="left">&nbsp
+                <input type="button" value="необработано{% if not app and count0 > 0 %}&nbsp({{ count0 }})&nbsp{% endif %}" onClick='location.href="/app/status=0/"' style="background:lemonchiffon; width:130px">&nbsp
+                <input type="button" value="забронировано" onClick='location.href="/app/status=1/"' style="background:yellow; width:130px">&nbsp
+                <input type="button" value="выполнено" onClick='location.href="/app/status=2/"' style="background:lawngreen; width:130px">&nbsp
+                <input type="button" value="отказано" onClick='location.href="/app/status=3/"' style="background:gray; width:130px">&nbsp
+                <input type="button" value="отложено{% if not app and count4 > 0 %}&nbsp({{ count4 }})&nbsp{% endif %}" onClick='location.href="/app/status=4/"' style="background:pink; width:130px">&nbsp
+                <input type="button" value="на сверку" onClick='location.href="/app/status=5/"' style="background:lightcoral; width:130px">&nbsp
+                <!--{% if app_list %}&nbsp&nbsp&nbsp&nbspколичество заявок:&nbsp<strong>{{ count }}</strong>&nbsp{% endif %}-->
+            </td>
+            <!--<td width="300px" style="background-color:#B5E8FF" align="right">&nbsp</td>-->
+            {% if app_list %}
+            <td width="230px" align="right">
+                {% if app_list.has_previous %}
+                    <a href="?page={{ app_list.previous_page_number }}">предыдущая</a>
+                {% endif %}
+                {% if not find %}
+                <span class="current">страница <strong>{{ app_list.number }}</strong> из <strong>{{ app_list.paginator.num_pages }}</strong>.</span>
+                {% endif %}
+            </td>
+            <td width="100px" align="left">
+                {% if app_list.has_next %}
+                    <a href="?page={{ app_list.next_page_number }}">следующая&nbsp</a>
+                {% endif %}
+            </td>
+            {% else %}
+            <td width="330px" align="right">&nbsp</td>
+            {% endif %}
+        </tr>
+    </table>
+    <br>
+
+    
+<!--########################################################################################################-->
+<!--########################################################################################################-->
+
+{% if app.app_status == 0 %}
+    
+    <table width="1404px" border="1">
+    <caption></caption>
+        <!--<tr style="background-color:#B5FFCE">-->
+        <tr style="background-color:lemonchiffon">
+            <td colspan="2" align="center">дата поступления</td>
+            <td width="80px" align="center">операция</td>
+            <td width="20px" align="center">...</td>
+            <td width="60px" align="center">ордер</td>
+            <td width="160px" align="center">улица</td>
+            <td width="60px" align="center">дом</td>
+            <td width="40px" align="center">кв.</td>
+            <td align="center">ФИО</td>
+            <td align="center">примечание</td>
+            <td align="center">комментарий ТУ</td>
+        </tr>
+        <tr>
+            <td width="75px" align="center"><label title="id: {{ app.id }}">{{ app.date_1|date:"d.m.Y" }}</label></td>
+            <td width="50px" align="center"><label title="id: {{ app.id }}">{{ app.date_1|time:"H:i" }}</label></td>
+            {% if app.type_proc %}
+                <td align="center"><strong><a style="color:black" href="../remove={{ app.id }}/">снятие</a></strong></td>
+            {% else %}
+                <td align="center"><strong><a style="color:black" href="../install={{ app.id }}/">установка</a></strong></td>
+            {% endif %}
+            <!--<td align="center"><strong><a style="color:black" href="../edit={{ app.id }}/">{{ app.dogovor }}</a></strong></td>-->
+            <td align="center">
+                <a href="/app/edit={{ app.id }}/"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="12" height="10"></a>
+            </td>
+            <td align="center"><a style="color:black" href="../edit={{ app.id }}/">{{ app.n_order }}</a></td>
+            <td colspan="3" align="center">{{ app.street }} {{ app.build }} кв {{ app.kv }}</td>
+            <td>&nbsp{{ app.fio }}&nbsp</td>
+            <td>&nbsp{{ app.prim }}&nbsp</td>
+            <td>&nbsp{{ app.comment }}&nbsp</td>
+        </tr>
+        <tr>
+            <td colspan="11">&nbsp{{ app.resource }}&nbsp</td>
+        </tr>
+    </table>
+    <br>
+
+{% elif app.app_status == 1 %}
+    
+    <table width="1404px" border="1">
+    <caption></caption>
+        <tr style="background-color:yellow">
+            <td colspan="2" align="center">дата поступления</td>
+            <td width="80px" align="center">операция</td>
+            <td width="20px" align="center">...</td>
+            <td width="60px" align="center">ордер</td>
+            <td width="160px" align="center">улица</td>
+            <td width="60px" align="center">дом</td>
+            <td width="40px" align="center">кв.</td>
+            <td align="center">ФИО</td>
+            <td align="center">примечание</td>
+            <td colspan="2" align="center">дата обработки</td>
+        </tr>
+        <tr>
+            <td width="75px" align="center"><label title="id: {{ app.id }}">{{ app.date_1|date:"d.m.Y" }}</label></td>
+            <td width="50px" align="center"><label title="id: {{ app.id }}">{{ app.date_1|time:"H:i" }}</label></td>
+            <td align="center"><strong><a title="" style="color:black" href="/app/install={{ app.id }}/">установка</a></strong></td>
+            <!--<td align="center"><strong>{{ app.dogovor }}</strong></td>-->
+            <td align="center">
+                <a href="/app/edit={{ app.id }}/"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="12" height="10"></a>
+            </td>
+            <td align="center">{{ app.n_order }}</td>
+            <td align="center">{{ app.street }}</td>
+            <td align="center">{{ app.build }}</td>
+            <td align="center">&nbsp{{ app.kv }}&nbsp</td>
+            <td>&nbsp{{ app.fio }}&nbsp</td>
+            <td>&nbsp{{ app.prim }}&nbsp</td>
+            <td width="75px" align="center">{{ app.date_2|date:"d.m.Y" }}</td>
+            <td width="50px" align="center">{{ app.date_2|time:"H:i" }}</td>
+        </tr>
+        <tr>
+            <td colspan="10">&nbsp{{ app.resource }}&nbsp</td>
+            <td colspan="2" align="center">{{ app.man_oper }}</td>
+        </tr>
+    </table>
+    <br>
+    
+{% elif app.app_status == 2 %}
+    
+    <table width="1404px" border="1">
+    <caption></caption>
+        <tr style="background-color:lawngreen">
+            <td colspan="2" align="center">дата поступления</td>
+            <td width="80px" align="center">операция</td>
+            <td width="60px" align="center">ордер</td>
+            <td width="60px" align="center">договор</td>
+            <td width="160px" align="center">улица</td>
+            <td width="60px" align="center">дом</td>
+            <td width="40px" align="center">кв.</td>
+            <td align="center">ФИО</td>
+            <td align="center">примечание</td>
+            <td colspan="2" align="center">дата обработки</td>
+            <td colspan="2" align="center">дата установки</td>
+        </tr>
+        <tr>
+            <td width="75px" align="center"><label title="id: {{ app.id }}">{{ app.date_1|date:"d.m.Y" }}</label></td>
+            <td width="50px" align="center"><label title="id: {{ app.id }}">{{ app.date_1|time:"H:i" }}</label></td>
+            {% if app.type_proc %}
+                <td align="center"><strong><a title="" style="color:black" href="../remove={{ app.id }}/send">снятие</a></strong></td>
+            {% else %}
+                <td align="center"><strong><a title="" style="color:black" href="../install={{ app.id }}/">установка</a></strong></td>
+            {% endif %}
+            <td align="center">{{ app.n_order }}</td>
+            <td align="center">{{ app.dogovor }}</td>
+            <td align="center">{{ app.street }}</td>
+            <td align="center">{{ app.build }}</td>
+            <td align="center">&nbsp{{ app.kv }}&nbsp</td>
+            <td>&nbsp{{ app.fio }}&nbsp</td>
+            <td>&nbsp{{ app.prim }}&nbsp</td>
+            <td width="75px" align="center">{{ app.date_2|date:"d.m.Y" }}</td>
+            <td width="50px" align="center">{{ app.date_2|time:"H:i" }}</td>
+            <td width="75px" align="center">{{ app.date_3|date:"d.m.Y" }}</td>
+            <td width="50px" align="center">{{ app.date_3|time:"H:i" }}</td>
+        </tr>
+        <tr>
+            <td colspan="10">&nbsp{{ app.resource }}&nbsp</td>
+            <td colspan="2" align="center">{{ app.man_oper }}</td>
+            <td colspan="2" align="center">{{ app.man_install }}</td>
+        </tr>
+    </table>
+    <br>
+    
+{% elif app.app_status == 3 %}
+    
+    <table width="1404px" border="1">
+    <caption></caption>
+        <tr style="background-color:gray">
+            <td colspan="2" align="center">дата поступления</td>
+            <td width="80px" align="center">операция</td>
+            <td width="60px" align="center">ордер</td>
+            <td width="60px" align="center">договор</td>
+            <td width="160px" align="center">улица</td>
+            <td width="60px" align="center">дом</td>
+            <td width="40px" align="center">кв.</td>
+            <td align="center">ФИО</td>
+            <td align="center">примечание</td>
+            <td colspan="2" align="center">дата обработки</td>
+            <td width="160px" align="center">причина отказа</td>
+        </tr>
+        <tr>
+            <td width="75px" align="center"><label title="id: {{ app.id }}">{{ app.date_1|date:"d.m.Y" }}</label></td>
+            <td width="50px" align="center"><label title="id: {{ app.id }}">{{ app.date_1|time:"H:i" }}</label></td>
+            {% if app.type_proc %}
+                <td align="center">снятие</td>
+            {% else %}
+                <td align="center"><strong><a style="color:black" href="../install={{ app.id }}/">установка</a></strong></td>
+            {% endif %}
+            <td align="center">{{ app.n_order }}</td>
+            <td align="center">{{ app.dogovor }}</td>
+            <td align="center">{{ app.street }}</td>
+            <td align="center">{{ app.build }}</td>
+            <td align="center">&nbsp{{ app.kv }}&nbsp</td>
+            <td>&nbsp{{ app.fio }}&nbsp</td>
+            <td>&nbsp{{ app.prim }}&nbsp</td>
+            <td width="75px" align="center">{{ app.date_2|date:"d.m.Y" }}</td>
+            <td width="50px" align="center">{{ app.date_2|time:"H:i" }}</td>
+            <td>&nbsp{{ app.pause_type }}&nbsp</td>
+        </tr>
+        <tr>
+            <td colspan="10">&nbsp{{ app.resource }}&nbsp</td>
+            <td colspan="2" align="center">{{ app.man_oper }}</td>
+            <td>&nbsp{{ app.comment }}&nbsp</td>
+        </tr>
+    </table>
+    <br>
+    
+{% elif app.app_status == 4 %}
+    
+    <table width="1404px" border="1">
+    <caption></caption>
+        <tr style="background-color:pink">
+            <td colspan="2" align="center">дата поступления</td>
+            <td width="80px" align="center">операция</td>
+            <td width="60px" align="center">ордер</td>
+            <td width="160px" align="center">улица</td>
+            <td width="60px" align="center">дом</td>
+            <td width="40px" align="center">кв.</td>
+            <td align="center">ФИО</td>
+            <td align="center">примечание</td>
+            <td colspan="2" align="center">дата обработки</td>
+            <td width="190px" align="center">причина откладывания</td>
+        </tr>
+        <tr>
+            <td width="75px" align="center"><label title="id: {{ app.id }}">{{ app.date_1|date:"d.m.Y" }}</label></td>
+            <td width="50px" align="center"><label title="id: {{ app.id }}">{{ app.date_1|time:"H:i" }}</label></td>
+            {% if app.type_proc %}
+                <td align="center"><strong><a style="color:black" href="../remove={{ app.id }}/">снятие</a></td>
+            {% else %}
+                <td align="center"><strong><a style="color:black" href="../install={{ app.id }}/">установка</a></td>
+            {% endif %}
+            <!--<td align="center"><strong>{{ app.dogovor }}</strong></td>-->
+            <td align="center">{{ app.n_order }}</td>
+            <td align="center">{{ app.street }}</td>
+            <td align="center">{{ app.build }}</td>
+            <td align="center">&nbsp{{ app.kv }}&nbsp</td>
+            <td>&nbsp{{ app.fio }}&nbsp</td>
+            <td>&nbsp{{ app.prim }}&nbsp</td>
+            <td width="75px" align="center">{{ app.date_2|date:"d.m.Y" }}</td>
+            <td width="50px" align="center">{{ app.date_2|time:"H:i" }}</td>
+            <td>&nbsp{{ app.pause_type }}&nbsp</td>
+        </tr>
+        <tr>
+            <td colspan="9">&nbsp{{ app.resource }}&nbsp</td>
+            <td colspan="2" align="center">{{ app.man_oper }}</td>
+            <td>&nbsp{{ app.comment }}&nbsp</td>
+        </tr>
+    </table>
+    <br>
+
+{% elif app.app_status == 5 %}
+
+    <table width="1404px" border="1">
+    <caption></caption>
+        <tr style="background-color:lightcoral">
+            <td colspan="2" align="center">дата поступления</td>
+            <td width="80px" align="center">операция</td>
+            <td width="60px" align="center">ордер</td>
+            <td width="60px" align="center">договор</td>
+            <td width="160px" align="center">улица</td>
+            <td width="60px" align="center">дом</td>
+            <td width="40px" align="center">кв.</td>
+            <td align="center">ФИО</td>
+            <td align="center">примечание</td>
+            <td colspan="2" align="center">дата обработки</td>
+            <td colspan="2" align="center">дата установки</td>
+        </tr>
+        <tr>
+            <td width="75px" align="center"><label title="id: {{ app.id }}">{{ app.date_1|date:"d.m.Y" }}</label></td>
+            <td width="50px" align="center"><label title="id: {{ app.id }}">{{ app.date_1|time:"H:i" }}</label></td>
+            {% if app.type_proc %}
+                <td align="center">снятие</td>
+            {% else %}
+                <td align="center"><strong><a title="" style="color:black" href="../install={{ app.id }}/">установка</a></strong></td>
+            {% endif %}
+            <td align="center">{{ app.n_order }}</td>
+            <td align="center">{{ app.dogovor }}</td>
+            <td align="center">{{ app.street }}</td>
+            <td align="center">{{ app.build }}</td>
+            <td align="center">&nbsp{{ app.kv }}&nbsp</td>
+            <td>&nbsp{{ app.fio }}&nbsp</td>
+            <td>&nbsp{{ app.prim }}&nbsp</td>
+            <td width="75px" align="center">{{ app.date_2|date:"d.m.Y" }}</td>
+            <td width="50px" align="center">{{ app.date_2|time:"H:i" }}</td>
+            <td width="75px" align="center">{{ app.date_3|date:"d.m.Y" }}</td>
+            <td width="50px" align="center">{{ app.date_3|time:"H:i" }}</td>
+        </tr>
+        <tr>
+            <td colspan="10">&nbsp{{ app.resource }}&nbsp</td>
+            <td colspan="2" align="center">{{ app.man_oper }}</td>
+            <td colspan="2" align="center">{{ app.man_install }}</td>
+        </tr>
+    </table>
+    <br>
+    
+{% endif %}
+    
+{% block app_find %}{% endblock %}
+{% block app_0 %}{% endblock %}
+{% block app_1 %}{% endblock %}
+{% block app_2 %}{% endblock %}
+{% block app_3 %}{% endblock %}
+{% block app_4 %}{% endblock %}
+{% block app_5 %}{% endblock %}
+{% block add_app %}{% endblock %}
+{% block edit_app %}{% endblock %}
+{% block proc_app %}{% endblock %}
+
+<!--########################################################################################################-->
+
+{% if app_t or find %}
+    <table width="1404px" border="0" id="templ_footer">
+        <tr>
+            <!--<td style="border-bottom: 1px solid #999" width="1020px" align="right"><a href="/cross/build={{ bu_id }}">закрыть&nbsp&nbsp</a></td>-->
+            <td width="130px">&nbsp
+                <!--<input type="button" value="новая заявка" onClick='location.href="/app/add_app/"' style="background:white; border-color:silver; color:black; border-radius:4px; width:100px;  height:24px">-->
+                <input type="button" value="новая заявка" onClick='location.href="/app/add_app/"' style="width:100px">
+            </td>
+            <td>
+                {% if app_t %}
+                <form method="post" action="app_find/">
+                {% elif find %}
+                <form method="post" action="../app_find/">
+                {% endif %}
+                {% csrf_token %}
+                    &nbsp договор: {{ form_f.dog }}
+                    <!--&nbsp&nbsp договор: 
+                    <input type="text" name="dog" value="{{ curr_dog }}" size="8" maxlength="7" style="border-color:silver; border-radius:4px; height:14px">-->
+                    <input type="submit" value="поиск" style="width:80px">&nbsp
+                </form>
+            </td>
+            <td align="right">
+                {% if app_list %}&nbsp&nbsp&nbsp&nbspколичество заявок:&nbsp<strong>{{ count }}</strong>&nbsp{% endif %}
+            </td>
+            <td width="290px" align="right">
+                <input type="button" value="лог обмена с NSD" onClick='window.open("/app/show_logs_nsd/td=1")' style="width:140px">&nbsp
+                {% if app_t %}
+                <input type="button" value="выход" onClick='location.href="../../"' style="width:100px">&nbsp
+                {% elif find %}
+                <input type="button" value="выход" onClick='location.href="../../../"' style="width:100px">&nbsp
+                {% endif %}
+            </td>
+            <!--<td style="background-color:#B5E8FF; border-bottom: 1px solid #999" width="1020px" align="right"><a href="/cross/build={{ bu_id }}">закрыть&nbsp&nbsp</a></td>-->
+        </tr>
+    </table>
+{% endif %}
+
+
+{% endblock %}

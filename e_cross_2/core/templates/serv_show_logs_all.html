@@ -1,0 +1,67 @@
+{% extends 'main.html' %}
+
+{% block service %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1300px" align="left"><h3>&nbsp&nbspистория операций: <label style="color:blue"><strong>{{ cur_user.login }}</strong></label></h3></td>
+            <td width="300px" align="right">
+                <!--{% if his.has_previous %}
+                    <a href="?page={{ his.previous_page_number }}">предыдущая</a>
+                {% endif %}
+                <span class="current">страница {{ his.number }} из {{ his.paginator.num_pages }}.</span>-->
+            </td>
+            <!--<td width="100px" align="left">
+                {% if his.has_next %}
+                    <a href="?page={{ his.next_page_number }}">следующая&nbsp</a>
+                {% endif %}
+            </td>-->
+        </tr>
+    </table>
+    
+<div align="left" style="width:1604px;background-color:#D4DCC7">
+    <div align="left" style="width:100%;overflow-y:auto;background-color:#D4DCC7">
+        <table width="1580px" border="1">
+            <caption>&nbsp</caption>
+            <tr id="templ_header3">
+                <td width="110px" align="center">юзер</td>
+                <td width="130px" align="center">дата/время</td>
+                <td width="130px" align="center">объект</td>
+                <td width="60px" align="center">id</td>
+                <td width="250px" align="center">операция</td>
+                <td align="center">подробности</td>
+            </tr>
+        </tr>
+        </table>
+    </div>
+    <div align="left" style="width:100%;height:650px;overflow-y:auto;background-color:#D4DCC7">
+        <table width="1580px" border="1">
+        {% for ob in his %}
+        <tr>
+            <td width="110px">&nbsp{{ ob.0 }}&nbsp</td>
+            <td width="130px">&nbsp{{ ob.1|date:"d.m.Y" }}&nbsp/&nbsp{{ ob.1|time:"H:i" }}&nbsp</td>
+            <td width="130px">&nbsp{{ ob.2 }}&nbsp</td>
+            <td width="60px">&nbsp{{ ob.3 }}&nbsp</td>
+            <td width="250px">&nbsp{{ ob.4 }}&nbsp{{ ob.5 }}&nbsp</td>
+            <td>&nbsp{{ ob.6 }}&nbsp</td>
+        </tr>
+        {% endfor %}
+        </table>
+    </div>
+</div>
+
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="1000px">&nbsp
+                <a href="../td=1/">1 день</a> |
+                <a href="../td=7/">неделя</a> |
+                <a href="../td=30/">месяц</a> |
+                <a href="../td=365/">год</a> |
+            </td>
+            <td width="600px" align="right"><input type="button" value="закрыть" onClick='location.href="/core/service"'>&nbsp</td>
+        </tr>
+    </table>
+
+    
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends 'main.html' %}
+
+{% block service %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="880px" align="left"><h3>&nbsp КРТ:&nbsp&nbsp{% if box_cab %}{{ box_cab.name }}{% else %}(новый шаблон){% endif %}</h3></td>
+            <td width="400px" align="right"></td>
+        </tr>
+    </table>
+    <br>
+
+<form method="post">
+    {% csrf_token %}
+    <table border="0">
+        <tr>
+            <td colspan="2" align="center" style="background-color:silver">
+                &nbsp{{ form.name.label }}:&nbsp{{ form.name }}&nbsp&nbsp&nbsp
+                &nbsp{{ form.ports.label }}:&nbsp{{ form.ports }}&nbsp&nbsp&nbsp
+                &nbsp{{ form.num_plints.label }}:&nbsp{{ form.num_plints }}&nbsp&nbsp
+                &nbsp{{ form.color_cable.label }}:&nbsp{{ form.color_cable }}&nbsp&nbsp
+            </td>
+        </tr>
+        <tr>
+            <td align="right">&nbsp{{ form.alias_list.label }}:&nbsp</td>
+            <td align="left">&nbsp{{ form.alias_list }}&nbsp</td>
+        </tr>
+    </table>
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="640px" align="right"><input type="submit" id="id_ok" value="     OK     ">&nbsp</td>
+            <td width="640px" align="left"><input type="button" value="отмена" onClick='location.href="/core/templ/"'></td>
+        </tr>
+    </table>
+</form>
+
+<br>
+<div id="info"></div>
+
+
+<script language="javascript">
+
+window.onload = function init() {
+    valid();
+        //console.log();
+}
+
+id_ports.addEventListener('change', function(){
+    valid();
+}, false);
+id_num_plints.addEventListener('change', function(){
+    valid();
+}, false);
+id_alias_list.addEventListener('change', function(){
+    valid();
+}, false);
+
+function valid() {
+    var cur_p = id_ports.value;
+    var cur_pl = id_num_plints.value;
+    var list1 = document.getElementById("id_alias_list").value.split(',');
+    if (cur_p != list1.length) {
+        document.getElementById("id_ok").disabled = 1;
+        return;
+    }
+    for (var i = 0; i < list1.length; i++) {
+        if (list1[i] == "") {
+            document.getElementById("id_ok").disabled = 1;
+            return;
+        }
+    }
+    var list1_cut = [];
+    var utp = 0;
+    for (var i = 1; i <= list1.length; i++) {
+        list1_cut[i-1] = list1[i-1].split('-')[0];
+    }
+    var list1_uniq = {};
+    for (var i = 0; i < list1_cut.length; i++) {
+        //var str = list1_cut[i];
+        list1_uniq[list1_cut[i]] = true;
+    }
+    var num_pl = Object.keys(list1_uniq).length;
+    if (cur_pl != num_pl) {
+        document.getElementById("id_ok").disabled = 1;
+        return;
+    }
+    document.getElementById("id_ok").disabled = 0;
+    info.innerHTML = "";
+}
+
+</script>
+
+
+{% endblock %}

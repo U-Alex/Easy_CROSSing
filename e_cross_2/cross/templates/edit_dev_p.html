@@ -1,0 +1,68 @@
+{% extends 'main.html' %}
+
+{% block cross %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1000px" align="left"><h3>&nbsp&nbsp{{ port.parrent.parrent.parrent.name }} {{ port.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ port.parrent.parrent.name }}, {{ port.parrent.name }}, порт: {{ port.num }}</h3>
+            </td>
+            <td width="280px" align="right">&nbsp</td>
+        </tr>
+    </table>
+    <br>
+
+<form method="post">
+    {% csrf_token %}
+    <table border="0">
+        <tr style="background-color:silver">
+            <td colspan="3">&nbsp<label style="color:brown">порт исправен: {{ form.valid }}</label></td>
+        </tr>
+        <tr>
+            <td colspan="2">&nbspстатус кроссировки:&nbsp</td>
+            <td width="80px">&nbsp</td>
+        </tr>
+        <tr>
+            <td width="80px">&nbsp</td>
+            <td>
+            {% if port.int_c_status == 0 %}
+                &nbspне скроссировано
+            {% else %}
+                &nbsp&nbsp&nbsp<label style="color:green">{{ form.status.1 }}</label><br>
+                &nbsp&nbsp&nbsp<label style="color:orange">{{ form.status.2 }}</label><br>
+                &nbsp&nbsp&nbsp<label style="color:violet">{{ form.status.3 }}</label><br>
+                {% if port.int_c_dest != 3 %}
+                &nbsp&nbsp&nbsp<label style="color:aqua">{{ form.status.4 }}</label>
+                {% endif %}
+            {% endif %}
+            </td>
+            <td>&nbsp</td>
+        </tr>
+        <tr style="background-color:silver">
+            <td colspan="3" align="right">&nbsp<label>{{ form.alias.label }}: {{ form.alias }}</label>&nbsp</td>
+        </tr>
+        <tr>
+            <td colspan="3" align="right">&nbsp<label>{{ form.prim.label }}: {{ form.prim }}</label>&nbsp</td>
+        </tr>
+        <tr style="background-color:silver">
+            <td colspan="3">&nbsp<label style="color:brown">uplink:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ form.uplink }}</label></td>
+        </tr>
+<!--        <tr style="background-color:silver">
+            <td colspan="3" align="right">&nbsp<label>{{ form.vlan.label }}: {{ form.vlan }}</label>&nbsp</td>
+        </tr>-->
+    </table>
+    <br>    
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="640px" align="right">
+                <input type="submit" value="     OK     ">&nbsp
+            </td>
+            <td width="640px" align="left">
+                <input type="button" value="отмена" onClick='location.href="../"'>
+            </td>
+        </tr>
+    </table>
+    
+</form>
+
+
+{% endblock %}

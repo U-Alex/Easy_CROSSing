@@ -1,0 +1,31 @@
+{% extends 'main.html' %}
+
+{% block service %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1000px" align="left"><h3>&nbsp&nbsp{{ bu.name }} {{ bu.house_num }}</h3></td>
+            <td width="280px" align="right">&nbsp</td>
+        </tr>
+    </table>
+    
+    <h3 style="color:red">удалить файл?</h3>
+    <img src="/media/doc/{{ bu.id }}/{{ d_file }}" width=40% height=40% border=0>
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+        <form method="post" action="">
+        {% csrf_token %}
+            <td width="640px" align="right">
+                <input type="hidden" name="d_file" value="{{ d_file }}">
+                <input type="submit" value="     OK     ">&nbsp
+            </td>
+            <td width="640px" align="left">
+                <input type="button" value="отмена" onClick='location.href="/statist/bu_doc={{ bu.id }}"'>
+            </td>
+        </form>
+        </tr>
+    </table>
+    
+    
+{% endblock %}

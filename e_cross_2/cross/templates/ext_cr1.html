@@ -1,0 +1,74 @@
+{% extends 'main.html' %}
+
+{% block cross %}
+
+{% if str_list %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1000px" align="left">
+                <h3>&nbsp&nbsp{{ s_p_id.parrent.parrent.parrent.name }} {{ s_p_id.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ s_p_id.parrent.parrent.name }}, кросс: {{ s_p_id.parrent.name }}, порт: {{ s_p_id.num }} &nbsp&nbsp>>>>&nbsp&nbsp{{ str_list.0.name }}</h3>
+            </td>
+            <td width="280px" align="right">
+                <input type="button" value="новый поиск" onClick='location.href="../ext_cr1/"'>
+                <input type="button" value="отмена" onClick='location.href="../../"'>&nbsp
+            </td>
+        </tr>
+    </table>
+        
+    <table border="0" width="600px" style="background-color:#D4DCC7">
+        <caption><i>найденные дома:</i></caption>
+        <tr>
+            <td align="center">
+            {% for ob in str_list %}
+                <input type="button" enabled="1" value="{{ ob.house_num }}" onClick='location.href="../ext_cr2={{ ob.id }}/"' style="width:58px; height:32px">&nbsp
+                {% endfor %}
+            </td>
+        </tr>
+    </table>
+
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="900px">&nbsp</td>
+            <td width="380px" align="right">
+                <input type="button" value="новый поиск" onClick='location.href="../ext_cr1/"'>
+                <input type="button" value="отмена" onClick='location.href="../../"'>&nbsp
+            </td>
+        </tr>
+    </table>
+    
+{% else %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1000px" align="left">
+                <h3>&nbsp&nbsp{{ s_p_id.parrent.parrent.parrent.name }} {{ s_p_id.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ s_p_id.parrent.parrent.name }}, кросс: {{ s_p_id.parrent.name }}, порт: {{ s_p_id.num }} &nbsp&nbsp>>>>&nbsp&nbsp</h3>
+            </td>
+            <td width="280px" align="right">&nbsp</td>
+        </tr>
+    </table>
+    <br>
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}&nbsp&nbsp
+        <input type="submit" value="     OK     ">&nbsp&nbsp
+        <input type="button" value="отмена" onClick='location.href="../../"'>
+    </form>
+    
+    <br>
+    
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="1280px" align="center">
+                {% for ob in agr %}
+                    <input type="button" value="{{ ob.co }}" onClick='location.href="../ext_cr2={{ ob.parrent.id }}"'>
+                {% endfor %}
+            </td>
+        </tr>
+    </table>
+
+{% endif %}
+
+
+{% endblock %}

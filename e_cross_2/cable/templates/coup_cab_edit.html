@@ -1,0 +1,75 @@
+{% extends 'main.html' %}
+
+{% block cable %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1000px" align="left">
+                <h3>
+                    &nbspмуфта: {{ s_p.parrent.name }},
+                    &nbspкабель №: {{ s_p.cable_num }},
+                    &nbspволокно №: {{ s_p.fiber_num }}&nbsp
+                    ---
+                    &nbspуд. муфта: {{ d_p.parrent.name }},
+                    &nbspкабель №: {{ d_p.cable_num }},
+                    &nbspволокно №: {{ d_p.fiber_num }}
+                </h3>
+            </td>
+            <td width="280px" align="right">&nbsp</td>
+        </tr>
+    </table>
+    <br>
+
+<form method="post">
+    {% csrf_token %}
+    <table border="0">
+        <tr>
+            <td width="300px" align="right">&nbsp{{ form.phys_len.label }}:</td>
+            <td align="left">&nbsp{{ form.phys_len }}&nbsp</td>
+        </tr>
+        <tr>
+            <td align="right">&nbsp{{ form.res_len.label }}:</td>
+            <td align="left">&nbsp{{ form.res_len }}&nbsp<br></td>
+        </tr>
+        <tr style="background-color:silver">
+            <td align="right">&nbsp{{ form.date_ent.label }}:</td>
+            <td align="left">&nbsp{{ form.date_ent }}&nbsp<br></td>
+        </tr>
+        <tr>
+            <td align="right">&nbsp{{ form.owner.label }}:</td>
+            <td align="left">&nbsp{{ form.owner }}&nbsp</td>
+        </tr>
+        <tr>
+            <td align="right">&nbsp{{ form.owner_f.label }}:</td>
+            <td align="left">&nbsp{{ form.owner_f }}&nbsp</td>
+        </tr>
+    </table>
+    <br>    
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="640px" align="right">
+                <input type="submit" value="     OK     ">&nbsp
+            </td>
+            <td width="640px" align="left">
+                <input type="button" value="отмена" onClick='location.href="../"'>
+            </td>
+        </tr>
+    </table>
+    
+</form>
+
+
+<script language="javascript">
+
+id_owner.addEventListener('change', function(){
+    id_owner_list.value = 0;
+}, false);
+
+id_owner_list.addEventListener('change', function(){
+    id_owner.value = id_owner_list.value;
+}, false);
+
+</script>
+
+
+{% endblock %}

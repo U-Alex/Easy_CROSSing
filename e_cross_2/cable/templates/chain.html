@@ -1,0 +1,216 @@
+{% extends 'main.html' %}
+
+{% block cable %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="980px" align="left">
+                <h3>&nbspЦепочка по кабелю</h3>
+            </td>
+            <td width="300px" align="right">&nbsp</td>
+        </tr>
+    </table>
+    
+    {% for ob in ch_list %}
+        
+        <table width="1100px" border="0">
+            <tr style="background-color:#D4DCC7">
+                <td colspan="3">&nbsp</td>
+                <td align="left">
+                {% if ob.0.3 %}
+                    <b>}--</b>
+                    {% if ob.0.3.0 != 0 %}      {{ ob.0.3.0 }} / {{ ob.0.3.1 }}
+                    {% else %}                  <label style="color:red">{{ ob.0.3.0 }} / {{ ob.0.3.1 }}</label>
+                    {% endif %}
+                {% endif %}
+                </td>
+            </tr>
+{# row 2 #} <tr>
+                <td colspan="3" align="center">        {# parrent #}
+                
+                {% if   ob.0.0 == 1 and ob.1.0 == 1 or ob.0.0 == 1 and ob.1.0 == 2 %}
+                
+                    {% if   ob.0.1.parrent.parr_type == 0 %}
+                        <div style="background-color:palegreen">
+                            <a href="/cross/build={{ ob.0.2.parrent_id }}/locker={{ ob.0.2.id }}" target="_blank">
+                                УД: <b>{{ ob.0.2.name }}</b>, ул: <b>{{ ob.0.2.parrent.name }} {{ ob.0.2.parrent.house_num }}</b></a>
+                        </div>
+                    {% elif ob.0.1.parrent.parr_type == 1 %}
+                        <div style="background-color:khaki">
+                            <a href="/cable/coup={{ ob.0.1.parrent_id }}" target="_blank">
+                                муфта: <b>{{ ob.0.1.parrent.name }}</b>, ул: <b>{{ ob.0.2.name }} {{ ob.0.2.house_num }}</b></a>
+                        </div>
+                    {% elif ob.0.1.parrent.parr_type == 2 %}
+                        <div style="background-color:lightsteelblue">
+                            <a href="/cable/coup={{ ob.0.1.parrent_id }}" target="_blank">
+                                муфта: <b>{{ ob.0.1.parrent.name }}</b>, объект: <b>{{ ob.0.2.name }}</b>, квартал: <b>{{ ob.0.2.parrent.name }}</b></a>
+                        </div>
+                    {% endif %}
+                    
+                {% elif ob.0.0 == 2 and ob.1.0 == 1 or ob.0.0 == 0 and ob.1.0 == 1 %}
+                    
+                    {% if   ob.1.1.parrent.parr_type == 0 %}
+                        <div style="background-color:palegreen">
+                            <a href="/cross/build={{ ob.1.2.parrent_id }}/locker={{ ob.1.2.id }}" target="_blank">
+                                УД: <b>{{ ob.1.2.name }}</b>, ул: <b>{{ ob.1.2.parrent.name }} {{ ob.1.2.parrent.house_num }}</b></a>
+                        </div>
+                    {% elif ob.1.1.parrent.parr_type == 1 %}
+                        <div style="background-color:khaki">
+                            <a href="/cable/coup={{ ob.1.1.parrent_id }}" target="_blank">
+                                муфта: <b>{{ ob.1.1.parrent.name }}</b>, ул: <b>{{ ob.1.2.name }} {{ ob.1.2.house_num }}</b></a>
+                        </div>
+                    {% elif ob.1.1.parrent.parr_type == 2 %}
+                        <div style="background-color:lightsteelblue">
+                            <a href="/cable/coup={{ ob.1.1.parrent_id }}" target="_blank">
+                                муфта: <b>{{ ob.1.1.parrent.name }}</b>, объект: <b>{{ ob.1.2.name }}</b>, квартал: <b>{{ ob.1.2.parrent.name }}</b></a>
+                        </div>
+                    {% endif %}
+                    
+                {% elif ob.0.0 == 1 and ob.1.0 == 0 or ob.0.0 == 2 and ob.1.0 == 0 or ob.1.0 == 8 %}
+                
+                    {% if  ob.0.2 %}
+                        
+                        {% if   ob.0.1.parrent.parr_type == 0 %}
+                            <div style="background-color:palegreen">
+                                <a href="/cross/build={{ ob.0.2.parrent_id }}/locker={{ ob.0.2.id }}" target="_blank">
+                                    УД: <b>{{ ob.0.2.name }}</b>, ул: <b>{{ ob.0.2.parrent.name }} {{ ob.0.2.parrent.house_num }}</b></a>
+                            </div>
+                        {% elif ob.0.1.parrent.parr_type == 1 %}
+                            <div style="background-color:khaki">
+                                <a href="/cable/coup={{ ob.0.1.parrent_id }}" target="_blank">
+                                    муфта: <b>{{ ob.0.1.parrent.name }}</b>, ул: <b>{{ ob.0.2.name }} {{ ob.0.2.house_num }}</b></a>
+                            </div>
+                        {% elif ob.0.1.parrent.parr_type == 2 %}
+                            <div style="background-color:lightsteelblue">
+                                <a href="/cable/coup={{ ob.0.1.parrent_id }}" target="_blank">
+                                    муфта: <b>{{ ob.0.1.parrent.name }}</b>, объект: <b>{{ ob.0.2.name }}</b>, квартал: <b>{{ ob.0.2.parrent.name }}</b></a>
+                            </div>
+                        {% endif %}
+                        
+                    {% else %}
+                        <div style="background-color:palegreen">
+                            <a href="/cross/build={{ ob.0.1.parrent.parrent.parrent_id }}/locker={{ ob.0.1.parrent.parrent.id }}" target="_blank">
+                                УД: <b>{{ ob.0.1.parrent.parrent.name }}</b>, ул: <b>{{ ob.0.1.parrent.parrent.parrent.name }} {{ ob.0.1.parrent.parrent.parrent.house_num }}</b></a>
+                        </div>
+                    {% endif %}
+                    
+                {% endif %}
+                </td>
+                <td rowspan="2" width="10%" align="center" style="background-color:#D4DCC7"></td>
+            </tr>
+{# row 3 #}
+            <tr align="center">
+                <td width="32%">        {# cab_input #}
+                {% if   ob.0.0 == 1 %}
+                    <table width="100%" border="0">
+                        <tr>
+                            <td width="30%" align="left">
+                                <img src="/static/images/cab1.png" alt="cab" title="{{ ob.0.4.name }}" height="26">
+                                {% if not ob.0.1.p_valid %}<img src="/static/images/icon_deletelink.gif" alt="X" title="повреждение" width="16" height="16">{% endif %}
+                            </td>
+                            <td align="center">
+                                кабель: <b>{{ ob.0.4.name }}</b><br>
+                                <a href="/cable/coup={{ ob.0.1.parrent.id }}/?sel={{ ob.0.1.id }}" target="_blank">
+                                    № в муфте: <b>{{ ob.0.1.cable_num }}</b>, волокно: <b>{{ ob.0.1.fiber_num }}</b></a>
+                            </td>
+                        </tr>
+                    </table>
+                {% elif ob.0.0 == 2 %}
+                    <table width="100%" border="0">
+                        <tr>
+                            <td width="30%" align="left">
+                                {% if ob.0.4.ext_p %}   <img src="/static/images/cr1.png" alt="cr" title="" height="26">
+                                {% else %}              <img src="/static/images/cr2.png" alt="cr" title="" height="26">
+                                {% endif %}
+                            </td>
+                            <td align="center">
+                                кросс: <b>{{ ob.0.4.name }}</b>, 
+                                ёмкость: <b>{{ ob.0.4.ports }}</b><br>
+                                <a href="/cross/build={{ ob.0.1.parrent.parrent.parrent_id }}/locker={{ ob.0.1.parrent.parrent_id }}/cr={{ ob.0.1.parrent_id }}/?sel={{ ob.0.1.id }}" target="_blank">
+                                    <b>{{ ob.0.1.parrent.name }}</b>,
+                                    порт: <b>{{ ob.0.1.num }}</b></a>
+                            </td>
+                        </tr>
+                    </table>
+                {% elif ob.0.0 == 4 %}
+                    <table width="100%" border="0">
+                        <tr>
+                            <td align="left">
+                                <img src="/static/images/sfp.png" alt="sfp" title="" height="26">
+                            </td>
+                            <td align="center">
+                                коммутатор: <b>{{ ob.0.1.parrent.name_type }}</b>
+                                ip: <b>{{ ob.0.1.parrent.ip_addr }}</b><br>
+                                <a href="/cross/build={{ ob.0.1.parrent.parrent.parrent_id }}/locker={{ ob.0.1.parrent.parrent_id }}/dev={{ ob.0.1.parrent_id }}/?sel={{ ob.0.1.id }}" target="_blank">
+                                    <b>{{ ob.0.1.parrent.name }}</b>,
+                                    порт: <b>{{ ob.0.1.num }}</b> ( {{ ob.0.1.p_alias }} )</a>
+                            </td>
+                        </tr>
+                    </table>
+                {% endif %}
+                </td>
+                <td width="10%">        {# cab_int_c #}
+                {% if   ob.0.0 == 1 %}
+                    {% if   ob.0.1.int_c_status == 0 %}     не сварено
+                    {% elif ob.0.1.int_c_status == 1 %}     <img src="/static/images/chain_tr.png" alt="tr" title="транзит" width="60" height="26">
+                    {% elif ob.0.1.int_c_status == 2 %}     <img src="/static/images/chain_sv.png" alt="sv" title="сварка" width="60" height="26">
+                    {% endif %}
+                {% elif ob.1.0 == 1 %}
+                    {% if   ob.1.1.int_c_status == 0 %}     не сварено
+                    {% elif ob.1.1.int_c_status == 1 %}     <img src="/static/images/chain_tr.png" alt="tr" title="транзит" width="60" height="26">
+                    {% elif ob.1.1.int_c_status == 2 %}     <img src="/static/images/chain_sv.png" alt="sv" title="сварка" width="60" height="26">
+                    {% endif %}
+                {% endif %}
+                </td>
+                <td width="32%">        {# cab_output #}
+                {% if   ob.1.0 == 1 %}
+                    <table width="100%" border="0">
+                        <tr>
+                            <td align="center">
+                                кабель: <b>{{ ob.1.4.name }}</b><br>
+                                <a href="/cable/coup={{ ob.1.1.parrent.id }}/?sel={{ ob.1.1.id }}" target="_blank">
+                                    № в муфте: <b>{{ ob.1.1.cable_num }}</b>, волокно: <b>{{ ob.1.1.fiber_num }}</b></a>
+                            </td>
+                            <td width="30%" align="right">
+                            {% if not ob.1.1.p_valid %}<img src="/static/images/icon_deletelink.gif" alt="X" title="повреждение" width="16" height="16">{% endif %}
+                                <img src="/static/images/cab2.png" alt="cab" title="{{ ob.1.4.name }}" width="70">
+                            </td>
+                        </tr>
+                    </table>
+                {% elif ob.1.0 == 2 %}
+                    <table width="100%" border="0">
+                        <tr>
+                            <td align="center">
+                                кросс: <b>{{ ob.1.4.name }}</b>, 
+                                ёмкость: <b>{{ ob.1.4.ports }}</b><br>
+                                <a href="/cross/build={{ ob.1.1.parrent.parrent.parrent_id }}/locker={{ ob.1.1.parrent.parrent_id }}/cr={{ ob.1.1.parrent_id }}/?sel={{ ob.1.1.id }}" target="_blank">
+                                    <b>{{ ob.1.1.parrent.name }}</b>,
+                                    порт: <b>{{ ob.1.1.num }}</b></a>
+                            </td>
+                            <td width="30%" align="right">
+                                {% if ob.1.4.ext_p %}   <img src="/static/images/cr1.png" alt="cr" title="" height="26">
+                                {% else %}              <img src="/static/images/cr2.png" alt="cr" title="" height="26">
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                {% elif ob.1.0 == 8 %}
+                    <div style="background-color:red">
+                        <label style="color:white"><b><br>{{ ob.1.1 }}<br></b></label>
+                    </div>
+                {% endif %}
+                </td>
+            </tr>
+        </table>
+    {% endfor %}
+    
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="1000px">&nbsp</td>
+            <td width="280px" align="right"><input type="button" value="закрыть" onClick='location.href="../../"'>&nbsp</td>
+        </tr>
+    </table>
+
+
+{% endblock %}

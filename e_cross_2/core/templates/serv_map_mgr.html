@@ -1,0 +1,116 @@
+{% extends 'main.html' %}
+
+{% block service %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1000px" align="left"><h3>&nbsp&nbspменеджер схем ВОЛС</h3></td>
+            <td width="280px" align="right">&nbsp</td>
+        </tr>
+    </table>
+{% if not ok %}
+    <label style="color:red;">&nbsp&nbspВыполняется фоновая задача, некоторые операции недоступны</label>
+{% endif %}
+        <br>
+
+<table width="1284px" border="0" style="background-color:#d4dcc7"><tr valign="top">
+    <td width="250px" align="left">
+        <table width="100%" style="background-color:#c3cebd" border="0">
+        {% for ob in map_list %}
+            <tr><td>
+            {% if m_num == forloop.counter %}
+                &nbsp<label style="color:blue"><i>{{ forloop.counter }}:</i>&nbsp<strong>{{ ob.2 }}</strong></label>
+            {% else %}
+                &nbsp<a href="/core/m_manager{{ forloop.counter }}" style="color:black"><i>{{ forloop.counter }}:</i>&nbsp{{ ob.2 }}</a>
+            {% endif %}
+            </td></tr>
+        {% endfor %}
+        </table>
+    </td>
+    <td align="center">
+        <table width="684px" border="0" style="background-color:#D4DCC7">
+            {% for ob in f_list %}
+            <tr>
+                <td align="center" valign="top">
+                    <table width="500px" border="0" style="background-color:#D4DCC7">
+                        <tr align="center">
+                            <td rowspan="2" width="60%">
+                        {% if ob.0 %}
+                                <img src="/media/map_1/{{ m_num }}/prev/{{ ob.0 }}" width="280" border="0">
+                            </td>
+                            <td>
+                                <table width="200px" border="1"><tr align="center"><td>
+                                <h3>{{ ob.0 }}</h3>
+                                {% if ok %}
+                                    <input type="button" value="обработка" onClick='location.href="cut/?f_name={{ ob.0 }}"' {% if ob.2 %}disabled="1"{% endif %}>
+                                    <input type="button" value="удаление" onClick='location.href="del=1/?d_file={{ ob.0 }}"'>
+                                {% endif %}
+                        {% else %}
+                                <img src="/static/images/blank.png" alt="исходный файл отсутствует" width="240" border="0">
+                            </td>
+                            <td>
+                                <table width="200px" border="1"><tr align="center"><td>
+                                <h3>исходный файл отсутствует</h3>
+                        {% endif %}
+                                <br>&nbsp</td></tr></table>
+                            </td>
+                        </tr>
+                        <tr align="center">
+                            <td>
+                                <table width="200px" border="1"><tr align="center"><td>
+                            {% if ob.1 %}
+                                <h3>{{ ob.1 }}</h3>
+                                {% if not ob.2 %}
+                                    {% if ok %}
+                                        <input type="button" value="подключение" onClick='location.href="map_on/?f_name={{ ob.1 }}"'>
+                                        <input type="button" value="удаление" onClick='location.href="del=2/?d_file={{ ob.1 }}"'>
+                                    {% endif %}
+                                {% else %}
+                                    <h3 style="color:blue;"><strong>подключен</strong></h3>
+                                {% endif %}
+                            {% else %}
+                                <h3>не сформирован</h3>
+                            {% endif %}
+                                <br>&nbsp</td></tr></table>
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                </td>    
+            </tr>
+            {% endfor %}  
+        </table>
+    </td>
+    <td width="250px" align="right"></td>
+</tr></table>
+    
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="1000px">
+                <form enctype="multipart/form-data" method="post" action="">
+                    {% csrf_token %}
+                    {{ form.file }}
+                    <input type="submit" value="добавить" style="width:100px">&nbsp
+                {% if f_exist %}
+                    <label style="color:red;">&nbsp&nbsp<strong>файл с таким именем существует на сервере</strong></label>
+                {% else %}
+                    <label>&nbsp&nbspобработка изображения займет насколько секунд</label>
+                {% endif %}
+                </form>
+            </td>
+            <td width="280px" align="right">
+                <input type="button" value="закрыть" onClick='location.href="/core/service/"'>&nbsp
+            </td>
+        </tr>
+    </table>
+<br>
+debug:
+<br>
+{{ ok }}
+<br>
+{% for ob in deb %}
+{{ ob }}<br>
+{% endfor %}
+
+{% endblock %}

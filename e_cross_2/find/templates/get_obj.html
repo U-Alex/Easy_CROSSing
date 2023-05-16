@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'main.css' %}" />
+
+<html>
+<body style="background-color:#c3cebd">
+
+<div align="left">
+    <br>
+    {% if lo_list %}
+        <label>&nbsp<i>узлы доступа:</i></label>
+        <br>
+        {% for ob in lo_list %}
+            &nbsp&nbsp&nbsp&nbsp&nbsp
+            <a href="/cross/build={{ ob.parrent.id }}/locker={{ ob.id }}/" target="_blank"><strong>{{ ob.name }}</strong></a>
+            {% if ob.status == 0 %}<label style="color:#FF707E">в проекте</label>
+            {% elif ob.status == 1 %}<label style="color:yellow">монтаж</label>
+            {% endif %}
+            <br>
+        {% endfor %}
+        <br>
+    {% endif %}
+    {% if co_list %}
+        <label>&nbsp<i>муфты:</i></label>
+        <br>
+        {% for ob in co_list %}
+            &nbsp&nbsp&nbsp&nbsp&nbsp
+            <a href="/cable/coup={{ ob.id }}/" target="_blank"><strong>{{ ob.name }}</strong></a>&nbsp
+            <br>
+        {% endfor %}
+        <br>
+    {% endif %}
+    {% if pw_list %}
+        <label>&nbsp<i>опоры, колодцы:</i></label>
+        <br>
+        {% for ob in pw_list %}
+            &nbsp&nbsp&nbsp&nbsp&nbsp
+            <a href="/cable/?kv={{ ob.parrent.id }}" target="_blank"><strong>{{ ob.name }}</strong></a>
+            <br>
+        {% endfor %}
+    {% endif %}
+
+</div>
+
+</body>
+</html>

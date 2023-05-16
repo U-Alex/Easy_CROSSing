@@ -1,0 +1,61 @@
+{% extends 'main.html' %}
+
+{% block service %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="880px" align="left"><h3>&nbsp&nbspлог обмена с NSD: </h3></td>
+            <td width="300px" align="right">
+                {% if his.has_previous %}
+                    <a href="?page={{ his.previous_page_number }}">предыдущая</a>
+                {% endif %}
+                <span class="current">страница {{ his.number }} из {{ his.paginator.num_pages }}.</span>
+            </td>
+            <td width="100px" align="left">
+                {% if his.has_next %}
+                    <a href="?page={{ his.next_page_number }}">следующая&nbsp</a>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+    
+    <table width="1284px" border="1">
+    <caption>&nbsp</caption>
+        <tr style="background-color:#B5FFCE">
+            <td width="120px" align="center">дата/время</td>
+            <td width="90px" align="center">тип заявки</td>
+            <td width="160px" align="center">операция</td>
+            <td align="center">подробности</td>
+        </tr>
+        {% for ob in his %}
+        <tr>
+            <td>&nbsp{{ ob.1|date:"d.m.Y" }}&nbsp/&nbsp{{ ob.1|time:"H:i" }}&nbsp</td>
+            <td align="center">&nbsp
+            {% if ob.2 == 'снятие' %}
+                {% if ob.3 %}<b><a style="color:orange" href="/app/remove={{ ob.3 }}/">{% endif %}{{ ob.2 }}</a></b>&nbsp
+            {% elif ob.2 == 'установка' %}
+                {% if ob.3 %}<b><a style="color:green" href="/app/install={{ ob.3 }}/">{% endif %}{{ ob.2 }}</a></b>&nbsp
+            {% endif %}
+            </td>
+            <td>&nbsp{{ ob.5 }}&nbsp</td>
+            <td>&nbsp{{ ob.6 }}&nbsp</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="1000px">&nbsp
+                <a href="../td=1/">1 день</a> |
+                <a href="../td=7/">неделя</a> |
+                <a href="../td=30/">месяц</a> |
+                <a href="../td=9999/">всё</a> |
+            </td>
+            <td width="280px" align="right"><input type="button" value="закрыть" onClick='location.href="/app/status=0"'>&nbsp</td>
+        </tr>
+    </table>
+
+    
+{% endblock %}

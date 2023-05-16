@@ -1,0 +1,161 @@
+{% extends 'main.html' %}
+
+{% block cross %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1100px" align="left">
+                <h3>
+                    &nbsp&nbsp<a href="/cross/build={{ lo.parrent.id }}">{{ lo.parrent.name }}&nbsp{{ lo.parrent.house_num }}</a>,
+                    &nbsp&nbsp<label style="color:blue">УД:&nbsp{{ lo.name }}</label>
+                </h3>
+            </td>
+            <td width="300px" align="right">
+                {% if kv.id != 1 %}
+                квартал: {{ kv.name }}&nbsp&nbsp
+                <a href="/statist/bu_doc={{ lo.parrent.id }}" target="_blank"><b>карточка ввода</b>&nbsp&nbsp</a>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+    <br>
+
+    <table style="background-color:#d4dcc7">
+        <tr valign="bottom">
+        {% for ob1 in rack_list %}
+            <td>
+                <table border="2">
+                    <caption>
+                        <i>{% if ob1.0 != '0' %}{{ ob1.0 }} ({{ ob1.1 }}){% else %}not standing{% endif %}</i>
+                    </caption>
+                {% for ob2 in ob1.2 %}
+                    <tr valign="top">
+                        <td width="20px" height="20px" align="center" style="border-style: dashed;">
+                            {{ ob2.0 }}
+                        </td>
+                    {% if ob2.1 != False %}
+                        <td rowspan="{{ ob2.2 }}" width="200px" style="border-style: dashed;">
+                            <img src="/static/images/{{ ob2.3 }}" alt="" title="" height="14">
+                            <a href="../{{ ob2.4 }}" target="_blank"><b>&nbsp{{ ob2.1.name }}&nbsp</b></a>
+                    {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </table>
+            </td>
+        {% endfor %}
+        </tr>
+    </table>
+<br>
+
+<table width="1400px" border="0" style="background-color:#d4dcc7">
+    <tr valign="top">
+        <td width="130px" align="center">
+            <input type="checkbox" id="id_edit" name="edit" value=""{% if not adm %} disabled="1"{% endif %}>
+            <label for="id_edit">редактирование</label>
+        </td>
+        <td>
+            <div id="div_0" hidden="1">
+                <table width="100%" border="0" style="background-color:#d4dcc7">
+                    <form method="post">
+                    {% csrf_token %}
+                        <tr>
+                            <td align="center">
+                                {{ form.racks }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center">
+                                <input type="number" id="id_number" min="0" max="30" value="">&nbsp
+                                <input type="button" id="id_to_const" value=" &#9660;&#9660;&#9660; " onClick='javascript:to_const();'>&nbsp
+                                
+                                <input type="button" id="id_to_form" value=" &#9650;&#9650;&#9650; " onClick='javascript:to_form();'>&nbsp&nbsp
+                                <input type="submit" value="     OK     ">&nbsp
+                                <div id="div_1"></div>
+                            </td>
+                        </tr>
+                    </form>
+                </table>
+            </div>
+        </td>
+        <td width="130px" align="center"></td>
+    </tr>
+</table>
+
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="1100px">&nbsp</td>
+            <td width="300px" align="right"><input type="button" value="закрыть" onClick='location.href="../"'>&nbsp</td>
+        </tr>
+    </table>
+
+
+<script language="javascript">
+
+window.onload = function init() {
+    document.getElementById('id_number').value = Math.floor(document.getElementById('id_racks').value.split(',').length / 2);
+    to_const()
+    id_number.style = 'width: 4em;';
+        //console.log();
+}
+
+function to_const() {
+
+    var elements = document.getElementById('id_racks').value.split(',');
+    r_list = new Array();
+    for (var i = 0; i < elements.length / 2; i++) {
+        r_list[i] = [elements[i*2], elements[i*2+1]];
+    }
+
+    while (div_1.lastChild) {div_1.removeChild(div_1.lastChild);}
+    elem_m1 = id_racks.cloneNode(false);
+    elem_m1.size = 10;
+    elem_m2 = id_number.cloneNode(false);
+    elem_m2.min = 1;
+    elem_m2.max = 64;
+    elem_m2.style = 'width: 3em;';
+    var r_count_ch = document.getElementById('id_number').value;
+    //console.log(r_count_ch);
+    for (var i = 0; i < r_count_ch; i++) {
+        elem = elem_m1.cloneNode(true);
+        elem.value = (r_list.length > i && r_list.length != 1) ? r_list[i][0] : "rack_0"+String(i+1);
+        elem.id = "id_1_"+i;
+        elem.onclick = "";
+        div_1.appendChild(elem, null);
+        elem = elem_m2.cloneNode(true);
+        elem.value = (r_list.length > i && r_list.length != 1) ? r_list[i][1] : 1;
+        elem.id = "id_2_"+i;
+        elem.onclick = "";
+        div_1.appendChild(elem, null);
+    }
+}
+
+function to_form() {
+    //console.log(id_racks.value);
+    var str = '';
+    var elements = div_1.getElementsByTagName('input');
+    //console.log(elements);
+    for (var i = 0; i < elements.length; i+=2) {
+        str += (elements[i].value != '') ? elements[i].value : "rack_0"+String(i/2+1);
+        str += ',';
+        str += (elements[i+1].value != '') ? elements[i+1].value : 1;
+        str += ',';
+    }
+    id_racks.value = str.slice(0, -1);
+}
+
+id_edit.addEventListener('change', function(){
+    //console.log(this.checked);
+    if (this.checked) {
+        document.getElementById('div_0').style.display = 'inline';
+    }
+    else {
+        document.getElementById('div_0').style.display = 'none';
+    }
+}, false);
+
+</script>
+
+
+{% endblock %}

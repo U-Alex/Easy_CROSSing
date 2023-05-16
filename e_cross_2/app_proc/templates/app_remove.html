@@ -1,0 +1,152 @@
+{% extends 'app.html' %}
+
+{% block proc_app %}
+
+<!--<meta http-equiv="refresh" content="10">-->
+    
+    <table width="1404px" border="0">
+        <tr>
+            <td width="30%" valign="top" style="background-color:#bbbbbb">
+            {% if bu_b_p and app.app_status == 0 %}
+                <table width="96%" border="1" align="center">
+                    <caption><h3>ВНИМАНИЕ!</h3><i>номер квартиры из заявки <br> забронирован на других ресурсах:</i></caption>
+                {% for ob in bu_b_p %}
+                    {% if ob.int_c_status == 0 %}  <tr style="background-color:{{ color.0 }}">
+                    {% elif ob.int_c_status == 1 %}<tr style="background-color:{{ color.1 }}">
+                    {% elif ob.int_c_status == 2 %}<tr style="background-color:{{ color.2 }}">
+                    {% elif ob.int_c_status == 3 %}<tr style="background-color:{{ color.3 }}">
+                    {% endif %}
+                            <td width="100%">
+                                &nbspуд: {{ ob.parrent.parrent.name }}&nbsp&nbsp
+                                <a href="/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/box={{ ob.parrent.id }}/?sel={{ ob.id }}" target="_blank"><strong>&nbspкрт: {{ ob.parrent.name }}-{{ ob.parrent.num }}-{{ ob.p_alias }}&nbsp&nbsp</strong></a>
+                            </td>
+                        </tr>
+                {% endfor %}
+                </table>
+            {% endif %}
+                <br><hr>
+                <table width="96%" border="1" align="center">
+                    <caption><i>история договора:</i></caption>
+                {% for ob in dog_list_his %}
+                    {% if ob.int_c_status == 0 %}  <tr style="background-color:{{ color.0 }}">
+                    {% elif ob.int_c_status == 1 %}<tr style="background-color:{{ color.1 }}">
+                    {% elif ob.int_c_status == 2 %}<tr style="background-color:{{ color.2 }}">
+                    {% elif ob.int_c_status == 3 %}<tr style="background-color:{{ color.3 }}">
+                    {% endif %}
+                            <td width="80%">
+                                &nbspул: {{ ob.parrent.parrent.parrent.name }} {{ ob.parrent.parrent.parrent.house_num }}
+                                <br>
+                                &nbspуд: {{ ob.parrent.parrent.name }}
+                                <br>
+                                <a href="/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/box={{ ob.parrent.id }}/?sel={{ ob.id }}" target="_blank"><strong>&nbspкрт: {{ ob.parrent.name }}-{{ ob.parrent.num }}-{{ ob.p_alias }}&nbsp&nbsp</strong></a>
+                            </td>
+                            <td align="center" style="background-color:#bbbbbb">
+                                &nbspкв: <strong>{{ ob.his_ab_kv }}</strong><br>&nbsp{{ ob.date_del|date:"d.m.Y" }}
+                                </td>
+                        </tr>
+                {% endfor %}
+                </table>
+                <br>
+            </td>
+            <td valign="top" style="background-color:#D4DCC7">
+                <table width="100%" border="0" align="center">
+                    <caption><i>текущие кроссировки договора:</i></caption>
+                {% for ob in dog_list %}
+                    {% if ob.int_c_status == 0 %}  <tr style="background-color:{{ color.0 }}">
+                    {% elif ob.int_c_status == 1 %}<tr style="background-color:{{ color.1 }}">
+                    {% elif ob.int_c_status == 2 %}<tr style="background-color:{{ color.2 }}">
+                    {% elif ob.int_c_status == 3 %}<tr style="background-color:{{ color.3 }}">
+                    {% endif %}
+                            <td width="60px" style="background-color:#D4DCC7">&nbsp</td>
+                            <td>
+                                &nbspул: {{ ob.parrent.parrent.parrent.name }} {{ ob.parrent.parrent.parrent.house_num }}
+                                &nbspУД: {{ ob.parrent.parrent.name }}
+                                <a href="/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/box={{ ob.parrent.id }}/?sel={{ ob.id }}" target="_blank"><strong>&nbspкрт: {{ ob.parrent.name }}-{{ ob.parrent.num }}-{{ ob.p_alias }}&nbsp&nbsp</strong></a>
+                                <br>
+                                &nbspкв: {{ ob.ab_kv }}
+                                &nbspФИО: {{ ob.ab_fio }}
+                                &nbspприм: {{ ob.ab_prim }}
+                            </td>
+                            <td width="86px" align="right" style="background-color:#D4DCC7"></td>
+                            <td width="82px" align="right" style="background-color:#D4DCC7"></td>
+                        </tr>
+                {% endfor %}
+                </table>
+                <br>
+                <table width="100%" border="0" align="center" style="background-color:#D4DCC7">
+                    <tr>
+                        <td colspan="2">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        {% if kv %}
+                            Внимание, номер квартиры в заявке не совпадает с номером на кроссе
+                        {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50%" align="right">
+                            <form method="post" action="reject/">
+                            {% csrf_token %}
+                            <select name="reject">
+                                <option value="0">----</option>
+                                <option value="1">некорректная заявка</option>
+                                <option value="2">отказ заявителя</option>
+                                <option value="5">ресурсы были сняты ранее</option>
+                            </select>
+                            <input type="submit" value="отказать" style="background:gray; width:80px">&nbsp
+                            </form>
+                        </td>
+                        <td width="50%" align="left">
+                        {% if app.app_status == 0 and act %}
+                            <form method="post" action="complete/">
+                            {% csrf_token %}
+                            <input type="submit" value="выполнить" style="background:lawngreen; width:80px">&nbsp
+                            </form>
+                        {% else %}
+                            <input type="button" disabled="1" value="выполнить" style="background:lawngreen; width:80px">&nbsp
+                        {% endif %}
+                        </td>
+                    </tr>
+                </table>
+                <br>
+            </td>
+        </tr>
+    </table>
+    <br>
+
+    <table width="1404px" border="0" id="templ_footer">
+        <tr>
+            <td width="120px">&nbsp</td>
+            <td>
+                <form method="post" action="../status={{ app.app_status }}/app_find/" target="_blank">
+                {% csrf_token %}
+                    &nbsp договор: {{ form_f.dog }}
+                    <!--&nbsp&nbsp договор: 
+                    <input type="text" name="dog" value="{{ curr_dog }}" size="8" maxlength="7" style="border-color:silver; border-radius:4px; height:14px">-->
+                    <input type="submit" value="поиск" style="width:80px">&nbsp
+                </form>
+            </td>
+            <td width="380px" align="right">
+                <input type="button" 
+                       value="отправка формы в NSD" 
+                       onClick='location.href="send/"' 
+                       style="width:180px" 
+                       {% if app.app_status != 2 %} disabled=1 {% endif %}
+                       >&nbsp
+                <input type="button" value="назад" onClick='location.href="../status={{ app.app_status }}"' style="width:80px">&nbsp
+            </td>
+        </tr>
+    </table>
+
+    <br>
+    <table width="1404px" border="1">
+    <caption>история обмена с NSD</caption>
+        {% for ob in his %}
+        <tr>
+            <td width="140px" align="center">&nbsp{{ ob.1|date:"d.m.Y" }}&nbsp/&nbsp{{ ob.1|time:"H:i" }}&nbsp</td>
+            <td width="200px">&nbsp{{ ob.5 }}&nbsp</td>
+            <td>&nbsp{{ ob.6 }}&nbsp</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+
+{% endblock %}

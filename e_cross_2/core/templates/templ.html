@@ -1,0 +1,188 @@
+{% extends 'main.html' %}
+
+{% block service %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1300px" align="left"><h3>&nbspРабота с шаблонами</h3></td>
+            <td width="300px" align="right"></td>
+        </tr>
+    </table>
+    <br>
+    
+    <table width="1604px" border="0" style="background-color:#D4DCC7">
+        <tr valign="top">
+            <td align="left">
+                <table width="98%" border="1">
+                    <tr align="center" style="background-color:#B5FFCE">
+                        <td>Lockers</td>
+                        <td width="20px" align="center">...</td>
+                        <td width="20px" align="center">...</td>
+                    </tr>
+                {% for ob in lo_list %}
+                    <tr>
+                        <td>&nbsp{{ ob.name }}&nbsp</td>
+                        <td align="center"><a href="/core/templ_lo={{ ob.id }}/"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="12" height="12"></a></td>
+                        <td align="center"><a href="/core/templ_lo_del={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" width="12" height="12"></a></td>
+                    </tr>
+                {% endfor %}
+                    <tr align="center">
+                        <td></td>
+                        <td colspan="2"><a href="/core/templ_lo=0/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить шаблон" width="11" height="11"></a></td>
+                    </tr>
+                </table>
+            <br>
+                <table width="98%" border="1">
+                    <tr align="center" style="background-color:#B5FFCE">
+                        <td>Coupling</td>
+                        <td width="20px" align="center">...</td>
+                        <td width="20px" align="center">...</td>
+                    </tr>
+                {% for ob in coup_list %}
+                    <tr>
+                        <td>&nbsp{{ ob.name }}&nbsp</td>
+                        <td align="center"><a href="/core/templ_coup={{ ob.id }}/"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="12" height="12"></a></td>
+                        <td align="center"><a href="/core/templ_coup_del={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" width="12" height="12"></a></td>
+                    </tr>
+                {% endfor %}
+                    <tr align="center">
+                        <td></td>
+                        <td colspan="2"><a href="/core/templ_coup=0/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить шаблон" width="11" height="11"></a></td>
+                    </tr>
+                </table>
+            <br>
+                <table width="98%" border="1">
+                    <tr align="center" style="background-color:#B5FFCE">
+                        <td>Cross</td>
+                        <td width="20px" align="center">...</td>
+                        <td width="20px" align="center">...</td>
+                    </tr>
+                {% for ob in cr_list %}
+                    <tr>
+                        <td>&nbsp{{ ob.name }}&nbsp</td>
+                        <td align="center"><a href="/core/templ_cr={{ ob.id }}/"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="12" height="12"></a></td>
+                        <td align="center"><a href="/core/templ_cr_del={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" width="12" height="12"></a></td>
+                    </tr>
+                {% endfor %}
+                    <tr align="center">
+                        <td></td>
+                        <td colspan="2"><a href="/core/templ_cr=0/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить шаблон" width="11" height="11"></a></td>
+                    </tr>
+                </table>
+            </td>
+            <td align="left">
+                <table width="98%" border="1">
+                    <tr align="center" style="background-color:#B5FFCE">
+                        <td width="32px" align="center">&nbsp</td>
+                        <td>Device</td>
+                        <td width="20px" align="center">...</td>
+                        <td width="20px" align="center">...</td>
+                    </tr>
+                {% for ob in dev_list %}
+                    <tr>
+                        <td align="center"><img src="/static/images/dev_{{ ob.parrent_id }}.png" alt="" title="" height="12"></td>
+                        <td>&nbsp{{ ob.name }}&nbsp</td>
+                        <td align="center"><a href="/core/templ_dev={{ ob.id }}/"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="12" height="12"></a></td>
+                        <td align="center"><a href="/core/templ_dev_del={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" width="12" height="12"></a></td>
+                    </tr>
+                {% endfor %}
+                    <tr align="center">
+                        <td></td><td></td>
+                        <td colspan="2"><a href="/core/templ_dev=0/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить шаблон" width="11" height="11"></a></td>
+                    </tr>
+                </table>
+            </td>
+            <td align="left">
+                <table width="98%" border="1">
+                    <tr align="center" style="background-color:#B5FFCE">
+                        <td>Box</td>
+                        <td width="20px" align="center">...</td>
+                        <td width="20px" align="center">...</td>
+                    </tr>
+                {% for ob in box_list %}
+                    <tr>
+                        <td>&nbsp{{ ob.name }}&nbsp</td>
+                        <td align="center"><a href="/core/templ_box={{ ob.id }}/"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="12" height="12"></a></td>
+                        <td align="center"><a href="/core/templ_box_del={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" width="12" height="12"></a></td>
+                    </tr>
+                {% endfor %}
+                    <tr align="center">
+                        <td></td>
+                        <td colspan="2"><a href="/core/templ_box=0/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить шаблон" width="11" height="11"></a></td>
+                    </tr>
+                </table>
+            <br>
+                <table width="98%" border="1">
+                    <tr align="center" style="background-color:#B5FFCE">
+                        <td>Box_cable</td>
+                        <td width="20px" align="center">...</td>
+                        <td width="20px" align="center">...</td>
+                    </tr>
+                {% for ob in box_cable_list %}
+                    <tr>
+                        <td>&nbsp{{ ob.name }}&nbsp</td>
+                        <td align="center"><a href="/core/templ_box_cable={{ ob.id }}/"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="12" height="12"></a></td>
+                        <td align="center"><a href="/core/templ_box_cable_del={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" width="12" height="12"></a></td>
+                    </tr>
+                {% endfor %}
+                    <tr align="center">
+                        <td></td>
+                        <td colspan="2"><a href="/core/templ_box_cable=0/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить шаблон" width="11" height="11"></a></td>
+                    </tr>
+                </table>
+            <br>
+                <table width="98%" border="1">
+                    <tr align="center" style="background-color:#B5FFCE">
+                        <td width="32px" align="center">&nbsp</td>
+                        <td>Subunit</td>
+                        <td width="20px" align="center">...</td>
+                        <td width="20px" align="center">...</td>
+                    </tr>
+                {% for ob in su_list %}
+                    <tr>
+                        <td align="center"><img src="/static/images/subunit_{{ ob.parrent_id }}.png" alt="" title="" height="12"></td>
+                        <td>&nbsp{{ ob.name }}&nbsp</td>
+                        <td align="center"><a href="/core/templ_su={{ ob.id }}/"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="12" height="12"></a></td>
+                        <td align="center"><a href="/core/templ_su_del={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" width="12" height="12"></a></td>
+                    </tr>
+                {% endfor %}
+                    <tr align="center">
+                        <td></td><td></td>
+                        <td colspan="2"><a href="/core/templ_su=0/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить шаблон" width="11" height="11"></a></td>
+                    </tr>
+                </table>
+            </td>
+            <td align="left">
+                <table width="98%" border="1">
+                    <tr align="center" style="background-color:#B5FFCE">
+                        <td>Cable</td>
+                        <td width="20px" align="center">...</td>
+                        <td width="20px" align="center">...</td>
+                    </tr>
+                {% for ob in cable_list %}
+                    <tr>
+                        <td>&nbsp{{ ob.name }}&nbsp</td>
+                        <td align="center"><a href="/core/templ_cab={{ ob.id }}/"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="12" height="12"></a></td>
+                        <td align="center"><a href="/core/templ_cab_del={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" width="12" height="12"></a></td>
+                    </tr>
+                {% endfor %}
+                    <tr align="center">
+                        <td></td>
+                        <td colspan="2"><a href="/core/templ_cab=0/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить шаблон" width="11" height="11"></a></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <br>
+    
+    <table border="0" id="templ_footer">
+        <tr>
+            <!--<td style="border-bottom: 1px solid #999" width="1020px" align="right"><a href="/cross/build={{ bu_id }}">закрыть&nbsp&nbsp</a></td>-->
+            <td width="1300px">&nbsp</td>
+            <td width="300px" align="right"><input type="button" value="закрыть" onClick='location.href="/core/service/"'>&nbsp</td>
+        </tr>
+    </table>
+
+    
+{% endblock %}

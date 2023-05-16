@@ -1,0 +1,131 @@
+{% extends 'app.html' %}
+
+{% block app_find %}
+
+    <table width="1404px" border="1">
+    <caption><i>кроссировки:</i></caption>
+        <tr>
+            <td width="40%" valign="top" style="background-color:#bbbbbb">
+                <table width="96%" border="0" align="center">
+                    <caption><i>история договора:</i></caption>
+                {% for ob in dog_list_his %}
+                    {% if ob.int_c_status == 0 %}  <tr style="background-color:{{ color.0 }}">
+                    {% elif ob.int_c_status == 1 %}<tr style="background-color:{{ color.1 }}">
+                    {% elif ob.int_c_status == 2 %}<tr style="background-color:{{ color.2 }}">
+                    {% elif ob.int_c_status == 3 %}<tr style="background-color:{{ color.3 }}">
+                    {% endif %}
+                            <td width="80%">
+                                &nbspул: <b>{{ ob.parrent.parrent.parrent.name }} {{ ob.parrent.parrent.parrent.house_num }}</b>
+                                &nbspуд: <b>{{ ob.parrent.parrent.name }}</b>
+                                &nbsp<a href="/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/box={{ ob.parrent.id }}/?sel={{ ob.id }}" target="_blank"><strong>&nbspкрт: {{ ob.parrent.name }}-{{ ob.parrent.num }}-{{ ob.p_alias }}&nbsp&nbsp</strong></a>
+                                <br>
+                                &nbspкв: {{ ob.ab_kv }}
+                                &nbspФИО: {{ ob.ab_fio }}
+                                <br>
+                                &nbspприм: {{ ob.ab_prim }}
+                            </td>
+                            <td align="left" style="background-color:#bbbbbb">
+                                &nbsp{% if ob.his_ab_kv != '' %}кв: <strong>{{ ob.his_ab_kv }}</strong>{% endif %}
+                                <br>&nbsp{{ ob.date_del|date:"d.m.Y" }}
+                            </td>
+                        </tr>
+                {% endfor %}
+                </table>
+                <br>
+            </td>
+            <td valign="top" style="background-color:#D4DCC7">
+                <table width="100%" border="0" align="center">
+                    <caption><i>текущие кроссировки договора:</i></caption>
+                {% for ob in dog_list %}
+                    {% if ob.int_c_status == 0 %}  <tr style="background-color:{{ color.0 }}">
+                    {% elif ob.int_c_status == 1 %}<tr style="background-color:{{ color.1 }}">
+                    {% elif ob.int_c_status == 2 %}<tr style="background-color:{{ color.2 }}">
+                    {% elif ob.int_c_status == 3 %}<tr style="background-color:{{ color.3 }}">
+                    {% endif %}
+                            <td width="60px" style="background-color:#D4DCC7">&nbsp</td>
+                            <td>
+                                &nbspул: <b>{{ ob.parrent.parrent.parrent.name }} {{ ob.parrent.parrent.parrent.house_num }}</b>
+                                &nbspУД: <b>{{ ob.parrent.parrent.name }}</b>
+                                &nbspкрт: <a href="/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/box={{ ob.parrent.id }}/?sel={{ ob.id }}" target="_blank"><strong>{{ ob.parrent.name }}-{{ ob.parrent.num }}-{{ ob.p_alias }}&nbsp&nbsp</strong></a>
+                                <br>
+                                &nbspкв: <b>{{ ob.ab_kv }}</b>
+                                &nbspФИО: <b>{{ ob.ab_fio }}</b>
+                                &nbspприм: <b>{{ ob.ab_prim }}</b>
+                            </td>
+                            <td width="60px" align="right" style="background-color:#D4DCC7"></td>
+                        </tr>
+                {% endfor %}
+                </table>
+                <br>
+                
+            </td>
+        </tr>
+    </table>
+    <br>
+
+    <table width="1404px" border="1">
+    <caption><i>заявки:</i></caption>
+        <tr style="background-color:#D4DCC7">
+            <td colspan="2" align="center">дата поступления</td>
+            <td width="80px" align="center">операция (ресурсы)</td>
+            <td width="90px" align="center">ордер</td>
+            <td width="60px" align="center">договор</td>
+            <td width="160px" align="center">улица</td>
+            <td width="60px" align="center">дом</td>
+            <td width="40px" align="center">кв.</td>
+            <td align="center">ФИО (примечание)</td>
+            <td colspan="2" align="center">дата обработки (оператор)</td>
+            <td colspan="2" align="center">дата установки (инсталлятор)</td>
+        </tr>
+
+        {% if app_find %}
+            {% for ob in app_find %}
+            <tr style="background-color:{{ ob.color_app }}">
+                <td width="75px" align="center"><label title="id: {{ ob.id }}">{{ ob.date_1|date:"d.m.Y" }}</label></td>
+                <td width="50px" align="center"><label title="id: {{ ob.id }}">{{ ob.date_1|time:"H:i" }}</label></td>
+                {% if ob.type_proc %}
+                    {% if ob.app_status == 0 %}
+                        <td align="center"><strong><a style="color:black" href="../../remove={{ ob.id }}/">снятие</a></strong></td>
+                    {% else %}
+                        <td align="center">снятие</td>
+                    {% endif %}
+                {% else %}
+                    <td align="center">
+                        <strong><a title="{{ ob.resource }}" style="color:black" href="../../install={{ ob.id }}/">установка</a></strong>
+                    </td>
+                {% endif %}
+                <td align="center">{{ ob.n_order }}</td>
+                <td align="center">{{ ob.dogovor }}</td>
+                <td align="center">{{ ob.street }}</td>
+                <td align="center">{{ ob.build }}</td>
+                <td align="center">&nbsp{{ ob.kv }}&nbsp</td>
+                <td><label title="{{ ob.prim }}">&nbsp{{ ob.fio }}&nbsp</label></td>
+                {% if ob.app_status %}
+                    <td width="75px" align="center"><label title="{{ ob.man_oper }}">{{ ob.date_2|date:"d.m.Y" }}</label></td>
+                    <td width="50px" align="center"><label title="{{ ob.man_oper }}">{{ ob.date_2|time:"H:i" }}</label></td>
+                {% else %}
+                    <td width="75px" align="center"></td>
+                    <td width="50px" align="center"></td>
+                {% endif %}
+                {% if ob.app_status == 2 or ob.app_status == 5 %}
+                    <td width="75px" align="center"><label title="{{ ob.man_install }}">{{ ob.date_3|date:"d.m.Y" }}</label></td>
+                    <td width="50px" align="center"><label title="{{ ob.man_install }}">{{ ob.date_3|time:"H:i" }}</label></td>
+                {% else %}
+                    <td width="75px" align="center"></td>
+                    <td width="50px" align="center"></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="13" align="center"><b>ничего не найдено</b></td>
+        </tr>
+        {% endif %}
+        <tr style="background-color:#D4DCC7">
+            <td colspan="13">&nbsp</td>
+        </tr>
+    </table>
+    <br>
+
+
+{% endblock %}

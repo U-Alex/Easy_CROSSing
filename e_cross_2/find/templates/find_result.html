@@ -1,0 +1,216 @@
+{% extends 'find_0.html' %}
+
+{% block result %}
+
+{% if str_list %}
+
+        <table border="0" id="templ_header">
+            <tr>
+                <td width="900px">&nbspул: {{ str_list.0.name }}&nbsp&nbsp&#9654;&nbsp<i>найденные здания&nbsp&#9660;</i></td>
+                <td width="380px" align="right"></td>
+            </tr>
+        </table>
+        
+        <table border="0" style="background-color:#D4DCC7">
+            <caption>&nbsp</caption>
+            <tr>
+                <td width="140px" align="center">
+                    <img src="/static/images/SKS2.png" alt="" title="" width="80" height="80">
+                </td>
+                <td width="1000px" align="center">
+                {% for ob in str_list %}
+                    <!--<input type="button" 
+                           enabled="1" 
+                           value="{{ ob.house_num }}" 
+                           onClick='location.href="/cross/build={{ ob.id }}/"' 
+                           style="width:66px; height:32px; {% if ob.double %}background:gray {% endif %}"
+                           >&nbsp-->
+                    <button onClick='location.href="/cross/build={{ ob.id }}/"'
+                            style="background:{% if ob.double %}gray{% endif %}"
+                            id="templ_header"
+                            >
+                        <table width="150px" border="0" style="background:{% if ob.double %}gray{% endif %}" id="templ_header">
+                            <tr><td colspan="30"></td></tr>
+                            <tr>
+                                <td colspan="30">
+                                    <b><font size="3">{{ ob.house_num }}</font></b>
+                                    <!--<h1>{{ ob.house_num }}</h1>-->
+                                </td>
+                            </tr>
+                            <tr><td colspan="30"></td></tr>
+                            <tr height="7px">
+                            {% for ob2 in ob.lo %}
+                                <td width="1px" style="background:none"></td>
+                                <!--<td width={% if ob2.1 %} "16%" {% elif ob2.2 %} "4%" {% else %} "8%" {% endif %}-->
+                                <td width={% if ob2.1 %} "20px" {% elif ob2.2 %} "3px" {% else %} "8px" {% endif %}
+                                    style="background:{% if ob2.1 %}cyan{% else %}{{ ob2.0 }}{% endif %}">
+                                </td>
+                            {% endfor %}
+                                <td style="background:none"></td>
+                            </tr>
+                            <tr><td colspan="30"></td></tr>
+                            <tr><td colspan="30"></td></tr>
+                        </table>
+                    </button>
+                    
+                {% endfor %}
+                </td>
+                <td width="160px" align="center">
+                    &nbsp
+                </td>
+            </tr>
+        </table>
+
+
+{% elif agr %}
+
+        <table border="0" id="templ_header">
+            <tr>
+                <td width="1000px">&nbspсписок агрегаций&nbsp&#9660;</td>
+                <td width="280px" align="right">&nbsp</td>
+            </tr>
+        </table>
+        
+        <table border="0" style="background-color:#D4DCC7">
+            <caption>&nbsp</caption>
+            <tr>
+                <td width="100px" align="center">
+                    <img src="/static/images/stat2.png" alt="" title="" width="60" height="60">
+                </td>
+                <td width="1150px" align="center">
+                {% for ob in agr %}
+                    <input type="button" 
+                                 enabled="1"
+                                 value="{{ ob.co }}"
+                                 onClick='location.href="/cross/build={{ ob.parrent_id }}/locker={{ ob.id }}"'
+                                 style="width:70px; height:30px;"
+                                 >&nbsp
+                {% endfor %}
+                </td>
+                <td width="10px" align="center">
+                    &nbsp
+                </td>
+            </tr>
+        </table>
+        
+        <!--<table border="1" width="400px">
+            <tr>
+                <td width="30px"></td>
+                <td align="center">улица</td>
+                <td width="60px" align="center">№ дома</td>
+                <td width="100px" align="center">агрегация</td>
+            </tr>
+            {% for ob in agr %}
+            <tr>
+                <td align="center"><img src="/static/images/lo1.png" alt="" title="" width="14" height="14"></td>
+                <td>&nbsp<a href="/cross/build={{ ob.parrent_id }}">{{ ob.parrent.name }}</a>&nbsp</td>
+                <td align="center">&nbsp<a href="/cross/build={{ ob.parrent_id }}">{{ ob.parrent.house_num }}</a>&nbsp</td>
+                <td align="center">&nbsp<a href="/cross/build={{ ob.parrent_id }}/locker={{ ob.id }}"><strong>{{ ob.co }}</strong></a>&nbsp</td>
+            </tr>
+            {% endfor %}
+        </table>-->
+
+
+{% elif txt %}
+
+        <table border="0" id="templ_header">
+            <tr>
+                <td width="1000px">&nbspактивное оборудование: <label style="color:blue">{{ param }} - {{ txt }}</label></td>
+                <td width="280px" align="right">&nbsp</td>
+            </tr>
+        </table>
+        <br>
+        
+    {% if dev_list %}
+    
+        <table border="1">
+            <caption>&nbsp</caption>
+        {% for ob in dev_list %}
+            <tr>
+                <td width="30px" align="center"></td>
+                <td width="490px">
+                    &nbspул: {{ ob.parrent.parrent.name }} {{ ob.parrent.parrent.house_num }}&nbsp&nbspУД: {{ ob.parrent.name }}
+                    <a href="/cross/build={{ ob.parrent.parrent.id }}/locker={{ ob.parrent.id }}/dev={{ ob.id }}/" target="_blank">&nbsp&nbsp<b>{{ ob.name }}</b>&nbsp&nbsp</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% endif %}
+
+    {% if dev_list_f %}
+    <br>
+        <table border="1">
+            <caption><i>physics interfaces</i></caption>
+        {% for ob in dev_list_f %}
+            <tr>
+                <td width="30px" align="center">
+                {% if ob.shut %}<img src="/static/images/shut_1.png" alt="sh" title="shutdown" width="12" height="12">{% endif %}
+                </td>
+                <td width="490px">
+                    &nbspул: {{ ob.parrent.parrent.parrent.name }} {{ ob.parrent.parrent.parrent.house_num }}&nbsp&nbspУД: {{ ob.parrent.parrent.name }}
+                    <a href="/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/dev={{ ob.parrent.id }}/l2=1/" target="_blank">&nbsp&nbsp<b>{{ ob.parrent.name }}&nbsp&nbsp{{ ob.p_alias }}</b>&nbsp&nbsp</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+        
+    {% endif %}
+
+    {% if dev_list_v %}
+    <br>
+        <table border="1">
+            <caption><i>virtual interfaces</i></caption>
+        {% for ob in dev_list_v %}
+            <tr>
+                <td width="30px" align="center">
+                {% if ob.shut %}<img src="/static/images/shut_1.png" alt="sh" title="shutdown" width="12" height="12">{% endif %}
+                </td>
+                <td width="490px">
+                    &nbspул: {{ ob.parrent.parrent.parrent.name }} {{ ob.parrent.parrent.parrent.house_num }}&nbsp&nbspУД: {{ ob.parrent.parrent.name }}
+                    <a href="/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/dev={{ ob.parrent.id }}/l2=1/" target="_blank">&nbsp&nbsp<b>{{ ob.parrent.name }}&nbsp&nbsp{{ ob.p_alias }}</b>&nbsp&nbsp</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+        
+    {% endif %}
+
+    {% if dev_list_tag %}
+    <br>
+        <table border="1">
+            <caption><i>physics interfaces <b>tagged vlan</b></i></caption>
+        {% for ob in dev_list_tag %}
+            <tr>
+                <td width="30px" align="center">
+                {% if ob.shut %}<img src="/static/images/shut_1.png" alt="sh" title="shutdown" width="12" height="12">{% endif %}
+                </td>
+                <td width="490px">
+                    &nbspул: {{ ob.parrent.parrent.parrent.name }} {{ ob.parrent.parrent.parrent.house_num }}&nbsp&nbspУД: {{ ob.parrent.parrent.name }}
+                    <a href="/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/dev={{ ob.parrent.id }}/l2=1/" target="_blank">&nbsp&nbsp<b>{{ ob.parrent.name }}&nbsp&nbsp{{ ob.p_alias }}</b>&nbsp&nbsp</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+        
+    {% endif %}
+    
+    {% if su_list %}
+    <br>
+        <table border="1">
+            <caption><i>subunit devices </b></i></caption>
+        {% for ob in su_list %}
+            <tr>
+                <td width="490px">
+                    &nbspул: {{ ob.parrent.parrent.name }} {{ ob.parrent.parrent.house_num }}&nbsp&nbspУД: {{ ob.parrent.name }}
+                    <a href="/cross/build={{ ob.parrent.parrent.id }}/locker={{ ob.parrent.id }}/" target="_blank">&nbsp&nbsp<b>{{ ob.name }}</b>&nbsp&nbsp</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+        
+    {% endif %}
+
+{% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'main.html' %}
+
+{% block service %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1000px" align="left">
+                {% if lo %}
+                <h3>&nbspшаблон УД: {{ lo.name }}</h3>
+                {% elif cr %}
+                <h3>&nbspшаблон кросса: {{ cr.name }}</h3>
+                {% elif dev %}
+                <h3>&nbspшаблон оборудования: {{ dev.name }}</h3>
+                {% elif box %}
+                <h3>&nbspшаблон КРТ: {{ box.name }}</h3>
+                {% elif box_cab %}
+                <h3>&nbspшаблон КРТ: {{ box_cab.name }}-{{ box_cab.num }}</h3>
+                {% elif cab %}
+                <h3>&nbspшаблон опт.кабеля: {{ cab.name }}</h3>
+                {% elif coup %}
+                <h3>&nbspшаблон муфты: {{ coup.name }}</h3>
+                {% endif %}
+            </td>
+            <td width="280px" align="right">&nbsp</td>
+        </tr>
+    </table>
+    <br>
+    
+    {% if del_ok %}
+    <form method="post">
+        {% csrf_token %}
+        <h3 style="color:red">удалить шаблон?</h3>
+        <br>
+        <table border="0" id="templ_footer">
+            <tr>
+                <td width="640px" align="right">
+                    <input type="submit" value="     OK     ">&nbsp
+                </td>
+                <td width="640px" align="left">
+                    <input type="button" value="отмена" onClick='location.href="/core/templ/"'>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    {% else %}
+        <h3 style="color:red">удаление невозможно</h3>
+        <h3>есть зависимые объекты ({{ count }})</h3>
+
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="1280px" align="center">
+                <input type="button" value="назад" onClick='location.href="/core/templ/"'>
+            </td>
+        </tr>
+    </table>
+
+    {% endif %}
+
+
+{% endblock %}

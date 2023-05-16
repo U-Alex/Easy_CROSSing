@@ -1,0 +1,87 @@
+{% extends 'main.html' %}
+
+{% block service %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1000px" align="left"><h3>&nbsp&nbsp{{ bu.name }} {{ bu.house_num }}</h3></td>
+            <td width="280px" align="right">&nbsp</td>
+        </tr>
+    </table>
+    {% if f_exist %}
+        <label style="color:red;"><strong>файл с таким именем существует на сервере</strong></label>
+    {% endif %}
+        <br>
+        {% if f_list %}
+        <table width="1284px" border="0" style="background-color:#D4DCC7">
+            <tr>
+                <td width="104px" align="center" valign="top">
+                {% for ob in f_list %}
+                    <table width="100%" border="0" style="background-color:silver">
+                        <tr>
+                            <td colspan="2" align="center">
+                                <a href="javascript:doPic('/media/{{ url }}{{ ob }}');"><img src="/media/{{ url }}{{ ob }}" width=99 height=66 border=0></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top">
+                                <font size="1">{{ ob }}</font>
+                            </td>
+                            <td align="right" valign="top">
+                                <a href="/statist/bu_doc_del={{ bu.id }}/?d_file={{ ob }}" style="color:red;"><font size="1">[X]</font></a>
+                            </td>
+                        </tr>
+                    </table>
+                    <table style="background-color:#D4DCC7">
+                        <tr><td>&nbsp</td></tr>
+                    </table>
+                {% endfor %}
+                </td>
+                <td>
+                    <img name="mainpic" src="/media/{{ url }}{{ f_list.0 }}" width=100% height=100% border=0>
+                </td>
+            </tr>
+        </table>
+        {% else %}
+        файлы отсутствуют
+        <br>
+        {% endif %}
+
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="1000px">
+                <form enctype="multipart/form-data" method="post" action="">
+                    {% csrf_token %}
+                    {{ form.file }}
+                    <input type="submit" value="добавить" style="width:100px">&nbsp
+                </form>
+            </td>
+            <td width="280px" align="right">
+                <input type="button" value="закрыть" onClick='location.href="../"'>&nbsp
+            </td>
+        </tr>
+    </table>
+    
+    
+<SCRIPT LANGUAGE="JavaScript">
+<!-- Original: Jenny Blewitt (webmaster@webdesignsdirect.com) -->
+<!-- Web Site: http://www.webdesignsdirect.com -->
+<!-- This script and many more are available free online at -->
+<!-- The JavaScript Source!! http://javascript.internet.com -->
+<!-- Begin
+browserName = navigator.appName;
+browserVer = parseInt(navigator.appVersion);
+ns3up = (browserName == "Netscape" && browserVer >= 3);
+ie4up = (browserName.indexOf("Microsoft") >= 0 && browserVer >= 4);
+function doPic(imgName) {
+    if (ns3up || ie4up) {
+        imgOn = ("" + imgName);
+        document.mainpic.src = imgOn;
+    }
+}
+// End -->
+</script>
+    
+    
+{% endblock %}

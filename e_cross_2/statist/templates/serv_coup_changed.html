@@ -1,0 +1,40 @@
+{% extends 'main.html' %}
+
+{% block statist %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1000px" align="left"><h3>&nbsp&nbspCтатистика по волокнам</h3></td>
+            <td width="280px" align="right">&nbsp</td>
+        </tr>
+    </table>
+
+    <br>
+    <table border="1">
+    <caption style="background-color:orange">запланированные изменения в волокнах:</caption>
+        <tr style="background-color:#B5FFCE">
+            <td width="260px" align="center">муфта</td>
+            <td width="240px" align="center">волокно</td>
+        </tr>
+        {% for ob in p_list %}
+        <tr>
+            <td align="center">
+                {{ ob.parrent.name }}
+            </td>
+            <td align="center">
+                <a href="/cable/coup={{ ob.parrent.id }}/?sel={{ ob.id }}" target="_blank"><strong>каб.: {{ ob.cable_num }} вол.: {{ ob.fiber_num }}</strong></a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="1000px">&nbsp</td>
+            <td width="280px" align="right"><input type="button" value="назад" onClick='location.href="../"'>&nbsp</td>
+        </tr>
+    </table>
+    
+    
+{% endblock %}

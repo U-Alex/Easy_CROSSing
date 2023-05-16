@@ -1,0 +1,57 @@
+{% extends 'main.html' %}
+
+{% block statist %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1000px" align="left"><h3>&nbsp&nbspCтатистика по объектам</h3></td>
+            <td width="280px" align="right">&nbsp</td>
+        </tr>
+    </table>
+
+    <br>
+    <div align="center">
+        <table>
+        <caption>объекты без координат</caption>
+            <tr align="center" style="background-color:#B5E8FF">
+                <td>УД</td>
+                <td style="background-color:#D4DCC7">&nbsp</td>
+                <td>муфты</td>
+                <td style="background-color:#D4DCC7">&nbsp</td>
+                <td>объекты</td>
+            </tr>
+            <tr align="center" valign="top">
+                <td>
+                {% for ob in lo_list %}
+                    <a style="color:black" href="/cross/build={{ ob.parrent.id }}/locker={{ ob.id }}/" target="_blank"><strong>{{ ob.name }}</strong></a>
+                    <br>
+                {% endfor %}
+                </td>
+                <td style="background-color:#D4DCC7">&nbsp</td>
+                <td>
+                {% for ob in coup_list %}
+                    <a style="color:black" href="/cable/coup={{ ob.id }}/" target="_blank"><strong>{{ ob.name }}</strong></a>
+                    <br>
+                {% endfor %}
+                </td>
+                <td style="background-color:#D4DCC7">&nbsp</td>
+                <td>
+                {% for ob in obj_list %}
+                    <a style="color:black" href="/cable/kv={{ ob.parrent.id }}/pw_edit={{ ob.id }}/" target="_blank"><strong>{{ ob.name }}</strong></a>
+                    <br>
+                {% endfor %}
+                </td>
+            </tr>
+        </table>
+    </div>
+    
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="1000px">&nbsp</td>
+            <td width="280px" align="right"><input type="button" value="назад" onClick='location.href="/kpp/service"'>&nbsp</td>
+        </tr>
+    </table>
+
+
+{% endblock %}

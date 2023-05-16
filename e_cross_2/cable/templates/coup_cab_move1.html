@@ -1,0 +1,99 @@
+{% extends 'main.html' %}
+
+{% block cable %}
+
+{% if del_ok1 %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1100px" align="left">
+                <form method="post">
+                {% csrf_token %}
+                    &nbsp&nbsp<strong>Выбор конечной муфты для перемещения:</strong> &nbsp&nbspКвартал:&nbsp{{ form.kvar }}
+                    <input type="submit" value="поиск" style="width:80px">&nbsp
+                </form>
+            </td>
+            <td width="300px" align="right"></td>
+        </tr>
+    </table>
+    <br>
+
+    <table width="1404px" border="0">
+        <tr align="center" style="background-color:#B5FFCE">
+            <td>здания</td>
+            <td>опоры и колодцы</td>
+        </tr>
+        <tr valign="top">
+            <td>
+                <table width="880px" border="1">
+                {% for ob in list1 %}
+                    <tr>
+                        <td>&nbsp{{ ob.0.name }}&nbsp{{ ob.0.house_num }}</td>
+                        <td>
+                        {% for ob2 in ob.2 %}
+                            &nbsp{{ ob2.0 }}&nbsp
+                            <strong><a href="target={{ ob2.1.id }}/">select</a></strong>
+                            <br>
+                        {% endfor %}
+                        </td>
+                        <td>
+                        {% for ob2 in ob.1 %}
+                            &nbsp{{ ob2.name }}&nbsp
+                            <strong><a href="target={{ ob2.id }}/">select</a></strong>
+                            <br>
+                        {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </table>
+            </td>
+            <td>
+                <table width="520px" border="1">
+                {% for ob in list2 %}
+                    <tr>
+                        <td>&nbsp{{ ob.0.name }}</td>
+                        <td>
+                        {% for ob2 in ob.1 %}
+                            &nbsp{{ ob2.name }}&nbsp
+                            <strong><a href="target={{ ob2.id }}/">select</a></strong>
+                            <br>
+                        {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </table>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="1100px">&nbsp</td>
+            <td width="300px" align="right"><input type="button" value="отмена" onClick='location.href="../../"'>&nbsp</td>
+        </tr>
+    </table>
+
+{% else %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1100px" align="left"><h3>&nbspмуфта: {{ coup.name }}</h3></td>
+            <td width="300px" align="right"></td>
+        </tr>
+    </table>
+    <br>
+    <h3 style="color:red">перенос невозможен</h3>
+    <h3>есть варки в муфте</h3>
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="1400px" align="center">
+                <input type="button" value="назад" onClick='location.href="../../"'>
+            </td>
+        </tr>
+    </table>
+
+{% endif %}
+
+
+{% endblock %}

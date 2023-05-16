@@ -1,0 +1,183 @@
+{% extends 'main.html' %}
+
+{% block find %}
+
+
+<br>
+<table border="0" style="background-color:#D4DCC7">
+    <tr align="center">
+        <td width="158" height="158">
+            <table border="0" width="152" height="152" style="background-color:#D4DCC7">
+                <tr valign="bottom"><td><img src="/static/images/_left.png" width="148" height="148"></td></tr>
+            </table>
+        </td>
+        <td width="158" height="158">
+            <table border="0" width="152" height="152" style="background-color:#b7c5b7">
+                <tr><td><a href="/find/map/"><img src="/static/images/_map-icon.png" alt="" title="Схема сети" width="145" height="145"></a></td></tr>
+            </table>
+        </td>
+        <td width="158" height="158">
+            <table border="0" width="152" height="152" style="background-color:#b7c5b7">
+                <tr><td><a href="/app/status=0/"><img src="/static/images/_app.png" alt="" title="Заявки" width="145" height="145"></a></td></tr>
+            </table>
+        </td>
+        <td width="158" height="158">
+            <table border="0" width="152" height="152" style="background-color:#b7c5b7">
+                <tr><td><a href="/cable/"><img src="/static/images/_fudjikura.png" alt="" title="Кабели и муфты" width="145" height="145"></a></td></tr>
+            </table>
+        </td>
+    <!--</tr>
+    <tr align="center">-->
+        <td width="158" height="158">
+            <table border="0" width="152" height="152" style="background-color:#b7c5b7">
+                <tr><td><img src="/static/images/_rent.png" alt="" title="Аренда оборудования" width="145" height="145"></a></td></tr>
+            </table>
+        </td>
+        <!--<td width="158" height="158">
+            <table border="0" width="152" height="152" style="background-color:#b7c5b7">
+                <tr><td><a href="/mess/"><img src="/static/images/_mess.png" alt="" title="Сообщения" width="145" height="145"></a></td></tr>
+            </table>
+        </td>-->
+        <td width="158" height="158">
+            <table border="0" width="152" height="152" style="background-color:#b7c5b7">
+                <tr><td><a href="/core/service/"><img src="/static/images/_stat.png" alt="" title="Сервис" width="145" height="145"></a></td></tr>
+            </table>
+        </td>
+        <td width="158" height="158">
+            <table border="0" width="152" height="152" style="background-color:#b7c5b7">
+                <tr><td><a href="/manual/" target="_blank"><img src="/static/images/_help-icon.png" alt="" title="Помощь" width="145" height="145"></a></td></tr>
+            </table>
+        </td>
+        <td width="158" height="158">
+            <table border="0" width="152" height="152" style="background-color:#D4DCC7">
+                <tr valign="bottom"><td><img src="/static/images/_right.png" width="148" height="148"></td></tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<br>
+<table border="0" style="background-color:#D4DCC7">
+    <tr align="center">
+        <td>
+            <table width="98%" height="66" border="0" style="background-color:#b7c5b7">
+                <form method="post" action="/find/find_bu">
+                {% csrf_token %}
+                    <tr>
+                        <td width="190" align="right">{{ form1.street }}</td>
+                        <td width="90">&#9664;&nbsp{{ form1.street.label }}</td>
+                        <td rowspan="2" width="80" align="center">
+                            <input type="submit" value="&#9660;&#9660;&#9660;" style="width:60px;height:40px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">номер дома&nbsp&#9654;</td>
+                        <td align="left">&nbsp{{ form1.house_num }}&nbsp</td>
+                    </tr>
+                </form>
+            </table>
+        </td>
+        <td>
+            <table width="98%" height="66" border="0" style="background-color:#b7c5b7">
+                <form method="post" action="/find/find_agr">
+                {% csrf_token %}
+                    <tr>
+                        <td width="140" align="right">{{ form4.co }}&nbsp</td>
+                        <td rowspan="2" width="80" align="center">
+                            <input type="submit" value="&#9660;&#9660;&#9660;" style="width:60px;height:40px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left">&nbsp&nbsp&nbsp{{ form4.co.label }}&nbsp&#9650;</td>
+                    </tr>
+                </form>
+            </table>
+        </td>
+        <td>
+            <table width="98%" height="66" border="0" style="background-color:#b7c5b7">
+                <form method="post" action="/app/status%3D0/app_find/">
+                {% csrf_token %}
+                    <tr>
+                        <td width="180" align="right">{{ form2.dog }}&nbsp</td>
+                        <td rowspan="2" width="80" align="center">
+                            <input type="submit" value="&#9660;&#9660;&#9660;" style="width:60px;height:40px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left">&nbsp&nbsp&nbsp№ договора / ордера&nbsp&#9650;</td>
+                    </tr>
+                </form>
+            </table>
+        </td>
+        <td>
+            <table width="98%" height="66" border="0" style="background-color:#b7c5b7">
+                <form id="dev" method="post" action="/find/find_dev=0/">
+                {% csrf_token %}
+                    <tr {% if ok_dev == False  %} style="background-color:#ff7575" {% endif %}>
+                        <td width="60" align="right" ><label id="lab_1">{{ form3.dev_ip.label }}&nbsp&#9654;</label></td>
+                        <td width="140" align="left" >{{ form3.dev_ip }}</td>
+                        <td width="50" align="right" ><label id="lab_2">{{ form3.dev_mac.label }}&nbsp&#9654;</label></td>
+                        <td width="140" align="left" >{{ form3.dev_mac }}</td>
+                        <td rowspan="2" width="80" align="center">
+                            <input type="submit" value="&#9660;&#9660;&#9660;" style="width:60px;height:40px;">&nbsp&nbsp&nbsp
+                        </td>
+                    </tr>
+                    <tr {% if ok_dev == False %} style="background-color:#ff7575" {% endif %}>
+                        <td align="right" ><label id="lab_3">{{ form3.dev_sn.label }}&nbsp&#9654;</label></td>
+                        <td align="left" >{{ form3.dev_sn }}</td>
+                        <td align="right" ><label id="lab_4">{{ form3.dev_vlan.label }}&nbsp&#9654;</label></td>
+                        <td align="left" >{{ form3.dev_vlan }}</td>
+                    </tr>
+                </form>
+            </table>
+        </td>
+    </tr>
+    <!--<tr>
+        <td colspan="4">
+        </td>
+    </tr>-->
+</table>
+<br>
+
+
+{% block result %}{% endblock %}
+
+<script type="text/javascript">
+
+id_dev_ip.addEventListener('focus', function(){
+    document.getElementById("dev").action = "/find/find_dev=1/";
+    document.getElementById("lab_1").style = "color: blue; font-weight: bold;"
+    document.getElementById("lab_2").style = "color: #333; font-weight: normal;"
+    document.getElementById("lab_3").style = "color: #333; font-weight: normal;"
+    document.getElementById("lab_4").style = "color: #333; font-weight: normal;"
+}, false);
+
+id_dev_mac.addEventListener('focus', function(){
+    document.getElementById("dev").action = "/find/find_dev=2/";
+    document.getElementById("lab_1").style = "color: #333; font-weight: normal;"
+    document.getElementById("lab_2").style = "color: blue; font-weight: bold;"
+    document.getElementById("lab_3").style = "color: #333; font-weight: normal;"
+    document.getElementById("lab_4").style = "color: #333; font-weight: normal;"
+}, false);
+
+id_dev_sn.addEventListener('focus', function(){
+    document.getElementById("dev").action = "/find/find_dev=3/";
+    document.getElementById("lab_1").style = "color: #333; font-weight: normal;"
+    document.getElementById("lab_2").style = "color: #333; font-weight: normal;"
+    document.getElementById("lab_3").style = "color: blue; font-weight: bold;"
+    document.getElementById("lab_4").style = "color: #333; font-weight: normal;"
+}, false);
+
+id_dev_vlan.addEventListener('focus', function(){
+    document.getElementById("dev").action = "/find/find_dev=4/";
+    document.getElementById("lab_1").style = "color: #333; font-weight: normal;"
+    document.getElementById("lab_2").style = "color: #333; font-weight: normal;"
+    document.getElementById("lab_3").style = "color: #333; font-weight: normal;"
+    document.getElementById("lab_4").style = "color: blue; font-weight: bold;"
+}, false);
+
+</script>
+
+
+{% endblock %}
+

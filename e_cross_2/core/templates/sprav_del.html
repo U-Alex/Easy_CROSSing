@@ -1,0 +1,53 @@
+{% extends 'main.html' %}
+
+{% block service %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1000px" align="left">
+                {% if upr %}
+                <h3>&nbspэлемент справочника: {{ upr.name }}</h3>
+                {% endif %}
+            </td>
+            <td width="280px" align="right">&nbsp</td>
+        </tr>
+    </table>
+    <br>
+    
+    {% if del_ok %}
+    <form method="post">
+        {% csrf_token %}
+        <h3 style="color:red">удалить запись?</h3>
+        <br>
+        <table border="0" id="templ_footer">
+            <tr>
+                <td width="640px" align="right">
+                    <input type="submit" value="     OK     ">&nbsp
+                </td>
+                <td width="640px" align="left">
+                    <input type="button" value="отмена" onClick='location.href="/core/sprav/"'>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    {% else %}
+        <h3 style="color:red">удаление невозможно</h3>
+        <h3>есть зависимые объекты:</h3>
+        {% for ob in obj_list %}
+            <a href="/cross/build={{ ob.id }}/" target="_blank">{{ ob.name }}&nbsp{{ ob.house_num }}</a><br>
+        {% endfor %}
+
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="1280px" align="center">
+                <input type="button" value="назад" onClick='location.href="/core/sprav/"'>
+            </td>
+        </tr>
+    </table>
+
+    {% endif %}
+
+
+{% endblock %}

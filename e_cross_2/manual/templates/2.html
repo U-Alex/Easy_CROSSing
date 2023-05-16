@@ -1,0 +1,95 @@
+{% extends 'manual.html' %}
+
+{% block manual_page %}
+
+<table width="100%"><tr>
+    <td align="left">&nbsp<a href="/manual/1/">Введение</a>&nbsp</td>
+    <td align="right">&nbsp<a href="/manual/3/">Кроссировки (создание и редактирование)</a>&nbsp</td>
+</tr></table>
+
+<h2 align="center">Кроссировки (описание модуля)</h2>
+<br>
+Общая схема кроссировок, назначаемых в программе приведена на рис: 
+<br>
+<br>
+<div align="center"><img src="/static/man/2/2_0.png" alt="" title=""><br></div>
+<br>
+Внешняя связь - кроссировки, связывающие узлы доступа как в разных зданиях, так и внутри одного здания <br>
+Внутренняя связь - кроссировки внутри шкафа между оптическими кроссами, коммутаторами и КРТ <br>
+Абонентская кроссировка - данные абонента, занимающие порт КРТ <br>
+<br>
+Вход в шкаф происходит при введении адреса: <br>
+<div align="center"><img src="/static/man/2/2_1.png" alt="" title=""><br></div>
+<br>
+Если номер дома не введен или отсутствует в базе, то будут показаны все дома из базы на выбранной улице <br>
+Так же возможен поиск коммутатора по определенным параметрам, и поиск договора (рассмотрено в разделе по работе с заявками) <br>
+Для выбранного адреса появляется список шкафов: <br>
+<br>
+<div align="center"><img src="/static/man/2/2_2.png" alt="" title=""><br></div>
+<br>
+Документ "карточка ввода" доступен по ссылке возле названия квартала
+<br>
+<br>
+<div align="center"><img src="/static/man/2/2_3.png" alt="" title=""><br></div>
+<br>
+При нажатии на название шкафа показывается оборудование, относящееся к этому шкафу <br>
+<br>
+<div align="center"><img src="/static/man/2/2_4.png" alt="" title=""><br></div>
+<br>
+Типы кроссировок условно разделены по цветам: <br>
+<table style="background-color:#F0F0F0" cellspacing="2" cellpadding="2" border="0">
+    <tbody>
+        <tr>
+            <td><img src="/static/man/2/2_4_0.png" alt="" title="">&nbsp</td>
+            <td>свободно портов/пар </td>
+        </tr>
+        <tr>
+            <td><img src="/static/man/2/2_4_1.png" alt="" title="">&nbsp</td>
+            <td>занято портов/пар</td>
+        </tr>
+        <tr>
+            <td><img src="/static/man/2/2_4_2.png" alt="" title="">&nbsp</td>
+            <td>забронировано портов/пар</td>
+        </tr>
+        <tr>
+            <td><img src="/static/man/2/2_4_3.png" alt="" title="">&nbsp</td>
+            <td>занято (резерв)</td>
+        </tr>
+        <tr>
+            <td><img src="/static/man/2/2_4_4.png" alt="" title="">&nbsp</td>
+            <td>занято (СЛ)</td>
+        </tr>
+        <tr>
+            <td><img src="/static/man/2/2_4_5.png" alt="" title="">&nbsp</td>
+            <td>неисправных портов/пар</td>
+        </tr>
+    </tbody>
+</table>
+<br>
+Дробью обозначаются отдельно uplink и downlink порты/пары<br>
+<br>
+<br>
+<br>
+<h3>Просмотр портов</h3>
+<br>
+кросс: 
+<br><br>
+<div align="center"><img src="/static/man/2/2_5_1.png" alt="" title=""><br></div>
+<br>
+активное оборудование: 
+<br><br>
+<div align="center"><img src="/static/man/2/2_5_2.png" alt="" title=""><br></div>
+<br>
+КРТ: 
+<br><br>
+<div align="center"><img src="/static/man/2/2_5_3.png" alt="" title=""><br></div>
+<br>
+
+
+<table width="100%"><tr>
+    <td align="left">&nbsp<a href="/manual/1/">Введение</a>&nbsp</td>
+    <td align="right">&nbsp<a href="/manual/3/">Кроссировки (создание и редактирование)</a>&nbsp</td>
+</tr></table>
+
+
+{% endblock %}

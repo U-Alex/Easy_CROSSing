@@ -1,0 +1,41 @@
+{% extends 'main.html' %}
+
+{% block service %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="880px" align="left"><h3>&nbsp устройство:&nbsp&nbsp{% if su %}{{ su.name }}{% else %}(новый шаблон){% endif %}</h3></td>
+            <td width="400px" align="right"></td>
+        </tr>
+    </table>
+    <br>
+
+<form method="post">
+    {% csrf_token %}
+
+    <table border="0">
+        <tr>
+            <td align="right">
+                &nbspимя:&nbsp{{ form.name }}&nbsp
+            </td>
+            <td align="left">
+                &nbspтип оборудования:&nbsp{{ form.parrent }}&nbsp
+            </td>
+        </tr>
+    </table>
+    <br>
+
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="640px" align="right">
+                <input type="submit" value="     OK     ">&nbsp
+            </td>
+            <td width="640px" align="left">
+                <input type="button" value="отмена" onClick='location.href="/core/templ/"'>
+            </td>
+        </tr>
+    </table>
+
+</form>
+    
+{% endblock %}

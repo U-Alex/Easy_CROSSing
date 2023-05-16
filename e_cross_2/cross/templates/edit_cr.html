@@ -1,0 +1,75 @@
+{% extends 'main.html' %}
+
+{% block cross %}
+
+    <table border="0" id="templ_header">
+        <tr>
+                <td width="1000px" align="left"><h3>&nbsp&nbsp{{ cr.parrent.parrent.name }} {{ cr.parrent.parrent.house_num }},&nbsp&nbspУД: {{ cr.parrent.name }},&nbsp&nbsp{{ cr.name }}</h3></td>
+                <td width="280px" align="right">&nbsp</td>
+        </tr>
+    </table>
+    <br>
+<form method="post">
+    {% csrf_token %}
+    
+    <table border="0">
+        <tr style="background-color:silver">
+            <td width="250px" align="right">&nbsp{{ form.cr_name.label }}:&nbsp</td>
+            <td width="330px" align="left">&nbsp{{ form.cr_name }}&nbsp</td>
+            </td>
+        </tr>
+        <tr style="background-color:silver">
+            <td align="right">&nbsp{{ form.object_owner.label }}:&nbsp</td>
+            <td align="left">&nbsp{{ form.object_owner }}&nbsp&nbsp&nbsp<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp&nbsp&nbsp{{ form.object_owner_list }}&nbsp</td>
+        </tr>
+        <tr>
+            <td align="right"><label>&nbsp{{ form.ch_type }} изменить тип (только&nbspдля&nbspкассет)&nbsp</label></td>
+            <td align="left">&nbsp{{ form.cr_name_type }}&nbsp</td>
+        </tr>
+            <td align="right">&nbsp{{ form.rack_num.label }}:&nbsp</td>
+            <td align="left">&nbsp{{ form.rack_num }}&nbsp</td>
+        </tr>
+        <tr>
+            <td align="right">&nbsp{{ form.rack_pos.label }}:&nbsp</td>
+            <td align="left">&nbsp{{ form.rack_pos }}&nbsp</td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center"><br>{{ form.prim.label }}:</td>
+        </tr>
+        <tr style="background-color:silver">
+            <td colspan="2" align="center">{{ form.prim }}</td>
+        </tr>
+        
+    </table>
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="640px" align="right">
+                <input type="submit" value="     OK     ">&nbsp
+            </td>
+            <td width="640px" align="left">
+                <input type="button" value="отмена" onClick='location.href="../../"'>
+            </td>
+        </tr>
+    </table>
+    
+</form>
+
+<script language="javascript">
+
+//own.addEventListener('change', function(){
+//    id_object_owner_list.disabled = ! own.checked;
+//}, false);
+
+id_object_owner.addEventListener('change', function(){
+    id_object_owner_list.value = 0;
+}, false);
+
+id_object_owner_list.addEventListener('change', function(){
+    id_object_owner.value = id_object_owner_list.value;
+}, false);
+
+</script>
+
+
+{% endblock %}

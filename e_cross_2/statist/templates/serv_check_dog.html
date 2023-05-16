@@ -1,0 +1,68 @@
+{% extends 'main.html' %}
+
+{% block statist %}
+    
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1000px" align="left"><h3>&nbsp&nbspсоответствие договоров биллинг-техучет</h3></td>
+            <td width="280px" align="right"><input type="button" value="назад" onClick='location.href="/kpp/service"'>&nbsp</td>
+        </tr>
+    </table>
+
+    <form enctype="multipart/form-data" method="post" action="">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="     OK     ">&nbsp
+    </form>
+
+    <br>
+    <div align="center">
+        <table border="1">
+        <caption style="background-color:orange">bil ✔ && tu ✘ ({{ dog1_count }})</caption>
+            <tr style="background-color:#D4DCC7">
+                <td align="center">договор</td>
+                <td align="center">комментарий</td>
+                <td align="center">ip</td>
+                <td align="center">port</td>
+            </tr>
+        {% for ob in dog1 %}
+            <tr>
+            {% for ob2 in ob %}
+                <td align="center">{{ ob2 }}</td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+        </table>
+    <br>
+        <table border="1">
+        <caption style="background-color:orange">tu ✔ && bil ✘ ({{ dog2_count }})</caption>
+            <tr style="background-color:#D4DCC7">
+                <td align="center">адрес</td>
+                <td width="40px" align="center">кв.</td>
+                <td align="center">ФИО</td>
+                <td align="center">УД</td>
+                <td align="center">крт</td>
+            </tr>
+        {% for ob in dog2 %}
+            <tr>
+                <td align="right">&nbsp{{ ob.parrent.parrent.parrent.name }}&nbsp{{ ob.parrent.parrent.parrent.house_num }}&nbsp</td>
+                <td align="center">&nbsp{{ ob.ab_kv }}&nbsp</td>
+                <td>&nbsp{{ ob.ab_fio }}&nbsp</td>
+                <td align="right">&nbsp{{ ob.parrent.parrent.name }}&nbsp</td>
+                <td align="center">&nbsp<strong><a href="/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/box={{ ob.parrent.id }}/?sel={{ ob.id }}" target="_blank">{{ ob.parrent.name }}-{{ ob.parrent.num }}-{{ ob.p_alias }}</a></strong>&nbsp</td>
+            </tr>
+        {% endfor %}
+        </table>
+
+    </div>
+    
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="1000px">&nbsp</td>
+            <td width="280px" align="right"><input type="button" value="назад" onClick='location.href="/kpp/service"'>&nbsp</td>
+        </tr>
+    </table>
+
+    
+{% endblock %}

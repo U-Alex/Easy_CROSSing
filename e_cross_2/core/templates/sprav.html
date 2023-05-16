@@ -1,0 +1,44 @@
+{% extends 'main.html' %}
+
+{% block service %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="880px" align="left"><h3>&nbspРабота со справочниками</h3></td>
+            <td width="400px" align="right"></td>
+        </tr>
+    </table>
+    <br>
+    
+    <table width="1284px" border="1">
+        <tr align="center" id="templ_header2">
+            <td width="30%">УК/ТСЖ/ЖСК</td>
+            <td width="20px" align="center">...</td>
+            <td width="20px" align="center">...</td>
+            <td>контактная информация</td>
+        </tr>
+    {% for ob in comp_list %}
+        <tr>
+            <td>&nbsp{{ ob.name }}&nbsp</td>
+            <td width="20px" align="center"><a href="/core/sprav_upr={{ ob.id }}/"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="12" height="12"></a></td>
+            <td width="20px" align="center"><a href="/core/sprav_upr_del={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" width="12" height="12"></a></td>
+            <td>&nbsp{{ ob.info }}&nbsp</td>
+        </tr>
+    {% endfor %}
+        <tr align="center">
+            <td></td>
+            <td colspan="2"><a href="/core/sprav_upr=0/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить" width="11" height="11"></a></td>
+            <td></td>
+        </tr>
+    </table>
+    <br>
+    
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="1000px">&nbsp</td>
+            <td width="280px" align="right"><input type="button" value="закрыть" onClick='location.href="/core/service/"'>&nbsp</td>
+        </tr>
+    </table>
+
+    
+{% endblock %}

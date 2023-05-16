@@ -1,0 +1,90 @@
+{% extends 'manual.html' %}
+
+{% block manual_page %}
+
+<table width="100%"><tr>
+    <td align="left">&nbsp<a href="/manual/7/">Муфты (описание модуля)</a>&nbsp</td>
+    <td align="right">&nbsp<a href="/manual/9/">Руководство администратора и разработчика (структура проекта)</a>&nbsp</td>
+</tr></table>
+
+<h2 align="center">Муфты (редактирование)</h2>
+<br>
+
+Любая вновь создаваемая муфта принадлежит одному из 3 типов объектов.
+<br>
+Здания и УД создаются в модуле "кроссировки"
+<br>
+Для муфт, находящихся вне зданий должен быть создан объект, принадлежащий кварталу:
+<br><br>
+<div align="center"><img src="/static/man/8/8_1.png" alt="" title=""><br></div>
+<br>
+<div align="center">
+<table style="background-color:#F0F0F0" cellspacing="2" cellpadding="2" border="0">
+<tbody>
+<tr>
+<td align="center">Новый объект: <br>&nbsp; </td>
+<td>&nbsp; </td>
+<td align="center">Новая муфта: <br>&nbsp; </td>
+</tr>
+<tr>
+<td valign="top"><img src="/static/man/8/8_2.png" alt="" title=""> </td>
+<td>&nbsp; </td>
+<td valign="top"><img src="/static/man/8/8_3.png" alt="" title=""> </td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<br>
+<h3>Добавление нового кабеля</h3>
+<br>
+1 - добавление нового кабеля возможно из окна просмотра муфты:
+<br><br>
+<div align="center"><img src="/static/man/8/8_4.png" alt="" title=""><br></div>
+<br>
+2 - выбор конечной муфты:
+<br><br>
+<div align="center"><img src="/static/man/8/8_5.png" alt="" title=""><br></div>
+<br>
+3 - информация о прокладываемом кабеле:
+<br><br>
+<div align="center"><img src="/static/man/8/8_6.png" alt="" title=""><br></div>
+<br>
+4 - результат добавления (показана конечная муфта из примера)
+<br><br>
+<div align="center"><img src="/static/man/8/8_7.png" alt="" title=""><br></div>
+<br>
+<br>
+<h3>Создание кроссировок внутри муфты</h3>
+<br>
+1 - выбор типа кроссировки:
+<br><br>
+<div align="center"><img src="/static/man/8/8_8.png" alt="" title=""><br></div>
+<br>
+2 - выбор конечного волокна, для шкафных муфт возможен выбор портов кросса в шкафу
+<br><br>
+<div align="center"><img src="/static/man/8/8_9.png" alt="" title=""><br></div>
+<br>
+3 - результат (провелось 2 операции кроссирования)
+<br><br>
+<div align="center"><img src="/static/man/8/8_10.png" alt="" title=""><br></div>
+
+<br>
+<h3>Другие операции</h3>
+<br>
+Операция перемещения кабеля в другую муфту доступна только при отсутствии кроссировок в освобождаемой муфте
+<br>
+Операция удаления кабеля доступна только при отсутствии кроссировок в обеих затрагиваемых муфтах
+<br>
+Операции удаления объектов и муфт доступны только при утсутствии зависимых от них объектов (кабелей, муфт)
+
+<br><br>
+
+<table width="100%"><tr>
+    <td align="left">&nbsp<a href="/manual/7/">Муфты (описание модуля)</a>&nbsp</td>
+    <td align="right">&nbsp<a href="/manual/9/">Руководство администратора и разработчика (структура проекта)</a>&nbsp</td>
+</tr></table>
+
+
+{% endblock %}

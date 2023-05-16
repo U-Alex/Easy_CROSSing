@@ -1,0 +1,52 @@
+{% extends 'app.html' %}
+
+{% block app_1 %}
+
+
+    <table width="1404px" border="1">
+    <caption></caption>
+        <tr style="background-color:yellow">
+            <td colspan="2" align="center">дата поступления</td>
+            <td width="80px" align="center">операция</td>
+            <td width="20px" align="center">...</td>
+            <td width="90px" align="center">ордер</td>
+            <td width="160px" align="center"><strong><a href="/app/status=1/sort/">улица</a></strong></td>
+            <td width="60px" align="center">дом</td>
+            <td width="40px" align="center">кв.</td>
+            <td align="center">ФИО</td>
+            <td align="center">примечание</td>
+            <td align="center">коммент.&nbspТУ</td>
+            <td colspan="2" align="center">дата обработки</td>
+        </tr>
+        {% for ob in app_list %}
+            {% if ob.date_2|date:"Y.m.d" < exp_date_10|date:"Y.m.d" %}
+            <tr id="tr_hover" style="background-color:peachpuff">
+            {% else %}
+            <tr id="tr_hover">
+            {% endif %}
+            <td width="75px" align="center"><label title="id: {{ ob.id }}">{{ ob.date_1|date:"d.m.Y" }}</label></td>
+            <td width="50px" align="center"><label title="id: {{ ob.id }}">{{ ob.date_1|time:"H:i" }}</label></td>
+            <td align="center"><strong><a title="{{ ob.resource }}" style="color:black" href="/app/install={{ ob.id }}/">установка</a></strong></td>
+            <!--<td align="center"><strong><a style="color:black" href="/app/edit={{ ob.id }}/">{{ ob.dogovor }}</a></strong></td>-->
+            <td align="center">
+                <a href="/app/edit={{ ob.id }}/"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="12" height="10"></a>
+            </td>
+            <td align="center">{{ ob.n_order }}</td>
+            <td align="center">{{ ob.street }}</td>
+            <td align="center">{{ ob.build }}</td>
+            <td align="center">&nbsp{{ ob.kv }}&nbsp</td>
+            <td><font size="1">&nbsp{{ ob.fio }}&nbsp</font></td>
+            <td><font size="1">&nbsp{{ ob.prim }}&nbsp</font></td>
+            <td><font size="1">&nbsp{{ ob.comment }}&nbsp</font></td>
+            <td width="75px" align="center"><label title="оператор: {{ ob.man_oper }}">{{ ob.date_2|date:"d.m.Y" }}</label></td>
+            <td width="50px" align="center"><label title="оператор: {{ ob.man_oper }}">{{ ob.date_2|time:"H:i" }}</label></td>
+        </tr>
+        {% endfor %}
+        <tr style="background-color:yellow">
+            <td colspan="13">&nbsp</td>
+        </tr>
+    </table>
+    <br>
+    
+    
+{% endblock %}

@@ -1,0 +1,281 @@
+{% extends 'app.html' %}
+
+{% block proc_app %}
+<!--<meta http-equiv="refresh" content="10">-->
+
+    <table width="1404px" border="0">
+        <tr>
+            <td width="26%" valign="top" style="background-color:#bbbbbb">
+                
+                <div align="center">
+                    <i>данные биллинга:</i><br>
+                    <iframe src="/app/from_bgb/" id="dod_bgb" width="96%" height="200" frameborder="0"></iframe>
+                </div>
+                <!-- история работает но отключена из-за изменений в бизнес-процессе -->
+                <!--<table width="96%" border="1" align="center">
+                    <caption><i>история договора:</i></caption>
+                {% for ob in dog_list_his %}
+                    {% if ob.int_c_status == 0 %}  <tr style="background-color:{{ color.0 }}">
+                    {% elif ob.int_c_status == 1 %}<tr style="background-color:{{ color.1 }}">
+                    {% elif ob.int_c_status == 2 %}<tr style="background-color:{{ color.2 }}">
+                    {% elif ob.int_c_status == 3 %}<tr style="background-color:{{ color.3 }}">
+                    {% endif %}
+                            <td width="70%">
+                                &nbspул: {{ ob.parrent.parrent.parrent.name }} {{ ob.parrent.parrent.parrent.house_num }}
+                                <br>
+                                &nbspуд: {{ ob.parrent.parrent.name }}
+                                <br>
+                                <a href="/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/box={{ ob.parrent.id }}/?sel={{ ob.id }}" target="_blank"><strong>&nbspкрт: {{ ob.parrent.name }}-{{ ob.parrent.num }}-{{ ob.p_alias }}&nbsp&nbsp</strong></a>
+                            </td>
+                            <td align="center" style="background-color:#bbbbbb">
+                                &nbspкв: <strong>{{ ob.his_ab_kv }}</strong><br>&nbsp{{ ob.date_del|date:"d.m.Y" }}
+                                </td>
+                        </tr>
+                {% endfor %}
+                </table>-->
+            {% if kv_exists and app.app_status == 0 %}
+                <table width="96%" border="1" align="center">
+                    <caption><h3>ВНИМАНИЕ!</h3><i>номер квартиры из заявки <br> найден на других ресурсах:</i></caption>
+                {% for ob in kv_exists %}
+                    {% if ob.int_c_status == 0 %}  <tr style="background-color:{{ color.0 }}">
+                    {% elif ob.int_c_status == 1 %}<tr style="background-color:{{ color.1 }}">
+                    {% elif ob.int_c_status == 2 %}<tr style="background-color:{{ color.2 }}">
+                    {% elif ob.int_c_status == 3 %}<tr style="background-color:{{ color.3 }}">
+                    {% endif %}
+                            <td width="100%">
+                                &nbspуд: {{ ob.parrent.parrent.name }}&nbsp&nbsp
+                                <a href="/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/box={{ ob.parrent.id }}/?sel={{ ob.id }}" target="_blank"><strong>&nbspкрт: {{ ob.parrent.name }}-{{ ob.parrent.num }}-{{ ob.p_alias }}&nbsp&nbsp</strong></a>
+                            </td>
+                        </tr>
+                {% endfor %}
+                </table>
+            {% endif %}
+                <br>
+            </td>
+            <td valign="top" style="background-color:#D4DCC7">
+                <table width="100%" border="0" align="center">
+                    <caption><i>текущие кроссировки договора:</i></caption>
+                {% for ob in dog_list %}
+                    {% if ob.int_c_status == 0 %}  <tr style="background-color:{{ color.0 }}">
+                    {% elif ob.int_c_status == 1 %}<tr style="background-color:{{ color.1 }}">
+                    {% elif ob.int_c_status == 2 %}<tr style="background-color:{{ color.2 }}">
+                    {% elif ob.int_c_status == 3 %}<tr style="background-color:{{ color.3 }}">
+                    {% endif %}
+                            <td width="60px" style="background-color:#D4DCC7">&nbsp</td>
+                            <td>
+                                &nbspул: {{ ob.parrent.parrent.parrent.name }} {{ ob.parrent.parrent.parrent.house_num }}
+                                &nbspУД: {{ ob.parrent.parrent.name }}
+                                <a href="/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/box={{ ob.parrent.id }}/?sel={{ ob.id }}" target="_blank"><strong>&nbspкрт: {{ ob.parrent.name }}-{{ ob.parrent.num }}-{{ ob.p_alias }}&nbsp&nbsp</strong></a>
+                                <br>
+                                &nbspкв: {{ ob.ab_kv }}
+                                &nbspФИО: {{ ob.ab_fio }}
+                                &nbspприм: {{ ob.ab_prim }}
+                            </td>
+                            <td width="86px" align="right" style="background-color:#D4DCC7">
+                                {% if accept %}
+                                    <form method="post" action="/app/install={{ app.id }}/sel={{ ob.id }}/">
+                                    {% csrf_token %}
+                                    <input type="submit" value="принять" style="width:80px">
+                                    </form>
+                                {% else %}
+                                    <input type="button" disabled="1" value="принять" style="width:80px">
+                                {% endif %}
+                            </td>
+                            <td width="82px" align="right" style="background-color:#D4DCC7">
+                            {% if ob.int_c_status == 2 %}
+                                <input type="button" value="снять" onClick='window.open("/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/box={{ ob.parrent.id }}/s_p={{ ob.id }}/del_ab=1/")' title="удаление абонентской кроссировки" style="width:80px">
+                            {% else %}
+                                <input type="button" disabled="1" value="снять" style="width:80px">
+                            {% endif %}
+                            </td>
+                    
+                        </tr>
+                {% endfor %}
+                </table>
+                <br>
+                <table width="100%" border="0" align="center" style="background-color:#D4DCC7">
+                    <caption><i>ресурсы:</i></caption>
+                    {% if bu %}
+                        <tr>
+                            <td width="160px" align="right">
+                                найден адрес:&nbsp
+                            </td>
+                            <td align="left">
+                                <a href="/cross/build={{ bu.id }}/" target="_blank"><strong>&nbsp{{ bu.name }}&nbsp{{ bu.house_num }}&nbsp</strong></a>
+                                <!--<input type="button" value="{{ bu.name }} {{ bu.house_num }}" onClick='window.open("/cross/build={{ bu.id }}/")' title="перейти к шкафу" style="background:fff; border-color:black; color:black; border-radius:4px; width:300px;  height:24px">-->
+                            </td>
+                            <td width="160px" align="center" style="background-color:#D4DCC7">
+                                <a href="/statist/bu_doc={{ bu.id }}/" target="_blank"><strong>карточки ввода</strong></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                            {% for ob1 in box %}
+                                <table border="0">
+                                <!--<caption>{{ ob1.name }}-{{ ob1.num }}</caption>-->
+                                    <tr>
+                                        <td align="right" width="64px" style="background-color:#D4DCC7">
+                                            <a href="/cross/build={{ bu.id }}/locker={{ ob1.parrent_id }}/box={{ ob1.id }}/" class="tooltip" target="_blank"><span style="background-color:yellow; width: 80px;">{{ ob1.lo_name }}</span>
+                                                {% if ob1.s_area %}
+                                                <strong><label style="color:red">{{ ob1.name }}-{{ ob1.num }}&nbsp></label>&nbsp</strong>
+                                                {% else %}
+                                                <strong><label>{{ ob1.name }}-{{ ob1.num }}&nbsp></label>&nbsp</strong>
+                                                {% endif %}
+                                            </a>
+                                        </td>
+                                        <td style="background-color:#D4DCC7">
+                                    {% for ob2 in ob1.box_p %}
+                                        {% if ob2.3 == False %}
+                                        <span class="tooltip">
+                                            <input type="button" value="{{ ob2.1 }}" style="background:none; border-color:{{ ob2.5 }}; background-color:gray; color:white; border-radius:4px; width:42px; height:24px">
+                                            {% if ob2.2 == 0 %}
+                                                {% if ob2.10 != '' or ob2.11 != '' %}
+                                                    <span>история: {{ ob2.10 }}{{ ob2.11 }} ({{ ob2.12|date:"d.m.Y"  }})</span>
+                                                {% endif %}
+                                            {% else %}
+                                                <span style="background-color:lightgreen">{{ ob2.8 }}{{ ob2.9 }}</span>
+                                            {% endif %}
+                                        </span>
+                                        {% elif ob2.2 == 0 %}
+                                        <span class="tooltip">
+                                            <input type="button" value="{{ ob2.1 }}" 
+                                            onClick="{% if app.app_status == 0 or app.app_status == 1 or app.app_status == 4 %}
+                                            window.open('/cross/build={{ bu.id }}/locker={{ ob1.parrent_id }}/box={{ ob1.id }}/s_p={{ ob2.0 }}/cr_ab/?dog={{ app.n_order }}&kv={{ app.kv }}&fio={{ app.fio }}'){% endif %}" 
+                                            style="border-radius:4px; width:42px; height:24px; border-color:{{ ob2.5 }}; 
+                                            {% if ob2.6 %}background:white; color:red; {% else %}background:none; color:black; {% endif %}
+                                            {% if ob2.7 %}border-width: 2px; font-weight:bold; {% else %}{% endif %}">
+                                            {% if ob2.10 != '' or ob2.11 != '' %}
+                                                <span>история: {{ ob2.10 }}{{ ob2.11 }} ({{ ob2.12|date:"d.m.Y"  }})</span>
+                                            {% endif %}
+                                        </span>
+                                        {% elif ob2.2 == 1 or ob2.2 == 2 or ob2.2 == 3 %}
+                                        <span class="tooltip">
+                                            <input type="button" style="background:none; border-color:{{ ob2.5 }}; background-color:{{ ob2.4 }}; border-radius:4px; width:42px; height:24px" value="{{ ob2.1 }}" 
+                                            OnClick="from_bgb({{ ob2.0 }});" >
+                                            <span style="background-color:lightgreen">{{ ob2.8 }}{{ ob2.9 }}</span>
+                                        </span>
+                                        {% endif %}
+                                        <!--</td>-->
+                                    {% endfor %}
+                                    </td>
+                                    </tr>
+                                </table>
+                            {% endfor %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td width="200px" align="right">
+                                адрес в базе не обнаружен&nbsp
+                            </td>
+                            <td align="left">
+                                <a href="/cross/" target="_blank"><strong>&nbspвыбрать другой адрес&nbsp</strong></a>
+                                <!--<input type="button" value="выбрать другой адрес" onClick='window.open("/cross/")' title="" style="background:fff; border-color:black; color:black; border-radius:4px; width:300px;  height:24px">-->
+                            </td>
+                            <td width="200px" align="center" style="background-color:#D4DCC7"></td>
+                        </tr>
+                    {% endif %}
+                </table>
+                <br>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <table width="1404px" border="0" style="background-color:#D4DCC7">
+        <tr>
+            <td align="right"><i>операции:&nbsp&nbsp&nbsp</i></td>
+            <td width="210px" align="right">
+            {% if app.app_status == 1 or app.app_status == 3 or app.app_status == 4 %}
+                {% if bron == False %}
+                    <form method="post" action="to_inbox/">
+                    {% csrf_token %}
+                    <input type="submit" value="вернуть в необработанные" style="background:lemonchiffon; width:200px">&nbsp
+                    </form>
+                {% else %}
+                    <input type="button" disabled="1" value="вернуть в необработанные" style="background:lemonchiffon; width:200px">&nbsp
+                {% endif %}
+            {% else %}
+                <input type="button" disabled="1" value="вернуть в необработанные" style="background:lemonchiffon; width:200px">&nbsp
+            {% endif %}
+            </td>
+            <td width="90px" align="right">
+            {% if bron == False and app.app_status != 2 and app.app_status != 5 %}
+                <input type="button" value="отказать" onClick='location.href="reject"' style="background:gray; width:80px">&nbsp
+            {% else %}
+                <input type="button" disabled="1" value="отказать" style="background:gray; width:80px">&nbsp
+            {% endif %}
+            </td>
+            <td width="90px" align="right">
+            {% if bron == False and app.app_status != 2 and app.app_status != 5 %}
+                <input type="button" value="отложить" onClick='location.href="delay"' style="background:pink; width:80px">&nbsp
+            {% else %}
+                <input type="button" disabled="1" value="отложить" style="background:pink; width:80px">&nbsp
+            {% endif %}
+            </td>
+            <td width="210px" align="right">
+            {% if app.app_status == 2 and not accept and not bron %}
+                <form method="post" action="check=1/">
+                {% csrf_token %}
+                <input type="submit" value="отправить на сверку" style="background:lightcoral; width:200px">&nbsp
+                </form>
+            {% elif app.app_status == 5 and not accept and not bron %}
+                <form method="post" action="check=0/">
+                {% csrf_token %}
+                <input type="submit" value="проверено" style="background:lawngreen; width:200px">&nbsp
+                </form>
+            {% else %}
+                <input type="button" disabled="1" value="отправить на сверку" style="background:lightcoral; width:200px">&nbsp
+            {% endif %}
+            </td>
+            <td width="90px" align="right">
+            {% if app.app_status == 1 and accept %}
+                {% if app.box_port == dog_list.0.id %}
+                    <input type="button" value="выполнить" onClick='location.href="complete"' style="background:lawngreen; width:80px">&nbsp
+                {% else %}
+                    <input type="button" disabled="1" value="выполнить" style="background:lawngreen; width:80px">&nbsp
+                {% endif %}
+            {% else %}
+                <input type="button" disabled="1" value="выполнить" style="background:lawngreen; width:80px">&nbsp
+            {% endif %}
+            </td>
+        </tr>
+    </table>
+
+    <br>
+    <table width="1404px" border="0" id="templ_footer">
+        <tr>
+            <td width="120px">&nbsp</td>
+            <td>
+                <form method="post" action="../status={{ app.app_status }}/app_find/" target="_blank">
+                {% csrf_token %}
+                    &nbsp договор: {{ form_f.dog }}
+                    <!--&nbsp&nbsp договор: 
+                    <input type="text" name="dog" value="{{ curr_dog }}" size="8" maxlength="7" style="border-color:silver; border-radius:4px; height:14px">-->
+                    <input type="submit" value="поиск" style="width:80px">&nbsp
+                </form>
+            </td>
+            <td width="280px" align="right">
+            {% if app.app_status == 1 and accept %}
+                <!--<input type="button" value="формирование pdf" onClick='location.href="/app/gen_pdf_0={{ app.id }}"' style="width:140px">&nbsp&nbsp-->
+                <input type="button" value="формирование pdf" onClick='window.open("/app/gen_pdf_0={{ app.id }}")' style="width:140px">&nbsp&nbsp
+            {% else %}
+                <input type="button" value="формирование pdf" disabled="1" style="width:140px">&nbsp&nbsp
+            {% endif %}
+                <input type="button" value="назад" onClick='location.href="../status={{ app.app_status }}"' style="width:80px">&nbsp
+            </td>
+        </tr>
+    </table>
+
+
+<script language="javascript">
+
+function from_bgb(dog_id) {
+    iframe = document.getElementById('dod_bgb');
+    iframe.src = '/app/from_bgb/?dog_id='+dog_id;
+    //console.log('/app/from_bgb/?dog_id='+dog_id);
+    }
+
+</script>
+
+
+{% endblock %}

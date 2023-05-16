@@ -1,0 +1,48 @@
+{% extends 'main.html' %}
+
+{% block cable %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1000px" align="left">
+                <h3>&nbspмуфта: {{ coup.name }}</h3>
+            </td>
+            <td width="280px" align="right">&nbsp</td>
+        </tr>
+    </table>
+    <br>
+
+    {% if del_ok1 and del_ok2 %}
+    <form method="post">
+        {% csrf_token %}
+        <h3 style="color:red">удалить муфту?</h3>
+        <br>
+        <table border="0" id="templ_footer">
+            <tr>
+                <td width="640px" align="right">
+                    <input type="submit" value="     OK     ">&nbsp
+                </td>
+                <td width="640px" align="left">
+                    <input type="button" value="отмена" onClick='location.href="../"'>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    {% else %}
+        <h3 style="color:red">удаление невозможно</h3>
+        {% if not del_ok1 %}<h3>есть кабель в муфте</h3>{% endif %}
+        {% if not del_ok2 %}<h3>муфта принадлежит шкафу</h3>{% endif %}
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="1280px" align="center">
+                <input type="button" value="назад" onClick='location.href="../"'>
+            </td>
+        </tr>
+    </table>
+
+    {% endif %}
+
+
+{% endblock %}

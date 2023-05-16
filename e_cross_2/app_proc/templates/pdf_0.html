@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html> 
+<head>
+    <title>{{ app.n_order }}</title> 
+    <style> 
+        h3 { text-align: center; font-size: 15px; }
+        /*table { border: 1px solid; margin: 0 auto; width: 100%; font-size: 12px;}*/
+        td, th { text-align: center; border: 1px solid; } 
+        body { font-size: 12px; }
+    </style> 
+</head> 
+<body> 
+    
+    <h3>Акт выполненных работ № _______________ от ___.___.20____г.</h3>
+<!--    {% if app.type_proc == 0 %}
+    <h3 style="color:green">Установка</h3> 
+    {% elif app.type_proc == 1 %}
+    <h3 style="color:red">Снятие</h3> 
+    {% endif %}-->
+    
+<table style="border: 0px solid; width: 100%; font-size: 12px;">
+    <tr>
+        <td style="text-align: left; border: 0px solid;">
+            Наряд № <label style="font-size: 15px"><strong>{{ app.n_order }}</strong></label><br>
+        </td>
+        <td style="text-align: left; border: 0px solid; text-align: right;">
+            <label style="color:green"><b>Подключение</b></label>
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align: left; border: 0px solid;">
+            Абонент: <label style="font-size: 13px"><strong>{{ app.fio }}</strong></label><br>
+            Адрес: ул./пер. <label style="font-size: 13px"><strong>{{ app.street }} {{ app.build }}</strong></label>
+            , № кв/каб: <label style="font-size: 13px"><strong>{{ app.kv }}</strong></label>
+        </td>
+        <td style="text-align: left; border: 0px solid;">
+        </td>
+    </tr>
+</table>
+<br>
+<table style="border: 1px solid; width: 100%; font-size: 12px; text-align: center;">
+    <caption>назначенные ресурсы:</caption>
+    <tr>
+        <td rowspan="2" style="background-color:#eeeeee">узел доступа</td>
+        <td style="background-color:#eeeeee">название</td>
+        <td style="background-color:#eeeeee">расположение</td>
+        <td style="background-color:#eeeeee">примечание</td>
+    </tr>
+    <tr>
+        <td>{{ dev_p.parrent.parrent.name }}</td>
+        <td>{{ dev_p.parrent.parrent.rasp }}</td>
+        <td>{{ dev_p.parrent.parrent.prim }}</td>
+    </tr>
+    <tr>
+        <td rowspan="2" style="background-color:#eeeeee">коммутатор</td>
+        <td style="background-color:#eeeeee">название</td>
+        <td style="background-color:#eeeeee">ip - адрес</td>
+        <td style="background-color:#eeeeee">порт</td>
+    </tr>
+    <tr>
+        <td>{{ dev_p.parrent.name }}</td>
+        <td>{{ dev_p.parrent.ip_addr }}</td>
+        <td>{{ dev_p.num }}</td>
+    </tr>
+    <tr>
+        <td rowspan="2" style="background-color:#eeeeee">крт</td>
+        <td style="background-color:#eeeeee">название</td>
+        <td colspan="2" style="background-color:#eeeeee">расположение</td>
+    </tr>
+    <tr>
+    {% if box_p.parrent.name != '0' %}
+        <td>{{ box_p.parrent.name }}-{{ box_p.parrent.num }}-{{ box_p.p_alias }}</td>
+        <td colspan="2">подъезд {{ box_p.parrent.stairway }}, этаж {{ box_p.parrent.floor }}, {{ box_p.parrent.prim }}</td>
+    {% else %}
+        <td>напрямую</td>
+        <td colspan="2">&nbsp</td>
+    {% endif %}
+    </tr>
+    {% if b_p_prim %}
+    <tr>
+        <td style="background-color:#eeeeee">примечание</td>
+        <td colspan="3">{{ b_p_prim }}</td>
+    </tr>
+    {% endif %}
+
+    <tr>
+        <td style="background-color:#eeeeee">длина линии:</td>
+        <td colspan="3" style="background-color:#eeeeee">изменение данных:</td>
+    </tr>
+    <tr>
+        <td>&nbsp<br>&nbsp</td>
+        <td colspan="3">&nbsp</td>
+    </tr>
+<!--    <tr>
+        <td style="background-color:#eeeeee">комментарий:</td>
+        <td colspan="3">&nbsp</td>
+    </tr>-->
+</table>
+<br>
+<table style="border: 1px solid; width: 100%; font-size: 12px; text-align: center;">
+    <caption>установленное оборудование:</caption>
+    <tr>
+        <td style="background-color:#eeeeee">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp тип &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td>
+        <td style="background-color:#eeeeee">&nbsp&nbsp&nbsp&nbsp серийный номер &nbsp&nbsp&nbsp&nbsp</td>
+        <td style="background-color:#eeeeee">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp mac адрес &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td>
+        <td style="background-color:#eeeeee">условия предоставления</td>
+    </tr>
+    <tr><td>&nbsp</td><td>&nbsp</td><td>&nbsp</td><td>&nbsp</td></tr>
+    <tr><td>&nbsp</td><td>&nbsp</td><td>&nbsp</td><td>&nbsp</td></tr>
+    <tr><td>&nbsp</td><td>&nbsp</td><td>&nbsp</td><td>&nbsp</td></tr>
+    <tr><td>&nbsp</td><td>&nbsp</td><td>&nbsp</td><td>&nbsp</td></tr>
+    <tr><td>&nbsp</td><td>&nbsp</td><td>&nbsp</td><td>&nbsp</td></tr>
+    <tr><td>&nbsp</td><td>&nbsp</td><td>&nbsp</td><td>&nbsp</td></tr>
+</table>
+<br>
+<table style="border: 1px solid; width: 100%; font-size: 12px; text-align: center;">
+    <caption>материалы, затраченные на подключение:</caption>
+    <tr><td>кабель UTP</td><td>&nbsp&nbsp&nbsp&nbsp</td><td>скоч-лок</td><td>&nbsp&nbsp&nbsp&nbsp</td></tr>
+    <tr><td>коннектор RJ45</td><td>&nbsp</td><td>изолента ПВХ</td><td>&nbsp</td></tr>
+    <tr><td>крепеж кабеля</td><td>&nbsp</td><td>розетка RJ45</td><td>&nbsp</td></tr>
+    <tr><td>хомут нейл.</td><td>&nbsp</td><td>кабель HDMI</td><td>&nbsp</td></tr>
+    <tr><td>кабель-канал</td><td>&nbsp</td><td>&nbsp</td><td>&nbsp</td></tr>
+    <tr><td>&nbsp</td><td>&nbsp</td><td>&nbsp</td><td>&nbsp</td></tr>
+    <tr>
+        <td colspan="4" style="background-color:#eeeeee">дополнительные работы:</td>
+    </tr>
+    <tr>
+        <td colspan="4">&nbsp<br>&nbsp<br>&nbsp<br>&nbsp<br>&nbsp</td>
+    </tr>
+</table>
+<br>
+<p>
+Подтверждаю, что в случае наступления неблогоприятных последствий, вызванных проведением работ по
+вводу кабеля и прокладке канала связи в указанных мною местах, я несу за них ответственность в
+полном обьеме. Устранение возникших последствий и удовлетворение претензий со стороны
+третьих лиц также обязуюсь произвести своими силами и за свой счет.
+</p>
+<br>
+<p style="font-size: 10px; text-align: right;">
+ФИО заказчика ______________________ подпись __________
+</p>
+<br><br>
+<p style="font-size: 10px; text-align: center;">
+ФИО исполнителя ____________________ подпись __________ &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+ФИО заказчика ______________________ подпись __________
+</p>
+
+
+
+<!--    <br>
+    Длина измерения: ____________________
+    <br><br>
+    Изменение данных: _________________________________________________________
+    <br><br>
+    ФИО инженера: _________________________ подпись: _________________________
+    <br>
+    <br>
+    
+    <p style="font-size: 8px">Исполнитель: <b>{{ app.man_oper }}</b><br>Дата и время: <b>{{ app.date_2|date:"d.m.Y" }} {{ app.date_2|time:"H:i" }}</b></p>
+    <label style="font-size: 18px; color:green;">&oplus;</label>-->
+    
+
+
+</body> 
+
+
+
+</html>

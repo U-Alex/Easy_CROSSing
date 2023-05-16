@@ -1,0 +1,43 @@
+{% extends 'main.html' %}
+
+{% block cross %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1200px" align="left">
+                <h3>&nbsp&nbsp{{ s_p_id.parrent.parrent.parrent.name }} {{ s_p_id.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ s_p_id.parrent.parrent.name }}, кросс: {{ s_p_id.parrent.name }}, порт: {{ s_p_id.num }}&nbsp&nbsp>>>>&nbsp&nbsp{{ d_p_id.parrent.parrent.parrent.name }} {{ d_p_id.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ d_p_id.parrent.parrent.name }}, кросс: {{ d_p_id.parrent.name }}, порт: {{ d_p_id.num }}</h3>
+            </td>
+            <td width="80px" align="right">&nbsp</td>
+        </tr>
+    </table>
+    <br>
+<form method="post">
+    {% csrf_token %}
+    
+    <table border="0">
+        <tr>
+            <td align="right">&nbsp&nbsp&nbsp{{ form.status.label }}:&nbsp&nbsp&nbsp</td>
+            <td align="left">
+                <label style="color:green">&nbsp{{ form.status.1 }}&nbsp&nbsp&nbsp<br></label>
+                <label style="color:orange">&nbsp{{ form.status.2 }}&nbsp&nbsp&nbsp<br></label>
+                <label style="color:violet">&nbsp{{ form.status.3 }}&nbsp&nbsp&nbsp<br></label>
+                <label style="color:aqua">&nbsp{{ form.status.4 }}&nbsp&nbsp&nbsp<br></label>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="800px">&nbsp</td>
+            <td width="480px" align="right">
+                <input type="submit" value="     OK     ">
+                <input type="button" value="другой порт" onClick='location.href="../"'>
+                <input type="button" value="новый поиск" onClick='location.href="../../ext_cr1/"'>
+                <input type="button" value="отмена" onClick='location.href="../../../"'>&nbsp
+            </td>
+        </tr>
+    </table>
+</form>
+
+
+{% endblock %}

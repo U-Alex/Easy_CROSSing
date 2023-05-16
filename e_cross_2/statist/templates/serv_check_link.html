@@ -1,0 +1,87 @@
+{% extends 'main.html' %}
+
+{% block service %}
+
+    <br>
+    <div align="center">
+        <table border="0" style="background-color:#D4DCC7">
+            <tr>
+                <td align="center"><b>
+                    <h3>коммутатор -> крт</h3>
+                    <br>
+                    незавершенный линк 
+                    <br>
+                    {{ bad_d_b }}
+                    <br><br>
+                    пустой линк 
+                    <br>
+                    {{ space_d_b }}
+                    <br>
+                    <br>
+                    <hr>
+                    <h3>крт -> коммутатор</h3>
+                    <br>
+                    незавершенный линк 
+                    <br>
+                    {{ bad_b_d }}
+                    <br><br>
+                    пустой линк 
+                    <br>
+                    {{ space_b_d }}
+                    <br>
+                    <br>
+                    <hr>
+                    <h3>коммутатор -> коммутатор</h3>
+                    <br>
+                    незавершенный линк 
+                    <br>
+                    {{ bad_d_d }}
+                    <br><br>
+                    пустой линк 
+                    <br>
+                    {{ space_d_d }}
+                    <br>
+                    <br>
+                    <hr>
+                    <h3>коммутатор -> кросс</h3>
+                    <br>
+                    незавершенный линк 
+                    <br>
+                    {{ bad_d_c }}
+                    <br><br>
+                    пустой линк 
+                    <br>
+                    {{ space_d_c }}
+                    <br>
+                    <br>
+                    <hr>
+                    <h3>кросс -> коммутатор</h3>
+                    <br>
+                    незавершенный линк 
+                    <br>
+                    {{ bad_c_d }}
+                    <br><br>
+                    пустой линк 
+                    <br>
+                    {{ space_c_d }}
+                    <br>
+                    <br>
+                    <hr>
+                    <h3>кросс -> кросс</h3>
+                    <br>
+                    незавершенный линк 
+                    <br>
+                    {{ bad_c_c }}
+                    <br><br>
+                    пустой линк 
+                    <br>
+                    {{ space_c_c }}
+                    <br>
+                </td>
+            </tr>
+        </table>
+    </div>
+    
+
+    
+{% endblock %}

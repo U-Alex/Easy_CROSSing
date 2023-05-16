@@ -1,0 +1,109 @@
+{% extends 'main.html' %}
+
+{% block cross %}
+
+<link rel="stylesheet" type="text/css" href="/static/cssworld.ru-xcal.css" />
+<script type="text/javascript" src="/static/js/cssworld.ru-xcal-en.js"></script>
+<script>xCal.all("datepicker");</script>
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1000px" align="left"><h3>&nbsp&nbsp{{ lo.parrent.name }} {{ lo.parrent.house_num }},&nbsp&nbspУД: {{ lo.name }}</h3></td>
+            <td width="280px" align="right">&nbsp</td>
+        </tr>
+    </table>
+    <br>
+<form method="post">
+    {% csrf_token %}
+    
+    <table border="0">
+        <tr style="background-color:silver">
+            <td align="right">&nbspимя УД:&nbsp</td>
+            <td colspan="2" align="left">&nbsp{{ form.lo_name }}&nbsp&nbsp&nbspтип:&nbsp{{ form.lo_name_type }}</td>
+        </tr>
+        <tr style="background-color:silver">
+            <td align="right">&nbsp{{ form.object_owner.label }}:&nbsp</td>
+            <td colspan="2">&nbsp{{ form.object_owner }}&nbsp&nbsp&nbsp<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp&nbsp&nbsp{{ form.object_owner_list }}&nbsp</td>
+        </tr>
+        <tr>
+            <td rowspan="4" align="center">статус:</td>
+            <td colspan="2"><label style="color:brown">&nbsp{{ form.status.0 }}</label></td>
+        </tr>
+        <tr>
+            <td colspan="2"><label style="color:orange">&nbsp{{ form.status.1 }}</label></td>
+        </tr>
+        <tr>
+            <td><label style="color:green">&nbsp{{ form.status.2 }}&nbsp</label></td>
+            <td align="right">
+                <label style="color:green">&nbspдата&nbspприемки:&nbsp{#{{ form.date1 }}#}</label>
+                <input id="id_date2" name="date2" type="text" value="{{ date2 }}" size="12" onClick="xCal(this)" onKeyUp="xCal()">
+                <a href="" onClick="document.getElementById('id_date2').value=''; return false">X</a>&nbsp&nbsp
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><label style="color:gray">&nbsp{{ form.status.3 }}</label></td>
+        </tr>
+
+        <tr style="background-color:silver">
+            <td align="right">&nbspрасположение:&nbsp</td>
+            <td colspan="2">{{ form.rasp }}&nbsp</td>
+        </tr>
+        <tr style="background-color:silver">
+            <td align="right">&nbspпримечание:&nbsp</td>
+            <td colspan="2">{{ form.prim }}&nbsp</td>
+        </tr>
+        <tr style="background-color:silver">
+            <td align="right">&nbsp{{ form.coord.label }}:&nbsp</td>
+            <td colspan="2" align="left">{{ form.coord }}&nbsp</td>
+        </tr>
+        <tr style="background-color:silver">
+            <td align="right">&nbsp{{ form.racks.label }}:&nbsp</td>
+            <td colspan="2">{{ form.racks }}&nbsp</td>
+        </tr>
+        <tr>
+            <td align="right">&nbsp{{ form.cab_door.label }}:&nbsp</td>
+            <td colspan="2" align="left">&nbsp{{ form.cab_door }}&nbsp{{ form.cab_key1 }}&nbsp{{ form.cab_key2 }}</td>
+        </tr>
+        <tr>
+            <td align="right">&nbsp{{ form.co.label }}:&nbsp</td>
+            <td colspan="2" align="left">&nbsp{{ form.co }}&nbsp</td>
+        </tr>
+        <tr style="background-color:silver">
+            <td colspan="2" align="right">&nbspиндивидуальное подключение:&nbsp</td>
+            <td>&nbsp{{ form.detached }}&nbsp</td>
+        </tr>
+
+    </table>
+    <br>    
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="640px" align="right">
+                <input type="submit" value="     OK     ">&nbsp
+            </td>
+            <td width="640px" align="left">
+                <input type="button" value="отмена" onClick='location.href="../../"'>
+            </td>
+        </tr>
+    </table>
+    
+</form>
+
+
+<script language="javascript">
+
+//own.addEventListener('change', function(){
+//    id_object_owner_list.disabled = ! own.checked;
+//}, false);
+
+id_object_owner.addEventListener('change', function(){
+    id_object_owner_list.value = 0;
+}, false);
+
+id_object_owner_list.addEventListener('change', function(){
+    id_object_owner.value = id_object_owner_list.value;
+}, false);
+
+</script>
+
+
+{% endblock %}

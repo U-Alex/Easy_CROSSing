@@ -1,0 +1,72 @@
+{% extends 'main.html' %}
+
+{% block cross %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1300px" align="left">
+                <h3>&nbsp&nbsp{{ s_p_id.parrent.parrent.parrent.name }} {{ s_p_id.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ s_p_id.parrent.parrent.name }}, кросс: {{ s_p_id.parrent.name }}, порт: {{ s_p_id.num }}&nbsp&nbsp>>>>&nbsp&nbsp{{ bu2.name }} {{ bu2.house_num }}</h3>
+            </td>
+            <td width="300px" align="right">
+                <input type="button" value="новый поиск" onClick='location.href="../ext_cr1/"'>
+                <input type="button" value="отмена" onClick='location.href="../../"'>&nbsp
+            </td>
+        </tr>
+    </table>
+    <br>
+
+{% for ob in lo %}
+<table border="0">
+    <caption>{{ ob.name }}</caption>
+    <tr>
+        <td width="1604px" style="background-color:#c3cebd" align="center">
+        <br>
+
+{% for cr in ob.cr %}
+
+    <table border="0">
+    <caption><a href="/cross/build={{ bu2.id }}/locker={{ cr.parrent_id }}/cr={{ cr.id }}"  target="_blank"><strong>{{ cr.name }}</strong></a></caption>
+    
+    {% for ob2 in cr.cr_p %}
+        <tr>
+        {% for ob3 in ob2 %}
+            <td align="center" style="background-color:#c3cebd">
+                {% if ob3.3 == False %}
+                    <input type="button" style="background:none; border-color:black; background-color:gray; color:white; border-radius:20px; width:30px; height:30px" value="{{ ob3.1 }}" title="{{ ob3.4 }} (неисправен)">
+                {% elif ob3.2 == 0 %}
+                    <input type="button" style="background:none; border-color:black; background-color:{{ ob3.5 }}; color:black; border-radius:20px; width:30px; height:30px" value="{{ ob3.1 }}" onClick='location.href="d_p={{ ob3.0 }}/"' title="{{ ob3.4 }}">
+                {% elif ob3.2 == 1 %}
+                    <input type="button" style="background:none; border-color:black; background-color:{{ ob3.5 }}; color:black; border-radius:20px; width:30px; height:30px" value="{{ ob3.1 }}" title="{{ ob3.4 }}">
+                {% elif ob3.2 == 2 %}
+                    <input type="button" style="background:none; border-color:black; background-color:{{ ob3.5 }}; color:black; border-radius:20px; width:30px; height:30px" value="{{ ob3.1 }}" title="{{ ob3.4 }}">
+                {% elif ob3.2 == 3 %}
+                    <input type="button" style="background:none; border-color:black; background-color:{{ ob3.5 }}; color:black; border-radius:20px; width:30px; height:30px" value="{{ ob3.1 }}" title="{{ ob3.4 }}">
+                {% elif ob3.2 == 4 %}
+                    <input type="button" style="background:none; border-color:black; background-color:{{ ob3.5 }}; color:black; border-radius:20px; width:30px; height:30px" value="{{ ob3.1 }}" title="{{ ob3.4 }}">
+                {% endif %}
+            </td>
+        {% endfor %}   
+        </tr>
+    {% endfor %}
+    </table><br>
+{% endfor %}
+
+        </td>
+    </tr>
+</table>
+<br>
+{% endfor %}
+
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="1300px">&nbsp</td>
+            <td width="300px" align="right">
+                <input type="button" value="новый поиск" onClick='location.href="../ext_cr1/"'>
+                <input type="button" value="отмена" onClick='location.href="../../"'>&nbsp
+            </td>
+        </tr>
+    </table>
+    
+
+{% endblock %}

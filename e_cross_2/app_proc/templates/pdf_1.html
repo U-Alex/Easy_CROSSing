@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html> 
+<head>
+    <title>{{ app.n_order }}</title> 
+    <style> 
+        h3 { text-align: right; }
+        table { border: 1px solid; margin: 0 auto; width: 100%; font-size: 12px;}
+        td, th { text-align: center; border: 1px solid; } 
+        body { font-size: 13px; }
+    </style> 
+</head> 
+<body> 
+    1111111111111
+    {% if app.type_proc == 0 %}
+    <h3 style="color:green">Установка</h3> 
+    {% elif app.type_proc == 1 %}
+    <h3 style="color:orange">Снятие</h3> 
+    {% endif %}
+    
+    Наряд № 
+    <label style="font-size: 14px"><strong>{{ app.n_order }}</strong></label>
+    от {{ app.date_1|date:"d.m.Y" }} {{ app.date_1|time:"H:i" }}
+    <br>
+    Абонент: 
+    <label style="font-size: 14px"><strong>{{ app.fio }}</strong></label>
+    <br>
+    Договор: 
+    <label style="font-size: 14px"><strong>{{ app.dogovor }}</strong></label>
+    <br>
+    Адрес: ул./пер. 
+    <label style="font-size: 14px"><strong>{{ app.street }} {{ app.build }}</strong></label>
+    , № кв/каб: 
+    <label style="font-size: 14px"><strong>{{ app.kv }}</strong></label>
+    <br><br>
+
+<table border="1">
+    <caption>Назначенные ресурсы:</caption>
+    <tr>
+        <td rowspan="2" style="background-color:#eeeeee">узел доступа</td>
+        <td style="background-color:#eeeeee">название</td>
+        <td style="background-color:#eeeeee">расположение</td>
+        <td style="background-color:#eeeeee">примечание</td>
+    </tr>
+    <tr>
+        <td>{{ dev_p.parrent.parrent.name }}</td>
+        <td>{{ dev_p.parrent.parrent.rasp }}</td>
+        <td>{{ dev_p.parrent.parrent.prim }}</td>
+    </tr>
+    <tr>
+        <td rowspan="2" style="background-color:#eeeeee">коммутатор</td>
+        <td style="background-color:#eeeeee">название</td>
+        <td style="background-color:#eeeeee">ip - адрес</td>
+        <td style="background-color:#eeeeee">порт</td>
+    </tr>
+    <tr>
+        <td>{{ dev_p.parrent.name }}</td>
+        <td>{{ dev_p.parrent.ip_addr }}</td>
+        <td>{{ dev_p.num }}</td>
+    </tr>
+    <tr>
+        <td rowspan="2" style="background-color:#eeeeee">крт</td>
+        <td style="background-color:#eeeeee">название</td>
+        <td colspan="2" style="background-color:#eeeeee">расположение</td>
+    </tr>
+    <tr>
+    {% if box_p.parrent.name != '0' %}
+        <td>{{ box_p.parrent.name }}-{{ box_p.parrent.num }}-{{ box_p.p_alias }}</td>
+        <td colspan="2">подъезд {{ box_p.parrent.stairway }}, этаж {{ box_p.parrent.floor }}, {{ box_p.parrent.prim }}</td>
+    {% else %}
+        <td>напрямую</td>
+        <td colspan="2">&nbsp</td>
+    {% endif %}
+    </tr>
+    
+</table>
+    
+    <br>
+    <!--Длина измерения: ____________________
+    <br><br>-->
+    Изменение данных: _________________________________________________________
+    <br><br>
+    ФИО инженера: _________________________ подпись: _________________________
+    <br>
+    <br>
+    
+    <p style="font-size: 8px">Исполнитель: <b>{{ app.man_oper }}</b><br>Дата и время: <b>{{ app.date_2|date:"d.m.Y" }} {{ app.date_2|time:"H:i" }}</b></p>
+    <label style="font-size: 18px; color:orange;">&ominus;</label>
+    
+
+
+</body> 
+
+
+
+</html>

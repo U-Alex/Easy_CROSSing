@@ -1,0 +1,128 @@
+{% extends 'main.html' %}
+
+{% block cross %}
+
+<link rel="stylesheet" type="text/css" href="/static/cssworld.ru-xcal.css" />
+<script type="text/javascript" src="/static/js/cssworld.ru-xcal-en.js"></script>
+<script>xCal.all("datepicker");</script>
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1000px" align="left">
+                <h3>
+                    &nbsp&nbsp<a href="/cross/build={{ lo.parrent_id }}">{{ lo.parrent.name }} {{ lo.parrent.house_num }}</a>,
+                    &nbsp&nbsp<a href="/cross/build={{ lo.parrent_id }}/locker={{ lo.id }}">УД: {{ lo.name }}</a>
+                </h3>
+            </td>
+            <td width="280px" align="right">&nbsp</td>
+        </tr>
+    </table>
+    <br>
+
+<form method="post">
+    {% csrf_token %}
+
+<table width="1280px" border="0" style="background-color:#D4DCC7">
+    <tr valign="top">
+        <td rowspan="2" width="38%">
+            <table width="100%" style="background-color:#D4DCC7" border="0">
+                <tr>
+                    <td align="right">&nbsp{{ form.en_model.label }}&nbsp</td>
+                    <td colspan='2' align="left">&nbsp{{ form.en_model }}&nbsp</td>
+                </tr>
+                <tr>
+                    <td align="right">&nbsp{{ form.en_sn.label }}:&nbsp</td>
+                    <td colspan='2' align="left">&nbsp<b>{{ form.en_sn }}</b>&nbsp</td>
+                </tr>
+                <tr>
+                    <td align="right">&nbspдата регистрации:&nbsp</td>
+                    <td colspan='2' align="left">
+                        &nbsp<input id="id_en_date_reg" name="en_date_reg" type="text" value="{{ en_date_reg }}" size="14" onClick="xCal(this)" onKeyUp="xCal()">
+                        <a href="" onClick="document.getElementById('id_en_date_reg').value=''; return false">X</a>&nbsp
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">&nbspдата следующей поверки:&nbsp</td>
+                    <td colspan='2' align="left">
+                        &nbsp<input id="id_en_date_check" name="en_date_check" type="text" value="{{ en_date_check }}" size="14" onClick="xCal(this)" onKeyUp="xCal()">
+                        <a href="" onClick="document.getElementById('id_en_date_check').value=''; return false">X</a>&nbsp
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">&nbsp{{ form.en_meter1.label }}:&nbsp</td>
+                    <td align="left">&nbsp{{ form.en_meter1 }}&nbsp</td>
+                    <td rowspan="2" align="left">
+                        <a onClick="javascript:meter_up();"><img src="/static/images/en_up.png" alt="" title="перенос показаний" width="32" height="32"></a>&nbsp&nbsp&nbsp
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">&nbsp{{ form.en_meter2.label }}:&nbsp</td>
+                    <td align="left">&nbsp{{ form.en_meter2 }}&nbsp</td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <div align="left" style="width:100%;height:200px;overflow-y:auto;background-color:#D4DCC7">
+                <table width="100%" border="0" style="background-color:#bbbbbb">
+                    <tr>
+                        <td align="left">
+                        {% for ob in en_his %}
+                            &nbsp{{ ob.user }}&nbsp|&nbsp{{ ob.time_rec|date:"d.m.Y" }}&nbsp/&nbsp{{ ob.time_rec|time:"H:i" }}&nbsp|&nbsp{{ ob.text }}<br>
+                        {% endfor %}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+    </tr>
+</table>
+<br>
+
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="640px" align="right">
+                <input type="submit" value="     OK     ">&nbsp
+            </td>
+            <td width="640px" align="left">
+                <input type="button" value="   выход   " onClick='location.href="../"'>
+            </td>
+        </tr>
+    </table>
+
+<input type="hidden" id="met_1" value="0">
+    
+</form>
+
+
+<script language="javascript">
+
+//window.onload = function init() {
+//    var meter1 = 0;
+//    console.log(meter1);
+//}
+
+function meter_up() {
+    //console.log(id_a_m1.onClick);
+    if (id_en_meter2.value != '' && met_1.value == "0") {
+        id_en_meter1.value = id_en_meter2.value;
+        id_en_meter2.value = '';
+        met_1.value = "1";
+    }
+    //console.log(id_a_m1.onClick);
+}
+//own.addEventListener('change', function(){
+//    id_object_owner_list.disabled = ! own.checked;
+//}, false);
+/*
+id_eq_man_install.addEventListener('change', function(){
+    id_eq_man_install_list.value = 0;
+}, false);
+
+id_eq_man_install_list.addEventListener('change', function(){
+    id_eq_man_install.value = id_eq_man_install_list.value;
+}, false);
+*/
+</script>
+<noscript><span>У Вас отключён JavaScript...</span></noscript>
+
+{% endblock %}

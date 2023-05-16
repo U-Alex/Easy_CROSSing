@@ -1,0 +1,82 @@
+{% extends 'main.html' %}
+
+{% block cable %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1100px" align="left">
+                <form method="post">
+                {% csrf_token %}
+                    &nbsp&nbsp<strong>Выбор конечной муфты для нового кабеля:</strong> &nbsp&nbspКвартал:&nbsp{{ form.kvar }}
+                    <input type="submit" value="поиск" style="width:80px">&nbsp
+                </form>
+            </td>
+            <td width="300px" align="right"><input type="button" value="отмена" onClick='location.href="../"'>&nbsp</td>
+        </tr>
+    </table>
+    <br>
+
+    <table width="1404px" border="0">
+        <tr valign="top">
+            <td align="left">
+                <table width="880px" border="1">
+                    <tr align="center" style="background-color:#B5FFCE">
+                        <td>адрес</td>
+                        <td>УД</td>
+                        <td width="260px">муфта</td>
+                    </tr>
+                {% for ob in list1 %}
+                    <tr>
+                        <td>&nbsp{{ ob.0.name }}&nbsp{{ ob.0.house_num }}</td>
+                        <td>
+                        {% for ob2 in ob.2 %}
+                            &nbsp
+                            <a href="target={{ ob2.1.id }}/"><strong>{{ ob2.1.name }}</strong></a>
+                            <br>
+                        {% endfor %}
+                        </td>
+                        <td>
+                        {% for ob2 in ob.1 %}
+                            &nbsp
+                            <a href="target={{ ob2.id }}/"><strong>{{ ob2.name }}</strong></a>
+                            <br>
+                        {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </table>
+            </td>
+            <td>
+                <table width="520px" border="1">
+                    <tr align="center" style="background-color:#B5FFCE">
+                        <td>объект</td>
+                        <td width="260px">муфта</td>
+                    </tr>
+                {% for ob in list2 %}
+                    <tr>
+                        <td>&nbsp{{ ob.0.name }}</td>
+                        <td>
+                        {% for ob2 in ob.1 %}
+                            &nbsp
+                            <a href="target={{ ob2.id }}/"><strong>{{ ob2.name }}</strong></a>
+                            <br>
+                        {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </table>
+            </td>
+        </tr>
+    </table>
+    
+    <br>
+    
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="1100px">&nbsp</td>
+            <td width="300px" align="right"><input type="button" value="отмена" onClick='location.href="../"'>&nbsp</td>
+        </tr>
+    </table>
+
+
+{% endblock %}

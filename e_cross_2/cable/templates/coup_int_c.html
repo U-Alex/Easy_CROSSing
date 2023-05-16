@@ -1,0 +1,133 @@
+{% extends 'main.html' %}
+
+{% block cable %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1100px" align="left">
+                <h3>
+                    &nbspисходная муфта: {{ s_p.parrent.name }},
+                    &nbspкабель №: {{ s_p.cable_num }},
+                    &nbspволокно №: {{ s_p.fiber_num }}
+                </h3>
+            </td>
+            <td width="300px" align="right">&nbsp</td>
+        </tr>
+    </table>
+    <br>
+    
+<form method="post" action="dest=0/">
+    {% csrf_token %}
+    
+    <table border="1"> 
+        <tr>
+            <td align="center">№ кабеля -> </td>
+        {% for ob in cab_list %}
+            <td align="center">
+                <label title="удаленная муфта: {{ ob.1.parrent.name }}">&nbsp&nbsp&nbsp{{ ob.0 }}&nbsp&nbsp&nbsp</label>
+            </td>
+        {% endfor %}
+        </tr>
+        <tr>
+            <td align="center">№ волокна -> </td>
+        {% for ob in p_list %}
+            <td style="vertical-align: top">
+            {% for ob2 in ob %}
+                &nbsp
+                <input type="radio" name="f_port" id="{{ ob2.id }}" value="{{ ob2.id }}"
+                    {% if ob2.int_c_status != 0 or ob2.id == s_p.id %} disabled="1"{% endif %}>
+                <label for="{{ ob2.id }}"
+                {% if ob2.id == s_p.id %} style="color:red"
+                {% elif ob2.changed %} style="color:orange"
+                {% elif ob2.int_c_status == 0 %} style="color:black"
+                {% else %} style="color:green"
+                {% endif %}>
+                <b>{{ ob2.fiber_num }}</b>&nbsp</label>
+                &nbsp<br>
+            {% endfor %}
+            </td>
+        {% endfor %}
+        </tr>
+    </table>
+    <br>
+    
+    {% if e_p.1 == "1" %}
+    <table border="1"> 
+        <tr><td align="center">&nbsp&nbspконечное волокно в исходном кабеле:&nbsp&nbsp</td></tr>
+        <tr><td align="center"><input type="number" name="end_p0" min="1" max="{{ e_p.0 }}" value="{{ e_p.0 }}" size="5"></td></tr>
+    </table>
+    <br>
+    {% endif %}
+    
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="700px" align="right">
+                <input type="submit" value="     OK     ">&nbsp
+            </td>
+            <td width="700px" align="left">
+                <input type="button" value="отмена" onClick='location.href="../../../"'>&nbsp
+            </td>
+        </tr>
+    </table>
+
+</form>
+
+<br>
+
+{% if cr_list %}
+<form method="post" action="dest=1/">
+    {% csrf_token %}
+    
+    <table border="1"> 
+        <tr>
+        {% for ob in cr_list %}
+            <td align="center">
+                <a href="/cross/build={{ ob.parrent.parrent.id }}/locker={{ ob.parrent.id }}/cr={{ ob.id }}" target="_blank">{{ ob.name }}</a>
+            </td>
+        {% endfor %}
+        </tr>
+        <tr>
+        {% for ob in cr_p_list %}
+            <td style="vertical-align: top">
+            {% for ob2 in ob %}
+                &nbsp
+                <input type="radio" name="cr_port" id="{{ ob2.id }}" value="{{ ob2.id }}" 
+                    {% if ob2.cab_p_id != 0 %} disabled="1" {% endif %}>
+                <label for="{{ ob2.id }}"
+                {% if ob2.cab_p_id == 0 %} style="color:black"
+                {% else %} style="color:green"
+                {% endif %}>
+                <b>{{ ob2.num }}</b>&nbsp</label>
+                &nbsp<br>
+            {% endfor %}
+            </td>
+        {% endfor %}
+        </tr>
+    </table>
+    <br>
+    
+    {% if e_p.1 == "1" %}
+    <table border="1"> 
+        <tr><td align="center">&nbsp&nbspконечное волокно в исходном кабеле:&nbsp&nbsp</td></tr>
+        <tr><td align="center"><input type="number" name="end_p1" min="1" max="{{ e_p.0 }}" value="{{ e_p.0 }}" size="5"></td></tr>
+    </table>
+    <br>
+    {% endif %}
+    
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="700px" align="right">
+                <input type="submit" value="     OK     ">&nbsp
+            </td>
+            <td width="700px" align="left">
+                <input type="button" value="отмена" onClick='location.href="../../../"'>&nbsp
+            </td>
+        </tr>
+    </table>
+
+</form>
+
+{% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,836 @@
+{% extends 'manual.html' %}
+
+{% block manual_page %}
+
+<table width="100%"><tr>
+    <td align="left">&nbsp<a href="/manual/8/">Муфты (редактирование)</a>&nbsp</td>
+    <td align="right">&nbsp<a href="/manual/10/">Руководство администратора и разработчика (описание функций)</a>&nbsp</td>
+</tr></table>
+
+<h2 align="center">Руководство администратора и разработчика</h2>
+<br>
+<h3>Структура проекта</h3>
+<br>
+список приложений Django проекта:
+<br>
+core - авторизация пользователей, журналы действий пользователей, служебные функции для проверки и обслуживания БД
+<br>
+cross - модуль "кроссировки" - учет оборудования и кроссировок
+<br>
+app_proc - модуль "заявки" - работа с заявками на установку и снятие абонентских кроссировок
+<br>
+cable - учет линейного оборудования - учет муфт, оптических кабелей и волокон
+<br>
+statist - статистика по оборудованию и кроссировкам, карточки ввода
+<br>
+manual - руководство пользователя
+<br><br>
+схема БД:
+<br><br>
+<div align="center"><img src="/static/man/9/9_1.png" width="1300" alt="" title=""></div>
+<br><br>
+Описание полей БД:
+<br><br>
+
+<div align="center">
+<table border="0">
+<tr align="center" valign="top"><td>
+
+<table cellspacing="2" cellpadding="2" border="1">
+<caption>модуль "cross" (объекты)</caption>
+<tbody align="center">
+    <tr style="background-color:#B5FFCE"><td>таблица БД</td><td>поле модели БД</td><td>тип поля</td><td>описание</td></tr>
+    
+    <tr>
+        <td rowspan="2"><b>Kvartal</b> <br>(квартал)</td>
+        <td>name</td><td>Char</td><td></td>
+    </tr>
+    <tr>
+        <td>link</td><td>Char</td><td>(резерв)</td>
+    </tr>
+    <tr>
+        <td rowspan="2"><b>Street</b> <br>(улица)</td>
+        <td>parrent</td><td>Char</td><td>(резерв)</td>
+    </tr>
+    <tr>
+        <td>name</td><td>Char</td><td></td>
+    </tr>
+    <tr>
+        <td rowspan="4"><b>Building</b> <br>(строение)</td>
+        <td>parrent</td><td>ForeignKey</td><td>Street_id</td>
+    </tr>
+    <tr>
+        <td>name</td><td>Char</td><td></td>
+    </tr>
+    <tr>
+        <td>house_num</td><td>Char</td><td>номер строения</td>
+    </tr>
+    <tr>
+        <td>kvar</td><td>Int</td><td>ссылка на Kvartal_id</td>
+    </tr>
+    <tr>
+        <td rowspan="14"><b>Locker</b> <br>(узел доступа)</td>
+        <td>parrent</td><td>ForeignKey</td><td>Building_id</td>
+    </tr>
+    <tr>
+        <td>name</td><td>Char</td><td></td>
+    </tr>
+    <tr>
+        <td>name_type</td><td>Char</td><td>имя из шаблона</td>
+    </tr>
+    <tr>
+        <td>con_type</td><td>Int</td><td>ссылка на Templ_locker_id</td>
+    </tr>
+    <tr>
+        <td>agr</td><td>Bool</td><td>агрегация</td>
+    </tr>
+    <tr>
+        <td>detached</td><td>Bool</td><td>отдельно стоящее здание</td>
+    </tr>
+    <tr>
+        <td>co</td><td>Char</td><td>принадлежность к офису</td>
+    </tr>
+    <tr>
+        <td>status</td><td>Int</td><td>статус шкафа</td>
+    </tr>
+    <tr>
+        <td>date_ent</td><td>Date</td><td>дата ввода в эксплуатацию</td>
+    </tr>
+    <tr>
+        <td>rasp</td><td>Char</td><td>расположение</td>
+    </tr>
+    <tr>
+        <td>prim</td><td>Char</td><td>примечание</td>
+    </tr>
+    <tr>
+        <td>coord_x</td><td>Float</td><td>координата X</td>
+    </tr>
+    <tr>
+        <td>coord_y</td><td>Float</td><td>координата Y</td>
+    </tr>
+    <tr>
+        <td>racks</td><td>Char</td><td>список стоек</td>
+    </tr>
+    <tr>
+        <td rowspan="10"><b>Cross</b> <br>(кросс)</td>
+        <td>parrent</td><td>ForeignKey</td><td>Locker_id</td>
+    </tr>
+    <tr>
+        <td>name</td><td>Char</td><td></td>
+    </tr>
+    <tr>
+        <td>name_type</td><td>Char</td><td>имя из шаблона</td>
+    </tr>
+    <tr>
+        <td>con_type</td><td>Int</td><td>ссылка на Templ_cross_id</td>
+    </tr>
+    <tr>
+        <td>v_col</td><td>Int</td><td>число столбцов для отображения портов</td>
+    </tr>
+    <tr>
+        <td>v_row</td><td>Int</td><td>число строк для отображения портов</td>
+    </tr>
+    <tr>
+        <td>v_forw_l_r</td><td>Bool</td><td>счет портов - справа налево/сверху вниз</td>
+    </tr>
+    <tr>
+        <td>prim</td><td>Char</td><td>примечание</td>
+    </tr>
+    <tr>
+        <td>rack_num</td><td>Int</td><td>номер стойки</td>
+    </tr>
+    <tr>
+        <td>rack_pos</td><td>Int</td><td>позиция в стойке</td>
+    </tr>
+    <tr>
+        <td rowspan="14"><b>Device</b> <br>(активное <br>оборудование)</td>
+        <td>parrent</td><td>ForeignKey</td><td>Locker_id</td>
+    </tr>
+    <tr>
+        <td>name</td><td>Char</td><td></td>
+    </tr>
+    <tr>
+        <td>name_type</td><td>Char</td><td>имя из шаблона</td>
+    </tr>
+    <tr>
+        <td>con_type</td><td>Int</td><td>ссылка на Templ_device_id</td>
+    </tr>
+    <tr>
+        <td>ip_addr</td><td>GenericIPAddress</td><td>ip адрес</td>
+    </tr>
+    <tr>
+        <td>mac_addr</td><td>Char</td><td>mac адрес</td>
+    </tr>
+    <tr>
+        <td>sn</td><td>Char</td><td>серийный номер</td>
+    </tr>
+    <tr>
+        <td>vers_po</td><td>Char</td><td>версия ПО</td>
+    </tr>
+<!--    <tr>
+        <td>vlan</td><td>Char</td><td>список vlan</td>
+    </tr>-->
+    <tr>
+        <td>man_conf</td><td>Char</td><td>прошил</td>
+    </tr>
+    <tr>
+        <td>man_install</td><td>Char</td><td>монтажник</td>
+    </tr>
+    <tr>
+        <td>date_ent</td><td>Date</td><td>дата установки</td>
+    </tr>
+    <tr>
+        <td>prim</td><td>Char</td><td>примечание</td>
+    </tr>
+    <tr>
+        <td>rack_num</td><td>Int</td><td>номер стойки</td>
+    </tr>
+    <tr>
+        <td>rack_pos</td><td>Int</td><td>позиция в стойке</td>
+    </tr>
+    <tr>
+        <td rowspan="12"><b>Box</b> <br>(КРТ)</td>
+        <td>parrent</td><td>ForeignKey</td><td>Locker_id</td>
+    </tr>
+    <tr>
+        <td>name</td><td>Char</td><td>порядковый номер в шкафу</td>
+    </tr>
+    <tr>
+        <td>num</td><td>Char</td><td>порядковый номер в текущем подъезде</td>
+    </tr>
+    <tr>
+        <td>name_type</td><td>Char</td><td>имя из шаблона</td>
+    </tr>
+    <tr>
+        <td>con_type</td><td>Int</td><td>ссылка на Templ_box_id</td>
+    </tr>
+    <tr>
+        <td>stairway</td><td>Char</td><td>подъезд</td>
+    </tr>
+    <tr>
+        <td>floor</td><td>Char</td><td>этаж</td>
+    </tr>
+    <tr>
+        <td>serv_area</td><td>Char</td><td>зона действия</td>
+    </tr>
+    <tr>
+        <td>num_plints</td><td>Int</td><td>счетчик плинтов</td>
+    </tr>
+    <tr>
+        <td>prim</td><td>Char</td><td>примечание</td>
+    </tr>
+    <tr>
+        <td>rack_num</td><td>Int</td><td>номер стойки</td>
+    </tr>
+    <tr>
+        <td>rack_pos</td><td>Int</td><td>позиция в стойке</td>
+    </tr>
+    
+</tbody>
+</table>
+    
+</td><td>&nbsp</td><td> 
+
+<table cellspacing="2" cellpadding="2" border="1">
+<caption>модуль "cross" (порты)</caption>
+<tbody align="center">
+    <tr style="background-color:#B5FFCE"><td>таблица БД</td><td>поле модели БД</td><td>тип поля</td><td>описание</td></tr>
+    <tr>
+        <td rowspan="11"><b>Cross_ports</b> <br>(порты кросса)</td>
+        <td>parrent</td><td>ForeignKey</td><td>Cross_id</td>
+    </tr>
+    <tr>
+        <td>num</td><td>Int</td><td>номер порта</td>
+    </tr>
+    <tr>
+        <td>port_t_x</td><td>Int</td><td>тип порта (оптич./медь)</td>
+    </tr>
+    <tr>
+        <td>p_valid</td><td>Bool</td><td>исправность порта</td>
+    </tr> 
+    <tr>
+        <td>prim</td><td>Char</td><td>примечание</td>
+    </tr>
+    <tr>
+        <td>up_cross_id</td><td>Int</td><td>ссылка на Cross_ports_id</td>
+    </tr>
+    <tr>
+        <td>up_status</td><td>Int</td><td>статус внешней связи</td>
+    </tr>
+    <tr>
+        <td>int_c_dest</td><td>Int</td><td>тип скроссированного устройства</td>
+    </tr>
+    <tr>
+        <td>int_c_id</td><td>Int</td><td>ссылка на Cross_ports_id <br>или Device_ports_id</td>
+    </tr>
+    <tr>
+        <td>int_c_status</td><td>Int</td><td>статус внутренней кроссировки</td>
+    </tr>
+    <tr>
+        <td>cab_p_id</td><td>Int</td><td>id волокна при варке в муфте</td>
+    </tr>
+    <tr>
+        <td rowspan="20"><b>Device_ports</b> <br>(порты оборудования)</td>
+        <td>parrent</td><td>ForeignKey</td><td>Device_id</td>
+    </tr>
+    <tr>
+        <td>num</td><td>Int</td><td>номер порта</td>
+    </tr>
+    <tr>
+        <td>port_t_x</td><td>Int</td><td>тип порта (оптич./медь)</td>
+    </tr>
+    <tr>
+        <td>port_speed</td><td>Int</td><td>скорость порта</td>
+    </tr>
+    <tr>
+        <td>p_valid</td><td>Bool</td><td>исправность порта</td>
+    </tr> 
+    <tr>
+        <td>p_alias</td><td>Char</td><td>псевдоним порта</td>
+    </tr>
+<!--    <tr>
+        <td>p_vlan</td><td>Char</td><td>список vlan на порту</td>
+    </tr>-->
+    <tr>
+        <td>prim</td><td>Char</td><td>примечание</td>
+    </tr>
+    <tr>
+        <td>int_c_dest</td><td>Int</td><td>тип скроссированного устройства</td>
+    </tr>
+    <tr>
+        <td>int_c_id</td><td>Int</td><td>ссылка на Cross_ports_id, <br>Device_ports_id или Box_ports_id</td>
+    </tr>
+    <tr>
+        <td>int_c_status</td><td>Int</td><td>статус кроссировки</td>
+    </tr>
+    <tr>
+        <td>int_c_t_x</td><td>Int</td><td>тип кроссировки(оптич./медь) (резерв)</td>
+    </tr>
+    <tr>
+        <td>int_c_speed</td><td>Int</td><td>тип кроссировки(скорость) (резерв)</td>
+    </tr>
+    <tr>
+        <td>vlan_tag_list</td><td>Char</td><td>список tagged vlans</td>
+    </tr>
+    <tr>
+        <td>vlan_untag</td><td>Int</td><td>untagged vlan</td>
+    </tr>
+    <tr>
+        <td>mvr</td><td>Char</td><td>mvr type</td>
+    </tr>
+    <tr>
+        <td>ip</td><td>Char</td><td>ip адрес / маска</td>
+    </tr>
+    <tr>
+        <td>shut</td><td>Bool</td><td>shutdown</td>
+    </tr>
+    <tr>
+        <td>desc</td><td>Char</td><td>description</td>
+    </tr>
+    <tr>
+        <td>p_chan</td><td>Int</td><td>port channel</td>
+    </tr>
+    <tr>
+        <td>trunk</td><td>Bool</td><td>trunk</td>
+    </tr>
+    <tr>
+        <td rowspan="8"><b>Device_ports_v</b> <br>(виртуальные порты)</td>
+        <td>parrent</td><td>ForeignKey</td><td>Device_id</td>
+    </tr>
+    <tr>
+        <td>parrent_p</td><td>Int</td><td>принадлежность к физич. или вирт. порту</td>
+    </tr>
+    <tr>
+        <td>p_alias</td><td>Char</td><td>псевдоним порта</td>
+    </tr>
+    <tr>
+        <td>prim</td><td>Char</td><td>примечание</td>
+    </tr>
+    <tr>
+        <td>vlan_untag</td><td>Int</td><td>untagged vlan</td>
+    </tr>
+    <tr>
+        <td>ip</td><td>Char</td><td>ip адрес / маска</td>
+    </tr>
+    <tr>
+        <td>shut</td><td>Bool</td><td>shutdown</td>
+    </tr>
+    <tr>
+        <td>desc</td><td>Char</td><td>description</td>
+    </tr>
+    <tr>
+        <td rowspan="19"><b>Box_ports</b> <br>(порты КРТ)</td>
+        <td>parrent</td><td>ForeignKey</td><td>Box_id</td>
+    </tr>
+    <tr>
+        <td>cable_id</td><td>Int</td><td>ссылка на Templ_box_cable_id</td>
+    </tr>
+    <tr>
+        <td>num</td><td>Int</td><td>номер порта</td>
+    </tr>
+    <tr>
+        <td>port_t_x</td><td>Int</td><td>тип порта (оптич./медь) (резерв)</td>
+    </tr>
+    <tr>
+        <td>p_valid</td><td>Bool</td><td>исправность порта</td>
+    </tr> 
+    <tr>
+        <td>p_alias</td><td>Char</td><td>псевдоним порта</td>
+    </tr>
+    <tr>
+        <td>up_device_id</td><td>Int</td><td>ссылка на Device_ports_id</td>
+    </tr>
+    <tr>
+        <td>up_status</td><td>Int</td><td>статус связи с оборудованием</td>
+    </tr>
+    <tr>
+        <td>int_c_status</td><td>Int</td><td>статус абонентской кроссировки</td>
+    </tr>
+    <tr>
+        <td>dogovor</td><td>Char</td><td>абонентский договор</td>
+    </tr>
+    <tr>
+        <td>ab_kv</td><td>Char</td><td>квартира</td>
+    </tr>
+    <tr>
+        <td>ab_fio</td><td>Char</td><td>ФИО</td>
+    </tr>
+    <tr>
+        <td>ab_prim</td><td>Char</td><td>примечание по кроссировке</td>
+    </tr>
+    <tr>
+        <td>his_dogovor</td><td>Char</td><td>абонентский договор (история)</td>
+    </tr>
+    <tr>
+        <td>his_ab_kv</td><td>Char</td><td>квартира (история)</td>
+    </tr>
+    <tr>
+        <td>his_ab_fio</td><td>Char</td><td>ФИО (история)</td>
+    </tr>
+    <tr>
+        <td>his_ab_prim</td><td>Char</td><td>примечание по кроссировке (история)</td>
+    </tr>
+    <tr>
+        <td>date_cr</td><td>Date</td><td>дата создания порта/<br>назначения кроссировки</td>
+    </tr>
+    <tr>
+        <td>date_del</td><td>Date</td><td>дата снятия кроссировки</td>
+    </tr>
+    
+</tbody>
+</table>
+
+</td></tr>
+
+<tr><td>&nbsp</td></tr>
+
+<tr align="center" valign="top"><td>
+
+<table cellspacing="2" cellpadding="2" border="1">
+<caption>модуль "cable" (объекты)</caption>
+<tbody align="center">
+    <tr style="background-color:#B5FFCE"><td>таблица БД</td><td>поле модели БД</td><td>тип поля</td><td>описание</td></tr>
+    
+    <tr>
+        <td rowspan="8"><b>PW_cont</b> <br>(опоры, колодцы)</td>
+        <td>parrent</td><td>ForeignKey</td><td>Kvartal_id</td>
+    </tr>
+    <tr>
+        <td>name</td><td>Char</td><td></td>
+    </tr>
+    <tr>
+        <td>obj_type</td><td>Int</td><td>тип объекта <br>(1-опора, 2-колодец)</td>
+    </tr>
+    <tr>
+        <td>object_owner</td><td>Char</td><td>владелец</td>
+    </tr>
+    <tr>
+        <td>rasp</td><td>Char</td><td>расположение</td>
+    </tr>
+    <tr>
+        <td>prim</td><td>Char</td><td>примечание</td>
+    </tr>
+    <tr>
+        <td>coord_x</td><td>Float</td><td>координата X</td>
+    </tr>
+    <tr>
+        <td>coord_y</td><td>Float</td><td>координата Y</td>
+    </tr>
+    <tr>
+        <td rowspan="10"><b>Coupling</b> <br>(муфты)</td>
+        <td>parrent</td><td>Int</td><td>parrent_id</td>
+    </tr>
+    <tr>
+        <td>parr_type</td><td>Int</td><td>тип родительского объекта <br>(0-Locker, 1-Building, 2-PW_cont)</td>
+    </tr>
+    <tr>
+        <td>name</td><td>Char</td><td></td>
+    </tr>
+    <tr>
+        <td>name_type</td><td>Char</td><td>имя из шаблона</td>
+    </tr>
+    <tr>
+        <td>installed</td><td>Bool</td><td>установлена/запланирована</td>
+    </tr>
+    <tr>
+        <td>date_ent</td><td>Date</td><td>дата ввода в эксплуатацию</td>
+    </tr>
+    <tr>
+        <td>rasp</td><td>Char</td><td>расположение</td>
+    </tr>
+    <tr>
+        <td>prim</td><td>Char</td><td>примечание</td>
+    </tr>
+    <tr>
+        <td>coord_x</td><td>Float</td><td>координата X</td>
+    </tr>
+    <tr>
+        <td>coord_y</td><td>Float</td><td>координата Y</td>
+    </tr>    
+    
+</tbody>
+</table>
+    
+</td><td>&nbsp</td><td> 
+
+<table cellspacing="2" cellpadding="2" border="1">
+<caption>модуль "cable" (порты)</caption>
+<tbody align="center">
+    <tr style="background-color:#B5FFCE"><td>таблица БД</td><td>поле модели БД</td><td>тип поля</td><td>описание</td></tr>
+    <tr>
+        <td rowspan="14"><b>Coupling_ports</b> <br>(волокна)</td>
+        <td>parrent</td><td>ForeignKey</td><td>Coupling_id</td>
+    </tr>
+    <tr>
+        <td>cable_num</td><td>Int</td><td>№ кабеля в муфте</td>
+    </tr>
+    <tr>
+        <td>cable_type</td><td>Int</td><td>тип кабеля из шаблона</td>
+    </tr>
+    <tr>
+        <td>fiber_num</td><td>Int</td><td>№ волокна в кабале</td>
+    </tr> 
+    <tr>
+        <td>fiber_color</td><td>Char</td><td>цвет волокна в кабале</td>
+    </tr>
+    <tr>
+        <td>mod_num</td><td>Int</td><td>№ модуля в кабале</td>
+    </tr>
+    <tr>
+        <td>mod_color</td><td>Char</td><td>цвет модуля в кабале</td>
+    </tr>
+    <tr>
+        <td>changed</td><td>Bool</td><td>запланированы изменения</td>
+    </tr>
+    <tr>
+        <td>prim</td><td>Char</td><td>примечание</td>
+    </tr>
+    <tr>
+        <td>up_id</td><td>Int</td><td>ссылка на Coupling_ports_id</td>
+    </tr>
+    <tr>
+        <td>up_info</td><td>Char</td><td>информация о кабеле <br>(физич длина, запас, дата прокладки)</td>
+    </tr>
+    <tr>
+        <td>int_c_dest</td><td>Int</td><td>тип конечного порта <br>(0-в муфту, 1-в кросс)</td>
+    </tr>
+    <tr>
+        <td>int_c_id</td><td>Int</td><td>ссылка на Cross_ports_id или Coupling_ports_id</td>
+    </tr>
+    <tr>
+        <td>int_c_status</td><td>Int</td><td>статус кроссировки <br>(0-разрыв, 1-транзит, 2-варка)</td>
+    </tr>
+    
+</tbody>
+</table>
+
+</td></tr>
+
+<tr><td colspan="3" align="center">
+
+<table cellspacing="2" cellpadding="2" border="1">
+<caption><br>модуль "cross" и "cable" (шаблоны)</caption>
+<tbody align="center">
+    <tr style="background-color:#B5FFCE"><td>таблица БД</td><td>поле модели БД</td><td>тип поля</td><td>описание</td><td>пример</td></tr>
+    
+    <tr>
+        <td rowspan="1"><b>Templ_locker</b> (УД)</td>
+        <td>name</td><td>Char</td><td></td><td>ЩМП-04</td>
+    </tr>
+<!--    <tr>
+        <td>units</td><td>Int</td><td>ёмкость шкафа (резерв)</td><td>3</td>
+    </tr>-->
+    <tr>
+        <td rowspan="8"><b>Templ_cross</b> <br>(кроссы)</td>
+        <td>name</td><td>Char</td><td></td><td>кросс-96</td>
+    </tr>
+    <tr>
+        <td>ports</td><td>Int</td><td>количество портов</td><td>96</td>
+    </tr>
+    <tr>
+        <td>port_t_x</td><td>Int</td><td>тип портов (1-оптич. 2-медь)</td><td>1</td>
+    </tr>
+    <tr>
+        <td>v_col</td><td>Int</td><td>число столбцов для отображения портов</td><td>12</td>
+    </tr>
+    <tr>
+        <td>v_row</td><td>Int</td><td>число строк для отображения портов</td><td>8</td>
+    </tr>
+    <tr>
+        <td>v_forw_l_r</td><td>Bool</td><td>счет портов - справа налево/сверху вниз</td><td>False</td>
+    </tr>
+    <tr>
+        <td>ext_p</td><td>Bool</td><td>расширяемый кросс(кассета)</td><td>False</td>
+    </tr>
+    <tr>
+        <td>units</td><td>Int</td><td>количество занимаемых юнитов в стойке</td><td></td>
+    </tr>
+    <tr>
+        <td rowspan="7"><b>Templ_device</b> <br>(оборудование)</td>
+        <td>parrent</td><td>ForeignKey</td><td>Device_type_id</td><td></td>
+    </tr>
+    <tr>
+        <td>name</td><td>Char</td><td></td><td>3510MA</td>
+    </tr>
+    <tr>
+        <td>ports</td><td>Int</td><td>количество портов</td><td>10</td>
+    </tr>
+    <tr>
+        <td>port_alias_list</td><td>Char</td><td>список псевдонимов портов</td><td>p1,p2,p3,p4,p5,p6,p7,p8,p9,p10</td>
+    </tr>
+    <tr>
+        <td>port_t_x_list</td><td>CommaSeparated<br>Integer</td><td>список типов портов <br>(1-оптич. 2-медь. 3-combo)</td><td>2,2,2,2,2,2,2,2,3,3</td>
+    </tr>
+    <tr>
+        <td>port_speed_list</td><td>CommaSeparated<br>Integer</td><td>список возможных скоростей портов <br>(битовые сложения) <br>1 - 10Mb. 2 - 100Mb. 4 - 1Gb. 8 - 10Gb</td><td>3,3,3,3,3,3,3,3,7,7</td>
+    </tr>
+    <tr>
+        <td>units</td><td>Int</td><td>количество занимаемых юнитов в стойке</td><td></td>
+    </tr>
+    <tr>
+        <td rowspan="2"><b>Templ_box</b> <br>(КРТ)</td>
+        <td>name</td><td>Char</td><td></td><td>КРТ 30</td>
+    </tr>
+    <tr>
+        <td>units</td><td>Int</td><td>количество занимаемых юнитов в стойке</td><td></td>
+    </tr>
+    <tr>
+        <td rowspan="5"><b>Templ_box_cable</b> <br>(КРТ)</td>
+        <td>name</td><td>Char</td><td></td><td>тип кабеля 8x2</td>
+    </tr>
+    <tr>
+        <td>ports</td><td>Int</td><td>количество портов</td><td>4</td>
+    </tr>
+    <tr>
+        <td>alias_list</td><td>Char</td><td>список псевдонимов портов</td><td>1-(1-2),1-(3-4),1-(5-6),1-(7-8)</td>
+    </tr>
+    <tr>
+        <td>num_plints</td><td>Int</td><td>количество плинтов</td><td>1</td>
+    </tr>
+    <tr>
+        <td>color_cable</td><td>Int</td><td>цвет кабеля для наглядности</td><td>1</td>
+    </tr>
+    <tr>
+        <td rowspan="1"><b>Templ_coupling</b> <br>(оптические муфты)</td>
+        <td>name</td><td>Char</td><td></td><td>FTTH...</td>
+    </tr>
+    <tr>
+        <td rowspan="6"><b>Templ_cable</b> <br>(оптические кабели)</td>
+        <td>name</td><td>Char</td><td></td><td>ОК-4 GYXTC8Y(S)-04B1.3 (2мм)</td>
+    </tr>
+    <tr>
+        <td>capacity</td><td>Int</td><td>ёмкость кабеля</td><td>4</td>
+    </tr>
+    <tr>
+        <td>modules</td><td>Char</td><td>количество модулей</td><td>1</td>
+    </tr>
+    <tr>
+        <td>mod_capa_list</td><td>Int</td><td>список соответствия волокон модулям</td><td>1-1,2-1,3-1,4-1</td>
+    </tr>    
+    <tr>
+        <td>mod_color_list</td><td>Int</td><td>список цветов модулей</td><td>bisque</td>
+    </tr>
+    <tr>
+        <td>fiber_colors_list</td><td>Int</td><td>список цветов волокон</td><td>royalblue,orange,limegreen,bisque</td>
+    </tr>
+    
+</tbody>
+</table>
+
+</td></tr>
+<tr align="center" valign="top"><td>
+
+<table cellspacing="2" cellpadding="2" border="1">
+<caption><br>модуль "kpp"</caption>
+<tbody align="center">
+    <tr style="background-color:#B5FFCE"><td>таблица БД</td><td>поле модели БД</td><td>тип поля</td><td>описание</td></tr>
+    <tr>
+        <td rowspan="8"><b>History</b> <br>(история операций)</td>
+        <td>user</td><td>Char</td><td>пользователь</td>
+    </tr>
+    <tr>
+        <td>date_rec</td><td>Date</td><td>дата</td>
+    </tr>
+    <tr>
+        <td>time_rec</td><td>DateTime</td><td>время</td>
+    </tr>
+    <tr>
+        <td>obj_type</td><td>Int</td><td>тип объекта</td>
+    </tr>
+    <tr>
+        <td>obj_id</td><td>Int</td><td>id объекта</td>
+    </tr>
+    <tr>
+        <td>operation1</td><td>Int</td><td>тип операции (1 запись)</td>
+    </tr>
+    <tr>
+        <td>operation2</td><td>Int</td><td>тип операции (2 запись)</td>
+    </tr>
+    <tr>
+        <td>text</td><td>Char</td><td>комментарий</td>
+    </tr>
+    <tr>
+        <td rowspan="1"><b>engineer</b> <br>(инженеры)</td>
+        <td>fio</td><td>Char</td><td>ФИО</td>
+    </tr>
+    <tr>
+        <td rowspan="1"><b>COffice</b> <br>(офисы, районы)</td>
+        <td>name</td><td>Char</td><td></td>
+    </tr>
+    <tr>
+        <td rowspan="1"><b>Device_type</b> <br>(типы оборудования)</td>
+        <td>name</td><td>Char</td><td></td>
+    </tr>
+    <tr>
+        <td rowspan="3"><b>last_visit</b> <br>(активность пользователей)</td>
+        <td>login</td><td>Char</td><td></td>
+    </tr>
+    <tr>
+        <td>fullname</td><td>Char</td><td>ФИО</td>
+    </tr>
+    <tr>
+        <td>date_l_v</td><td>date</td><td>дата последнего визита</td>
+    </tr>
+</tbody>
+</table>
+
+<table cellspacing="2" cellpadding="2" border="1">
+<caption><br></caption>
+<tbody align="center">
+    
+    <tr>
+        <td rowspan="11"><b>PRM</b> <br>(права пользователей) <br>Meta класс</td>
+        <td>can_adm</td><td>административные права</td>
+    </tr>
+    <tr>
+        <td>can_new</td><td>права для создания объектов</td>
+    </tr>
+    <tr>
+        <td>can_del</td><td>права для удаления объектов</td>
+    </tr>
+    <tr>
+        <td>can_edit</td><td>права для редактирования объектов</td>
+    </tr>
+    <tr>
+        <td>can_ext</td><td>права для изменения внешних связей</td>
+    </tr>
+    <tr>
+        <td>can_int</td><td>права для изменения внутренних связей</td>
+    </tr>
+    <tr>
+        <td>can_ab</td><td>права для изменения абонентских кроссировок</td>
+    </tr>
+    <tr>
+        <td>can_sh_agr</td><td>права для доступа к особым объектам</td>
+    </tr>
+    <tr>
+        <td>can_cable_edit</td><td>права для редактирования муфт и кабелей</td>
+    </tr>
+    <tr>
+        <td>can_app_view</td><td>права для просиотра заявок</td>
+    </tr>
+    <tr>
+        <td>can_app_edit</td><td>права для редактирования заявок</td>
+    </tr>
+    
+</tbody>
+</table>
+
+</td><td>&nbsp</td><td> 
+
+<table cellspacing="2" cellpadding="2" border="1">
+<caption><br>модуль "заявки"</caption>
+<tbody align="center">
+    <tr style="background-color:#B5FFCE"><td>таблица БД</td><td>поле модели БД</td><td>тип поля</td><td>описание</td></tr>
+    
+    <tr>
+        <td rowspan="18"><b>Appp</b> <br>(заявки)</td>
+        <td>app_status</td><td>Int</td><td>статус заявки</td>
+    </tr>
+    <tr>
+        <td>type_proc</td><td>Int</td><td>тип заявки (0-установка. 1-снятие)</td>
+    </tr>
+    <tr>
+        <td>dogovor</td><td>Char</td><td>номер договора</td>
+    </tr>
+    <tr>
+        <td>n_order</td><td>Char</td><td>номер ордера</td>
+    </tr>
+    <tr>
+        <td>street</td><td>Char</td><td>улица</td>
+    </tr>
+    <tr>
+        <td>build</td><td>Char</td><td>строение</td>
+    </tr>
+    <tr>
+        <td>kv</td><td>Char</td><td>квартира</td>
+    </tr>
+    <tr>
+        <td>fio</td><td>Char</td><td>ФИО абонента</td>
+    </tr>
+    <tr>
+        <td>prim</td><td>Char</td><td>примечание по заявке</td>
+    </tr>
+    <tr>
+        <td>comment</td><td>Char</td><td>комментарий техучета</td>
+    </tr>
+    <tr>
+        <td>resource</td><td>Char</td><td>назначенные ресурсы</td>
+    </tr>
+    <tr>
+        <td>pause_type</td><td>Char</td><td>тип отказа или откладывания</td>
+    </tr>
+    <tr>
+        <td>box_port</td><td>Int</td><td>ссылка на Box_ports_id</td>
+    </tr>
+    <tr>
+        <td>man_oper</td><td>Char</td><td>оператор</td>
+    </tr>
+    <tr>
+        <td>man_install</td><td>Char</td><td>инсталлятор</td>
+    </tr>
+    <tr>
+        <td>date_1</td><td>DateTime</td><td>дата принятия</td>
+    </tr>
+    <tr>
+        <td>date_2</td><td>DateTime</td><td>дата обработки</td>
+    </tr>
+    <tr>
+        <td>date_3</td><td>DateTime</td><td>дата выполнения</td>
+    </tr>
+    
+</tbody>
+</table>
+
+    
+</td></tr></table></div>
+<br>
+
+
+<table width="100%"><tr>
+    <td align="left">&nbsp<a href="/manual/8/">Муфты (редактирование)</a>&nbsp</td>
+    <td align="right">&nbsp<a href="/manual/10/">Руководство администратора и разработчика (описание функций)</a>&nbsp</td>
+</tr></table>
+
+
+{% endblock %}

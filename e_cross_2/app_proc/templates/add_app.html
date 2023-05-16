@@ -1,0 +1,121 @@
+{% extends 'app.html' %}
+
+{% block add_app %}
+    
+<form method="post">
+    {% csrf_token %}
+    
+<table border="1">
+    <tr>
+        <td>
+            <table border="0">
+                <caption style="background-color:bisque"><i>новая заявка</i></caption>
+                <tr>
+                    <td align="center">
+                        &nbsp{{ form.n_order.label }}&nbsp<br>&nbsp{{ form.n_order }}&nbsp
+                    </td>
+                    <td align="center">
+                        {{ form.street.label }}<br>{{ form.street }}
+                    </td>
+                    <td align="center">
+                        список зданий<br>
+                        <select id="id_house_num_list" name="house_num_list" style="width: 80px;"></select>
+                        {#{{ form.house_num_list.label }}<br>{{ form.house_num_list }}#}
+                    </td>
+                    <td align="center">
+                        {{ form.house_num.label }}<br>{{ form.house_num }}
+                    </td>
+                    <td align="center">
+                        {{ form.kv.label }}<br>{{ form.kv }}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        &nbsp{{ form.dog.label }}&nbsp<br>&nbsp{{ form.dog }}&nbsp
+                    </td>
+                    <td colspan="4" align="center">
+                        &nbsp{{ form.fio.label }}&nbsp<br>&nbsp{{ form.fio }}&nbsp
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        &nbsp{{ form.type_proc.label }}&nbsp<br>&nbsp{{ form.type_proc }}&nbsp
+                    </td>
+                    <td colspan="4" align="center">
+                        &nbsp{{ form.prim.label }}&nbsp<br>&nbsp{{ form.prim }}&nbsp
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="700px" align="right">
+                <input type="submit" value="     OK     ">&nbsp
+            </td>
+            <td width="700px" align="left">
+                <input type="button" value="отмена" onClick='location.href="/app/status=0/"'>
+            </td>
+        </tr>
+    </table>
+    
+</form>
+
+<!--<div id="out1"></div>
+<div id="out2"></div>-->
+
+<script language="javascript">
+
+window.onload = function init() {
+    h_num_list();
+    document.getElementById("id_dog").disabled = ! Number(document.getElementById("id_type_proc").value);
+}
+
+function h_num_list() {
+    var http = new getXmlHttp();
+    var url = "/find/js_request/?str=" + id_street.value;
+    http.open("GET", url, true);
+    http.onreadystatechange = function() {
+    if (http.readyState == 4 && http.status == 200) {
+        var answer = http.responseText;
+        var arr1 = answer.slice(2,-3).split("',)('");
+        id_house_num_list.options.length = 0;
+        id_house_num_list.options[id_house_num_list.options.length] = new Option('');
+        for (var i=0, len=arr1.length; i<len; i++) {
+            id_house_num_list.options[id_house_num_list.options.length] = new Option(arr1[i]);
+            }
+        }
+    }
+    http.send(null);
+}
+id_street.addEventListener('change', function(){
+    //console.log(this.value);
+    h_num_list()
+}, false);
+
+id_house_num_list.addEventListener('change', function(){
+    id_house_num.value = this.value;
+    //console.log(this.value);
+    
+}, false);
+
+id_type_proc.addEventListener('change', function(){
+    //console.log(this.value);
+    document.getElementById("id_dog").disabled = ! Number(this.value);
+}, false);
+
+function getXmlHttp() {
+    var xmlhttp;
+    try { xmlhttp = new ActiveXObject("Msxml2.XMLHTTP"); } catch (e) {
+        try { xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); } catch (e2) {
+            xmlhttp = false; } }
+    if (!xmlhttp && typeof XMLHttpRequest!='undefined') { xmlhttp = new XMLHttpRequest(); }
+    return xmlhttp;
+}
+
+</script>
+
+
+{% endblock %}

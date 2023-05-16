@@ -1,0 +1,75 @@
+{% extends 'main.html' %}
+
+{% block statist %}
+
+    <table border="0" id="templ_header">
+        <tr>
+            <td width="1000px" align="left"><h3>&nbsp&nbspCтатистика по оборудованию</h3></td>
+            <td width="280px" align="right">&nbsp</td>
+        </tr>
+    </table>
+
+    <br>
+    <div align="center">
+        <table>
+        <caption>оборудование без IP, SN, MAC</caption>
+            <tr align="center" style="background-color:#B5E8FF">
+                <td>№</td>
+                <td style="background-color:#D4DCC7">&nbsp</td>
+                <td>УД</td>
+                <td style="background-color:#D4DCC7">&nbsp</td>
+                <td>коммутатор</td>
+                <td style="background-color:#D4DCC7">&nbsp</td>
+                <td>модель</td>
+                <td style="background-color:#D4DCC7">&nbsp</td>
+                <td>ip адрес</td>
+                <td style="background-color:#D4DCC7">&nbsp</td>
+                <td>mac адрес</td>
+                <td style="background-color:#D4DCC7">&nbsp</td>
+                <td>серийный номер</td>
+            </tr>
+            <tr style="background-color:#D4DCC7">
+                <td></td>
+                <td style="background-color:#D4DCC7"></td>
+                <td></td>
+                <td style="background-color:#D4DCC7"></td>
+                <td></td>
+                <td style="background-color:#D4DCC7"></td>
+                <td></td>
+                <td style="background-color:#D4DCC7"></td>
+                <td></td>
+                <td style="background-color:#D4DCC7"></td>
+                <td></td>
+                <td style="background-color:#D4DCC7"></td>
+                <td></td>
+            </tr>
+            {% for ob in dev_list %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td style="background-color:#D4DCC7"></td>
+                <td><a style="color:black" href="/cross/build={{ ob.parrent.parrent.id }}/locker={{ ob.parrent.id }}/" target="_blank"><strong>{{ ob.parrent.name }}</strong></a></td>
+                <td style="background-color:#D4DCC7">&nbsp</td>
+                <td><a style="color:black" href="/cross/build={{ ob.parrent.parrent.id }}/locker={{ ob.parrent.id }}/dev={{ ob.id }}/edit/" target="_blank"><strong>{{ ob.name }}</strong></a></td>
+                <td style="background-color:#D4DCC7">&nbsp</td>
+                <td>{{ ob.name_type }}</td>
+                <td style="background-color:#D4DCC7">&nbsp</td>
+                <td>{{ ob.ip_addr }}</td>
+                <td style="background-color:#D4DCC7">&nbsp</td>
+                <td>{{ ob.mac_addr }}</td>
+                <td style="background-color:#D4DCC7">&nbsp</td>
+                <td>{{ ob.sn }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <br>
+    <table border="0" id="templ_footer">
+        <tr>
+            <td width="1000px">&nbsp</td>
+            <td width="280px" align="right"><input type="button" value="назад" onClick='location.href="/kpp/service"'>&nbsp</td>
+        </tr>
+    </table>
+
+
+{% endblock %}

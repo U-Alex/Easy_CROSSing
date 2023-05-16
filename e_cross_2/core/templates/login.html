@@ -1,0 +1,32 @@
+{% extends 'main.html' %}
+
+{% block core %}
+
+    <form action="/core/login/" method="post">
+    {% csrf_token %}
+    
+        <h3>авторизация</h3>
+        <table border="0">
+            <tr>
+                <td align="center">login</td>
+                <td align="center">password</td>
+            </tr>
+            <tr>
+                <td align="right">&nbsp<input type="text" name="username" id="username"></td>
+                <td align="left"><input type="password" name="password" id="password">&nbsp</td>
+                <input type="hidden" name="next_url" id="next_url" value="{{ next_url }}">
+            </tr>
+            <tr>
+                <td align="right"><input type="submit" value="     OK     " /></td>
+                <td align="left"><input type="button" value="отмена" onClick='location.href="/"'></td>
+            </tr>
+        {% if login_error %}
+            <tr>
+                <td colspan="2" align="center" style="background-color:red; color:white"><b>{{ login_error }}</b></td>
+            </tr>
+        {% endif %}
+        </table>
+                
+    </form>
+
+{% endblock %}
