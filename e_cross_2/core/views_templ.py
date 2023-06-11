@@ -1,4 +1,4 @@
-# kpp__views_templ
+# core__views_templ
 
 #import datetime
 #import time
@@ -22,7 +22,7 @@ from cable.models import Templ_cable, Coupling, Coupling_ports, Templ_coupling
 from .forms import templ_lo_Form, templ_cr_Form, templ_dev_Form, templ_box_Form, templ_su_Form
 from .forms import templ_box_cable_Form, templ_cab_Form, templ_coup_Form
 
-#from kpp.shared_def import to_his
+#from core.shared_def import to_his
 from core.e_config import conf
 
 
@@ -31,7 +31,7 @@ from core.e_config import conf
 @login_required(login_url='/core/login/')
 def templ(request):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
     
     return render(request, 'templ.html', {'lo_list': Templ_locker.objects.all().order_by('id'),
@@ -50,7 +50,7 @@ def templ(request):
 @login_required(login_url='/core/login/')
 def templ_lo(request, lo_id):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
     try:
         lo = Templ_locker.objects.get(pk=lo_id) if (lo_id != '0') else 0
@@ -65,7 +65,7 @@ def templ_lo(request, lo_id):
             form = templ_lo_Form(request.POST)
         form.save()
 
-        return HttpResponseRedirect('/kpp/templ/')
+        return HttpResponseRedirect('/core/templ/')
     else:
         form = templ_lo_Form(instance=lo) if (lo_id != '0') else templ_lo_Form()
 
@@ -75,7 +75,7 @@ def templ_lo(request, lo_id):
 @login_required(login_url='/core/login/')
 def templ_lo_del(request, lo_id):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
     try:
         lo = Templ_locker.objects.get(pk=lo_id)
@@ -85,7 +85,7 @@ def templ_lo_del(request, lo_id):
     del_ok = False if Locker.objects.filter(con_type=int(lo.id)).exists() else True
     if request.method == 'POST' and del_ok:
         lo.delete()
-        return HttpResponseRedirect('/kpp/templ/')
+        return HttpResponseRedirect('/core/templ/')
 
     return render(request, 'templ_del.html', {'lo': lo,
                                               'del_ok': del_ok,
@@ -97,7 +97,7 @@ def templ_lo_del(request, lo_id):
 @login_required(login_url='/core/login/')
 def templ_cr(request, cr_id):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
     try:
         cr = Templ_cross.objects.get(pk=cr_id) if (cr_id != '0') else 0
@@ -120,7 +120,7 @@ def templ_cr(request, cr_id):
             form = templ_cr_Form(request.POST)
         form.save()
 
-        return HttpResponseRedirect('/kpp/templ/')
+        return HttpResponseRedirect('/core/templ/')
     else:
         form = templ_cr_Form(instance=cr) if (cr_id != '0') else templ_cr_Form()
 
@@ -130,7 +130,7 @@ def templ_cr(request, cr_id):
 @login_required(login_url='/core/login/')
 def templ_cr_del(request, cr_id):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
     try:
         cr = Templ_cross.objects.get(pk=cr_id)
@@ -140,7 +140,7 @@ def templ_cr_del(request, cr_id):
     del_ok = False if Cross.objects.filter(con_type=int(cr.id)).exists() else True
     if request.method == 'POST' and del_ok:
         cr.delete()
-        return HttpResponseRedirect('/kpp/templ/')
+        return HttpResponseRedirect('/core/templ/')
 
     return render(request, 'templ_del.html', {'cr': cr,
                                               'del_ok': del_ok,
@@ -152,7 +152,7 @@ def templ_cr_del(request, cr_id):
 @login_required(login_url='/core/login/')
 def templ_dev(request, dev_id):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
     try:
         dev = Templ_device.objects.get(pk=dev_id) if (dev_id != '0') else 0
@@ -180,7 +180,7 @@ def templ_dev(request, dev_id):
             form = templ_dev_Form(request.POST)
         form.save()
 
-        return HttpResponseRedirect('/kpp/templ/')
+        return HttpResponseRedirect('/core/templ/')
     else:
         form = templ_dev_Form(instance=dev) if (dev_id != '0') else templ_dev_Form()
 
@@ -190,7 +190,7 @@ def templ_dev(request, dev_id):
 @login_required(login_url='/core/login/')
 def templ_dev_del(request, dev_id):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
     try:
         dev = Templ_device.objects.get(pk=dev_id)
@@ -200,7 +200,7 @@ def templ_dev_del(request, dev_id):
     del_ok = False if Device.objects.filter(con_type=int(dev.id)).exists() else True
     if request.method == 'POST' and del_ok:
         dev.delete()
-        return HttpResponseRedirect('/kpp/templ/')
+        return HttpResponseRedirect('/core/templ/')
 
     return render(request, 'templ_del.html', {'dev': dev,
                                               'del_ok': del_ok,
@@ -212,7 +212,7 @@ def templ_dev_del(request, dev_id):
 @login_required(login_url='/core/login/')
 def templ_box(request, box_id):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
     try:
         box = Templ_box.objects.get(pk=box_id) if (box_id != '0') else 0
@@ -229,7 +229,7 @@ def templ_box(request, box_id):
             form = templ_box_Form(request.POST)
         form.save()
 
-        return HttpResponseRedirect('/kpp/templ/')
+        return HttpResponseRedirect('/core/templ/')
     else:
         form = templ_box_Form(instance=box) if (box_id != '0') else templ_box_Form()
 
@@ -239,7 +239,7 @@ def templ_box(request, box_id):
 @login_required(login_url='/core/login/')
 def templ_box_del(request, box_id):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
     try:
         box = Templ_box.objects.get(pk=box_id)
@@ -249,7 +249,7 @@ def templ_box_del(request, box_id):
     del_ok = False if Box.objects.filter(con_type=int(box.id)).exists() else True
     if request.method == 'POST' and del_ok:
         box.delete()
-        return HttpResponseRedirect('/kpp/templ/')
+        return HttpResponseRedirect('/core/templ/')
 
     return render(request, 'templ_del.html', {'box': box,
                                               'del_ok': del_ok,
@@ -261,7 +261,7 @@ def templ_box_del(request, box_id):
 @login_required(login_url='/core/login/')
 def templ_box_cable(request, b_cab_id):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
     try:
         box_cab = Templ_box_cable.objects.get(pk=b_cab_id) if (b_cab_id != '0') else 0
@@ -282,7 +282,7 @@ def templ_box_cable(request, b_cab_id):
             form = templ_box_cable_Form(request.POST)
         form.save()
 
-        return HttpResponseRedirect('/kpp/templ/')
+        return HttpResponseRedirect('/core/templ/')
     else:
         form = templ_box_cable_Form(instance=box_cab) if (b_cab_id != '0') else templ_box_cable_Form()
 
@@ -292,7 +292,7 @@ def templ_box_cable(request, b_cab_id):
 @login_required(login_url='/core/login/')
 def templ_box_cable_del(request, b_cab_id):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
     try:
         box_cab = Templ_box_cable.objects.get(pk=b_cab_id)
@@ -302,7 +302,7 @@ def templ_box_cable_del(request, b_cab_id):
     del_ok = False if Box_ports.objects.filter(cable_id=int(box_cab.id)).exists() else True
     if request.method == 'POST' and del_ok:
         box_cab.delete()
-        return HttpResponseRedirect('/kpp/templ/')
+        return HttpResponseRedirect('/core/templ/')
 
     return render(request, 'templ_del.html', {'box_cab': box_cab,
                                               'del_ok': del_ok,
@@ -314,7 +314,7 @@ def templ_box_cable_del(request, b_cab_id):
 @login_required(login_url='/core/login/')
 def templ_su(request, su_id):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
     try:
         su = Templ_subunit.objects.get(pk=su_id) if (su_id != '0') else 0
@@ -329,7 +329,7 @@ def templ_su(request, su_id):
             form = templ_su_Form(request.POST)
         form.save()
 
-        return HttpResponseRedirect('/kpp/templ/')
+        return HttpResponseRedirect('/core/templ/')
     else:
         form = templ_su_Form(instance=su) if (su_id != '0') else templ_su_Form()
 
@@ -339,7 +339,7 @@ def templ_su(request, su_id):
 @login_required(login_url='/core/login/')
 def templ_su_del(request, su_id):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
     try:
         su = Templ_subunit.objects.get(pk=su_id)
@@ -349,7 +349,7 @@ def templ_su_del(request, su_id):
     del_ok = False if Subunit.objects.filter(con_type=int(su.id)).exists() else True
     if request.method == 'POST' and del_ok:
         su.delete()
-        return HttpResponseRedirect('/kpp/templ/')
+        return HttpResponseRedirect('/core/templ/')
 
     return render(request, 'templ_del.html', {'su': su,
                                               'del_ok': del_ok,
@@ -361,7 +361,7 @@ def templ_su_del(request, su_id):
 @login_required(login_url='/core/login/')
 def templ_cab(request, cab_id):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
     try:
         cab = Templ_cable.objects.get(pk=cab_id) if (cab_id != '0') else 0
@@ -388,7 +388,7 @@ def templ_cab(request, cab_id):
             form = templ_cab_Form(request.POST)
         form.save()
 
-        return HttpResponseRedirect('/kpp/templ/')
+        return HttpResponseRedirect('/core/templ/')
     else:
         form = templ_cab_Form(instance=cab) if (cab_id != '0') else templ_cab_Form()
 
@@ -398,7 +398,7 @@ def templ_cab(request, cab_id):
 @login_required(login_url='/core/login/')
 def templ_cab_del(request, cab_id):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
     try:
         cab = Templ_cable.objects.get(pk=cab_id)
@@ -409,7 +409,7 @@ def templ_cab_del(request, cab_id):
     count = Coupling_ports.objects.filter(fiber_num=1, cable_type=int(cab.id)).count() / 2
     if request.method == 'POST' and del_ok:
         cab.delete()
-        return HttpResponseRedirect('/kpp/templ/')
+        return HttpResponseRedirect('/core/templ/')
 
     return render(request, 'templ_del.html', {'cab': cab,
                                               'del_ok': del_ok,
@@ -421,7 +421,7 @@ def templ_cab_del(request, cab_id):
 @login_required(login_url='/core/login/')
 def templ_coup(request, coup_id):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
     try:
         coup = Templ_coupling.objects.get(pk=coup_id) if (coup_id != '0') else 0
@@ -436,7 +436,7 @@ def templ_coup(request, coup_id):
             form = templ_coup_Form(request.POST)
         form.save()
 
-        return HttpResponseRedirect('/kpp/templ/')
+        return HttpResponseRedirect('/core/templ/')
     else:
         form = templ_coup_Form(instance=coup) if (coup_id != '0') else templ_coup_Form()
 
@@ -446,7 +446,7 @@ def templ_coup(request, coup_id):
 @login_required(login_url='/core/login/')
 def templ_coup_del(request, coup_id):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
     try:
         coup = Templ_coupling.objects.get(pk=coup_id)
@@ -456,7 +456,7 @@ def templ_coup_del(request, coup_id):
     del_ok = False if Coupling.objects.filter(name_type=coup.name).exists() else True
     if request.method == 'POST' and del_ok:
         coup.delete()
-        return HttpResponseRedirect('/kpp/templ/')
+        return HttpResponseRedirect('/core/templ/')
 
     return render(request, 'templ_del.html', {'coup': coup,
                                               'del_ok': del_ok,

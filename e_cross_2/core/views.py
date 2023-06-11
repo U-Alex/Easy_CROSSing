@@ -1,4 +1,4 @@
-# kpp__views
+# core__views
 
 import datetime
 import time
@@ -77,7 +77,7 @@ def logout(request):
 @login_required(login_url='/core/login/')
 def service(request):
 
-    #if not request.user.has_perm("kpp.can_adm"):
+    #if not request.user.has_perm("core.can_adm"):
     #    return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
 
     #perm = Permission.objects.get(codename='can_adm')
@@ -101,19 +101,19 @@ def service(request):
 @login_required(login_url='/core/login/')
 def service_clean_his(request):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
 
     last_visit.objects.all().update(prim='')
 
-    return HttpResponseRedirect('/kpp/service/')
+    return HttpResponseRedirect('/core/service/')
 
 ####################################################################################################
 
 @login_required(login_url='/core/login/')
 def new_kvar(request):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'нет прав для добавления объектов', 'back': 1})
 
     mess = False
@@ -135,7 +135,7 @@ def new_kvar(request):
 @login_required(login_url='/core/login/')
 def new_str(request):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'нет прав для добавления объектов', 'back': 1})
 
     mess = False
@@ -157,7 +157,7 @@ def new_str(request):
 @login_required(login_url='/core/login/')
 def new_bu(request):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'нет прав для добавления объектов', 'back': 1})
 
     mess = False
@@ -186,7 +186,7 @@ def new_bu(request):
 @login_required(login_url='/core/login/')
 def sprav(request):
 
-    if not request.user.has_perm("kpp.can_edit_bu"):
+    if not request.user.has_perm("core.can_edit_bu"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 1})
 
     return render(request, 'sprav.html', {'comp_list': manage_comp.objects.all().order_by('name')})
@@ -195,7 +195,7 @@ def sprav(request):
 @login_required(login_url='/core/login/')
 def sprav_upr(request, upr_id):
 
-    if not request.user.has_perm("kpp.can_edit_bu"):
+    if not request.user.has_perm("core.can_edit_bu"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 1})
     try:
         upr = manage_comp.objects.get(pk=upr_id) if (upr_id != '0') else 0
@@ -209,7 +209,7 @@ def sprav_upr(request, upr_id):
             form = sprav_upr_Form(request.POST)
         form.save()
 
-        return HttpResponseRedirect('/kpp/sprav/')
+        return HttpResponseRedirect('/core/sprav/')
     else:
         form = sprav_upr_Form(instance=upr) if (upr_id != '0') else sprav_upr_Form()
 
@@ -219,7 +219,7 @@ def sprav_upr(request, upr_id):
 @login_required(login_url='/core/login/')
 def sprav_upr_del(request, upr_id):
 
-    if not request.user.has_perm("kpp.can_edit_bu"):
+    if not request.user.has_perm("core.can_edit_bu"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 1})
     try:
         upr = manage_comp.objects.get(pk=upr_id)
@@ -229,7 +229,7 @@ def sprav_upr_del(request, upr_id):
     del_ok = False if Building.objects.filter(info_comp=int(upr.id)).exists() else True
     if request.method == 'POST' and del_ok:
         upr.delete()
-        return HttpResponseRedirect('/kpp/sprav/')
+        return HttpResponseRedirect('/core/sprav/')
 
     return render(request, 'sprav_del.html', {'upr': upr,
                                               'del_ok': del_ok,
@@ -241,7 +241,7 @@ def sprav_upr_del(request, upr_id):
 @login_required(login_url='/core/login/')
 def switch_agr(request):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
     ok = False
     err = False
@@ -269,7 +269,7 @@ def switch_agr(request):
 @login_required(login_url='/core/login/')
 def show_all_logs(request, u, td):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 3})
 
     cur_user = {'login': 'Все пользователи'}

@@ -7,7 +7,7 @@ from django.db import models
 from cross.models import Kvartal
 
 class PW_cont(models.Model):
-    parrent = models.ForeignKey(Kvartal, on_delete=models.CASCADE)
+    parrent = models.ForeignKey(Kvartal, on_delete=models.PROTECT)
     name = models.CharField(max_length=30)
     obj_type = models.IntegerField(default=0)                               #1-опора, 2-колодец
     object_owner = models.CharField(max_length=60, blank=True)              #владелец

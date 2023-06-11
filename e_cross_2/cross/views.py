@@ -24,7 +24,6 @@ from core.shared_def import chain_trace, upd_visit, to_his#, from_bgb_gog_rq
 from core.e_config import conf
 
 ####################################################################################################
-####################################################################################################
 
 
 @login_required(login_url='/core/login/')
@@ -44,7 +43,6 @@ def show_build(request, bu_id):
         for ob in locker_list:
             ob['status2'] = [conf.COLOR_LIST_LO[ob['status']], conf.STATUS_LIST_LO[ob['status']]]
             #ob['name_type2'] = Templ_locker.objects.get(pk=ob['con_type']).name
-            #ob['name_type'] = '--ERROR--'                           ##########
             try:
                 ob['coup'] = Coupling.objects.get(parrent=ob['id'], parr_type=0)
             except ObjectDoesNotExist:
@@ -128,7 +126,6 @@ def show_locker(request, bu_id, lo_id):
         for ob in locker_list:
             ob['status2'] = [conf.COLOR_LIST_LO[ob['status']], conf.STATUS_LIST_LO[ob['status']]]
             #ob['name_type2'] = Templ_locker.objects.get(pk=ob['con_type']).name
-            #ob['name_type'] = '--ERROR--'                           ##########
             try:
                 ob['coup'] = Coupling.objects.get(parrent=ob['id'], parr_type=0)
             except ObjectDoesNotExist:
@@ -141,7 +138,6 @@ def show_locker(request, bu_id, lo_id):
     if cross_list.count() != 0:
         for cr in cross_list:
             #cr['name_type2'] = Templ_cross.objects.get(pk=cr['con_type']).name
-            #cr['name_type'] = '--ERROR--'                           ##########
             st_list1 = [0 for i in range(6)]
             st_list2 = [0 for i in range(6)]
             cr_p_list = Cross_ports.objects.filter(parrent_id=cr['id']).order_by('num')
@@ -159,7 +155,6 @@ def show_locker(request, bu_id, lo_id):
     if device_list.count() != 0:
         for dev in device_list:
             #dev['name_type2'] = Templ_device.objects.get(pk=dev['con_type']).name
-            #dev['name_type'] = '--ERROR--'                           ##########
             st_list = [0 for i in range(6)]
             dev_p_list = Device_ports.objects.filter(parrent_id=dev['id']).order_by('num')
             for dev_p in dev_p_list:
@@ -176,7 +171,6 @@ def show_locker(request, bu_id, lo_id):
     if boxes_list.count() != 0:
         for box in boxes_list:
             #box['name_type2'] = Templ_box.objects.get(pk=box['con_type']).name
-            #box['name_type'] = '--ERROR--'                           ##########
             st_list1 = [0 for i in range(6)]
             st_list2 = [0 for i in range(6)]
             box_p_list = Box_ports.objects.filter(parrent_id=box['id']).order_by('num')
@@ -449,34 +443,17 @@ def show_dev(request, bu_id, lo_id, dev_id, l2=0):
         if len(ob['vlan_tag_list']) > step:
             try:
                 str1 = ob['vlan_tag_list']
-                #print(str1)
                 cnt = 0
                 while True:
                     #print(cnt)
                     pos = str1.find(',', cnt+step)
                     if pos == -1:
                         break
-                    #print('+|'+str(pos))
                     str1 = str1[:pos+1]+' '+str1[pos+1:]
                     cnt = pos + 1
                 ob['vlan_tag_list'] = str1
-                #print(ob['vlan_tag_list'])
             except:
                 ob['vlan_tag_list'] = 'ошибка построения, сообщите разработчику'
-            """
-            t1 = ob['vlan_tag_list']
-            t2 = t1.split(',')
-            t3 = ''
-            step = 30
-            cnt = 0 + step
-            for ob in t2:
-                t3 += ob + ','
-                if len(t3) > cnt:
-                    cnt = len(t3) + step
-                    t3 += ' '
-            t3 = t3[:t3.rfind(',')]
-            ob['vlan_tag_list'] = ''
-            """
             
     try:
         sel = int(request.GET['sel'])
@@ -489,12 +466,9 @@ def show_dev(request, bu_id, lo_id, dev_id, l2=0):
         bil_rq = [False, False]
     try:
         td = datetime.datetime.now() - dev.date_upd
-        #td = datetime.timedelta(seconds=555555794)
         tmin,tsec = divmod(td.seconds, 60)
         th, tmin = divmod(tmin, 60)
-        #upd_td = [td.days, "%02d"%(th), "%02d"%(tmin), "%02d"%(tsec)]
         upd_td = [td.days, "%02d:%02d:%02d" % (th, tmin, tsec)]
-        #print(upd_td)
     except:
         upd_td = False
     
@@ -547,8 +521,6 @@ def show_dev_ips(request, bu_id, lo_id, dev_id):
 ###
 ###
     def add_total(obj):
-        #nonlocal total_list
-        #total_list.append(obj)
         nonlocal dev_vector
         dev_vector.append(obj[3])
         nonlocal t_list2
@@ -642,7 +614,6 @@ def show_dev_ips(request, bu_id, lo_id, dev_id):
                'dev_list': dev_list,
                'dev': dev,
                #'dev2': Templ_device.objects.get(pk=dev.con_type).name,
-               #'total_list': total_list,
                'total_list2': t_list2,
                }
     
@@ -918,10 +889,6 @@ def show_racks(request, bu_id, lo_id):
                 i += 1
 
         ob1.append(cur_rack)
-        #print('|')
-        #print(cur_rack)
-    #print('|||')
-    #print(rack_list)
     
     return render(request, 'show_racks.html', {'lo': lo,
                                                'kv': kv,

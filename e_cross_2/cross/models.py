@@ -20,7 +20,7 @@ class Street(models.Model):
         return self.name#'id-'+str(self.id)+' | '+self.name
 
 class Building(models.Model):
-    parrent = models.ForeignKey(Street, on_delete=models.CASCADE)
+    parrent = models.ForeignKey(Street, on_delete=models.PROTECT)
     name = models.CharField(max_length=30, blank=True)
     house_num = models.CharField(max_length=10)
     kvar = models.IntegerField(default=1)
@@ -43,7 +43,7 @@ class Building(models.Model):
         return str(self.id)+' | '+self.name+' '+self.house_num
 
 class Locker(models.Model):
-    parrent = models.ForeignKey(Building, on_delete=models.CASCADE)
+    parrent = models.ForeignKey(Building, on_delete=models.PROTECT)
     name = models.CharField(max_length=30)
     name_type = models.CharField(max_length=30)
     con_type = models.IntegerField()
@@ -72,7 +72,7 @@ class Locker(models.Model):
         return str(self.id)+' | '+self.name+' || '+str(self.parrent)
 
 class Cross(models.Model):
-    parrent = models.ForeignKey(Locker, on_delete=models.CASCADE)
+    parrent = models.ForeignKey(Locker, on_delete=models.PROTECT)
     name = models.CharField(max_length=30)
     name_type = models.CharField(max_length=30)
     con_type = models.IntegerField()
@@ -88,7 +88,7 @@ class Cross(models.Model):
         return str(self.id)+' | '+self.name+' | type-'+str(self.name_type)
 
 class Device(models.Model):
-    parrent = models.ForeignKey(Locker, on_delete=models.CASCADE)
+    parrent = models.ForeignKey(Locker, on_delete=models.PROTECT)
     name = models.CharField(max_length=30)
     name_type = models.CharField(max_length=30, blank=True)
     con_type = models.IntegerField()
@@ -110,7 +110,7 @@ class Device(models.Model):
         return str(self.id)+' | '+self.name+' | type-'+str(self.name_type)+' | lo-'+str(self.parrent.name)
 
 class Box(models.Model):
-    parrent = models.ForeignKey(Locker, on_delete=models.CASCADE)
+    parrent = models.ForeignKey(Locker, on_delete=models.PROTECT)
     name = models.CharField(max_length=8)
     num = models.CharField(max_length=8)
     name_type = models.CharField(max_length=20)                         
@@ -127,7 +127,7 @@ class Box(models.Model):
         return str(self.id)+' | '+self.name+'-'+self.num+' | '+self.name_type+' || locker-'+str(self.parrent)
 
 class Subunit(models.Model):
-    parrent = models.ForeignKey(Locker, on_delete=models.CASCADE)
+    parrent = models.ForeignKey(Locker, on_delete=models.PROTECT)
     name = models.CharField(max_length=20)
     con_type = models.IntegerField(default=0)
     poe = models.IntegerField(default=0)
