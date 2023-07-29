@@ -1,7 +1,5 @@
 # cable__models
 
-#import datetime
-
 from django.db import models
 
 from cross.models import Kvartal
@@ -77,7 +75,7 @@ class Templ_coupling(models.Model):
 
 ####################################################################################################
 
-#таблицы для внешней оконной программы
+#таблицы для внешней программы
 
 class links(models.Model):
     lineidid = models.CharField(max_length=15)

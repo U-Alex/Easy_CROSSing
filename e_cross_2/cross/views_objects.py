@@ -37,7 +37,7 @@ from core.e_config import conf
 @login_required(login_url='/core/login/')
 def new_locker(request, bu_id):
 
-    if not request.user.has_perm("kpp.can_new"):
+    if not request.user.has_perm("core.can_new"):
         return render(request, 'denied.html', {'mess': 'нет прав для создания УД', 'back': 1})
 
     bu = Building.objects.get(pk=bu_id)
@@ -54,8 +54,7 @@ def new_locker(request, bu_id):
                                              con_type=locker_type,
                                              co=form.cleaned_data['co']
                                              )
-            #bu.kvar = form.cleaned_data['kvar']
-            #bu.save(update_fields=['kvar'])
+
             to_his([request.user, 1, n_locker.id, 1, 0, 'name: '+n_locker.name])
 
             n_coup = Coupling.objects.create(parrent=n_locker.id,
@@ -74,7 +73,7 @@ def new_locker(request, bu_id):
 @login_required(login_url='/core/login/')
 def new_cr(request, bu_id, lo_id):
 
-    if not request.user.has_perm("kpp.can_new"):
+    if not request.user.has_perm("core.can_new"):
         return render(request, 'denied.html', {'mess': 'нет прав для создания кросса', 'back': 1})
 
     lo = Locker.objects.get(pk=lo_id)
@@ -112,16 +111,15 @@ def new_cr(request, bu_id, lo_id):
 @login_required(login_url='/core/login/')
 def new_dev(request, bu_id, lo_id):
 
-    if not request.user.has_perm("kpp.can_new"):
+    if not request.user.has_perm("core.can_new"):
         return render(request, 'denied.html', {'mess': 'нет прав для создания оборудования', 'back': 1})
 
     lo = Locker.objects.get(pk=lo_id)
     if request.method == 'POST':
         form = new_dev_Form(request.POST)
-        try:
-            dev_type2 = form.data['dev_name_type2']
-        except:
-            dev_type2 = False
+        try:    dev_type2 = form.data['dev_name_type2']
+        except: dev_type2 = False
+
         if form.is_valid() and dev_type2:
             dev = Templ_device.objects.get(pk=dev_type2)
             p_al_list = dev.port_alias_list.split(',')
@@ -132,8 +130,9 @@ def new_dev(request, bu_id, lo_id):
             with transaction.atomic():
                 n_dev = Device.objects.create(parrent_id=lo_id,
                                               name=form.cleaned_data['dev_name'],
-                                              name_type=dev.name,
-                                              con_type=dev.id,
+                                              #name_type=dev.name,       ######## deprecated
+                                              con_type=dev.id,          ########
+                                              obj_type=dev
                                               )
                 i = 0
                 while i < dev.ports:
@@ -155,15 +154,17 @@ def new_dev(request, bu_id, lo_id):
 
     t_list = Templ_device.objects.values('parrent_id', 'id', 'name', 'ports').order_by('parrent_id', 'name')
     i = 0
+    dev_type_list = Device_type.objects.all()
     for ob in t_list:
         if ob['parrent_id'] != i:
             i = ob['parrent_id']
-            ob['next_type'] = Device_type.objects.get(pk=ob['parrent_id']).name
-            ob['count_type'] = Templ_device.objects.filter(parrent_id=i).count()
+            #ob['next_type'] = Device_type.objects.get(pk=ob['parrent_id']).name
+            ob['next_type'] = dev_type_list.get(pk=ob['parrent_id']).name
+            #ob['count_type'] = Templ_device.objects.filter(parrent_id=i).count()
         else:
             ob['next_type'] = False
-            ob['count_type'] = False
-    
+            #ob['count_type'] = False
+
     return render(request, 'new_dev.html', {'form': form,
                                             'lo': lo,
                                             't_list': t_list,
@@ -216,7 +217,7 @@ def add_v_port(request, bu_id, lo_id, dev_id):
 @login_required(login_url='/core/login/')
 def new_box(request, bu_id, lo_id):
 
-    if not request.user.has_perm("kpp.can_new"):
+    if not request.user.has_perm("core.can_new"):
         return render(request, 'denied.html', {'mess': 'нет прав для создания крт', 'back': 1})
 
     lo = Locker.objects.get(pk=lo_id)
@@ -259,7 +260,7 @@ def new_box(request, bu_id, lo_id):
 @login_required(login_url='/core/login/')
 def new_su(request, bu_id, lo_id):
 
-    if not request.user.has_perm("kpp.can_new"):
+    if not request.user.has_perm("core.can_new"):
         return render(request, 'denied.html', {'mess': 'нет прав для создания оборудования', 'back': 1})
 
     lo = Locker.objects.get(pk=lo_id)
@@ -305,7 +306,7 @@ def new_su(request, bu_id, lo_id):
 @login_required(login_url='/core/login/')
 def edit_build(request, bu_id):
 
-    if not request.user.has_perm("kpp.can_edit_bu"):
+    if not request.user.has_perm("core.can_edit_bu"):
         return render(request, 'denied.html', {'mess': 'нет прав для редактирования здания', 'back': 1})
 
     bu = Building.objects.get(pk=bu_id)
@@ -420,7 +421,7 @@ def edit_build(request, bu_id):
 @login_required(login_url='/core/login/')
 def edit_locker(request, bu_id, lo_id):
 
-    if not request.user.has_perm("kpp.can_edit"):
+    if not request.user.has_perm("core.can_edit"):
         return render(request, 'denied.html', {'mess': 'нет прав для редактирования УД', 'back': 2})
 
     lo = Locker.objects.get(pk=lo_id)
@@ -548,7 +549,7 @@ def edit_locker(request, bu_id, lo_id):
 @login_required(login_url='/core/login/')
 def edit_cr(request, bu_id, lo_id, cr_id):
 
-    if not request.user.has_perm("kpp.can_edit"):
+    if not request.user.has_perm("core.can_edit"):
         return render(request, 'denied.html', {'mess': 'нет прав для редактирования кросса', 'back': 2})
 
     cr = Cross.objects.get(pk=cr_id)
@@ -626,8 +627,8 @@ def edit_cr(request, bu_id, lo_id, cr_id):
 @login_required(login_url='/core/login/')
 def edit_cr_p(request, bu_id, lo_id, cr_id, p_id):
 
-    if not request.user.has_perm("kpp.can_edit"):
-        return render(request, 'denied.html', {'mess': 'нет прав для редактирования кросса', 'back': 1})
+    if not request.user.has_perm("core.can_edit"):
+        return render(request, 'denied.html', {'mess': 'нет прав для редактирования', 'back': 1})
 
     s_p = Cross_ports.objects.get(pk=p_id)
     if request.method == 'POST':
@@ -694,7 +695,7 @@ def edit_cr_p(request, bu_id, lo_id, cr_id, p_id):
 @login_required(login_url='/core/login/')
 def edit_dev(request, bu_id, lo_id, dev_id):
 
-    if not request.user.has_perm("kpp.can_edit"):
+    if not request.user.has_perm("core.can_edit"):
         return render(request, 'denied.html', {'mess': 'нет прав для редактирования оборудования', 'back': 2})
 
     dev = Device.objects.get(pk=dev_id)
@@ -703,7 +704,6 @@ def edit_dev(request, bu_id, lo_id, dev_id):
     rack_pos_list = dev.parrent.racks.split(',')
     rack_list = [[0, '---']]
     i = 0
-    #max_unit = 0
     while i < len(rack_pos_list) / 2:
         rack_list.append([i+1, rack_pos_list[i*2]])
         #max_unit = int(rack_pos_list[i*2+1]) if int(rack_pos_list[i*2+1]) > max_unit else max_unit
@@ -722,10 +722,13 @@ def edit_dev(request, bu_id, lo_id, dev_id):
                 change = True
                 h_text += 'own: '+dev.object_owner+' -> '+form.cleaned_data['object_owner']+'; '
                 dev.object_owner = form.cleaned_data['object_owner']
-            if form.cleaned_data['ip'] != dev.ip_addr:
+            ip = form.cleaned_data['ip']
+            if ip != dev.ip_addr:
+                if Device.objects.filter(ip_addr=ip).exclude(pk=dev_id).exists():
+                    return render(request, 'error.html', {'mess': 'ip адрес уже существует в базе', 'back': 0})
                 change = True
                 h_text += 'ip: '+str(dev.ip_addr)+' -> '+form.cleaned_data['ip']+'; '
-                dev.ip_addr = form.cleaned_data['ip']
+                dev.ip_addr = ip
             mac = form.cleaned_data['mac']
             if mac != dev.mac_addr:
                 if re.match(conf.MAC_RE, mac) and len(mac) == 17:
@@ -799,7 +802,7 @@ def edit_dev(request, bu_id, lo_id, dev_id):
 @login_required(login_url='/core/login/')
 def edit_dev_p(request, bu_id, lo_id, dev_id, p_id):
 
-    if not request.user.has_perm("kpp.can_edit"):
+    if not request.user.has_perm("core.can_edit"):
         return render(request, 'denied.html', {'mess': 'нет прав для редактирования оборудования', 'back': 1})
 
     try:
@@ -872,7 +875,7 @@ def edit_dev_p(request, bu_id, lo_id, dev_id, p_id):
 @login_required(login_url='/core/login/')
 def edit_dev_p_v(request, bu_id, lo_id, dev_id, f_p_id=None, v_p_id=None):
 
-    if not request.user.has_perm("kpp.can_edit"):
+    if not request.user.has_perm("core.can_edit"):
         return render(request, 'denied.html', {'mess': 'нет прав для редактирования оборудования', 'back': 1})
 
     if f_p_id:
@@ -958,7 +961,7 @@ def edit_dev_p_v(request, bu_id, lo_id, dev_id, f_p_id=None, v_p_id=None):
 @login_required(login_url='/core/login/')
 def edit_box(request, bu_id, lo_id, box_id):
 
-    if not request.user.has_perm("kpp.can_edit"):
+    if not request.user.has_perm("core.can_edit"):
         return render(request, 'denied.html', {'mess': 'нет прав для редактирования крт', 'back': 2})
 
     box = Box.objects.get(pk=box_id)
@@ -1139,7 +1142,7 @@ def edit_box(request, bu_id, lo_id, box_id):
 @login_required(login_url='/core/login/')
 def edit_box_p(request, bu_id, lo_id, box_id, p_id):
 
-    if not request.user.has_perm("kpp.can_edit"):
+    if not request.user.has_perm("core.can_edit"):
         return render(request, 'denied.html', {'mess': 'нет прав для редактирования крт', 'back': 1})
 
     s_p = Box_ports.objects.get(pk=p_id)
@@ -1232,7 +1235,7 @@ def edit_box_p(request, bu_id, lo_id, box_id, p_id):
 @login_required(login_url='/core/login/')
 def edit_subunit(request, bu_id, lo_id, su_id):
 
-    if not request.user.has_perm("kpp.can_edit"):
+    if not request.user.has_perm("core.can_edit"):
         return render(request, 'denied.html', {'mess': 'нет прав для редактирования оборудования', 'back': 2})
     
     lo = Locker.objects.get(pk=lo_id)
@@ -1350,7 +1353,7 @@ def del_cross(request, bu_id, lo_id, cr_id):
     if lo.parrent_id != int(bu_id) or cr.parrent_id != int(lo_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3})
 
-    if not request.user.has_perm("kpp.can_del"):
+    if not request.user.has_perm("core.can_del"):
         return render(request, 'denied.html', {'mess': 'нет прав для удаления',
                                                'back': 1,
                                                'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/'
@@ -1381,7 +1384,7 @@ def del_dev(request, bu_id, lo_id, dev_id):
     if lo.parrent_id != int(bu_id) or dev.parrent_id != int(lo_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3})
 
-    if not request.user.has_perm("kpp.can_del"):
+    if not request.user.has_perm("core.can_del"):
         return render(request, 'denied.html', {'mess': 'нет прав для удаления',
                                                'back': 1,
                                                'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/'
@@ -1413,7 +1416,7 @@ def del_v_port(request, bu_id, lo_id, dev_id, v_p_id):
     if lo.parrent_id != int(bu_id) or dev.parrent_id != int(lo_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3})
 
-    if not request.user.has_perm("kpp.can_del"):
+    if not request.user.has_perm("core.can_del"):
         return render(request, 'denied.html', {'mess': 'нет прав для удаления',
                                                'back': 1,
                                                'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/'
@@ -1440,7 +1443,7 @@ def del_box(request, bu_id, lo_id, box_id):
     if lo.parrent_id != int(bu_id) or box.parrent_id != int(lo_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3})
 
-    if not request.user.has_perm("kpp.can_del"):
+    if not request.user.has_perm("core.can_del"):
         return render(request, 'denied.html', {'mess': 'нет прав для удаления',
                                                'back': 1,
                                                'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/'
@@ -1471,7 +1474,7 @@ def del_subunit(request, bu_id, lo_id, su_id):
     if lo.parrent_id != int(bu_id) or su.parrent_id != int(lo_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3})
 
-    if not request.user.has_perm("kpp.can_del"):
+    if not request.user.has_perm("core.can_del"):
         return render(request, 'denied.html', {'mess': 'нет прав для удаления',
                                                'back': 1,
                                                'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/'

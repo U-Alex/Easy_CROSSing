@@ -3,7 +3,7 @@
 import datetime
 
 from django.db import models
-from core.models import Device_type, Subunit_type
+from core.models import Device_type, Subunit_type, Templ_device
 
 class Kvartal(models.Model):
     #id = models.BigAutoField(primary_key=True)    ############## после update to 3.2
@@ -48,6 +48,7 @@ class Locker(models.Model):
     name_type = models.CharField(max_length=30)
     con_type = models.IntegerField()
     agr = models.BooleanField(default=False)
+#    obj_type = models.ForeignKey(Templ_locker, on_delete=models.PROTECT, default=1) ### на новой базе - default=0 (или без))
     detached = models.BooleanField(default=False)
     co = models.CharField(max_length=10)
     status = models.IntegerField(default=0)
@@ -69,7 +70,8 @@ class Locker(models.Model):
     en_meter = models.CharField(max_length=30, default=',')
 
     def __str__(self):
-        return str(self.id)+' | '+self.name+' || '+str(self.parrent)
+        #return str(self.id)+' | '+self.name+' || '+str(self.parrent)
+        return f"{str(self.id)} | {self.name} ⏩ {str(self.parrent)}"
 
 class Cross(models.Model):
     parrent = models.ForeignKey(Locker, on_delete=models.PROTECT)
@@ -82,7 +84,7 @@ class Cross(models.Model):
     prim = models.CharField(max_length=180, blank=True)
     rack_num = models.PositiveSmallIntegerField(default=0)
     rack_pos = models.PositiveSmallIntegerField(default=0)
-    object_owner = models.CharField(max_length=60, blank=True)          #владелец
+    object_owner = models.CharField(max_length=60, blank=True)
 
     def __str__(self):
         return str(self.id)+' | '+self.name+' | type-'+str(self.name_type)
@@ -92,6 +94,7 @@ class Device(models.Model):
     name = models.CharField(max_length=30)
     name_type = models.CharField(max_length=30, blank=True)
     con_type = models.IntegerField()
+    obj_type = models.ForeignKey(Templ_device, on_delete=models.PROTECT, default=1) ### на новой базе - default=0 (или без))
     ip_addr = models.GenericIPAddressField(protocol='IPv4', null=True, blank=True) ###для опроса конфигураций
     mac_addr = models.CharField(max_length=30, blank=True)
     sn = models.CharField(max_length=20, blank=True)
@@ -104,7 +107,7 @@ class Device(models.Model):
     rack_num = models.PositiveSmallIntegerField(default=0)
     rack_pos = models.PositiveSmallIntegerField(default=0)
     date_upd = models.DateTimeField(null=True, blank=True)
-    object_owner = models.CharField(max_length=60, blank=True)              #владелец
+    object_owner = models.CharField(max_length=60, blank=True)
 
     def __str__(self):
         return str(self.id)+' | '+self.name+' | type-'+str(self.name_type)+' | lo-'+str(self.parrent.name)
@@ -214,7 +217,7 @@ class Box_ports(models.Model):
     port_t_x = models.IntegerField(default=0)
     p_valid = models.BooleanField(default=True)
     p_alias = models.CharField(max_length=30)
-    changed = models.BooleanField(default=False)            #запланированы изменения, снятие
+    changed = models.BooleanField(default=False)            #запланированы изменения
 
     up_device_id = models.IntegerField(default=0)
     up_status = models.IntegerField(default=0)

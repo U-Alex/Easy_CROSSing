@@ -28,7 +28,7 @@ from .vols_def import vols_coup_move, vols_cab_up, vols_cab_remove
 
 ##########################################################################################
 
-@login_required(login_url='/kpp/login/')
+@login_required(login_url='/core/login/')
 def cable_main(request):
     
     upd_visit(request.user, 'cab_m')
@@ -90,10 +90,10 @@ def create_obj_list(kvar):
 #___________________________________________________________________________
 
 
-@login_required(login_url='/kpp/login/')
+@login_required(login_url='/core/login/')
 def pw_add(request, kvar):
 
-    if not request.user.has_perm("kpp.can_cable_edit"):
+    if not request.user.has_perm("core.can_cable_edit"):
         return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 2})
 
     if request.method == 'POST':
@@ -124,10 +124,10 @@ def pw_add(request, kvar):
 #___________________________________________________________________________
 
 
-@login_required(login_url='/kpp/login/')
+@login_required(login_url='/core/login/')
 def coup_add(request, kvar, p_t, p_id):
 
-    if not request.user.has_perm("kpp.can_cable_edit"):
+    if not request.user.has_perm("core.can_cable_edit"):
         return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 4})
 
     if request.method == 'POST':
@@ -161,7 +161,7 @@ def coup_add(request, kvar, p_t, p_id):
 #___________________________________________________________________________
 
 
-@login_required(login_url='/kpp/login/')
+@login_required(login_url='/core/login/')
 def coup_view(request, s_coup):
 
     upd_visit(request.user, 'coup')
@@ -169,7 +169,7 @@ def coup_view(request, s_coup):
         coup = Coupling.objects.get(pk=s_coup)
     except ObjectDoesNotExist:
         return render(request, 'error.html', {'mess': 'объект не найден', 'back': 1})
-    
+
     firms = firm.objects.filter(coup=True)
     p_all = Coupling_ports.objects.all()
     coup_p_list = p_all.filter(parrent_id=coup.id).order_by('cable_num','fiber_num')
@@ -195,11 +195,11 @@ def coup_view(request, s_coup):
                 try:
                     info[0] = firms.get(pk=int(info[1])).name
                 except:
-                    info[0] = 'владелец не найден в справочнике фирм... (_)*(_'
+                    info[0] = 'владелец не найден в справочнике фирм... '
             cab_title = {'cab':[ob.cable_num,
                                 Templ_cable.objects.get(pk=ob.cable_type).name,
                                 info,
-                                conf.N_CAB_COLORS[ob.cable_num] if ob.cable_num < 10 else '#B5FFCE',
+                                conf.N_CAB_COLORS[ob.cable_num] if ob.cable_num < 15 else '#B5FFCE',
                                 ],
                          'rem':[rem_coup,
                                 parr2,
@@ -214,7 +214,7 @@ def coup_view(request, s_coup):
         first_id = ob.up_id     #detect loopback
         start_id = ob.up_id
         owner_f = ob.up_info.split('∿')[0]
-        
+
         while not fin:
             par1 = p_all.get(pk=start_id)
             if par1.int_c_status == 0:      #обрыв
@@ -242,6 +242,16 @@ def coup_view(request, s_coup):
                     obj_ty = 8
                     obj_cr = 'loopback detected'
 ### repack
+        if ob.int_c_status != 0 and ob.int_c_dest == 0:
+            cr_int_port = coup_p_list.get(pk=ob.int_c_id)
+            cab_num = cr_int_port.cable_num
+            if cab_num > 14:
+                cab_num = 14
+            cr_cab_color = conf.N_CAB_COLORS[cab_num]
+        else:
+            cr_int_port = ''
+            cr_cab_color = 'white'
+
         p_list.append({'f':[ob.id,
                             ob.fiber_num,
                             [ob.fiber_color, conf.RU_COLOR_LIST[ob.fiber_color] if ob.fiber_color in conf.RU_COLOR_LIST else ob.fiber_color],
@@ -256,9 +266,11 @@ def coup_view(request, s_coup):
                             ],
                        'cr':[ob.int_c_status,
                              ob.int_c_dest,
-                             coup_p_list.get(pk=ob.int_c_id) if ob.int_c_status != 0 and ob.int_c_dest == 0 else '',
+                             #coup_p_list.get(pk=ob.int_c_id) if ob.int_c_status != 0 and ob.int_c_dest == 0 else '',
+                             cr_int_port,
                              Cross_ports.objects.get(pk=ob.int_c_id) if ob.int_c_status != 0 and ob.int_c_dest == 1 else '',
-                             conf.N_CAB_COLORS[coup_p_list.get(pk=ob.int_c_id).cable_num] if ob.int_c_status != 0 and ob.int_c_dest == 0 else 'white',
+                             #conf.N_CAB_COLORS[coup_p_list.get(pk=ob.int_c_id).cable_num] if ob.int_c_status != 0 and ob.int_c_dest == 0 else 'white',
+                             cr_cab_color,
                             ],
                        'up':[obj_ty,
                              obj_cr,
@@ -267,7 +279,7 @@ def coup_view(request, s_coup):
                              hop,
                             ]
                        })
-    
+
     if coup.parr_type == 0:
         try:
             kvar_id = Locker.objects.get(pk=coup.parrent).parrent.kvar
@@ -278,7 +290,7 @@ def coup_view(request, s_coup):
     elif coup.parr_type == 2:
         kvar_id = PW_cont.objects.get(pk=coup.parrent).parrent.id
     kvar = Kvartal.objects.get(pk=kvar_id) if kvar_id else False
-    
+
     try:
         sel = int(request.GET['sel'])        #маркер
     except:
@@ -287,7 +299,7 @@ def coup_view(request, s_coup):
         to_print = int(request.GET['to_print'])
     except:
         to_print = False
-    
+
     return render(request, 'coup_view.html', {
                                             'kvar': kvar,
                                             'coup': coup,
@@ -301,10 +313,10 @@ def coup_view(request, s_coup):
 #___________________________________________________________________________
 
 
-@login_required(login_url='/kpp/login/')
+@login_required(login_url='/core/login/')
 def cab_up(request, s_coup, cab_num):
 
-    if not request.user.has_perm("kpp.can_cable_edit"):
+    if not request.user.has_perm("core.can_cable_edit"):
         return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 1})
     
     c_num = int(cab_num)
@@ -340,7 +352,7 @@ def cab_up(request, s_coup, cab_num):
 #___________________________________________________________________________
 
 
-@login_required(login_url='/kpp/login/')
+@login_required(login_url='/core/login/')
 def chain(request, p_id, p_type):
 
     ch_list2 = chain_trace(p_id, p_type)
@@ -353,10 +365,10 @@ def chain(request, p_id, p_type):
 #___________________________________________________________________________
 
 
-@login_required(login_url='/kpp/login/')
+@login_required(login_url='/core/login/')
 def cab_add1(request, s_coup, kvar):
 
-    if not request.user.has_perm("kpp.can_cable_edit"):
+    if not request.user.has_perm("core.can_cable_edit"):
         return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 1})
 
     #source_coup = Coupling.objects.get(pk=s_coup)
@@ -378,10 +390,10 @@ def cab_add1(request, s_coup, kvar):
 #___________________________________________________________________________
 
 
-@login_required(login_url='/kpp/login/')
+@login_required(login_url='/core/login/')
 def cab_add2(request, s_coup, kvar, d_coup):
 
-    if not request.user.has_perm("kpp.can_cable_edit"):
+    if not request.user.has_perm("core.can_cable_edit"):
         return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 2})
 
     s_c = Coupling.objects.get(pk=int(s_coup))
@@ -463,10 +475,10 @@ def cab_add2(request, s_coup, kvar, d_coup):
 #___________________________________________________________________________
 
 
-@login_required(login_url='/kpp/login/')
+@login_required(login_url='/core/login/')
 def int_c(request, s_coup, s_port, stat, multi, dest_type=None):
     
-    if not request.user.has_perm("kpp.can_cable_edit"):
+    if not request.user.has_perm("core.can_cable_edit"):
         return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 3})
     
     coup = Coupling.objects.get(pk=s_coup)
@@ -628,10 +640,10 @@ def int_c_multi_cross(s_p, d_p, e_p):
 #___________________________________________________________________________
 
 
-@login_required(login_url='/kpp/login/')
+@login_required(login_url='/core/login/')
 def int_del(request, s_coup, s_port):
 
-    if not request.user.has_perm("kpp.can_cable_edit"):
+    if not request.user.has_perm("core.can_cable_edit"):
         return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 1})
 
     s_p = Coupling_ports.objects.get(pk=s_port)
@@ -670,10 +682,10 @@ def int_del(request, s_coup, s_port):
 #___________________________________________________________________________
 
 
-@login_required(login_url='/kpp/login/')
+@login_required(login_url='/core/login/')
 def int_edit(request, s_coup, p_id):
 
-    if not request.user.has_perm("kpp.can_cable_edit"):
+    if not request.user.has_perm("core.can_cable_edit"):
         return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 1})
 
     s_p = Coupling_ports.objects.get(pk=p_id)
@@ -729,10 +741,10 @@ def int_edit(request, s_coup, p_id):
 #___________________________________________________________________________
 
 
-@login_required(login_url='/kpp/login/')
+@login_required(login_url='/core/login/')
 def cab_edit(request, s_coup, p_id):
 
-    if not request.user.has_perm("kpp.can_cable_edit"):
+    if not request.user.has_perm("core.can_cable_edit"):
         return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 1})
 
     s_p = Coupling_ports.objects.get(pk=p_id)
@@ -796,10 +808,10 @@ def cab_edit(request, s_coup, p_id):
 #___________________________________________________________________________
 
 
-@login_required(login_url='/kpp/login/')
+@login_required(login_url='/core/login/')
 def cab_del(request, s_coup, cab):
 
-    if not request.user.has_perm("kpp.can_cable_edit"):
+    if not request.user.has_perm("core.can_cable_edit"):
         return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 1})
 
     coup = Coupling.objects.get(pk=s_coup)
@@ -833,10 +845,10 @@ def cab_del(request, s_coup, cab):
 #___________________________________________________________________________
 
 
-@login_required(login_url='/kpp/login/')
+@login_required(login_url='/core/login/')
 def cab_move1(request, s_coup, kvar, cab):
 
-    if not request.user.has_perm("kpp.can_cable_edit"):
+    if not request.user.has_perm("core.can_cable_edit"):
         return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 2})
 
     source_coup = Coupling.objects.get(pk=s_coup)
@@ -863,10 +875,10 @@ def cab_move1(request, s_coup, kvar, cab):
 #___________________________________________________________________________
 
 
-@login_required(login_url='/kpp/login/')
+@login_required(login_url='/core/login/')
 def cab_move2(request, s_coup, kvar, cab, d_coup):
 
-    if not request.user.has_perm("kpp.can_cable_edit"):
+    if not request.user.has_perm("core.can_cable_edit"):
         return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 3})
 
     if s_coup == d_coup:
@@ -924,10 +936,10 @@ def cab_move2(request, s_coup, kvar, cab, d_coup):
 #___________________________________________________________________________
 
 
-@login_required(login_url='/kpp/login/')
+@login_required(login_url='/core/login/')
 def pw_edit(request, kvar, s_pw):
 
-    if not request.user.has_perm("kpp.can_cable_edit"):
+    if not request.user.has_perm("core.can_cable_edit"):
         return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 2})
 
     pw = PW_cont.objects.get(pk=s_pw)
@@ -983,10 +995,10 @@ def pw_edit(request, kvar, s_pw):
 #___________________________________________________________________________
 
 
-@login_required(login_url='/kpp/login/')
+@login_required(login_url='/core/login/')
 def pw_del(request, kvar, s_pw):
 
-    if not request.user.has_perm("kpp.can_cable_edit"):
+    if not request.user.has_perm("core.can_cable_edit"):
         return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 2})
 
     pw = PW_cont.objects.get(pk=s_pw)
@@ -1004,10 +1016,10 @@ def pw_del(request, kvar, s_pw):
 #___________________________________________________________________________
 
 
-@login_required(login_url='/kpp/login/')
+@login_required(login_url='/core/login/')
 def coup_edit(request, s_coup):
 
-    if not request.user.has_perm("kpp.can_cable_edit"):
+    if not request.user.has_perm("core.can_cable_edit"):
         return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 1})
 
     move_pos = False
@@ -1084,10 +1096,10 @@ def coup_edit(request, s_coup):
 #___________________________________________________________________________
 
 
-@login_required(login_url='/kpp/login/')
+@login_required(login_url='/core/login/')
 def coup_del(request, s_coup):
 
-    if not request.user.has_perm("kpp.can_cable_edit"):
+    if not request.user.has_perm("core.can_cable_edit"):
         return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 1})
 
     coup = Coupling.objects.get(pk=s_coup)

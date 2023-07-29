@@ -29,7 +29,7 @@ from core.e_config import conf
 @login_required(login_url='/core/login/')
 def ext_cr1(request, bu_id, lo_id, cr_id, s_port_id):
 
-    if not request.user.has_perm("kpp.can_ext"):
+    if not request.user.has_perm("core.can_ext"):
         return render(request, 'denied.html', {'mess': 'нет прав для создания кабельной связи', 'back': 2})
 
     agr = Locker.objects.filter(agr=True).order_by('co')
@@ -68,7 +68,7 @@ def ext_cr1(request, bu_id, lo_id, cr_id, s_port_id):
 @login_required(login_url='/core/login/')
 def ext_cr2(request, bu_id, lo_id, cr_id, s_port_id, d_bu_id):
 
-    if not request.user.has_perm("kpp.can_ext"):
+    if not request.user.has_perm("core.can_ext"):
         return render(request, 'denied.html', {'mess': 'нет прав для создания кабельной связи', 'back': 2})
 
     lo_list = Locker.objects.filter(parrent_id=d_bu_id).order_by('-agr', 'id').values()
@@ -145,7 +145,7 @@ def cr_tr_matrix(v_col, v_row, cr_p_h):
 @login_required(login_url='/core/login/')
 def ext_ok(request, bu_id, lo_id, cr_id, s_port_id, d_bu_id, d_port_id):
 
-    if not request.user.has_perm("kpp.can_ext"):
+    if not request.user.has_perm("core.can_ext"):
         return render(request, 'denied.html', {'mess': 'нет прав для создания кабельной связи', 'back': 2})
 
     s_p_id = Cross_ports.objects.get(pk=s_port_id)
@@ -188,7 +188,7 @@ def ext_ok(request, bu_id, lo_id, cr_id, s_port_id, d_bu_id, d_port_id):
 @login_required(login_url='/core/login/')
 def del_cr(request, bu_id, lo_id, cr_id, s_port_id):
 
-    if not request.user.has_perm("kpp.can_ext"):
+    if not request.user.has_perm("core.can_ext"):
         return render(request, 'denied.html', {'mess': 'нет прав для удаления кабельной связи', 'back': 2})
 
     s_p = Cross_ports.objects.get(pk=s_port_id)
@@ -197,9 +197,9 @@ def del_cr(request, bu_id, lo_id, cr_id, s_port_id):
     if request.method == 'POST':
         with transaction.atomic():
             if s_p.up_status == 0:
-                return render(request, 'error.html', {'mess': 'error_311', 'back': 2})
+                return render(request, 'error.html', {'mess': 's_p.up_status == 0', 'back': 2})
             if d_p.up_status == 0:
-                return render(request, 'error.html', {'mess': 'error_312', 'back': 2})
+                return render(request, 'error.html', {'mess': 'd_p.up_status == 0', 'back': 2})
             s_p.up_cross_id = 0
             s_p.up_status = 0
             d_p.up_cross_id = 0
@@ -227,7 +227,7 @@ def del_cr(request, bu_id, lo_id, cr_id, s_port_id):
 @login_required(login_url='/core/login/')
 def int_c(request, bu_id, lo_id, s_id, s_port_id, s_type):
 
-    if not request.user.has_perm("kpp.can_int"):
+    if not request.user.has_perm("core.can_int"):
         return render(request, 'denied.html', {'mess': 'нет прав для создания кроссировки', 'back': 2})
 
     cr = []
@@ -270,17 +270,21 @@ def int_c(request, bu_id, lo_id, s_id, s_port_id, s_type):
                 cr_ob['cr_p'] = cr_p_h
 
     if s_type in ('1', '2', '3'):
-        dev = Device.objects.filter(parrent_id=lo_id).order_by('name').values('id', 'name', 'ip_addr')
+        dev = Device.objects.filter(parrent_id=lo_id).order_by('obj_type__parrent_id', 'name')\
+            .values('id', 'name', 'ip_addr', 'obj_type__parrent_id')
         for dev_ob in dev:
-            dev_ob_p = Device_ports.objects.filter(parrent_id=dev_ob['id']).order_by('num').values('id', 'num', 'int_c_status', 'p_valid', 'p_alias', 'prim')
+            dev_ob_p = Device_ports.objects.filter(parrent_id=dev_ob['id']).order_by('num')\
+                .values('id', 'num', 'int_c_status', 'p_valid', 'p_alias', 'prim')
             for ob in dev_ob_p:
                 ob['color'] = conf.COLOR_CROSS[ob['int_c_status']]
             dev_ob['dev_p'] = dev_ob_p
+            dev_ob['pic'] = f"/static/images/dev_{str(dev_ob['obj_type__parrent_id'])}.png"
 
     if s_type == '2':
         box = Box.objects.filter(parrent_id=lo_id).order_by('name', 'num').values('id', 'name', 'num', 'name_type')
         for box_ob in box:
-            box_ob_p = Box_ports.objects.filter(parrent_id=box_ob['id']).order_by('num').values('id', 'up_status', 'p_valid', 'p_alias')
+            box_ob_p = Box_ports.objects.filter(parrent_id=box_ob['id']).order_by('num')\
+                .values('id', 'up_status', 'p_valid', 'p_alias')
             for ob in box_ob_p:
                 ob['COLOR_CROSS'] = conf.COLOR_CROSS[ob['up_status']]
                 plint = ob['p_alias'][:1] if (ob['p_alias'][:1].isdigit()) else '0'
@@ -302,72 +306,61 @@ def int_c(request, bu_id, lo_id, s_id, s_port_id, s_type):
 @login_required(login_url='/core/login/')
 def int_ok(request, bu_id, lo_id, s_id, s_port_id, s_type, d_port_id, d_type):
 
-    if not request.user.has_perm("kpp.can_int"):
+    if not request.user.has_perm("core.can_int"):
         return render(request, 'denied.html', {'mess': 'нет прав для создания кроссировки', 'back': 2})
 
     int_type_list = conf.MODELS_LIST[1:5]
 
-    if s_type == '1':
-        s_p = Cross_ports.objects.get(pk=s_port_id)
-        if s_p.int_c_status != 0:
-            return HttpResponseRedirect('../../../../')   #('err011')
-    if s_type == '2':
-        s_p = Device_ports.objects.get(pk=s_port_id)
-        if s_p.int_c_status != 0:
-            return HttpResponseRedirect('../../../../')   #('err021')
-    if s_type == '3':
-        s_p = Box_ports.objects.get(pk=s_port_id)
-        if s_p.up_status != 0:
-            return HttpResponseRedirect('../../../../')  #('err031')
-    if d_type == '1':
-        d_p = Cross_ports.objects.get(pk=d_port_id)
-        if d_p.int_c_status != 0:
-            return HttpResponseRedirect('../../')   #('err012')
-    if d_type == '2':
-        d_p = Device_ports.objects.get(pk=d_port_id)
-        if d_p.int_c_status != 0:
-            return HttpResponseRedirect('../../')   #('err022')
-    if d_type == '3':
-        d_p = Box_ports.objects.get(pk=d_port_id)
-        if d_p.up_status != 0:
-            return HttpResponseRedirect('../../')   #('err032')
+    if s_type == '1':   s_p = Cross_ports.objects.get(pk=s_port_id)
+    if s_type == '2':   s_p = Device_ports.objects.get(pk=s_port_id)
+    if s_type == '3':   s_p = Box_ports.objects.get(pk=s_port_id)
+
+    if d_type == '1':   d_p = Cross_ports.objects.get(pk=d_port_id)
+    if d_type == '2':   d_p = Device_ports.objects.get(pk=d_port_id)
+    if d_type == '3':   d_p = Box_ports.objects.get(pk=d_port_id)
 
     if s_port_id == d_port_id and s_type == d_type:
-        return HttpResponseRedirect('../../')   #('err140')
+        return HttpResponseRedirect('/')
 
     if request.method == 'POST':
         form = sel_up_status_Form(request.POST)
         if form.is_valid():
             sel_status = form.cleaned_data['status']
-            h_text = 'УД: '+s_p.parrent.parrent.name
-            h_text += ';  '+int_type_list[int(s_type)]+'_id-'+str(s_p.parrent.id)+' p_id-'+str(s_p.id)
-            h_text += ' >>>  '+int_type_list[int(d_type)]+'_id-'+str(d_p.parrent.id)+' p_id-'+str(d_p.id)
             with transaction.atomic():
+                h_text = 'УД: '+s_p.parrent.parrent.name
+                h_text += ';  '+int_type_list[int(s_type)]+'_id-'+str(s_p.parrent.id)+' p_id-'+str(s_p.id)
+                h_text += ' >>>  '+int_type_list[int(d_type)]+'_id-'+str(d_p.parrent.id)+' p_id-'+str(d_p.id)
                 if s_type == '1':
+                    if s_p.int_c_status != 0:   return HttpResponseRedirect('/')
                     s_p.int_c_dest = d_type
                     s_p.int_c_id = d_port_id
                     s_p.int_c_status = sel_status
                     to_his([request.user, 5, s_p.id, 4, 0, h_text])
                 if s_type == '2':
+                    if s_p.int_c_status != 0:   return HttpResponseRedirect('/')
                     s_p.int_c_dest = d_type
                     s_p.int_c_id = d_port_id
                     s_p.int_c_status = sel_status
                     to_his([request.user, 6, s_p.id, 4, 0, h_text])
                 if s_type == '3':
+                    if s_p.up_status != 0:      return HttpResponseRedirect('/')
                     s_p.up_device_id = d_port_id
                     s_p.up_status = sel_status
                     to_his([request.user, 7, s_p.id, 4, 0, h_text])
                 if d_type == '1':
+                    if d_p.int_c_status != 0:   return HttpResponseRedirect('/')
                     d_p.int_c_dest = s_type
                     d_p.int_c_id = s_port_id
                     d_p.int_c_status = sel_status
                     to_his([request.user, 5, d_p.id, 4, 0, h_text])
                 if d_type == '2':
+                    if d_p.int_c_status != 0:   return HttpResponseRedirect('/')
                     d_p.int_c_dest = s_type
                     d_p.int_c_id = s_port_id
                     d_p.int_c_status = sel_status
                     to_his([request.user, 6, d_p.id, 4, 0, h_text])
                 if d_type == '3':
+                    if d_p.up_status != 0:      return HttpResponseRedirect('/')
                     d_p.up_device_id = s_port_id
                     d_p.up_status = sel_status
                     to_his([request.user, 7, d_p.id, 4, 0, h_text])
@@ -389,48 +382,41 @@ def int_ok(request, bu_id, lo_id, s_id, s_port_id, s_type, d_port_id, d_type):
 @login_required(login_url='/core/login/')
 def del_int_c(request, bu_id, lo_id, s_id, s_port_id, s_type):
 
-    if not request.user.has_perm("kpp.can_int"):
+    if not request.user.has_perm("core.can_int"):
         return render(request, 'denied.html', {'mess': 'нет прав для удаления кроссировки', 'back': 2})
 
-    int_type_list = conf.MODELS_LIST[1:5]
-
-    if s_type == '1':
-        s_p = Cross_ports.objects.get(pk=s_port_id)
-        if s_p.int_c_status == 0:
-            return HttpResponseRedirect('../../')   #('err111')
-        d_port_id = s_p.int_c_id
-        d_type = s_p.int_c_dest
-    if s_type == '2':
-        s_p = Device_ports.objects.get(pk=s_port_id)
-        if s_p.int_c_status == 0:
-            return HttpResponseRedirect('../../')   #('err121')
-        d_port_id = s_p.int_c_id
-        d_type = s_p.int_c_dest
-    if s_type == '3':
-        s_p = Box_ports.objects.get(pk=s_port_id)
-        if s_p.up_status == 0:
-            return HttpResponseRedirect('../../')   #('err131')
-        d_port_id = s_p.up_device_id
-        d_type = 2
-
-    if d_type in (1, '1'):
-        d_p = Cross_ports.objects.get(pk=d_port_id)
-        if d_p.int_c_status == 0:
-            return HttpResponseRedirect('../../')   #('err112')
-    if d_type in (2, '2'):
-        d_p = Device_ports.objects.get(pk=d_port_id)
-        if d_p.int_c_status == 0:
-            return HttpResponseRedirect('../../')   #('err122')
-    if d_type in (3, '3'):
-        d_p = Box_ports.objects.get(pk=d_port_id)
-        if d_p.up_status == 0:
-            return HttpResponseRedirect('../../')   #('err132')
-
     if request.method == 'POST':
-        h_text = 'УД: '+s_p.parrent.parrent.name
-        h_text += ';  '+int_type_list[int(s_type)]+'_id-'+str(s_p.parrent.id)+' p_id-'+str(s_p.id)
-        h_text += ' >>>  '+int_type_list[int(d_type)]+'_id-'+str(d_p.parrent.id)+' p_id-'+str(d_p.id)
+        int_type_list = conf.MODELS_LIST[1:5]
         with transaction.atomic():
+            if s_type == '1':
+                s_p = Cross_ports.objects.get(pk=s_port_id)
+                if s_p.int_c_status == 0:   return HttpResponseRedirect('/')
+                d_port_id = s_p.int_c_id
+                d_type = s_p.int_c_dest
+            if s_type == '2':
+                s_p = Device_ports.objects.get(pk=s_port_id)
+                if s_p.int_c_status == 0:   return HttpResponseRedirect('/')
+                d_port_id = s_p.int_c_id
+                d_type = s_p.int_c_dest
+            if s_type == '3':
+                s_p = Box_ports.objects.get(pk=s_port_id)
+                if s_p.up_status == 0:      return HttpResponseRedirect('/')
+                d_port_id = s_p.up_device_id
+                d_type = 2
+
+            if d_type in (1, '1'):
+                d_p = Cross_ports.objects.get(pk=d_port_id)
+                if d_p.int_c_status == 0:   return HttpResponseRedirect('/')
+            if d_type in (2, '2'):
+                d_p = Device_ports.objects.get(pk=d_port_id)
+                if d_p.int_c_status == 0:   return HttpResponseRedirect('/')
+            if d_type in (3, '3'):
+                d_p = Box_ports.objects.get(pk=d_port_id)
+                if d_p.up_status == 0:      return HttpResponseRedirect('/')
+
+            h_text = 'УД: '+s_p.parrent.parrent.name
+            h_text += ';  '+int_type_list[int(s_type)]+'_id-'+str(s_p.parrent.id)+' p_id-'+str(s_p.id)
+            h_text += ' >>>  '+int_type_list[int(d_type)]+'_id-'+str(d_p.parrent.id)+' p_id-'+str(d_p.id)
             if s_type == '1':
                 s_p.int_c_dest = 0
                 s_p.int_c_id = 0
@@ -472,7 +458,7 @@ def del_int_c(request, bu_id, lo_id, s_id, s_port_id, s_type):
 @login_required(login_url='/core/login/')
 def cr_ab(request, bu_id, lo_id, box_id, port_id):
 
-    if not request.user.has_perm("kpp.can_ab"):
+    if not request.user.has_perm("core.can_ab"):
         return render(request, 'denied.html', {'mess': 'нет прав для создания кроссировки', 'back': 2})
 
     lo = Locker.objects.get(pk=lo_id)
@@ -562,15 +548,16 @@ def cr_ab(request, bu_id, lo_id, box_id, port_id):
                         if cur_box_p.int_c_status != 0:     #уже не свободный
                             return render(request, 'error.html', {'mess': 'порт уже занят', 'back': 2})
                         if cur_box_p.up_device_id == cur_dev_id:
-                            if cur_box_p.up_status != 2:
-                                pass    #txt_p = 'п:кросс '
+                            #if cur_box_p.up_status != 2:
+                            #    pass    #txt_p = 'п:кросс '
                             if Device_ports.objects.get(pk=cur_dev_id).p_valid == False:
                                 return render(request, 'error.html', {'mess': 'порт скроссирован, но помечен как неисправный', 'back': 2})
                         else:
                             if cur_box_p.up_status != 0:    #скроссирован не тот порт -> снять
                                 del_p = Device_ports.objects.get(pk=cur_box_p.up_device_id)
                                 if del_p.int_c_status == 0 or del_p.int_c_dest != 3:
-                                    return render(request, 'error.html', {'mess': 'error_020', 'back': 2})
+                                    return render(request, 'error.html',
+                                                  {'mess': 'crab1 -> del_p.int_c_status == 0 or del_p.int_c_dest != 3', 'back': 2})
                                 del_p.int_c_dest = 0
                                 del_p.int_c_id = 0
                                 del_p.int_c_status = 0
@@ -578,18 +565,22 @@ def cr_ab(request, bu_id, lo_id, box_id, port_id):
                                 cur_box_p.up_status = 0
                                 del_p.save()
                                 cur_box_p.save()
-                                to_his([request.user, 7, cur_box_p.id, 7, 0, 'cr_ab (скроссирован не тот порт -> снять) ВНИМАНИЕ !!!'])
-                                to_his([request.user, 6, del_p.id, 7, 0, 'cr_ab (скроссирован не тот порт -> снять) ВНИМАНИЕ !!!'])
+                                to_his([request.user, 7, cur_box_p.id, 7, 0,
+                                        f"cr_ab (скроссирован другой порт -> снимаем \
+                                          {str(del_p.parrent.name)} p-{str(del_p.num)}) ВНИМАНИЕ !!!"])
+                                to_his([request.user, 6, del_p.id, 7, 0, 'cr_ab (скроссирован другой порт -> снять) ВНИМАНИЕ !!!'])
                             if cur_box_p.up_status != 0:
-                                return render(request, 'error.html', {'mess': 'error_021', 'back': 2})
+                                return render(request, 'error.html', {'mess': 'crab2 -> cur_box_p.up_status != 0', 'back': 2})
                             new_d_p = Device_ports.objects.get(pk=cur_dev_id)
                             #освободить новый порт и взять историю
                             if new_d_p.int_c_status != 0:
                                 if new_d_p.int_c_dest == 1 or new_d_p.int_c_dest == 2:
-                                    return render(request, 'error.html', {'mess': 'error_022', 'back': 2})
+                                    return render(request, 'error.html',
+                                                  {'mess': 'crab3 -> new_d_p.int_c_dest == 1 or new_d_p.int_c_dest == 2', 'back': 2})
                                 new_d_p_box = Box_ports.objects.get(pk=new_d_p.int_c_id)
                                 if new_d_p_box.int_c_status != 0:
-                                    return render(request, 'error.html', {'mess': 'error_023', 'back': 2})
+                                    return render(request, 'error.html',
+                                                  {'mess': 'crab4 -> new_d_p_box.int_c_status != 0', 'back': 2})
                                 #h1_dog = new_d_p_box.his_dogovor         ##
                                 #if len(h1_dog) == 6 or len(h1_dog) == 7: ##
                                 #    txt_p = 'п:'+new_d_p_box.his_ab_kv+'кв'+h1_dog
@@ -603,7 +594,7 @@ def cr_ab(request, bu_id, lo_id, box_id, port_id):
                                 to_his([request.user, 6, new_d_p.id, 7, 0, 'cr_ab (освободить новый порт и взять историю)'])
                                 to_his([request.user, 7, new_d_p_box.id, 7, 0, 'cr_ab (освободить новый порт и взять историю)'])
                             if new_d_p.int_c_status != 0:
-                                return render(request, 'error.html', {'mess': 'error_024', 'back': 2})
+                                return render(request, 'error.html', {'mess': 'crab5 -> new_d_p.int_c_status != 0', 'back': 2})
                             #кроссируем новый порт
                             new_d_p.int_c_dest = 3
                             new_d_p.int_c_id = port_id
@@ -624,8 +615,7 @@ def cr_ab(request, bu_id, lo_id, box_id, port_id):
                         cur_box_p.dogovor = dog
                         cur_box_p.ab_kv = kvar
                         cur_box_p.ab_fio = fio
-                        cur_box_p.ab_prim = prim_l+' / '+prim
-                        #cur_box_p.date_cr=timezone.now()
+                        cur_box_p.ab_prim = f"{prim_l} / {prim}"
                         cur_box_p.date_cr = datetime.datetime.now()
                         cur_box_p.save()
                         to_his([request.user, 7, cur_box_p.id, 5, 0,
@@ -707,7 +697,7 @@ def cr_ab(request, bu_id, lo_id, box_id, port_id):
 @login_required(login_url='/core/login/')
 def del_ab(request, bu_id, lo_id, box_id, port_id, pri):
 
-    if not request.user.has_perm("kpp.can_ab"):
+    if not request.user.has_perm("core.can_ab"):
         return render(request, 'denied.html', {'mess': 'нет прав для удаления кроссировки', 'back': 2})
 
     back_p = None
@@ -798,40 +788,42 @@ def del_ab(request, bu_id, lo_id, box_id, port_id, pri):
 @login_required(login_url='/core/login/')
 def cr_su(request, bu_id, lo_id, box_id, port_id, su_id):
 
-    if not request.user.has_perm("kpp.can_ab"):
+    if not request.user.has_perm("core.can_ab"):
         return render(request, 'denied.html', {'mess': 'нет прав для создания кроссировки', 'back': 2})
     
     lo = Locker.objects.get(pk=lo_id)
     kv = Kvartal.objects.get(pk=lo.parrent.kvar)
     box_p = Box_ports.objects.get(pk=port_id)
-    
+
     if su_id != '0':
         su = Subunit.objects.get(pk=int(su_id))
         if su.parrent_id != lo.id:
             return render(request, 'error.html', {'mess': 'error_043', 'back': 2})
-        if box_p.int_c_status != 0:
-            return render(request, 'error.html', {'mess': 'error_044', 'back': 2})
+        #if box_p.int_c_status != 0:
+        #    return render(request, 'error.html', {'mess': 'error_044', 'back': 2})
         with transaction.atomic():
+            if box_p.int_c_status != 0:
+                return render(request, 'error.html', {'mess': 'box_p.int_c_status != 0', 'back': 2})
             su.box_p_id = port_id
             box_p.int_c_status = 3
             box_p.dogovor = '_su_' + str(su.id)
             box_p.ab_fio = su.name
             box_p.date_cr = datetime.datetime.now()
-            
+
             su.save()
             box_p.save()
-            
+
             h_text = 'cr_su УД: '+lo.name+'; крт: '+box_p.parrent.name+'-'+box_p.parrent.num+'-'+box_p.p_alias+'; '+box_p.dogovor+' || '+box_p.ab_fio
             to_his([request.user, 7, box_p.id, 5, 0, h_text])
             to_his([request.user, 13, su.id, 5, 0, h_text])
-        
+
         return HttpResponseRedirect('../../')
-        
+
     su_list = Subunit.objects.filter(parrent_id=lo_id).order_by('con_type', 'name').values()
     if su_list.count() != 0:
         for ob in su_list:
             ob['name_type'] = Templ_subunit.objects.get(pk=ob['con_type'])#conf.SUBUNIT_TYPE[ob['con_type']][1]
-    
+
     return render(request, 'cr_su.html', {'lo': lo,
                                           'kv': kv,
                                           'box_p': box_p,

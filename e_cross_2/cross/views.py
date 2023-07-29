@@ -105,23 +105,27 @@ def show_locker(request, bu_id, lo_id):
         lo = Locker.objects.get(pk=lo_id)
     except ObjectDoesNotExist:
         return render(request, 'error.html', {'mess': 'объект не найден', 'back': 2})
-    
+
     if lo.parrent_id != int(bu_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 2})
 
-    if lo.agr and not request.user.has_perm("kpp.can_sh_agr"):
+    if lo.agr and not request.user.has_perm("core.can_sh_agr"):
         return render(request, 'denied.html', {'mess': 'нет прав для доступа',
                                                'back': 1,
                                                'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/'
                                                })
-    
-    locker_list = Locker.objects.filter(parrent_id=bu_id).values().order_by('-agr', 'name')
-    cross_list = Cross.objects.filter(parrent_id=lo_id).values().order_by('name')
-    device_list = Device.objects.filter(parrent_id=lo_id).values().order_by('name')
-    boxes_list = Box.objects.filter(parrent_id=lo_id).values().order_by('name', 'num')
-    subunit_list = Subunit.objects.filter(parrent_id=lo_id).values().order_by('name')
-    
-    #lo_list = []
+
+    locker_list = Locker.objects.filter(parrent_id=bu_id).order_by('-agr', 'name')\
+        .values('id', 'name', 'name_type', 'agr', 'detached', 'co', 'status', 'date_ent', 'rasp', 'prim', 'coord_x', 'coord_y', 'cab_door', 'cab_key', 'object_owner', 'en_model')
+    cross_list = Cross.objects.filter(parrent_id=lo_id).order_by('name')\
+        .values('id', 'name', 'name_type', 'prim', 'object_owner')
+    #device_list = Device.objects.filter(parrent_id=lo_id).values().order_by('name')
+    #device_list = Device.objects.filter(parrent_id=lo_id, obj_type__parrent_id__in=[2]).order_by('obj_type__parrent_id').values()
+    device_list = Device.objects.filter(parrent_id=lo_id).order_by('obj_type__parrent_id', 'name')\
+        .values('id', 'name', 'obj_type__name', 'ip_addr', 'prim', 'object_owner', 'obj_type__parrent_id', 'obj_type__parrent__name')
+    boxes_list = Box.objects.filter(parrent_id=lo_id).order_by('name', 'num').values()
+    subunit_list = Subunit.objects.filter(parrent_id=lo_id).order_by('name').values()
+
     if locker_list.count() != 0:
         for ob in locker_list:
             ob['status2'] = [conf.COLOR_LIST_LO[ob['status']], conf.STATUS_LIST_LO[ob['status']]]
@@ -130,11 +134,7 @@ def show_locker(request, bu_id, lo_id):
                 ob['coup'] = Coupling.objects.get(parrent=ob['id'], parr_type=0)
             except ObjectDoesNotExist:
                 ob['coup'] = False
-            #if str(ob['id']) == lo_id:
-            #    lo_list.insert(0, ob)
-            #else:
-            #    lo_list.append(ob)
-    
+
     if cross_list.count() != 0:
         for cr in cross_list:
             #cr['name_type2'] = Templ_cross.objects.get(pk=cr['con_type']).name
@@ -148,26 +148,24 @@ def show_locker(request, bu_id, lo_id):
                 else:
                     st_list1[cr_p.up_status] += 1
                     st_list2[cr_p.int_c_status] += 1
-            
+
             cr['st_list1'] = st_list1
             cr['st_list2'] = st_list2
 
     if device_list.count() != 0:
         for dev in device_list:
-            #dev['name_type2'] = Templ_device.objects.get(pk=dev['con_type']).name
             st_list = [0 for i in range(6)]
             dev_p_list = Device_ports.objects.filter(parrent_id=dev['id']).order_by('num')
             for dev_p in dev_p_list:
-                if not dev_p.p_valid:
-                    st_list[5] += 1
-                else:
-                    st_list[dev_p.int_c_status] += 1
-            
+                if not dev_p.p_valid:   st_list[5] += 1
+                else:                   st_list[dev_p.int_c_status] += 1
             dev['st_list'] = st_list
             #dev['vlan_more'] = False if (len(dev['vlan']) > 20) else True  #длинную строку не показывать    ########
-            pic_type = Templ_device.objects.get(pk=dev['con_type']).parrent_id
-            dev['pic'] = '/static/images/dev_'+str(pic_type)+'.png'
-    
+            #pic_type = Templ_device.objects.get(pk=dev['con_type']).parrent_id
+            #pic_type = dev['obj_type__parrent_id']
+            #dev['pic'] = '/static/images/dev_'+str(dev['obj_type__parrent_id'])+'.png'
+            dev['pic'] = f"/static/images/dev_{str(dev['obj_type__parrent_id'])}.png"
+
     if boxes_list.count() != 0:
         for box in boxes_list:
             #box['name_type2'] = Templ_box.objects.get(pk=box['con_type']).name
@@ -181,10 +179,10 @@ def show_locker(request, bu_id, lo_id):
                 else:
                     st_list1[box_p.up_status] += 1
                     st_list2[box_p.int_c_status] += 1
-            
+
             box['st_list1'] = st_list1
             box['st_list2'] = st_list2
-    
+
     if subunit_list.count() != 0:
         for ob in subunit_list:
             #ob['name_type'] = conf.SUBUNIT_TYPE[ob['con_type']][1]
@@ -207,13 +205,12 @@ def show_locker(request, bu_id, lo_id):
                     su = Subunit.objects.get(pk=ob['id'])
                     su.box_p_id = 0
                     su.save()
-    
+
     v_templ = 'show_locker_2.html' if (request.user.groups.filter(name='test').exists()) else 'show_locker.html'
-    
+
     return render(request, v_templ,            {'bu': bu,
                                                 'kv': kv,
                                                 'lo': lo,
-                                                #'color': conf.COLOR_CROSS,              ###########
                                                 'lo_list': locker_list,
                                                 'cr_list': cross_list,
                                                 'dev_list': device_list,
@@ -238,28 +235,26 @@ def show_cr(request, bu_id, lo_id, cr_id):
         coup = Coupling.objects.get(parrent=lo_id, parr_type=0)
     except ObjectDoesNotExist:
         coup = False
-    
+
     if lo.parrent_id != int(bu_id) or cr.parrent_id != int(lo_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3})
-    
-    if lo.agr and not request.user.has_perm("kpp.can_sh_agr"):
+
+    if lo.agr and not request.user.has_perm("core.can_sh_agr"):
         return render(request, 'denied.html', {'mess': 'нет прав для доступа',
                                                'back': 1,
                                                'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/cr='+cr_id+'/'
                                                })
-    
+
     cr_list = Cross.objects.filter(parrent_id=lo_id).values().order_by('name')
     cr_p_list = Cross_ports.objects.filter(parrent_id=cr.id).values().order_by('num')
-    
+
     for ob in cr_p_list:
         if ob['up_status'] == 0:            #конечная муфта
             if ob['cab_p_id'] != 0:
                 res = chain_trace(ob['id'], '1', transit=True)
                 try:
-                    if res[0] == 1:
-                        c_up = ['', '', 'm: '+res[1].parrent.name, '', '', 'white', '']
-                    if res[0] == 2:
-                        c_up = ['', '', 'уд: '+res[1].parrent.parrent.name, '', '', 'white', '']
+                    if res[0] == 1: c_up = ['', '', 'm: '+res[1].parrent.name, '', '', 'white', '']
+                    if res[0] == 2: c_up = ['', '', 'уд: '+res[1].parrent.parrent.name, '', '', 'white', '']
                 except:
                     c_up = []
             else:
@@ -280,7 +275,7 @@ def show_cr(request, bu_id, lo_id, cr_id):
             except ObjectDoesNotExist:                              #кроссировка "в пустоту"
                 c_up = ['link_err', conf.COLOR_CROSS[ob['up_status']]]
                 c_up_l = ''
-        
+
         if ob['int_c_status'] == 0:
             c_down = []
         else:
@@ -291,7 +286,7 @@ def show_cr(request, bu_id, lo_id, cr_id):
                               str(down.parrent.name),               #1 имя кросса
                               str(down.num),                        #2 порт
                               conf.COLOR_CROSS[ob['int_c_status']], #3 цвет кроссировки
-                              '../cr='+str(down.parrent.id),        #4 ссылка на противоположное оборудование
+                              '../cr='+str(down.parrent_id),        #4 ссылка на противоположное оборудование
                               str(down.id)                          #5 ид противоположного порта для маркера
                               ]
                 except ObjectDoesNotExist:
@@ -306,7 +301,7 @@ def show_cr(request, bu_id, lo_id, cr_id):
                               str(down.parrent.name),               #1 имя коммута
                               str(down.num),                        #2 порт
                               conf.COLOR_CROSS[ob['int_c_status']], #3 цвет кроссировки
-                              '../dev='+str(down.parrent.id),       #4 ссылка на противоположное оборудование
+                              '../dev='+str(down.parrent_id),       #4 ссылка на противоположное оборудование
                               str(down.id)                          #5 ид противоположного порта для маркера
                               ]
                 except ObjectDoesNotExist:
@@ -314,11 +309,11 @@ def show_cr(request, bu_id, lo_id, cr_id):
                               'link_err',
                               conf.COLOR_CROSS[ob['int_c_status']]
                               ]
-        
+
         ob['c_up'] = c_up
         ob['c_up_l'] = c_up_l
         ob['c_down'] = c_down
-    
+
     try:
         sel = int(request.GET['sel'])
     except:
@@ -327,12 +322,11 @@ def show_cr(request, bu_id, lo_id, cr_id):
         to_print = int(request.GET['to_print'])
     except:
         to_print = False
-    
+
     return render(request, 'show_cr.html', {'lo': lo,               #текущий шкаф
                                             'kv': kv,               #квартал
                                             'cr_list': cr_list,     #кроссы в текущем шкафу
                                             'cr': cr,               #текущий кросс
-                                            #'cr2': Templ_cross.objects.get(pk=cr.con_type).name,
                                             'cr_p_list': cr_p_list, #p_list,    #порты текущего кросса
                                             'sel': sel,
                                             'to_print': to_print,
@@ -352,20 +346,20 @@ def show_dev(request, bu_id, lo_id, dev_id, l2=0):
         dev = Device.objects.get(pk=dev_id)
     except ObjectDoesNotExist:
         return render(request, 'error.html', {'mess': 'объект не найден', 'back': 2+int(l2)})
-    
+
     if lo.parrent_id != int(bu_id) or dev.parrent_id != int(lo_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3+int(l2)})
-    
-    if lo.agr and not request.user.has_perm("kpp.can_sh_agr"):
+
+    if lo.agr and not request.user.has_perm("core.can_sh_agr"):
         return render(request, 'denied.html', {'mess': 'нет прав для доступа',
                                                'back': 1+int(l2),
                                                'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/dev='+dev_id+'/'
                                                })
-    step = 50
+
     dev_list = Device.objects.filter(parrent_id=lo_id).order_by('name')
     dev_p_list = Device_ports.objects.filter(parrent_id=dev.id).values().order_by('num')
     dev_p_v_list = Device_ports_v.objects.filter(parrent_id=dev.id).values().order_by('parrent_p', 'vlan_untag')#'p_alias')
-    
+
     for ob in dev_p_list:
         if ob['int_c_status'] == 0:
             c_down = ['blank.png']
@@ -393,12 +387,13 @@ def show_dev(request, bu_id, lo_id, dev_id, l2=0):
                               'link_err',
                               conf.COLOR_CROSS[ob['int_c_status']]
                               ]
-            
+
             if ob['int_c_dest'] == 2:
                 try:
                     down = Device_ports.objects.get(pk=ob['int_c_id'])
-                    cur_type = Templ_device.objects.get(pk=down.parrent.con_type).parrent_id
-                    c_down = ['dev_'+str(cur_type)+'.png',          #'акт.обор. ',
+                    #cur_type = Templ_device.objects.get(pk=down.parrent.con_type).parrent_id
+                    #cur_type = down.parrent.obj_type.parrent_id
+                    c_down = [f"dev_{str(down.parrent.obj_type.parrent_id)}.png",          #'акт.обор. ',
                               str(down.parrent.name),               #1 имя коммута
                               str(down.p_alias),                    #2 порт
                               '',                                   #3 N/A
@@ -415,7 +410,7 @@ def show_dev(request, bu_id, lo_id, dev_id, l2=0):
                               'link_err',
                               conf.COLOR_CROSS[ob['int_c_status']]
                               ]
-            
+
             if ob['int_c_dest'] == 3:
                 try:
                     down = Box_ports.objects.get(pk=ob['int_c_id'])
@@ -437,24 +432,25 @@ def show_dev(request, bu_id, lo_id, dev_id, l2=0):
                               'link_err',
                               conf.COLOR_CROSS[ob['int_c_status']]
                               ]
-        
+
         ob['c_down'] = c_down
-        
+
+        step = 50
         if len(ob['vlan_tag_list']) > step:
             try:
                 str1 = ob['vlan_tag_list']
                 cnt = 0
                 while True:
-                    #print(cnt)
                     pos = str1.find(',', cnt+step)
                     if pos == -1:
                         break
-                    str1 = str1[:pos+1]+' '+str1[pos+1:]
+                    #str1 = str1[:pos+1]+' '+str1[pos+1:]
+                    str1 = f"{str1[:pos+1]} {str1[pos+1:]}"
                     cnt = pos + 1
                 ob['vlan_tag_list'] = str1
             except:
                 ob['vlan_tag_list'] = 'ошибка построения, сообщите разработчику'
-            
+
     try:
         sel = int(request.GET['sel'])
     except:
@@ -468,24 +464,24 @@ def show_dev(request, bu_id, lo_id, dev_id, l2=0):
         td = datetime.datetime.now() - dev.date_upd
         tmin,tsec = divmod(td.seconds, 60)
         th, tmin = divmod(tmin, 60)
+        #upd_td = [td.days, "%02d"%(th), "%02d"%(tmin), "%02d"%(tsec)]
         upd_td = [td.days, "%02d:%02d:%02d" % (th, tmin, tsec)]
     except:
         upd_td = False
-    
+
     context = {'lo': lo,
                'kv': kv,
                'dev_list': dev_list,
                'dev': dev,
-               #'dev2': Templ_device.objects.get(pk=dev.con_type).name,
                'dev_p_list': dev_p_list,#experimental#p_list,
                'sel': sel,
                'bil_rq': bil_rq,
                'upd_td': upd_td,
                'dev_p_v_list': dev_p_v_list,
                }
-    
+
     templ = 'show_dev_v.html' if (l2 == '1') else 'show_dev.html'
-    
+
     return render(request, templ, context)
 
 
@@ -505,13 +501,12 @@ def show_dev_ips(request, bu_id, lo_id, dev_id):
     if lo.parrent_id != int(bu_id) or dev.parrent_id != int(lo_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3+1})
 
-    if lo.agr and not request.user.has_perm("kpp.can_sh_agr"):
+    if lo.agr and not request.user.has_perm("core.can_sh_agr"):
         return render(request, 'denied.html', {'mess': 'нет прав для доступа',
                                                'back': 1+1,
                                                'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/dev='+dev_id+'/'
                                                })
-    
-    #total_list = []
+
     dev_vector = []                         # уникальный список устройств
     dev = Device.objects.get(pk=dev_id)
     dev_list = Device.objects.filter(parrent_id=lo_id).order_by('name')
@@ -558,7 +553,8 @@ def show_dev_ips(request, bu_id, lo_id, dev_id):
     def ch_dev(lev, p_id, type_c, p_up, num):
         dev_p = Device_ports.objects.get(pk=p_id)
         dev = Device.objects.get(pk=dev_p.parrent_id)
-        dev_type = Templ_device.objects.get(pk=dev.con_type).parrent_id
+        #dev_type = Templ_device.objects.get(pk=dev.con_type).parrent_id
+        dev_type = dev.obj_type.parrent_id
         loop = check_vector(dev.id)
         if dev_type in [8] and lev != 0: # poe не показывать во вложениях
             pass
@@ -567,7 +563,7 @@ def show_dev_ips(request, bu_id, lo_id, dev_id):
                        lev,                         #1  уровень в дереве
                        dev_type,                    #2  тип
                        dev.id,                      #3  для вектора
-                       dev,                         #4  
+                       dev,                         #4
                        type_c,                      #5  тип кроссировки
                        p_up,                        #6  порт аплинка
                        dev_p.p_alias,               #7  порт кроссировки
@@ -579,7 +575,7 @@ def show_dev_ips(request, bu_id, lo_id, dev_id):
                 if port.int_c_dest == 1:
                     ch_cr(lev+1, port.int_c_id, port.p_alias, num)
                 if port.int_c_dest == 2:
-                    ch_dev(lev+1, port.int_c_id, 2, port.p_alias, num)                
+                    ch_dev(lev+1, port.int_c_id, 2, port.p_alias, num)
 ###
 ###
     for port in dev_p_list:
@@ -593,11 +589,11 @@ def show_dev_ips(request, bu_id, lo_id, dev_id):
             add_total([port.num, 0, 0, 0, 'KRT'])
         else:
             add_total([port.num, 0, 0, 0, False])
-    
+
     t_list3.reverse()           # объединение линков
     for ob in t_list3:
         t_list2.insert(ob[0][0], [ob[0], ob[1]])
-    
+
     pos = []
     ind = 0
     while ind < len(t_list2):   # вычисление rowspan
@@ -613,10 +609,9 @@ def show_dev_ips(request, bu_id, lo_id, dev_id):
                'kv': kv,
                'dev_list': dev_list,
                'dev': dev,
-               #'dev2': Templ_device.objects.get(pk=dev.con_type).name,
                'total_list2': t_list2,
                }
-    
+
     return render(request, 'show_dev_ips.html', context)
 
 
@@ -636,7 +631,7 @@ def show_box(request, bu_id, lo_id, box_id):
     if lo.parrent_id != int(bu_id) or box.parrent_id != int(lo_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3})
 
-    if lo.agr and not request.user.has_perm("kpp.can_sh_agr"):
+    if lo.agr and not request.user.has_perm("core.can_sh_agr"):
         return render(request, 'denied.html', {'mess': 'нет прав для доступа',
                                                'back': 1,
                                                'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/box='+box_id+'/'
@@ -724,7 +719,7 @@ def show_box(request, bu_id, lo_id, box_id):
 @login_required(login_url='/core/login/')
 def energy(request, bu_id, lo_id):
 
-    if not request.user.has_perm("kpp.can_edit_en"):
+    if not request.user.has_perm("core.can_edit_en"):
         return render(request, 'denied.html', {'mess': 'нет прав для редактирования раздела', 'back': 1})
 
     #bu = Building.objects.get(pk=bu_id)
@@ -800,7 +795,7 @@ def show_racks(request, bu_id, lo_id):
         return render(request, 'error.html', {'mess': 'объект не найден', 'back': 2})
     if lo.parrent_id != int(bu_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 2})
-    if lo.agr and not request.user.has_perm("kpp.can_sh_agr"):
+    if lo.agr and not request.user.has_perm("core.can_sh_agr"):
         return render(request, 'denied.html', {'mess': 'нет прав для доступа',
                                                'back': 1,
                                                'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/'
@@ -831,13 +826,15 @@ def show_racks(request, bu_id, lo_id):
                 return render(request, 'error.html', {'mess': 'ошибка в описании стоек', 'back': 1})
             rack_list.append([rack_pos_list[i*2], int(rack_pos_list[i*2+1])])
             i += 1
-    #print(rack_list)
+
     for ob1 in rack_list:
         ind = rack_list.index(ob1)
-        #print(ind)
         if ind:
             r_cr = cross_list.filter(rack_num=ind).exclude(rack_pos=0).values('id', 'name', 'rack_pos', 'con_type')
-            r_dev = device_list.filter(rack_num=ind).exclude(rack_pos=0).values('id', 'name', 'rack_pos', 'con_type')
+            #r_dev = device_list.filter(rack_num=ind).exclude(rack_pos=0).values('id', 'name', 'rack_pos', 'con_type')
+            r_dev = device_list.filter(rack_num=ind).exclude(rack_pos=0)\
+                .values('id', 'name', 'rack_pos', 'obj_type__parrent_id', 'obj_type__units')
+            print(r_dev)
             r_box = box_list.filter(rack_num=ind).exclude(rack_pos=0).values('id', 'name', 'rack_pos', 'con_type')
             cur_rack = []
             #i = 1
@@ -854,8 +851,10 @@ def show_racks(request, bu_id, lo_id):
                         cur_units -= 1
                 elif r_dev.filter(rack_pos=i).count() != 0:
                     cur_dev = r_dev.filter(rack_pos=i).first()
-                    cur_units = Templ_device.objects.get(pk=cur_dev['con_type']).units
-                    cur_type = Templ_device.objects.get(pk=cur_dev['con_type']).parrent_id
+                    #cur_units = Templ_device.objects.get(pk=cur_dev['con_type']).units
+                    cur_units = cur_dev['obj_type__units']
+                    #cur_type = Templ_device.objects.get(pk=cur_dev['con_type']).parrent_id
+                    cur_type = cur_dev['obj_type__parrent_id']
                     #ports...
                     cur_rack.append([i, cur_dev, cur_units, 'dev_'+str(cur_type)+'.png', 'dev='+str(cur_dev['id'])])
                     while cur_units > 1:
@@ -877,19 +876,24 @@ def show_racks(request, bu_id, lo_id):
             #cur_rack.reverse()
         else: # ['0', 1]
             r_cr = cross_list.filter(Q(rack_num=ind) | Q(rack_pos=0)).values('id', 'name', 'rack_pos', 'con_type')
-            r_dev = device_list.filter(Q(rack_num=ind) | Q(rack_pos=0)).values('id', 'name', 'rack_pos', 'con_type')
+            r_dev = device_list.filter(Q(rack_num=ind) | Q(rack_pos=0))\
+                .values('id', 'name', 'rack_pos', 'rack_pos', 'obj_type__parrent_id', 'obj_type__units')
             cur_rack = []
             i = 1
             for cur_cr in r_cr:
                 cur_rack.append([i, cur_cr, 1, 'laser2.png', 'cr='+str(cur_cr['id'])])
                 i += 1
             for cur_dev in r_dev:
-                cur_type = Templ_device.objects.get(pk=cur_dev['con_type']).parrent_id
+                #cur_type = Templ_device.objects.get(pk=cur_dev['con_type']).parrent_id
+                cur_type = cur_dev['obj_type__parrent_id']
                 cur_rack.append([i, cur_dev, 1, 'dev_'+str(cur_type)+'.png', 'dev='+str(cur_dev['id'])])
                 i += 1
 
         ob1.append(cur_rack)
-    
+        #print('|')
+        #print(cur_rack)
+    #print('|||')
+    #print(rack_list)
     return render(request, 'show_racks.html', {'lo': lo,
                                                'kv': kv,
                                                'form': form,

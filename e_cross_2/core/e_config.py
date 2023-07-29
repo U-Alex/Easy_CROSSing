@@ -119,7 +119,6 @@ class conf:
     OBJ_LIST = [['1', 'опора'], ['2', 'колодец']]
     #
     INT_C_STATUS_LIST = [['0', ''], ['1', 'транзит'], ['2', 'варка']]
-#
     #
     RU_COLOR_LIST ={'bisque':           'натуральный',
                     'beige':            'неокрашенный',
@@ -164,18 +163,21 @@ class conf:
                     6:  'plum',
                     7:  'wheat',
                     8:  'sandybrown',
-                    9:  '#B5FFCE',
-                    10: '#B5FFCE',
+                    9:  '#00ced1',
+                    10: '#f08080',
+                    11: '#32cd32',
+                    12: '#daa520',
+                    13: '#9370db',
+                    14: '#B5FFCE',
+                    15: '#B5FFCE',
+                    16: '#B5FFCE',
+                    17: '#B5FFCE',
+                    18: '#B5FFCE',
+                    19: '#B5FFCE',
                     }
     #длина кроссировки патчкордом, m
     CROSS_LEN = 3
 
-#mod statist
-    #
-    #OFFICE_LIST = [[''],
-    #               ['CO-1', 'CO-5', 'CO-1-1', 'CO-1-2', 'CO-1-3', 'CO-5-1'],
-    #               ['CO-2', 'CO-3', 'CO-4', 'CO-3-1', 'CO-3-2', 'CO-4-1']
-    #               ]
 
 #mod eq_rent
     #
@@ -200,8 +202,6 @@ class conf:
     #                'удаление',                          #  6
     #                ]
     #
-    #EQ_TEMP_OFF = ['', 'тех.под.', 'CO-1', 'CO-2']
-    #EQ_TEMP_FIRM = ['', 'Телевокс', 'Телевокс-TV', 'Телематик']
 
 #mod mess
     #
