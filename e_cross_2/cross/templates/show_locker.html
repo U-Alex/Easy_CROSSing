@@ -162,9 +162,9 @@
         </tr>
     {% for ob in dev_list %}
         <tr id="tr_hover" style="background-color:white">
-            <td align="center"><img src="{{ ob.pic }}" alt=" " title="" width="22"></td>
+            <td align="center"><img src="{{ ob.pic }}" alt=" " title="{{ ob.obj_type__parrent__name }}" width="22"></td>
             <td>&nbsp<strong><a style="color:black" href="dev={{ ob.id }}/" title="просмотр кроссировок">{{ ob.name }}</a></strong>&nbsp</td>
-            <td>&nbsp{{ ob.name_type }}&nbsp</td>
+            <td>&nbsp{{ ob.obj_type__name }}&nbsp</td>
             <td align="center">
                 <a href="dev={{ ob.id }}/l2=1"><img src="/static/images/chain3.png" alt="config" title="конфигурация" width="16" height="16"></a>
                 <a href="dev={{ ob.id }}/ips"><img src="/static/images/stat.png" alt="config" title="коммутация" width="16" height="16"></a>

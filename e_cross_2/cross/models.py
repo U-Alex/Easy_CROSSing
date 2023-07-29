@@ -110,7 +110,7 @@ class Device(models.Model):
     object_owner = models.CharField(max_length=60, blank=True)
 
     def __str__(self):
-        return str(self.id)+' | '+self.name+' | type-'+str(self.name_type)+' | lo-'+str(self.parrent.name)
+        return f"{str(self.id)} | {self.name} || {self.obj_type.name} ⏩ {str(self.parrent.name)}"
 
 class Box(models.Model):
     parrent = models.ForeignKey(Locker, on_delete=models.PROTECT)

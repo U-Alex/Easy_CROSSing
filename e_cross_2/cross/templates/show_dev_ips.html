@@ -74,7 +74,7 @@
             </td>
             <td align="left">&nbsp
                 {% if ob.1.2 != 0 %}<img src="/static/images/dev_{{ ob.1.2 }}.png" alt="" title="" width="26" height="12">{% endif %}&nbsp
-                {{ ob.1.4.name_type }}
+                {{ ob.1.4.obj_type.name }}
                 {% if ob.1.4 == 'KRT' %}<img src="/static/images/rj45_2.png" alt="" title="" width="16">{% endif %}
             </td>
             <td align="left">&nbsp<a style="color:black" href="/cross/build={{ ob.1.4.parrent.parrent_id }}/locker={{ ob.1.4.parrent_id }}/" title="перейти">{{ ob.1.4.parrent.name }}</a></td>
@@ -94,7 +94,7 @@
     <table border="0" id="templ_footer">
         <tr>
             <td width="1400px">&nbsp
-                модель: <b>{{ dev.name_type }}</b>
+                {{ dev.obj_type.parrent.name }}: <b>{{ dev.obj_type.name }}</b>
             {% if dev.ip_addr != None %}, IP: <b>{{ dev.ip_addr }}</b>{% endif %}
             {% if dev.mac_addr != "" %}, MAC: <b>{{ dev.mac_addr }}</b>{% endif %}
             {% if dev.sn != "" %}, SN: <b>{{ dev.sn }}</b>{% endif %}

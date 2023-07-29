@@ -182,11 +182,11 @@
                     {% endif %}
                     {% for ob in dev_list %}
                         <tr id="tr_hover">
-                            <td align="center"><img src="{{ ob.pic }}" alt=" " title="" width="22"></td>
+                            <td align="center"><img src="{{ ob.pic }}" alt=" " title="{{ ob.obj_type__parrent__name }}" width="22"></td>
                             <td align="left">
                                 <strong><a style="color:black" href="dev={{ ob.id }}/" title="просмотр кроссировок">&nbsp{{ ob.name }}&nbsp</a></strong>
                             </td>
-                            <td align="left">&nbsp{{ ob.name_type }}&nbsp</td>
+                            <td align="left">&nbsp{{ ob.obj_type__name }}&nbsp</td>
                             <td>&nbsp{{ ob.ip_addr }}&nbsp</td>
                             <td>&nbsp{{ ob.prim }}&nbsp</td>
                             <td align="right">

@@ -11,11 +11,11 @@
     <br>
 <form method="post">
     {% csrf_token %}
-    
+
     <table border="0">
         <tr style="background-color:silver">
-            <td width="210px" align="right">&nbsp{{ form.dev_name.label }}:&nbsp</td>
-            <td width="330px" align="left">&nbsp{{ form.dev_name }}&nbsp</td>
+            <td width="240px" align="right">&nbsp{{ dev.obj_type.parrent.name }}:&nbsp</td>
+            <td width="390px" align="left">&nbsp{{ form.dev_name }}&nbsp</td>
             </td>
         </tr>
         <tr style="background-color:silver">
@@ -24,10 +24,10 @@
         </tr>
         <tr>
             <td align="right"><label>&nbspмодель:&nbsp</label></td>
-            <td align="left">&nbsp<input type="text" size="20" name="type_name" value="{{ dev.name_type }}" disabled="1" style="color:teal">&nbsp</td>
+            <td align="left">&nbsp<input type="text" size="20" name="type_name" value="{{ dev.obj_type.name }}" disabled="1" style="color:teal">&nbsp</td>
         </tr>
         <tr>
-            <td align="right">&nbsp{{ form.ip.label }}:&nbsp</td>
+            <td align="right" >&nbsp{{ form.ip.label }}:&nbsp</td>
             <td align="left">&nbsp{{ form.ip }}&nbsp</td>
         </tr>
         <tr>
@@ -76,7 +76,7 @@
         <tr style="background-color:silver">
             <td colspan="2" align="center">{{ form.prim }}</td>
         </tr>
-        
+
     </table>
     <br>
     <table border="0" id="templ_footer">
@@ -89,7 +89,7 @@
             </td>
         </tr>
     </table>
-    
+
 </form>
 
 <script language="javascript">

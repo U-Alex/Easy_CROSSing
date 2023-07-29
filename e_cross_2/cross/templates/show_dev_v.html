@@ -187,7 +187,7 @@
     <table border="0" id="templ_footer">
         <tr>
             <td width="1400px">&nbsp
-                модель: <b>{{ dev.name_type }}</b>
+                {{ dev.obj_type.parrent.name }}: <b>{{ dev.obj_type.name }}</b>
             {% if dev.ip_addr != None %}, IP: <b>{{ dev.ip_addr }}</b>{% endif %}
             {% if dev.mac_addr != "" %}, MAC: <b>{{ dev.mac_addr }}</b>{% endif %}
             {% if dev.sn != "" %}, SN: <b>{{ dev.sn }}</b>{% endif %}
