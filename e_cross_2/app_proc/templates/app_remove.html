@@ -4,9 +4,9 @@
 
 <!--<meta http-equiv="refresh" content="10">-->
     
-    <table width="1404px" border="0">
+    <table width="1404px">
         <tr>
-            <td width="30%" valign="top" style="background-color:#bbbbbb">
+            <td class="tbl-main-item" width="30%" valign="top">
             {% if bu_b_p and app.app_status == 0 %}
                 <table width="96%" border="1" align="center">
                     <caption><h3>ВНИМАНИЕ!</h3><i>номер квартиры из заявки <br> забронирован на других ресурсах:</i></caption>
@@ -48,7 +48,7 @@
                 </table>
                 <br>
             </td>
-            <td valign="top" style="background-color:#D4DCC7">
+            <td class="tbl-main" valign="top">
                 <table width="100%" border="0" align="center">
                     <caption><i>текущие кроссировки договора:</i></caption>
                 {% for ob in dog_list %}
@@ -57,7 +57,7 @@
                     {% elif ob.int_c_status == 2 %}<tr style="background-color:{{ color.2 }}">
                     {% elif ob.int_c_status == 3 %}<tr style="background-color:{{ color.3 }}">
                     {% endif %}
-                            <td width="60px" style="background-color:#D4DCC7">&nbsp</td>
+                            <td width="60px">&nbsp</td>
                             <td>
                                 &nbspул: {{ ob.parrent.parrent.parrent.name }} {{ ob.parrent.parrent.parrent.house_num }}
                                 &nbspУД: {{ ob.parrent.parrent.name }}
@@ -67,13 +67,13 @@
                                 &nbspФИО: {{ ob.ab_fio }}
                                 &nbspприм: {{ ob.ab_prim }}
                             </td>
-                            <td width="86px" align="right" style="background-color:#D4DCC7"></td>
-                            <td width="82px" align="right" style="background-color:#D4DCC7"></td>
+                            <td width="86px" align="right"></td>
+                            <td width="82px" align="right"></td>
                         </tr>
                 {% endfor %}
                 </table>
                 <br>
-                <table width="100%" border="0" align="center" style="background-color:#D4DCC7">
+                <table class="tbl-main" width="100%" align="center">
                     <tr>
                         <td colspan="2">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                         {% if kv %}
@@ -112,7 +112,7 @@
     </table>
     <br>
 
-    <table width="1404px" border="0" id="templ_footer">
+    <table class="t_footer" width="1404px">
         <tr>
             <td width="120px">&nbsp</td>
             <td>

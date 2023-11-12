@@ -2,16 +2,8 @@
 
 {% block app %}
 
-    <table width="1404px" border="0" id="templ_header">
+    <table class="t_header1" width="1404px">
         <tr>
-            <!--<td align="left">&nbsp
-                <input type="button" value="необработано" onClick='location.href="/app/status=0/"' style="background:white; border-color:silver; color:black; border-radius:4px; width:110px; height:24px">&nbsp
-                <input type="button" value="забронировано" onClick='location.href="/app/status=1/"' style="background:yellow; border-color:silver; color:black; border-radius:4px; width:110px; height:24px">&nbsp
-                <input type="button" value="выполнено" onClick='location.href="/app/status=2/"' style="background:#00EE76; border-color:silver; color:black; border-radius:4px; width:110px; height:24px">&nbsp
-                <input type="button" value="отказано" onClick='location.href="/app/status=3/"' style="background:gray; border-color:silver; color:black; border-radius:4px; width:110px; height:24px">&nbsp
-                <input type="button" value="отложено" onClick='location.href="/app/status=4/"' style="background:pink; border-color:silver; color:black; border-radius:4px; width:110px; height:24px">&nbsp
-                <input type="button" value="на сверку" onClick='location.href="/app/status=5/"' style="background:aqua; border-color:silver; color:black; border-radius:4px; width:110px; height:24px">&nbsp
-            </td>-->
             <td align="left">&nbsp
                 <input type="button" value="необработано{% if not app and count0 > 0 %}&nbsp({{ count0 }})&nbsp{% endif %}" onClick='location.href="/app/status=0/"' style="background:lemonchiffon; width:130px">&nbsp
                 <input type="button" value="забронировано" onClick='location.href="/app/status=1/"' style="background:yellow; width:130px">&nbsp
@@ -321,7 +313,7 @@
 <!--########################################################################################################-->
 
 {% if app_t or find %}
-    <table width="1404px" border="0" id="templ_footer">
+    <table class="t_footer" width="1404px">
         <tr>
             <!--<td style="border-bottom: 1px solid #999" width="1020px" align="right"><a href="/cross/build={{ bu_id }}">закрыть&nbsp&nbsp</a></td>-->
             <td width="130px">&nbsp

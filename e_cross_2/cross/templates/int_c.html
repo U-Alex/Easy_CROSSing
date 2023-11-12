@@ -2,14 +2,14 @@
 
 {% block cross %}
 
-    <table border="0" id="templ_header">
+    <table class="t_header1">
         <tr>
             <td width="1300px" align="left">
                 <h3>&nbsp&nbsp
                 {% if s_type != '3' %}
-                    {{ s_p_id.parrent.parrent.parrent.name }} {{ s_p_id.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ s_p_id.parrent.parrent.name }}, {{ s_p_id.parrent.name }}, порт: {{ s_p_id.num }}&nbsp&nbsp>>>>
+                    {{ s_p_id.parrent.parrent.parrent.name }} {{ s_p_id.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ s_p_id.parrent.parrent.name }}, {{ s_p_id.parrent.name }}, порт: {{ s_p_id.num }}&nbsp&nbsp▶&nbsp▶&nbsp▶
                 {% else %}
-                    {{ s_p_id.parrent.parrent.parrent.name }} {{ s_p_id.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ s_p_id.parrent.parrent.name }}, КРТ: {{ s_p_id.parrent.name }}-{{ s_p_id.parrent.num }}-{{ s_p_id.p_alias }}&nbsp&nbsp>>>>
+                    {{ s_p_id.parrent.parrent.parrent.name }} {{ s_p_id.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ s_p_id.parrent.parrent.name }}, КРТ: {{ s_p_id.parrent.name }}-{{ s_p_id.parrent.num }}-{{ s_p_id.p_alias }}&nbsp&nbsp▶&nbsp▶&nbsp▶
                 {% endif %}
                 </h3>
             </td>
@@ -20,29 +20,31 @@
     </table>
     <br>
 
-<table border="0">
+<table>
     <tr>
-        <td width="1604px" style="background-color:#c3cebd" align="center">
+        <td class="tbl-main-item" width="1604px" align="center">
         
 {% for ob1 in cr %}
     <br>
-    <table border="0">
+    <table>
     <caption>{{ ob1.name }}</caption>
     {% for ob2 in ob1.cr_p %}
         <tr>
         {% for ob3 in ob2 %}
-            <td style="background-color:#c3cebd">
+            <td class="tbl-main-item">
                 {% if ob3.3 == False %}
                     <input type="button" style="background:none; border-color:black; background-color:gray; color:white; border-radius:20px; width:30px; height:30px" value="{{ ob3.1 }}" title="{{ ob3.5 }} (неисправен)">
                 {% elif ob3.2 == 0 %}
                     <input type="button" style="background:none; border-color:black; background-color:{{ ob3.4 }}; color:black; border-radius:20px; width:30px; height:30px" value="{{ ob3.1 }}" onClick='location.href="d_p={{ ob3.0 }}/d_type=1"' title="{{ ob3.5 }}">
-                {% elif ob3.2 == 1 %}
+                {% comment %} {% elif ob3.2 == 1 %}
                     <input type="button" style="background:none; border-color:black; background-color:{{ ob3.4 }}; border-radius:20px; width:30px; height:30px" value="{{ ob3.1 }}" title="{{ ob3.5 }}">
                 {% elif ob3.2 == 2 %}
                     <input type="button" style="background:none; border-color:black; background-color:{{ ob3.4 }}; border-radius:20px; width:30px; height:30px" value="{{ ob3.1 }}" title="{{ ob3.5 }}">
                 {% elif ob3.2 == 3 %}
                     <input type="button" style="background:none; border-color:black; background-color:{{ ob3.4 }}; border-radius:20px; width:30px; height:30px" value="{{ ob3.1 }}" title="{{ ob3.5 }}">
                 {% elif ob3.2 == 4 %}
+                    <input type="button" style="background:none; border-color:black; background-color:{{ ob3.4 }}; border-radius:20px; width:30px; height:30px" value="{{ ob3.1 }}" title="{{ ob3.5 }}"> {% endcomment %}
+                {% else %}
                     <input type="button" style="background:none; border-color:black; background-color:{{ ob3.4 }}; border-radius:20px; width:30px; height:30px" value="{{ ob3.1 }}" title="{{ ob3.5 }}">
                 {% endif %}
             </td>
@@ -60,7 +62,7 @@
 
 <table border="0">
     <tr>
-        <td width="1604px" style="background-color:#c3cebd" align="center">
+        <td class="tbl-main-item" width="1604px" align="center">
 
 {% for ob1 in dev %}
     <br>
@@ -70,19 +72,21 @@
     </caption>
         <tr>
         {% for ob2 in ob1.dev_p %}
-            <td style="background-color:#c3cebd">
+            <td class="tbl-main-item">
                 {% if ob2.p_valid == False %}
                     <input type="button" style="background:none; border-color:black; background-color:gray; color:white; border-radius:8px; width:30px; height:30px" value="{{ ob2.num }}" title="{{ ob2.p_alias }} ▲ {{ ob2.prim }} (неисправен)">
                 {% elif ob2.int_c_status == 0 %}
                     <input type="button" style="background:white; border-color:black; color:black; border-radius:8px; width:30px; height:30px" value="{{ ob2.num }}" onClick='location.href="d_p={{ ob2.id }}/d_type=2"' title="{{ ob2.p_alias }} ▲ {{ ob2.prim }}">
-                {% elif ob2.int_c_status == 1 %}
+                {% comment %} {% elif ob2.int_c_status == 1 %}
                     <input type="button" style="background:none; border-color:black; background-color:{{ ob2.color }}; border-radius:8px; width:30px; height:30px" value="{{ ob2.num }}" title="{{ ob2.p_alias }} ▲ {{ ob2.prim }}">
                 {% elif ob2.int_c_status == 2 %}
                     <input type="button" style="background:none; border-color:black; background-color:{{ ob2.color }}; border-radius:8px; width:30px; height:30px" value="{{ ob2.num }}" title="{{ ob2.p_alias }} ▲ {{ ob2.prim }}">
                 {% elif ob2.int_c_status == 3 %}
                     <input type="button" style="background:none; border-color:black; background-color:{{ ob2.color }}; border-radius:8px; width:30px; height:30px" value="{{ ob2.num }}" title="{{ ob2.p_alias }} ▲ {{ ob2.prim }}">
                 {% elif ob2.int_c_status == 4 %}
-                    <input type="button" style="background:none; border-color:black; background-color:{{ ob2.color }}; color:black; border-radius:8px; width:30px; height:30px" value="{{ ob2.num }}" title="{{ ob2.p_alias }} ▲ {{ ob2.prim }}">
+                    <input type="button" style="background:none; border-color:black; background-color:{{ ob2.color }}; border-radius:8px; width:30px; height:30px" value="{{ ob2.num }}" title="{{ ob2.p_alias }} ▲ {{ ob2.prim }}"> {% endcomment %}
+                {% else%}
+                    <input type="button" style="background:none; border-color:black; background-color:{{ ob2.color }}; border-radius:8px; width:30px; height:30px" value="{{ ob2.num }}" title="{{ ob2.p_alias }} ▲ {{ ob2.prim }}">
                 {% endif %}
             </td>
         {% endfor %}
@@ -98,28 +102,28 @@
 
 <table border="0">
     <tr>
-        <td width="1604px" style="background-color:#c3cebd" align="left">
+        <td class="tbl-main-item" width="1604px" align="left">
 
 {% for ob1 in box %}
     <table border="0">
-    <!--<caption>{{ ob1.name }}-{{ ob1.num }}</caption>-->
-        <tr>
-            <td align="right" width="60px" style="background-color:#c3cebd">
+        <tr class="tbl-main-item">
+            <td align="right" width="60px">
                 <b>{{ ob1.name }}-{{ ob1.num }}&nbsp>&nbsp</b>
             </td>
         {% for ob2 in ob1.box_p %}
-            <td style="background-color:#c3cebd">
-            {#<td style="background-color:{{ ob2.COLOR_PLINT }}">#}
+            <td>
                 {% if ob2.p_valid == False %}
                     <input type="button" style="background:none; border-color:{{ ob2.COLOR_PLINT }}; background-color:gray; color:white; border-radius:4px; width:42px; height:24px" value="{{ ob2.pair }}" title="(неисправен)">
                 {% elif ob2.up_status == 0 %}
                     <input type="button" style="background:none; border-color:{{ ob2.COLOR_PLINT }}; color:black; border-radius:4px; width:42px; height:24px" value="{{ ob2.pair }}" onClick='location.href="d_p={{ ob2.id }}/d_type=3"'>
-                {% elif ob2.up_status == 1 %}
-                    <input type="button" style="background:none; border-color:{{ ob2.COLOR_PLINT }}; background-color:{{ ob2.COLOR_CROSS }}; border-radius:4px; width:42px; height:24px" value="{{ ob2.pair }}" {#onClick='location.href="d_p={{ ob2.id }}/"'#}>
+                {% comment %} {% elif ob2.up_status == 1 %}
+                    <input type="button" style="background:none; border-color:{{ ob2.COLOR_PLINT }}; background-color:{{ ob2.COLOR_CROSS }}; border-radius:4px; width:42px; height:24px" value="{{ ob2.pair }}">
                 {% elif ob2.up_status == 2 %}
-                    <input type="button" style="background:none; border-color:{{ ob2.COLOR_PLINT }}; background-color:{{ ob2.COLOR_CROSS }}; border-radius:4px; width:42px; height:24px" value="{{ ob2.pair }}" {#onClick='location.href="d_p={{ ob2.id }}/"'#}>
+                    <input type="button" style="background:none; border-color:{{ ob2.COLOR_PLINT }}; background-color:{{ ob2.COLOR_CROSS }}; border-radius:4px; width:42px; height:24px" value="{{ ob2.pair }}">
                 {% elif ob2.up_status == 3 %}
-                    <input type="button" style="background:none; border-color:{{ ob2.COLOR_PLINT }}; background-color:{{ ob2.COLOR_CROSS }}; border-radius:4px; width:42px; height:24px" value="{{ ob2.pair }}" {#onClick='location.href="d_p={{ ob2.id }}/"'#}>
+                    <input type="button" style="background:none; border-color:{{ ob2.COLOR_PLINT }}; background-color:{{ ob2.COLOR_CROSS }}; border-radius:4px; width:42px; height:24px" value="{{ ob2.pair }}"> {% endcomment %}
+                {% else %}
+                    <input type="button" style="background:none; border-color:{{ ob2.COLOR_PLINT }}; background-color:{{ ob2.COLOR_CROSS }}; border-radius:4px; width:42px; height:24px" value="{{ ob2.pair }}">
                 {% endif %}
             </td>
         {% endfor %}
@@ -132,7 +136,7 @@
 </table>
 
     <br>
-    <table border="0" id="templ_footer">
+    <table class="t_footer">
         <tr>
             <td width="1300px">&nbsp</td>
             <td width="300px" align="right">

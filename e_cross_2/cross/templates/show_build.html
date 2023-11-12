@@ -2,7 +2,7 @@
 
 {% block cross %}
 
-    <table border="0" id="templ_header">
+    <table class="t_header1">
         <tr>
             <td width="1300px" align="left"><h3>&nbsp&nbsp{{ bu.name }}&nbsp{{ bu.house_num }}</h3></td>
             <td width="300px" align="right">
@@ -27,9 +27,9 @@
 
 {% if lo_list %}
     
-    <table width="1404px" border="1" id="templ_header2">
+    <table width="1404px" border="1">
     <caption>Узлы доступа:</caption>
-        <tr>
+        <tr class="t_header1">
             <td width="26px"></td>
             <td width="200px" align="center">название</td>
             <td width="200px" align="center">тип УД</td>
@@ -44,7 +44,7 @@
             <td width="20px" align="center">?</td>
         </tr>
         {% for ob in lo_list %}
-        <tr id="tr_hover" style="background-color:white">
+        <tr id="tr_hover">
             <!--<td align="center">&#10042</td>-->
         {% if ob.agr %}
             <td align="center"><img src="/static/images/lo1.png" alt="" title="" width="16" height="16"></td>
@@ -85,7 +85,7 @@
             <td style="background-color:#bbbbbb" align="center"><a href="/core/logs/t=1/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
         </tr>
         {% endfor %}
-        <tr id="templ_footer">
+        <tr class="t_footer">
             <td colspan="3">&nbsp</td>
             <td align="center">
             {% if perms.core.can_new %}
@@ -157,7 +157,7 @@
     </table>
     <br>
 
-    <table border="0" id="templ_footer">
+    <table class="t_footer">
         <tr>
             <td width="1200px">
                 <input type="button" value="блокировка портов" onClick='location.href="/core/block_ports={{ bu.id }}"'>&nbsp

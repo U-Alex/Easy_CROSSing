@@ -4,13 +4,14 @@
 
 {% if del_ok1 %}
 
-    <table border="0" id="templ_header">
+    <table class="t_header1">
         <tr>
             <td width="1100px" align="left">
                 <form method="post">
                 {% csrf_token %}
-                    &nbsp&nbsp<strong>Выбор конечной муфты для перемещения:</strong> &nbsp&nbspКвартал:&nbsp{{ form.kvar }}
+                    &nbsp&nbspКвартал:&nbsp{{ form.kvar }}
                     <input type="submit" value="поиск" style="width:80px">&nbsp
+                    &nbsp&nbsp<strong>Выбор конечной муфты для перемещения:</strong>
                 </form>
             </td>
             <td width="300px" align="right"></td>
@@ -18,8 +19,8 @@
     </table>
     <br>
 
-    <table width="1404px" border="0">
-        <tr align="center" style="background-color:#B5FFCE">
+    <table class="tbl-main" width="1404px">
+        <tr class="t_header1" align="center">
             <td>здания</td>
             <td>опоры и колодцы</td>
         </tr>
@@ -66,7 +67,7 @@
         </tr>
     </table>
     <br>
-    <table border="0" id="templ_footer">
+    <table class="t_footer">
         <tr>
             <td width="1100px">&nbsp</td>
             <td width="300px" align="right"><input type="button" value="отмена" onClick='location.href="../../"'>&nbsp</td>
@@ -75,7 +76,7 @@
 
 {% else %}
 
-    <table border="0" id="templ_header">
+    <table class="t_header1">
         <tr>
             <td width="1100px" align="left"><h3>&nbspмуфта: {{ coup.name }}</h3></td>
             <td width="300px" align="right"></td>
@@ -85,7 +86,7 @@
     <h3 style="color:red">перенос невозможен</h3>
     <h3>есть варки в муфте</h3>
     <br>
-    <table border="0" id="templ_footer">
+    <table class="t_footer">
         <tr>
             <td width="1400px" align="center">
                 <input type="button" value="назад" onClick='location.href="../../"'>

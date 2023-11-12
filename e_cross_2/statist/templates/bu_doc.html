@@ -2,7 +2,7 @@
 
 {% block service %}
 
-    <table border="0" id="templ_header">
+    <table class="t_header1">
         <tr>
             <td width="1000px" align="left"><h3>&nbsp&nbsp{{ bu.name }} {{ bu.house_num }}</h3></td>
             <td width="280px" align="right">&nbsp</td>
@@ -13,11 +13,11 @@
     {% endif %}
         <br>
         {% if f_list %}
-        <table width="1284px" border="0" style="background-color:#D4DCC7">
+        <table class="tbl-main" width="1284px">
             <tr>
                 <td width="104px" align="center" valign="top">
                 {% for ob in f_list %}
-                    <table width="100%" border="0" style="background-color:silver">
+                    <table class="tbl-main-item" width="100%">
                         <tr>
                             <td colspan="2" align="center">
                                 <a href="javascript:doPic('/media/{{ url }}{{ ob }}');"><img src="/media/{{ url }}{{ ob }}" width=99 height=66 border=0></a>
@@ -32,9 +32,9 @@
                             </td>
                         </tr>
                     </table>
-                    <table style="background-color:#D4DCC7">
+                    <!--<table class="tbl-main">
                         <tr><td>&nbsp</td></tr>
-                    </table>
+                    </table>-->
                 {% endfor %}
                 </td>
                 <td>
@@ -48,7 +48,7 @@
         {% endif %}
 
     <br>
-    <table border="0" id="templ_footer">
+    <table class="t_footer">
         <tr>
             <td width="1000px">
                 <form enctype="multipart/form-data" method="post" action="">
@@ -58,7 +58,7 @@
                 </form>
             </td>
             <td width="280px" align="right">
-                <input type="button" value="закрыть" onClick='location.href="../"'>&nbsp
+                <input type="button" value="закрыть" onClick='location.href="../../"'>&nbsp
             </td>
         </tr>
     </table>

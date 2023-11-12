@@ -2,7 +2,7 @@
 
 {% block cable %}
 
-    <table border="0" id="templ_header">
+    <table class="t_header1">
         <tr>
             <td width="1100px" align="left">
                 <form method="post" action="/cable/">
@@ -17,25 +17,21 @@
     <br>
     
 {% if list1 or list2 %}
-    <table width="1404px" border="0" style="background-color:#d4dcc7">
+    <table class="tbl-main" width="1404px">
         <tr valign="top">
             <td align="left">
-                <table width="880px" border="1" id="templ_header2">
-                    <tr align="center">
+                <table width="880px" border="1">
+                    <tr class="t_header1" align="center">
                         <td>адрес</td>
                         <td>УД / Муфта</td>
                         <td width="260px">муфта</td>
                         <td></td>
                     </tr>
                 {% for ob in list1 %}
-                {% if not ob.0.double %}
-                    <tr id="tr_hover" style="background-color:white">
-                {% else %}
-                    <tr id="tr_hover" style="background-color:silver">
-                {% endif %}
+                    <tr id="tr_hover" {% if ob.0.double %} style="background-color:silver" {% endif %}>
                         <td>&nbsp{{ ob.0.name }}&nbsp{{ ob.0.house_num }}</td>
                         <td>
-                            <table width="100%" border="0">
+                            <table width="100%">
                             {% for ob2 in ob.2 %}
                                 <tr id="tr_hover">
                                     <td width="45%">&nbsp
@@ -58,7 +54,7 @@
                             </table>
                         </td>
                         <td>
-                            <table width="100%" border="0">
+                            <table width="100%">
                             {% for ob2 in ob.1 %}
                                 <tr id="tr_hover">
                                     <td align="right">
@@ -87,15 +83,15 @@
                 </table>
             </td>
             <td align="right">
-                <table width="520px" border="1" id="templ_header2">
-                    <tr align="center">
+                <table width="520px" border="1">
+                    <tr class="t_header1" align="center">
                         <td>объект</td>
                         <td></td>
                         <td width="260px">муфта</td>
                         <td></td>
                     </tr>
                 {% for ob in list2 %}
-                    <tr id="tr_hover" style="background-color:white">
+                    <tr id="tr_hover">
                         <td>{{ ob.0.name }}</td>
                         <td width="48px" align="left">
                             <a href="kv={{ kvar }}/pw_edit={{ ob.0.id }}"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="12" height="12"></a>
@@ -107,7 +103,7 @@
                         {% endif %}
                         </td>
                         <td>
-                            <table width="100%" border="0">
+                            <table width="100%">
                             {% for ob2 in ob.1 %}
                                 <tr id="tr_hover">
                                     <td align="right">
@@ -131,7 +127,7 @@
                         </td>
                     </tr>
                 {% endfor %}
-                    <tr id="templ_footer">
+                    <tr class="t_footer">
                         <td colspan="4">
                             <a href="/cable/kv={{ kvar }}/pw_add/">добавить объект</a>
                         </td>
@@ -147,7 +143,7 @@
 
 {% endif %}
     <br>
-    <table border="0" id="templ_footer">
+    <table class="t_footer">
         <tr>
             <td width="1000px">&nbsp<a href="/statist/coup_changed" target="_blank">запланированные изменения</a></td>
             <td width="400px" align="right"><input type="button" value="закрыть" onClick='location.href="../../"'>&nbsp</td>

@@ -2,7 +2,7 @@
 
 {% block statist %}
 
-    <table border="0" id="templ_header">
+    <table class="t_header1">
         <tr>
             <td width="1280px" align="left">
                 <div>
@@ -30,7 +30,7 @@
         {% else %}<a href="/statist/stat_subunit/f=1/c={{ nav.1 }}/t={{ nav.2 }}/">&darr;&darr;&darr;
         {% endif %}</a></strong>
     </caption>
-        <tr id="templ_header">
+        <tr class="t_header2">
             <td align="center">
             {% if nav.1 != '0' %}<a href="/statist/stat_subunit/f={{ nav.0 }}/c=0/t={{ nav.2 }}/">
             {% else %}<label style="color:blue"><b>{% endif %}адрес</b></label></a>
@@ -94,7 +94,7 @@
     </div>
 </div>
     <br>
-    <table border="0" id="templ_footer">
+    <table class="t_footer">
         <tr>
             <td width="1200px">&nbsp</td>
             <td width="280px" align="right"><input type="button" value="назад" onClick='location.href="/core/service"'>&nbsp</td>

@@ -2,7 +2,7 @@
 
 {% block cross %}
 
-    <table border="0" id="templ_header">
+    <table class="t_header1">
         <tr>
         {% if bu %}
             <td width="1000px" align="left"><h3>&nbsp&nbsp{{ bu.name }} {{ bu.house_num }}</h3></td>
@@ -17,7 +17,7 @@
 <form method="post">
     {% csrf_token %}
     
-    <table border="0">
+    <table class="t_header1">
         {% if form.box_name %}
         <tr>
             <td width="220px" align="right"><br>
@@ -54,7 +54,7 @@
         {% endif %}
     </table>
     <br>
-    <table border="0" id="templ_footer">
+    <table class="t_footer">
         <tr>
             <td width="640px" align="right">
                 <input type="submit" value="     OK     ">&nbsp

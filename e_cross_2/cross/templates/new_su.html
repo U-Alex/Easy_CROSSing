@@ -2,7 +2,7 @@
 
 {% block cross %}
 
-    <table border="0" id="templ_header">
+    <table class="t_header1">
         <tr>
             <td width="1000px" align="left"><h3>&nbsp&nbsp{{ lo.parrent.name }} {{ lo.parrent.house_num }},&nbsp&nbspУД: {{ lo.name }}</h3></td>
             <td width="280px" align="right">&nbsp</td>
@@ -17,7 +17,7 @@
             <td width="200px" align="right">&nbsp{{ form.su_name.label }}&nbsp</td>
             <td width="400px" align="left">&nbsp&nbsp{{ form.su_name }}&nbsp</td>
         </tr>
-        <tr style="background-color:silver">
+        <tr class="tr-main">
             <td align="center">&nbspТип устройства&nbsp</td>
             <td align="center">&nbspНазвание устройства&nbsp</td>
             <!--<td width="120px" align="center">кол-во портов</td>-->
@@ -41,7 +41,7 @@
     </table>
     
     <br>
-    <table border="0" id="templ_footer">
+    <table class="t_footer">
         <tr>
             <td width="640px" align="right">
                 <input type="submit" value="     OK     ">&nbsp

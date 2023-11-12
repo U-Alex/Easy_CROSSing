@@ -5,7 +5,7 @@
 <form method="post">
     {% csrf_token %}
 
-    <table border="0" id="templ_header">
+    <table class="t_header1">
         <tr>
             <td width="800px" align="left"><h3>&nbsp&nbsp{{ bu.name }}&nbsp{{ bu.house_num }}&nbsp&nbsp(редактирование)</h3></td>
             <td width="600px" align="right">{{ form.kvar.label }}&nbsp{{ form.kvar }}&nbsp&nbsp&nbsp</td>
@@ -13,53 +13,52 @@
     </table>
     <br>
 
-    <table width="1404px" border="0" style="background-color:#d4dcc7">
-        <caption id="templ_header">юридическая информация:</caption>
+    <table class="tbl-main" width="1404px">
+        <caption class="t_header1">юридическая информация:</caption>
         <tr>
-            <td width="300px" align="right" style="background-color:#dddddd">УК/ТСЖ/ЖСК&nbsp&nbsp</td>
+            <td width="300px" align="right">УК/ТСЖ/ЖСК&nbsp&nbsp</td>
             <td>&nbsp{{ form.info_comp }}</td>
         </tr>
         <tr>
-            <td align="right" style="background-color:#dddddd">Контактная информация уполномоченного&nbsp<br> представителя собственников&nbsp&nbsp</td>
+            <td align="right">Контактная информация уполномоченного&nbsp<br> представителя собственников&nbsp&nbsp</td>
             <td>&nbsp{{ form.info_cont }}</td>
         </tr>
         <tr>
-            <td align="right" style="background-color:#dddddd">Договор на размещение оборудования&nbsp&nbsp</td>
+            <td align="right">Договор на размещение оборудования&nbsp&nbsp</td>
             <td>&nbsp{{ form.cnt_place }}&nbsp&nbsp&nbsp&nbspЦена: {{ form.cnt_price }}</td>
         </tr>
         <tr>
-            <td align="right" style="background-color:#dddddd">Сроки оплаты по договору (за размещение)&nbsp&nbsp</td>
+            <td align="right">Сроки оплаты по договору (за размещение)&nbsp&nbsp</td>
             <!--<td>&nbsp{{ bu.deadline|date:"d M" }}</td>-->
             <td>&nbsp{{ form.deadline_use }}&nbsp&nbsp&nbsp&nbsp{{ form.deadline_d }}{{ form.deadline_m }}</td>
         </tr>
         <tr>
-            <td align="right" style="background-color:#dddddd">Акты сверки показаний и возмещение эл/эн&nbsp&nbsp</td>
+            <td align="right">Акты сверки показаний и возмещение эл/эн&nbsp&nbsp</td>
             <td>&nbsp{{ form.electricity }}</td>
         </tr>
         <tr>
-            <td align="right" style="background-color:#dddddd">Информационные таблички&nbsp&nbsp</td>
+            <td align="right">Информационные таблички&nbsp&nbsp</td>
             <td>&nbsp{{ form.info_signs }}</td>
         </tr>
         <tr>
-            <td align="right" style="background-color:#dddddd">Льгота старшему дома&nbsp&nbsp</td>
+            <td align="right">Льгота старшему дома&nbsp&nbsp</td>
             <td>&nbsp{{ form.senior_home }}</td>
         </tr>
         <tr>
-            <td align="right" style="background-color:#dddddd">Наличие тех.условий и актов разграничения&nbsp&nbsp</td>
+            <td align="right">Наличие тех.условий и актов разграничения&nbsp&nbsp</td>
             <td>&nbsp{{ form.tech_conditions }}</td>
         </tr>
         <tr>
-            <td align="right" style="background-color:#dddddd">Доступ&nbsp&nbsp</td>
+            <td align="right">Доступ&nbsp&nbsp</td>
             <td>&nbsp{{ form.access }}</td>
         </tr>
         <tr>
-            <td align="right" style="background-color:#dddddd">Примечание&nbsp&nbsp</td>
+            <td align="right">Примечание&nbsp&nbsp</td>
             <td>&nbsp{{ form.prim }}</td>
         </tr>
     </table>
 
-    <br>    
-    <table border="0" id="templ_footer">
+    <table class="t_footer">
         <tr>
             <td width="700px" align="right">
                 <input type="submit" value="     OK     ">&nbsp

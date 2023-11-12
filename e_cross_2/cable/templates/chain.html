@@ -2,7 +2,7 @@
 
 {% block cable %}
 
-    <table border="0" id="templ_header">
+    <table class="t_header1">
         <tr>
             <td width="980px" align="left">
                 <h3>&nbspЦепочка по кабелю</h3>
@@ -13,14 +13,14 @@
     
     {% for ob in ch_list %}
         
-        <table width="1100px" border="0">
-            <tr style="background-color:#D4DCC7">
+        <table width="1100px">
+            <tr class="tr-main">
                 <td colspan="3">&nbsp</td>
                 <td align="left">
                 {% if ob.0.3 %}
                     <b>}--</b>
-                    {% if ob.0.3.0 != 0 %}      {{ ob.0.3.0 }} / {{ ob.0.3.1 }}
-                    {% else %}                  <label style="color:red">{{ ob.0.3.0 }} / {{ ob.0.3.1 }}</label>
+                    {% if ob.0.3.0 != 0 %} {{ ob.0.3.0 }} / {{ ob.0.3.1 }}
+                    {% else %}             <label style="color:red">{{ ob.0.3.0 }} / {{ ob.0.3.1 }}</label>
                     {% endif %}
                 {% endif %}
                 </td>
@@ -102,7 +102,7 @@
             <tr align="center">
                 <td width="32%">        {# cab_input #}
                 {% if   ob.0.0 == 1 %}
-                    <table width="100%" border="0">
+                    <table width="100%">
                         <tr>
                             <td width="30%" align="left">
                                 <img src="/static/images/cab1.png" alt="cab" title="{{ ob.0.4.name }}" height="26">
@@ -116,7 +116,7 @@
                         </tr>
                     </table>
                 {% elif ob.0.0 == 2 %}
-                    <table width="100%" border="0">
+                    <table width="100%">
                         <tr>
                             <td width="30%" align="left">
                                 {% if ob.0.4.ext_p %}   <img src="/static/images/cr1.png" alt="cr" title="" height="26">
@@ -133,7 +133,7 @@
                         </tr>
                     </table>
                 {% elif ob.0.0 == 4 %}
-                    <table width="100%" border="0">
+                    <table width="100%">
                         <tr>
                             <td align="left">
                                 <img src="/static/images/sfp.png" alt="sfp" title="" height="26">
@@ -164,7 +164,7 @@
                 </td>
                 <td width="32%">        {# cab_output #}
                 {% if   ob.1.0 == 1 %}
-                    <table width="100%" border="0">
+                    <table width="100%">
                         <tr>
                             <td align="center">
                                 кабель: <b>{{ ob.1.4.name }}</b><br>
@@ -178,7 +178,7 @@
                         </tr>
                     </table>
                 {% elif ob.1.0 == 2 %}
-                    <table width="100%" border="0">
+                    <table width="100%">
                         <tr>
                             <td align="center">
                                 кросс: <b>{{ ob.1.4.name }}</b>, 
@@ -205,7 +205,7 @@
     {% endfor %}
     
     <br>
-    <table border="0" id="templ_footer">
+    <table class="t_footer">
         <tr>
             <td width="1000px">&nbsp</td>
             <td width="280px" align="right"><input type="button" value="закрыть" onClick='location.href="../../"'>&nbsp</td>

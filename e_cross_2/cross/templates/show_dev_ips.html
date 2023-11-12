@@ -2,8 +2,8 @@
 
 {% block cross %}
 
-    <table border="0">
-        <tr id="templ_header">
+    <table>
+        <tr class="t_header1">
             <td width="1300px" align="left">
                 <h3>
                     &nbsp&nbsp<a href="/cross/build={{ lo.parrent_id }}">{{ lo.parrent.name }} {{ lo.parrent.house_num }}</a>,
@@ -21,7 +21,7 @@
                 {% endif %}
             </td>
         </tr>
-        <tr id="templ_header">
+        <tr class="t_footer">
             <td colspan="2" align="left">&nbsp&nbsp
                 {#доступные коммутаторы:&nbsp&nbsp#}
             {% for nav in dev_list %}
@@ -36,9 +36,9 @@
     </table>
     
     <!--<br>-->
-    <table width="1604px" border="1" id="templ_header"><!-- style="border-style: dashed;"-->
+    <table width="1604px" border="1">
     <caption style="color:red"><b>в разработке</b></caption>
-        <tr id="templ_header">
+        <tr class="t_header2">
             <td width="80px" align="center">№ / <i>алиас</i></td>
             <td align="center">оборудование</td>
             <td width="200px" align="center">тип</td>
@@ -91,7 +91,7 @@
     </table>
 
     <br>
-    <table border="0" id="templ_footer">
+    <table class="t_footer">
         <tr>
             <td width="1400px">&nbsp
                 {{ dev.obj_type.parrent.name }}: <b>{{ dev.obj_type.name }}</b>

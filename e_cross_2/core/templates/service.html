@@ -2,7 +2,7 @@
 
 {% block service %}
 
-    <table border="0" id="templ_header">
+    <table class="t_header1">
         <tr>
             <td width="870px" align="left"><h3>&nbspСервисные функции</h3></td>
             <td width="400px" align="right"><div id="clock"></div></td>
@@ -11,11 +11,11 @@
     </table>
     <br>
     
-    <table width="1280px" border="0" style="background-color:#D4DCC7">
+    <table class="tbl-main" width="1280px">
         <tr valign="top">
             <td align="center">
                 <table width="300px" border="1">
-                    <tr align="center" id="templ_header2">
+                    <tr align="center" class="t_header2">
                         <td colspan="3">добавление объектов</td>
                     </tr>
                     <tr align="center">
@@ -26,7 +26,7 @@
                 </table>
                 <br>
                 <table width="300px" border="1">
-                    <tr align="center" id="templ_header2">
+                    <tr align="center" class="t_header2">
                         <td>сервисные операции</td>
                     <tr align="center">
                         <td><a href="/core/sprav/">справочник УК</a></td>
@@ -64,7 +64,7 @@
                 </table>
                 <br>
                 <table width="300px" border="1">
-                    <tr align="center" id="templ_header2">
+                    <tr align="center" class="t_header2">
                         <td>отчёты</td>
                     <tr align="center">
                         <td><!--<a href="/statist/">-->общая статистика по оборудованию</a></td>
@@ -91,7 +91,7 @@
             </td>
             <td align="center">
                 <table width="180px" border="1">
-                    <tr align="center" id="templ_header2">
+                    <tr align="center" class="t_header2">
                         <td>история операций</td>
                     </tr>
                     <tr align="center">
@@ -111,7 +111,7 @@
             {% if perms.core.can_adm %}
             <td align="center">
                 <table width="600px" border="1">
-                    <tr align="center" id="templ_header2">
+                    <tr align="center" class="t_header2">
                         <td>
                             last click <a href="/core/service/clean_his/">[X]</a>
                         </td>
@@ -134,7 +134,7 @@
     </table>
     <br>
     
-    <table border="0" id="templ_footer">
+    <table class="t_footer">
         <tr>
             <td width="1000px">&nbsp</td>
             <td width="280px" align="right"><input type="button" value="закрыть" onClick='location.href="../../"'>&nbsp</td>

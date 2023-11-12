@@ -3,9 +3,9 @@
 {% block proc_app %}
 <!--<meta http-equiv="refresh" content="10">-->
 
-    <table width="1404px" border="0">
+    <table width="1404px">
         <tr>
-            <td width="26%" valign="top" style="background-color:#bbbbbb">
+            <td class="tbl-main-item" width="26%" valign="top">
                 
                 <div align="center">
                     <i>данные биллинга:</i><br>
@@ -52,8 +52,8 @@
             {% endif %}
                 <br>
             </td>
-            <td valign="top" style="background-color:#D4DCC7">
-                <table width="100%" border="0" align="center">
+            <td class="tbl-main" valign="top">
+                <table width="100%" align="center">
                     <caption><i>текущие кроссировки договора:</i></caption>
                 {% for ob in dog_list %}
                     {% if ob.int_c_status == 0 %}  <tr style="background-color:{{ color.0 }}">
@@ -61,7 +61,7 @@
                     {% elif ob.int_c_status == 2 %}<tr style="background-color:{{ color.2 }}">
                     {% elif ob.int_c_status == 3 %}<tr style="background-color:{{ color.3 }}">
                     {% endif %}
-                            <td width="60px" style="background-color:#D4DCC7">&nbsp</td>
+                            <td width="60px">&nbsp</td>
                             <td>
                                 &nbspул: {{ ob.parrent.parrent.parrent.name }} {{ ob.parrent.parrent.parrent.house_num }}
                                 &nbspУД: {{ ob.parrent.parrent.name }}
@@ -71,7 +71,7 @@
                                 &nbspФИО: {{ ob.ab_fio }}
                                 &nbspприм: {{ ob.ab_prim }}
                             </td>
-                            <td width="86px" align="right" style="background-color:#D4DCC7">
+                            <td width="86px" align="right">
                                 {% if accept %}
                                     <form method="post" action="/app/install={{ app.id }}/sel={{ ob.id }}/">
                                     {% csrf_token %}
@@ -81,7 +81,7 @@
                                     <input type="button" disabled="1" value="принять" style="width:80px">
                                 {% endif %}
                             </td>
-                            <td width="82px" align="right" style="background-color:#D4DCC7">
+                            <td width="82px" align="right">
                             {% if ob.int_c_status == 2 %}
                                 <input type="button" value="снять" onClick='window.open("/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/box={{ ob.parrent.id }}/s_p={{ ob.id }}/del_ab=1/")' title="удаление абонентской кроссировки" style="width:80px">
                             {% else %}
@@ -93,7 +93,7 @@
                 {% endfor %}
                 </table>
                 <br>
-                <table width="100%" border="0" align="center" style="background-color:#D4DCC7">
+                <table class="tbl-main" width="100%" align="center">
                     <caption><i>ресурсы:</i></caption>
                     {% if bu %}
                         <tr>
@@ -104,17 +104,17 @@
                                 <a href="/cross/build={{ bu.id }}/" target="_blank"><strong>&nbsp{{ bu.name }}&nbsp{{ bu.house_num }}&nbsp</strong></a>
                                 <!--<input type="button" value="{{ bu.name }} {{ bu.house_num }}" onClick='window.open("/cross/build={{ bu.id }}/")' title="перейти к шкафу" style="background:fff; border-color:black; color:black; border-radius:4px; width:300px;  height:24px">-->
                             </td>
-                            <td width="160px" align="center" style="background-color:#D4DCC7">
+                            <td width="160px" align="center">
                                 <a href="/statist/bu_doc={{ bu.id }}/" target="_blank"><strong>карточки ввода</strong></a>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="3">
                             {% for ob1 in box %}
-                                <table border="0">
+                                <table class="tbl-main">
                                 <!--<caption>{{ ob1.name }}-{{ ob1.num }}</caption>-->
                                     <tr>
-                                        <td align="right" width="64px" style="background-color:#D4DCC7">
+                                        <td align="right" width="64px">
                                             <a href="/cross/build={{ bu.id }}/locker={{ ob1.parrent_id }}/box={{ ob1.id }}/" class="tooltip" target="_blank"><span style="background-color:yellow; width: 80px;">{{ ob1.lo_name }}</span>
                                                 {% if ob1.s_area %}
                                                 <strong><label style="color:red">{{ ob1.name }}-{{ ob1.num }}&nbsp></label>&nbsp</strong>
@@ -123,7 +123,7 @@
                                                 {% endif %}
                                             </a>
                                         </td>
-                                        <td style="background-color:#D4DCC7">
+                                        <td>
                                     {% for ob2 in ob1.box_p %}
                                         {% if ob2.3 == False %}
                                         <span class="tooltip">
@@ -169,10 +169,10 @@
                                 адрес в базе не обнаружен&nbsp
                             </td>
                             <td align="left">
-                                <a href="/cross/" target="_blank"><strong>&nbspвыбрать другой адрес&nbsp</strong></a>
+                                <a href="/" target="_blank"><strong>&nbspвыбрать другой адрес&nbsp</strong></a>
                                 <!--<input type="button" value="выбрать другой адрес" onClick='window.open("/cross/")' title="" style="background:fff; border-color:black; color:black; border-radius:4px; width:300px;  height:24px">-->
                             </td>
-                            <td width="200px" align="center" style="background-color:#D4DCC7"></td>
+                            <td width="200px" align="center"></td>
                         </tr>
                     {% endif %}
                 </table>
@@ -181,7 +181,7 @@
         </tr>
     </table>
     <br>
-    <table width="1404px" border="0" style="background-color:#D4DCC7">
+    <table class="t_header1" width="1404px">
         <tr>
             <td align="right"><i>операции:&nbsp&nbsp&nbsp</i></td>
             <td width="210px" align="right">
@@ -241,8 +241,7 @@
         </tr>
     </table>
 
-    <br>
-    <table width="1404px" border="0" id="templ_footer">
+    <table class="t_footer" width="1404px">
         <tr>
             <td width="120px">&nbsp</td>
             <td>

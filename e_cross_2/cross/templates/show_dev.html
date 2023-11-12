@@ -3,8 +3,8 @@
 {% block cross %}
 
 {% if dev_p_list %}
-    <table border="0">
-        <tr id="templ_header">
+    <table>
+        <tr class="t_header1">
             <td width="1300px" align="left">
                 <h3>
                     &nbsp&nbsp<a href="/cross/build={{ lo.parrent_id }}">{{ lo.parrent.name }} {{ lo.parrent.house_num }}</a>,
@@ -22,7 +22,7 @@
                 {% endif %}
             </td>
         </tr>
-        <tr id="templ_header">
+        <tr class="t_footer">
             <td colspan="2" align="left">&nbsp&nbsp
                 {#доступные коммутаторы:&nbsp&nbsp#}
             {% for nav in dev_list %}
@@ -42,7 +42,7 @@
     <br>
     {% endif %}
     
-    <table width="1604px" border="1" id="templ_header">
+    <table class="t_header3" width="1604px" border="1">
     <!--<caption>&nbsp</caption>-->
         <tr>
             <td colspan="2" align="center">порт</td>
@@ -53,7 +53,7 @@
             <td rowspan="2" align="center" width="30px">ред.</td>
             <td rowspan="2" align="center" width="20px">?</td>
         </tr>
-        <tr id="templ_header">
+        <tr>
             <td width="38px" align="center">№</td>
             <td width="38px" align="center">тип</td>
             <td width="38px" align="center">тип</td>
@@ -68,11 +68,7 @@
             <td width="40px" align="center">порт</td>
         </tr>
         {% for ob in dev_p_list %}
-            {%if ob.p_valid == False %}
-            <tr id="tr_hover" style="background-color:gray">
-            {%  else  %}
-            <tr id="tr_hover" style="background-color:white">
-            {% endif %}
+            <tr id="tr_hover" {%if ob.p_valid == False %} style="background-color:gray" {% endif %}>
                 <td align="center" {% if ob.id == sel %} style="background-color:#FF0099"{% endif %}>
                     <label title="id-{{ ob.id }}" {% if ob.id == sel %} style="color:white" {% endif %}>&nbsp{{ ob.num }}&nbsp</label>
                 </td>
@@ -144,7 +140,7 @@
     <p>Not ports!!?? (_)*(_)</p>
 {% endif %}
     <br>
-    <table border="0" id="templ_footer">
+    <table class="t_footer">
         <tr>
             <td width="1400px">&nbsp
                 {{ dev.obj_type.parrent.name }}: <b>{{ dev.obj_type.name }}</b>

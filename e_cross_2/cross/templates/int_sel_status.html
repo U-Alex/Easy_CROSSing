@@ -2,14 +2,14 @@
 
 {% block cross %}
 
-    <table border="0" id="templ_header">
+    <table class="t_header1">
         <tr>
             <td width="1200px" align="left">
                 <h3>&nbsp&nbsp
                 {% if s_type != '3' %}
-                    {{ s_p.parrent.parrent.parrent.name }} {{ s_p.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ s_p.parrent.parrent.name }}, {{ s_p.parrent.name }}, порт: {{ s_p.num }}&nbsp&nbsp>>>> 
+                    {{ s_p.parrent.parrent.parrent.name }} {{ s_p.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ s_p.parrent.parrent.name }}, {{ s_p.parrent.name }}, порт: {{ s_p.num }}&nbsp&nbsp▶&nbsp▶&nbsp▶
                 {% else %}
-                    {{ s_p.parrent.parrent.parrent.name }} {{ s_p.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ s_p.parrent.parrent.name }}, КРТ: {{ s_p.parrent.name }}-{{ s_p.parrent.num }}-{{ s_p.p_alias }}&nbsp&nbsp>>>> 
+                    {{ s_p.parrent.parrent.parrent.name }} {{ s_p.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ s_p.parrent.parrent.name }}, КРТ: {{ s_p.parrent.name }}-{{ s_p.parrent.num }}-{{ s_p.p_alias }}&nbsp&nbsp▶&nbsp▶&nbsp▶ 
                 {% endif %}
                 {% if d_type != '3' %}
                     {{ d_p.parrent.name }}, порт: {{ d_p.num }}
@@ -40,7 +40,7 @@
     </table>
     <br>
     
-    <table border="0" id="templ_footer">
+    <table class="t_footer">
         <tr>
             <td width="800px">&nbsp</td>
             <td width="480px" align="right">

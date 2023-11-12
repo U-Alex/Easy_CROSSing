@@ -2,7 +2,7 @@
 
 {% block cable %}
     
-    <table border="0" id="templ_header">
+    <table class="t_header1">
         <tr>
             <td width="1000px" align="left">
                 <h3>
@@ -22,7 +22,7 @@
         {% csrf_token %}
         <h3 style="color:red">удалить кабель?</h3>
         <br>
-        <table border="0" id="templ_footer">
+        <table class="t_footer">
             <tr>
                 <td width="640px" align="right">
                     <input type="submit" value="     OK     ">&nbsp
@@ -38,7 +38,7 @@
     <h3 style="color:red">удаление невозможно</h3>
     <h3>есть варки в муфтах</h3>
     <br>
-    <table border="0" id="templ_footer">
+    <table class="t_footer">
         <tr>
             <td width="1280px" align="center">
                 <input type="button" value="назад" onClick='location.href="../"'>

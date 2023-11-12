@@ -2,7 +2,7 @@
 
 {% block cable %}
 
-    <table border="0" id="templ_header">
+    <table class="t_header1">
         <tr>
             <td width="1100px" align="left">
                 <h3>&nbspсвязь муфт: {{ s_coup.name }} --- {{ d_coup.name }}</h3>
@@ -15,7 +15,7 @@
 <form method="post">
     {% csrf_token %}
     
-    <table border="0">
+    <table class="t_header1">
         <tr>
             <td align="left">
                 &nbsp&nbsp&nbsp
@@ -23,7 +23,7 @@
                 {{ form.sel_cable }}
             </td>
             <td>&nbsp&nbsp&nbsp</td>
-            <td style="background-color:#D4DCC7">&nbsp&nbsp&nbsp</td>
+            <td class="tr-main">&nbsp&nbsp&nbsp</td>
             <td align="center">&nbsp
                 {{ form.phys_len.label }}:&nbsp<br>
                 {{ form.phys_len }}<br><br>
@@ -38,7 +38,7 @@
     </table>
     <br>
 
-    <table border="0" id="templ_footer">
+    <table class="t_footer">
         <tr>
             <td width="1100px">&nbsp</td>
             <td width="300px" align="right">

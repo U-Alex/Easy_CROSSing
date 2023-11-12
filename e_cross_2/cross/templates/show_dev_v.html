@@ -3,8 +3,8 @@
 {% block cross %}
 
 {% if dev_p_list %}
-    <table border="0">
-        <tr id="templ_header">
+    <table>
+        <tr class="t_header1">
             <td width="1300px" align="left">
                 <h3>
                     &nbsp&nbsp<a href="/cross/build={{ lo.parrent_id }}">{{ lo.parrent.name }} {{ lo.parrent.house_num }}</a>,
@@ -23,7 +23,7 @@
                 {% endif %}
             </td>
         </tr>
-        <tr id="templ_header">
+        <tr class="t_footer">
             <td colspan="2" align="left">&nbsp&nbsp
                 {#доступные коммутаторы:&nbsp&nbsp#}
             {% for nav in dev_list %}
@@ -37,12 +37,12 @@
         </tr>
     </table>
 
-    <table width="1604px" border="1" id="templ_header">
+    <table class="t_header3" width="1604px" border="1">
     <caption>&nbsp</caption>
-        <tr id="templ_header3">
+        <tr>
             <td colspan="2" align="center">порт</td>
             <td colspan="4" align="center">кабельная связь</td>
-            <td colspan="10" align="center">
+            <td colspan="9" align="center">
                 конфигурация портов &nbsp&nbsp&nbsp
                 {% if dev.date_upd %}последнее обновление: <b>{{ dev.date_upd|date:"d.m.Y" }}</b>{% endif %}
                 {% if upd_td %} (<b>{{ upd_td.0 }}</b> д. <b>{{ upd_td.1 }}</b> ч.м.с. назад){% endif %}
@@ -68,19 +68,11 @@
             <td width="20px" align="center"><label title="mvr type">&#10065;</label></td>
             <td width="20px" align="center"><img src="/static/images/trunk.png" alt="tr" title="trunk" width="12" height="12"></td>
             <td width="20px" align="center"><img src="/static/images/shut_0.png" alt="sh" title="shutdown" width="12" height="12"></td>
-            <td width="30px" align="center"><label title="port_channel">p_c</label></td>
+            <!--<td width="30px" align="center"><label title="port_channel">p_c</label></td>-->
         </tr>
         {% for ob in dev_p_list %}
-            {%if ob.p_valid == False %}
-            <tr style="background-color:gray">
-            {%  else  %}
-            <tr style="background-color:white">
-            {% endif %}
-            {% if ob.id == sel %}
-                <td align="center" style="background-color:#FF0099">
-            {%  else  %}
-                <td align="center">
-            {% endif %}
+            <tr id="tr_hover" {%if ob.p_valid == False %} style="background-color:gray" {% endif %}>
+                <td align="center" {% if ob.id == sel %} style="background-color:#FF0099"{% endif %}>
                     <label title="id-{{ ob.id }}">&nbsp{{ ob.num }}&nbsp</label>
                 </td>
                 <td align="center">
@@ -134,7 +126,7 @@
                 </td>
                 <td align="center">{% if ob.trunk %}<img src="/static/images/trunk.png" alt="tr" title="trunk" width="14" height="14">{% endif %}</td>
                 <td align="center">{% if ob.shut %}<img src="/static/images/shut_1.png" alt="sh" title="shutdown" width="14" height="14">{% endif %}</td>
-                <td align="center">&nbsp{% if ob.p_chan %}<label title="port_channel">{{ ob.p_chan }}</label>{% endif %}&nbsp</td>
+                <!--<td align="center">&nbsp{% if ob.p_chan %}<label title="port_channel">{{ ob.p_chan }}</label>{% endif %}&nbsp</td>-->
                 <td align="center"><a href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}/dev={{ dev.id }}/edit_f_port={{ ob.id }}/"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="16" height="16"></a></td>
                 <td style="background-color:#bbbbbb" align="center"><a href="/core/logs/t=6/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
         </tr>
@@ -143,7 +135,7 @@
 
     <table width="1604px" border="1">
     <caption><i>virtial interfaces</i></caption>
-        <tr id="templ_header">
+        <tr class="t_header1">
             <td width="344px" align="center">&nbsp</td>
             <td width="120px" align="center">physics port</td>
             <td width="90px" align="center">alias</td>
@@ -157,7 +149,7 @@
             <td width="20px" align="center">?</td>
         </tr>
         {% for ob in dev_p_v_list %}
-        <tr style="background-color:white">
+        <tr>
             <td></td>
             <td align="center">{% if ob.parrent_p %}{{ ob.parrent_p }}{% endif %}</td>
             <td align="center">{{ ob.p_alias }}</td>
@@ -173,7 +165,7 @@
             <td style="background-color:#bbbbbb" align="center"><a href="/core/logs/t=11/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
         </tr>
         {% endfor %}
-        <tr style="background-color:#D4DCC7" id="templ_header3">
+        <tr class="t_footer">
             <td colspan="8" align="center">&nbsp</td>
             <td colspan="2" align="center" style="background-color:white"><a href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}/dev={{ dev.id }}/add_v_port"><img src="/static/images/icon_addlink.gif" alt="+" title="добавление порта" width="12" height="12"></a></td>
             <td>&nbsp</td>
@@ -184,7 +176,7 @@
     <p>Not ports!!??</p>
 {% endif %}
     <br>
-    <table border="0" id="templ_footer">
+    <table class="t_footer">
         <tr>
             <td width="1400px">&nbsp
                 {{ dev.obj_type.parrent.name }}: <b>{{ dev.obj_type.name }}</b>

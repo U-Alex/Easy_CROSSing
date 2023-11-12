@@ -5,8 +5,8 @@
     <table width="1404px" border="1">
     <caption><i>кроссировки:</i></caption>
         <tr>
-            <td width="40%" valign="top" style="background-color:#bbbbbb">
-                <table width="96%" border="0" align="center">
+            <td class="tbl-main-item" width="40%" valign="top">
+                <table width="96%" align="center">
                     <caption><i>история договора:</i></caption>
                 {% for ob in dog_list_his %}
                     {% if ob.int_c_status == 0 %}  <tr style="background-color:{{ color.0 }}">
@@ -33,8 +33,8 @@
                 </table>
                 <br>
             </td>
-            <td valign="top" style="background-color:#D4DCC7">
-                <table width="100%" border="0" align="center">
+            <td class="tbl-main" valign="top">
+                <table width="100%" align="center">
                     <caption><i>текущие кроссировки договора:</i></caption>
                 {% for ob in dog_list %}
                     {% if ob.int_c_status == 0 %}  <tr style="background-color:{{ color.0 }}">
@@ -42,7 +42,7 @@
                     {% elif ob.int_c_status == 2 %}<tr style="background-color:{{ color.2 }}">
                     {% elif ob.int_c_status == 3 %}<tr style="background-color:{{ color.3 }}">
                     {% endif %}
-                            <td width="60px" style="background-color:#D4DCC7">&nbsp</td>
+                            <td width="60px">&nbsp</td>
                             <td>
                                 &nbspул: <b>{{ ob.parrent.parrent.parrent.name }} {{ ob.parrent.parrent.parrent.house_num }}</b>
                                 &nbspУД: <b>{{ ob.parrent.parrent.name }}</b>
@@ -52,7 +52,7 @@
                                 &nbspФИО: <b>{{ ob.ab_fio }}</b>
                                 &nbspприм: <b>{{ ob.ab_prim }}</b>
                             </td>
-                            <td width="60px" align="right" style="background-color:#D4DCC7"></td>
+                            <td width="60px" align="right"></td>
                         </tr>
                 {% endfor %}
                 </table>
@@ -65,7 +65,7 @@
 
     <table width="1404px" border="1">
     <caption><i>заявки:</i></caption>
-        <tr style="background-color:#D4DCC7">
+        <tr class="t_header1">
             <td colspan="2" align="center">дата поступления</td>
             <td width="80px" align="center">операция (ресурсы)</td>
             <td width="90px" align="center">ордер</td>
@@ -121,7 +121,7 @@
             <td colspan="13" align="center"><b>ничего не найдено</b></td>
         </tr>
         {% endif %}
-        <tr style="background-color:#D4DCC7">
+        <tr class="t_footer">
             <td colspan="13">&nbsp</td>
         </tr>
     </table>

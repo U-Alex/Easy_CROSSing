@@ -2,7 +2,7 @@
 
 {% block cable %}
 
-    <table border="0" id="templ_header">
+    <table class="t_header1">
         <tr>
             <td width="1100px" align="left">
                 <h3>
@@ -52,14 +52,14 @@
     <br>
     
     {% if e_p.1 == "1" %}
-    <table border="1"> 
+    <table class="t_header1" border="1"> 
         <tr><td align="center">&nbsp&nbspконечное волокно в исходном кабеле:&nbsp&nbsp</td></tr>
         <tr><td align="center"><input type="number" name="end_p0" min="1" max="{{ e_p.0 }}" value="{{ e_p.0 }}" size="5"></td></tr>
     </table>
     <br>
     {% endif %}
     
-    <table border="0" id="templ_footer">
+    <table class="t_footer">
         <tr>
             <td width="700px" align="right">
                 <input type="submit" value="     OK     ">&nbsp
@@ -107,14 +107,14 @@
     <br>
     
     {% if e_p.1 == "1" %}
-    <table border="1"> 
+    <table class="t_header1" border="1"> 
         <tr><td align="center">&nbsp&nbspконечное волокно в исходном кабеле:&nbsp&nbsp</td></tr>
         <tr><td align="center"><input type="number" name="end_p1" min="1" max="{{ e_p.0 }}" value="{{ e_p.0 }}" size="5"></td></tr>
     </table>
     <br>
     {% endif %}
     
-    <table border="0" id="templ_footer">
+    <table class="t_footer">
         <tr>
             <td width="700px" align="right">
                 <input type="submit" value="     OK     ">&nbsp

@@ -4,14 +4,14 @@
 
 {% if str_list %}
 
-        <table border="0" id="templ_header">
+        <table class="t_header1">
             <tr>
                 <td width="900px">&nbspул: {{ str_list.0.name }}&nbsp&nbsp&#9654;&nbsp<i>найденные здания&nbsp&#9660;</i></td>
                 <td width="380px" align="right"></td>
             </tr>
         </table>
         
-        <table border="0" style="background-color:#D4DCC7">
+        <table class="tbl-main">
             <caption>&nbsp</caption>
             <tr>
                 <td width="140px" align="center">
@@ -26,10 +26,10 @@
                            style="width:66px; height:32px; {% if ob.double %}background:gray {% endif %}"
                            >&nbsp-->
                     <button onClick='location.href="/cross/build={{ ob.id }}/"'
-                            style="background:{% if ob.double %}gray{% endif %}"
-                            id="templ_header"
+                            {% if ob.double %} style="background: gray" {% endif %}
+                            class="t_header1"
                             >
-                        <table width="150px" border="0" style="background:{% if ob.double %}gray{% endif %}" id="templ_header">
+                        <table class="t_header1" width="150px" {% if ob.double %} style="background: gray"{% endif %}>
                             <tr><td colspan="30"></td></tr>
                             <tr>
                                 <td colspan="30">
@@ -43,7 +43,7 @@
                                 <td width="1px" style="background:none"></td>
                                 <!--<td width={% if ob2.1 %} "16%" {% elif ob2.2 %} "4%" {% else %} "8%" {% endif %}-->
                                 <td width={% if ob2.1 %} "20px" {% elif ob2.2 %} "3px" {% else %} "8px" {% endif %}
-                                    style="background:{% if ob2.1 %}cyan{% else %}{{ ob2.0 }}{% endif %}">
+                                    style="background: {% if ob2.1 %} cyan {% else %} {{ ob2.0 }} {% endif %}">
                                 </td>
                             {% endfor %}
                                 <td style="background:none"></td>
@@ -64,14 +64,14 @@
 
 {% elif agr %}
 
-        <table border="0" id="templ_header">
+        <table class="t_header1">
             <tr>
                 <td width="1000px">&nbspсписок агрегаций&nbsp&#9660;</td>
                 <td width="280px" align="right">&nbsp</td>
             </tr>
         </table>
         
-        <table border="0" style="background-color:#D4DCC7">
+        <table class="tbl-main">
             <caption>&nbsp</caption>
             <tr>
                 <td width="100px" align="center">
@@ -113,7 +113,7 @@
 
 {% elif txt %}
 
-        <table border="0" id="templ_header">
+        <table class="t_header1">
             <tr>
                 <td width="1000px">&nbspактивное оборудование: <label style="color:blue">{{ param }} - {{ txt }}</label></td>
                 <td width="280px" align="right">&nbsp</td>

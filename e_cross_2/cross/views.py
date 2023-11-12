@@ -516,10 +516,8 @@ def show_dev_ips(request, bu_id, lo_id, dev_id):
 ###
 ###
     def add_total(obj):
-        nonlocal dev_vector
+        nonlocal dev_vector, t_list2, t_list3
         dev_vector.append(obj[3])
-        nonlocal t_list2
-        nonlocal t_list3
         if obj[1] == 0:
             t_list2[obj[0]-1][1] = obj
         else:
@@ -529,12 +527,7 @@ def show_dev_ips(request, bu_id, lo_id, dev_id):
 ###                             проверка на повторяющийся коммут
     def check_vector(dev_id):
         nonlocal dev_vector
-        try:
-            if dev_id in dev_vector:
-                return True
-        except:
-            pass
-        return False
+        return dev_id in dev_vector
 ###
     def ch_cr(lev, p_id, p_up, num):
         cr_p = Cross_ports.objects.get(pk=p_id)

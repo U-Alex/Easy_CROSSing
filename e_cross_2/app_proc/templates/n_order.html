@@ -2,7 +2,7 @@
 
 {% block cross %}
 
-    <table border="0" id="templ_header">
+    <table class="t_header1">
         <tr>
             <td width="1000px" align="left"><h3>&nbsp&nbsp{{ box_p.parrent.parrent.parrent.name }} {{ box_p.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ box_p.parrent.parrent.name }}, КРТ: {{ box_p.parrent.name }}-{{ box_p.parrent.num }}-{{ box_p.p_alias }}</h3></td>
             <td width="280px" align="right">&nbsp</td>
@@ -13,8 +13,8 @@
     <form method="post">
     {% csrf_token %}
 
-    <table border="0">
-        <tr style="background-color:#bbbbbb">
+    <table>
+        <tr class="tbl-main-item">
             <td align="left">
                 &nbsp{{ form.n_order.label }}&nbsp&nbsp{{ form.n_order }}&nbsp
             </td>
@@ -22,7 +22,7 @@
     </table>
     
     <br>
-    <table border="0" id="templ_footer">
+    <table class="t_footer">
         <tr>
             <td width="640px" align="right">
                 <input type="submit" value="OK" style="width:80px">&nbsp

@@ -4,9 +4,8 @@
 
 {% if cr_p_list %}
 
-<!--<div style="width:100%" id="templ_header">-->
-    <table border="0">
-        <tr id="templ_header">
+    <table>
+        <tr class="t_header1">
             <td width="1300px" align="left">
                 <h3>
                     &nbsp&nbsp<a href="/cross/build={{ lo.parrent_id }}">{{ lo.parrent.name }}&nbsp{{ lo.parrent.house_num }}</a>,
@@ -24,7 +23,7 @@
                 {% endif %}
             </td>
         </tr>
-        <tr id="templ_header">
+        <tr class="t_footer">
             <td colspan="2" align="right">
                 {#доступные кроссы:&nbsp&nbsp#}
             {% for nav in cr_list %}
@@ -37,13 +36,11 @@
             </td>
         </tr>
     </table>
-<!--</div>-->
-<!--<div style="width:100%" id="templ_header2">&nbsp</div>-->
 
-<div align="left" style="width:1604px;background-color:#D4DCC7">
+<div align="left" style="width:1604px;">
     <!--<div align="left" style="width:100%;height:56px;overflow-y:auto;background-color:#D4DCC7">-->
-    <div align="left" style="width:100%;background-color:#D4DCC7">
-        <table width="1584px" border="1" id="templ_header">
+    <div align="left" style="width:100%;">
+        <table class="t_header3" width="1584px" border="1">
         <caption>&nbsp</caption>
             <tr>
                 <td colspan="2" align="center">порт</td>
@@ -54,7 +51,7 @@
                 <td rowspan="2" align="center" width="30px">...</td>
                 <td rowspan="2" align="center" width="20px">?</td>
             </tr>
-            <tr id="templ_header">
+            <tr>
                 <td width="36px" align="center">№</td> 
                 <td width="36px" align="center"><img src="/static/images/chain1.png" alt="ch" title="цепочка по кабелю" width="11" height="11"></td>
                 <td width="230px" align="center">адрес</td>
@@ -71,9 +68,9 @@
     </div>
     
     {% if to_print %}
-    <div align="left" style="width:100%;overflow-y:auto;background-color:#D4DCC7">
+    <div align="left" style="width:100%;overflow-y:auto;">
     {% else %}
-    <div align="left" style="width:100%;height:650px;overflow-y:auto;background-color:#D4DCC7">
+    <div align="left" style="width:100%;height:650px;overflow-y:auto;">
     {% endif %}
         <table width="1584px" border="1">
             {% for ob in cr_p_list %}
@@ -159,7 +156,7 @@
 </div>
 
     <br>
-    <table border="0" id="templ_footer">
+    <table class="t_footer">
         <tr>
             <td width="1300px">&nbsp&nbsp</td>
             <td width="300px" align="right">

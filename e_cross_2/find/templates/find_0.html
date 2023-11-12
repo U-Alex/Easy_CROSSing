@@ -4,32 +4,32 @@
 
 
 <br>
-<table border="0" style="background-color:#D4DCC7">
+<table class="tbl-main">
     <tr align="center">
         <td width="158" height="158">
-            <table border="0" width="152" height="152" style="background-color:#D4DCC7">
+            <table class="tbl-main" width="152" height="152">
                 <tr valign="bottom"><td><img src="/static/images/_left.png" width="148" height="148"></td></tr>
             </table>
         </td>
         <td width="158" height="158">
-            <table border="0" width="152" height="152" style="background-color:#b7c5b7">
+            <table class="tbl-main-item" width="152" height="152">
                 <tr><td><a href="/find/map/"><img src="/static/images/_map-icon.png" alt="" title="Схема сети" width="145" height="145"></a></td></tr>
             </table>
         </td>
         <td width="158" height="158">
-            <table border="0" width="152" height="152" style="background-color:#b7c5b7">
+            <table class="tbl-main-item" width="152" height="152">
                 <tr><td><a href="/app/status=0/"><img src="/static/images/_app.png" alt="" title="Заявки" width="145" height="145"></a></td></tr>
             </table>
         </td>
         <td width="158" height="158">
-            <table border="0" width="152" height="152" style="background-color:#b7c5b7">
+            <table class="tbl-main-item" width="152" height="152">
                 <tr><td><a href="/cable/"><img src="/static/images/_fudjikura.png" alt="" title="Кабели и муфты" width="145" height="145"></a></td></tr>
             </table>
         </td>
     <!--</tr>
     <tr align="center">-->
         <td width="158" height="158">
-            <table border="0" width="152" height="152" style="background-color:#b7c5b7">
+            <table class="tbl-main-item" width="152" height="152">
                 <tr><td><img src="/static/images/_rent.png" alt="" title="Аренда оборудования" width="145" height="145"></a></td></tr>
             </table>
         </td>
@@ -39,17 +39,17 @@
             </table>
         </td>-->
         <td width="158" height="158">
-            <table border="0" width="152" height="152" style="background-color:#b7c5b7">
+            <table class="tbl-main-item" width="152" height="152">
                 <tr><td><a href="/core/service/"><img src="/static/images/_stat.png" alt="" title="Сервис" width="145" height="145"></a></td></tr>
             </table>
         </td>
         <td width="158" height="158">
-            <table border="0" width="152" height="152" style="background-color:#b7c5b7">
+            <table class="tbl-main-item" width="152" height="152">
                 <tr><td><a href="/manual/" target="_blank"><img src="/static/images/_help-icon.png" alt="" title="Помощь" width="145" height="145"></a></td></tr>
             </table>
         </td>
         <td width="158" height="158">
-            <table border="0" width="152" height="152" style="background-color:#D4DCC7">
+            <table class="tbl-main" width="152" height="152">
                 <tr valign="bottom"><td><img src="/static/images/_right.png" width="148" height="148"></td></tr>
             </table>
         </td>
@@ -57,10 +57,10 @@
 </table>
 
 <br>
-<table border="0" style="background-color:#D4DCC7">
+<table class="tbl-main">
     <tr align="center">
         <td>
-            <table width="98%" height="66" border="0" style="background-color:#b7c5b7">
+            <table class="tbl-main-item" width="98%" height="66">
                 <form method="post" action="/find/find_bu">
                 {% csrf_token %}
                     <tr>
@@ -78,7 +78,7 @@
             </table>
         </td>
         <td>
-            <table width="98%" height="66" border="0" style="background-color:#b7c5b7">
+            <table class="tbl-main-item" width="98%" height="66">
                 <form method="post" action="/find/find_agr">
                 {% csrf_token %}
                     <tr>
@@ -94,7 +94,7 @@
             </table>
         </td>
         <td>
-            <table width="98%" height="66" border="0" style="background-color:#b7c5b7">
+            <table class="tbl-main-item" width="98%" height="66">
                 <form method="post" action="/app/status%3D0/app_find/">
                 {% csrf_token %}
                     <tr>
@@ -110,7 +110,7 @@
             </table>
         </td>
         <td>
-            <table width="98%" height="66" border="0" style="background-color:#b7c5b7">
+            <table class="tbl-main-item" width="98%" height="66">
                 <form id="dev" method="post" action="/find/find_dev=0/">
                 {% csrf_token %}
                     <tr {% if ok_dev == False  %} style="background-color:#ff7575" {% endif %}>
@@ -132,10 +132,7 @@
             </table>
         </td>
     </tr>
-    <!--<tr>
-        <td colspan="4">
-        </td>
-    </tr>-->
+
 </table>
 <br>
 
