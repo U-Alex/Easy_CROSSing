@@ -2,44 +2,8 @@
 
 {% block find %}
 
-<section class="link_list">
-    <div class="link_item_left">
-    </div>
-    <div class="link_item">
-        <a href="/find/map/">
-            <img src="/static/images/_map-icon_2.png" alt="" title="Схема сети">
-        </a>
-    </div>
-    <div class="link_item">
-        <a href="/app/status=0/">
-            <img src="/static/images/_app.png" alt="" title="Заявки">
-        </a>
-    </div>
-    <div class="link_item">
-        <a href="/cable/">
-            <img src="/static/images/_fudjikura_2.png" alt="" title="ВОЛС">
-        </a>
-    </div>
-    <div class="link_item">
-        <a href="">
-            <img src="/static/images/_rent_2.png" alt="" title="Аренда оборудования">
-        </a>
-    </div>
-    <div class="link_item">
-        <a href="/core/service/">
-            <img src="/static/images/_stat.png" alt="" title="Сервис">
-        </a>
-    </div>
-    <div class="link_item">
-        <a href="/manual/" target="_blank">
-            <img src="/static/images/_help-icon.png" alt="" title="Помощь">
-        </a>
-    </div>
-    <div class="link_item_right">
-    </div>
-</section>
 
-{% comment %} <br>
+<br>
 <table class="tbl-main">
     <tr align="center">
         <td width="158" height="158">
@@ -90,43 +54,9 @@
             </table>
         </td>
     </tr>
-</table> {% endcomment %}
+</table>
 
-
-
-<section class="form_list">
-    <form class="form_block t_header1" method="post" action="/find/find_bu">
-        {% csrf_token %}
-        <img src="/static/images/SKS2.png" alt="" title="здания">
-        <div class="form_item">{{ form1.street }}{{ form1.house_num }}</div>
-        <input class="form_button" type="submit" value="&#9660;&#9660;&#9660;">
-    </form>
-    <form class="form_block t_header1" method="post" action="/find/find_agr">
-        {% csrf_token %}
-        <img src="/static/images/stat2.png" alt="" title="агрегации">
-        <div class="form_item">{{ form4.co }}</div>
-        <input class="form_button" type="submit" value="&#9660;&#9660;&#9660;">
-    </form>
-    <form class="form_block t_header1" method="post" action="/app/status%3D0/app_find/">
-        {% csrf_token %}
-        <img src="/static/images/_logs.png" alt="" title="договор / ордер">
-        <div class="form_item">{{ form2.dog }}</div>
-        <input class="form_button" type="submit" value="&#9660;&#9660;&#9660;">
-    </form>
-    <form class="form_block t_header1" id="dev" method="post" action="/find/find_dev=0/">
-        {% csrf_token %}
-        <img src="/static/images/_logs2.png" alt="" title="">
-        <div class="form_item2" {% if ok_dev == False %} style="background-color:#ff7575" {% endif %}>
-            <div class="item_elem"><label id="lab_1">&nbsp{{ form3.dev_ip.label }}&nbsp&#9654;&nbsp</label>{{ form3.dev_ip }}</div>
-            <div class="item_elem"><label id="lab_2">&nbsp{{ form3.dev_mac.label }}&nbsp&#9654;&nbsp</label>{{ form3.dev_mac }}</div>
-            <div class="item_elem"><label id="lab_3">&nbsp{{ form3.dev_sn.label }}&nbsp&#9654;&nbsp</label>{{ form3.dev_sn }}</div>
-            <div class="item_elem"><label id="lab_4">&nbsp{{ form3.dev_vlan.label }}&nbsp&#9654;&nbsp</label>{{ form3.dev_vlan }}</div>
-        </div>
-        <input class="form_button" type="submit" value="&#9660;&#9660;&#9660;">
-    </form>
-</section> 
-
-{% comment %} <br>
+<br>
 <table class="tbl-main">
     <tr align="center">
         <td>
@@ -204,7 +134,8 @@
     </tr>
 
 </table>
-<br> {% endcomment %}
+<br>
+
 
 {% block result %}{% endblock %}
 

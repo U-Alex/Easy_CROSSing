@@ -142,7 +142,7 @@
     <br>
     <table class="t_footer">
         <tr>
-            <td width="1400px">&nbsp
+            <td width="1380px">&nbsp
                 {{ dev.obj_type.parrent.name }}: <b>{{ dev.obj_type.name }}</b>
             {% if dev.ip_addr != None %}, IP: <b>{{ dev.ip_addr }}</b>{% endif %}
             {% if dev.mac_addr != "" %}, MAC: <b>{{ dev.mac_addr }}</b>{% endif %}
@@ -157,7 +157,7 @@
                 <input type="button" value="clear" onClick='location.href="/statist/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}/dev={{ dev.id }}/cl_dev/"'>
             {% endif %}
             </td>
-            <td width="200px" align="right">
+            <td width="220px" align="right">
                 <input type="button" value="абоненты" onClick='window.open("/statist/agr_to_abon={{ dev.id }}")'>&nbsp
                 <input type="button" value="история" onClick='location.href="/core/logs/t=3/id={{ dev.id }}"'>&nbsp
                 <input type="button" value="назад" onClick='location.href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}"'>&nbsp

@@ -141,8 +141,8 @@ def new_dev(request, bu_id, lo_id):
                                                 num=i,
                                                 port_t_x=p_tx_list[i-1],
                                                 port_speed=p_sp_list[i-1],
-                                                p_alias=p_al_list[i-1],
-                                                prim='...'
+                                                p_alias=p_al_list[i-1]
+                                                #prim='...'
                                                 )
 
             to_his([request.user, 3, n_dev.id, 1, 0, 'name: '+n_dev.name])
@@ -722,7 +722,7 @@ def edit_dev(request, bu_id, lo_id, dev_id):
                 change = True
                 h_text += 'own: '+dev.object_owner+' -> '+form.cleaned_data['object_owner']+'; '
                 dev.object_owner = form.cleaned_data['object_owner']
-            ip = form.cleaned_data['ip']
+            ip = form.cleaned_data['ip'] if form.cleaned_data['ip'] != '' else None
             if ip != dev.ip_addr:
                 if Device.objects.filter(ip_addr=ip).exclude(pk=dev_id).exists():
                     return render(request, 'error.html', {'mess': 'ip адрес уже существует в базе', 'back': 0})
@@ -731,7 +731,7 @@ def edit_dev(request, bu_id, lo_id, dev_id):
                 dev.ip_addr = ip
             mac = form.cleaned_data['mac']
             if mac != dev.mac_addr:
-                if re.match(conf.MAC_RE, mac) and len(mac) == 17:
+                if (re.match(conf.MAC_RE, mac) and len(mac) == 17) or mac == '':
                     change = True
                     h_text += 'mac: '+dev.mac_addr+' -> '+mac+'; '
                     dev.mac_addr = mac.replace('-', ':').upper()     #.lower()
