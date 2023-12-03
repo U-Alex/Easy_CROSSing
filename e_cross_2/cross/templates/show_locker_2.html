@@ -144,7 +144,7 @@
                         </tr>
                     {% endif %}
                     {% for ob in cr_list %}
-                        <tr id="tr_hover">
+                        <tr class="tr_hover">
                             <td align="center"><img src="/static/images/laser2.png" alt=" " title="" height="15"></td>
                             <td align="left">
                                 <strong><a style="color:black" href="cr={{ ob.id }}/" title="просмотр кроссировок">&nbsp{{ ob.name }}&nbsp</a></strong>
@@ -181,7 +181,7 @@
                         </tr>
                     {% endif %}
                     {% for ob in dev_list %}
-                        <tr id="tr_hover">
+                        <tr class="tr_hover">
                             <td align="center"><img src="{{ ob.pic }}" alt=" " title="{{ ob.obj_type__parrent__name }}" width="22"></td>
                             <td align="left">
                                 <strong><a style="color:black" href="dev={{ ob.id }}/" title="просмотр кроссировок">&nbsp{{ ob.name }}&nbsp</a></strong>
@@ -223,7 +223,7 @@
                         </tr>
                     {% endif %}
                     {% for ob in box_list %}
-                        <tr id="tr_hover">
+                        <tr class="tr_hover">
                             <td align="center">
                                 <img src="/static/images/{% if ob.name == '0' %}rj45_1.png{% else %}rj45_2.png{% endif %}" alt=" " title="" height="15">
                             </td>
@@ -269,7 +269,7 @@
                         </tr>
                     {% endif %}
                     {% for ob in subunit_list %}
-                        <tr id="tr_hover">
+                        <tr class="tr_hover">
                             <td align="center">
                                 <img src="{{ ob.pic }}" alt=" " title="" height="13">
                             </td>

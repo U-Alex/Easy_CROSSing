@@ -18,7 +18,7 @@
             <td width="160px" align="center">причина отказа</td>
         </tr>
         {% for ob in app_list %}
-        <tr id="tr_hover">
+        <tr class="tr_hover">
             <td width="75px" align="center"><label title="id: {{ ob.id }}">{{ ob.date_1|date:"d.m.Y" }}</label></td>
             <td width="50px" align="center"><label title="id: {{ ob.id }}">{{ ob.date_1|time:"H:i" }}</label></td>
             {% if ob.type_proc %}

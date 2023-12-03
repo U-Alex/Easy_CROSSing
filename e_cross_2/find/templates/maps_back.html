@@ -4,82 +4,9 @@
 
 <script src="/static/js/openseadragon.min.js"></script>
 
-<section class="map">
-    <div class="map_left">
-        <div class="map_list t_header1">
-            <p><i>карты:</i></p>
-            {% for ob in map_list %}
-            {% if m_num == forloop.counter %}
-            <label style="color:blue"><i>{{ forloop.counter }}:</i>&nbsp&nbsp<strong>{{ ob.2 }}</strong></label>
-            {% else %}
-            <a href="/find/map{{ forloop.counter }}"><i>{{ forloop.counter }}:</i>&nbsp&nbsp{{ ob.2 }}</a>
-            {% endif %}
-            {% endfor %}
-        </div>
-        <div class="map_form">
-            <table class="tbl-main-item" width="100%">
-                <tr>
-                    <td>&nbspул.:</td>
-                    <td colspan="2">{{ form1.street }}</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>&nbsp№:</td>
-                    <td>{{ form1.h_num }}</td>
-                    <td align="right"><input type="button" id="go_bu" value=">>>" onClick='location.href=""' style="width:50px"></td>
-                    <td align="center">&nbsp<img src="/static/images/SKS2.png" alt="" title="здания" width="30" height="30"></td>
-                </tr>
-                <tr>
-                    <td>&nbspУА:</td>
-                    <td>{{ form1.agr_list }}</td>
-                    <td align="right"><input type="button" id="go_agr" value=">>>" onClick='location.href=""' style="width:50px"></td>
-                    <td align="center">&nbsp<img src="/static/images/stat2.png" alt="" title="агрегации" width="30" height="30"></td>
-                </tr>
-                <tr>
-                    <td>&nbspкв.:</td>
-                    <td>{{ form2.kvar }}</td>
-                    <td align="right"><input type="button" id="go_kvar" value=">>>" onClick='location.href=""' style="width:50px"></td>
-                    <td align="center">&nbsp<img src="/static/images/_cross2.png" alt="" title="квартал" width="30" height="30"></td>
-                </tr>
-                <tr>
-                    <td>&nbsp</td>
-                    <td colspan="2"><input type="text" id="coord"></td>
-                    <td align="center">&nbsp<img src="/static/images/coord.png" alt="" title="текущие координаты" width="30" height="30"></td>
-                </tr>
-            </table>
-        </div>
-        <div class="map_obj t_footer" id="obj_in_map">&nbsp</div>
-        <div>
-            <input type="hidden" id="cx" {% if c_x %} value="{{ c_x }}" {% endif %}>
-            <input type="hidden" id="cy" {% if c_y %} value="{{ c_y }}" {% endif %}>
-            <input type="hidden" id="m_num" value="{{ m_num }}">
-            <!--<label id="info1">debug info</label>-->
-        </div>
-        <div class="map_copyright">
-            <!--<span class="tooltip2 tooltip2-effect-2">
-                <span class="tooltip2-item">условные обозначения</span>
-                <span class="tooltip2-content clearfix">
-                    <div align="center">
-                        <img src="/static/images/usl_ob.png">
-                    </div>
-                </span>
-            </span>-->
-            <a href="https://openseadragon.github.io/" target="_blank">OpenSeadragon</a>
-        </div>
-    </div>
-
-    {% if map_perm %}
-    <div id="maps"></div>
-    {% else %}
-    <div><br><label style="color:red"><b>недостаточно прав</b></label></div>
-    {% endif %}
-
-</section>
-
-
 {% comment %} <link rel="stylesheet" type="text/css" href="/static/tooltip/css/tooltip-classic.css"> {% endcomment %}
 
-    {% comment %} <table>
+    <table>
         <tr class="tr-main" valign="top">
             <td align="right">
                 <table width="286px">
@@ -134,7 +61,11 @@
                                 </table>
                             </div>
                             <br>
+                            {% comment %} <div style="width:100%; background-color:#c3cebd"> {% endcomment %}
+                                {% comment %} <i>текущие координаты:<br></i><input type="text" id="coord"><br> {% endcomment %}
+                                {% comment %} <iframe src="/find/get_obj" id="obj_list" width="280" frameborder="0"></iframe> {% endcomment %}
                             <div class="tbl-main-item" id="obj_in_map">&nbsp</div>
+                            {% comment %} </div> {% endcomment %}
                             
                             <div>
                                 <input type="hidden" id="cx" {% if c_x %} value="{{ c_x }}" {% endif %}>
@@ -165,21 +96,21 @@
         <tr class="tr-main" valign="bottom">
             <td align="center">
                 <div>
-                   <span class="tooltip2 tooltip2-effect-2">
+                    {% comment %} <span class="tooltip2 tooltip2-effect-2">
                         <span class="tooltip2-item">условные обозначения</span>
                         <span class="tooltip2-content clearfix">
                             <div align="center">
                                 <img src="/static/images/usl_ob.png">
                             </div>
                         </span>
-                    </span>
+                    </span> {% endcomment %}
                     <br><br><a href="https://openseadragon.github.io/" target="_blank">OpenSeadragon</a>
                 </div>
             </td>
         </tr>
 
     </table>
- {% endcomment %}
+
 
 <script src="/static/js/map.js"></script>
 

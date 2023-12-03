@@ -38,7 +38,7 @@
             <td width="20px" align="center">?</td>
         </tr>
     {% for ob in lo_list %}
-        <tr id="tr_hover" {% if lo.name == ob.name %} style="background-color:#D8FF93" {% endif %}>
+        <tr class="tr_hover" {% if lo.name == ob.name %} style="background-color:#D8FF93" {% endif %}>
         {% if ob.agr %}
             <td align="center"><img src="/static/images/lo1.png" alt=" " title="" width="15" height="15"></td>
         {% elif ob.detached %}
@@ -105,7 +105,7 @@
             <td width="20px" align="center">&nbsp</td>
         </tr>
     {% for ob in cr_list %}
-        <tr id="tr_hover">
+        <tr class="tr_hover">
             <td align="center"><img src="/static/images/laser2.png" alt=" " title="" height="15"></td>
             <td>&nbsp<strong><a style="color:black" href="cr={{ ob.id }}/" title="просмотр кроссировок">{{ ob.name }}</a></strong>&nbsp</td>
             <td>&nbsp{{ ob.name_type }}&nbsp</td>
@@ -157,7 +157,7 @@
             <td width="20px" align="center">&nbsp</td>
         </tr>
     {% for ob in dev_list %}
-        <tr id="tr_hover">
+        <tr class="tr_hover">
             <td align="center"><img src="{{ ob.pic }}" alt=" " title="{{ ob.obj_type__parrent__name }}" width="22"></td>
             <td>&nbsp<strong><a style="color:black" href="dev={{ ob.id }}/" title="просмотр кроссировок">{{ ob.name }}</a></strong>&nbsp</td>
             <td>&nbsp{{ ob.obj_type__name }}&nbsp</td>
@@ -218,7 +218,7 @@
             <td width="20px" align="center">&nbsp</td>
         </tr>
     {% for ob in box_list %}
-        <tr id="tr_hover">
+        <tr class="tr_hover">
             <td align="center">
             {% if ob.name == '0' %}
                 <img src="/static/images/rj45_1.png" alt=" " title="" height="13">
@@ -276,7 +276,7 @@
             <td width="20px" align="center">&nbsp</td>
         </tr>
     {% for ob in subunit_list %}
-        <tr id="tr_hover">
+        <tr class="tr_hover">
             <td align="center"><img src="{{ ob.pic }}" alt=" " title="" height="13"></td>
             <td>&nbsp<strong>{{ ob.name }}</strong>&nbsp</td>
             <td><label title="{{ ob.name_type.1 }}">&nbsp{{ ob.name_type.0 }}&nbsp</label></td>

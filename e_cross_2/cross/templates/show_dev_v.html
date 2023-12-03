@@ -71,7 +71,7 @@
             <!--<td width="30px" align="center"><label title="port_channel">p_c</label></td>-->
         </tr>
         {% for ob in dev_p_list %}
-            <tr id="tr_hover" {%if ob.p_valid == False %} style="background-color:gray" {% endif %}>
+            <tr class="tr_hover" {%if ob.p_valid == False %} style="background-color:gray" {% endif %}>
                 <td align="center" {% if ob.id == sel %} style="background-color:#FF0099"{% endif %}>
                     <label title="id-{{ ob.id }}">&nbsp{{ ob.num }}&nbsp</label>
                 </td>

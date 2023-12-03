@@ -120,7 +120,7 @@
                 </td>
             </tr>
             {% endif %}
-            <tr id="tr_hover" {% if ob.f.9 == False %} style="background-color:gray" {% endif %}>
+            <tr class="tr_hover" {% if ob.f.9 == False %} style="background-color:gray" {% endif %}>
                 <td align="center" {% if ob.f.0 == sel %} style="background-color:#FF0099" {% endif %}>
                     <a href="/cable/chain={{ ob.f.0 }}/p_type=0" title="количество муфт в цепочке" style="{% if ob.f.0 != sel %}color:blue{% else %}color:white{% endif %}" target="_blank">
                         <strong>&nbsp&nbsp&nbsp{{ ob.up.4 }}&nbsp&nbsp&nbsp</strong>

@@ -64,7 +64,7 @@
             <td width="20px" align="center"></td>
         </tr>
         {% for ob in box_p_list %}
-            <tr id="tr_hover" {% if ob.p_valid == False %} style="background-color:gray" {% endif %}>
+            <tr class="tr_hover" {% if ob.p_valid == False %} style="background-color:gray" {% endif %}>
                 {% if ob.c_up.0 != 'link_err' %}
                     <td rowspan="2" style="background-color: {{ ob.up_color }}" align="center">
                         <a href="{{ ob.l_up }}/?sel={{ ob.c_up.3 }}" title="{{ ob.c_up.2 }}" target="_blank">&nbsp<b>{{ ob.c_up.0 }}</b></a>

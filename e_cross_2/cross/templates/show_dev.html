@@ -68,7 +68,7 @@
             <td width="40px" align="center">порт</td>
         </tr>
         {% for ob in dev_p_list %}
-            <tr id="tr_hover" {%if ob.p_valid == False %} style="background-color:gray" {% endif %}>
+            <tr class="tr_hover" {%if ob.p_valid == False %} style="background-color:gray" {% endif %}>
                 <td align="center" {% if ob.id == sel %} style="background-color:#FF0099"{% endif %}>
                     <label title="id-{{ ob.id }}" {% if ob.id == sel %} style="color:white" {% endif %}>&nbsp{{ ob.num }}&nbsp</label>
                 </td>

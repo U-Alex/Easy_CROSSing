@@ -20,9 +20,9 @@
         </tr>
         {% for ob in app_list %}
             {% if ob.date_1|date:"Y.m.d" < exp_date_3|date:"Y.m.d" %}
-            <tr id="tr_hover" style="background-color:peachpuff">
+            <tr class="tr_hover" style="background-color:peachpuff">
             {% else %}
-            <tr id="tr_hover">
+            <tr class="tr_hover">
             {% endif %}
             <td width="75px" align="center"><label title="id: {{ ob.id }}">{{ ob.date_1|date:"d.m.Y" }}</label></td>
             <td width="50px" align="center"><label title="id: {{ ob.id }}">{{ ob.date_1|time:"H:i" }}</label></td>
