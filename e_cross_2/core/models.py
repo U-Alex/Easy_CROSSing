@@ -63,7 +63,7 @@ class Device_type(models.Model):
 
 class last_visit(models.Model):
     login = models.CharField(max_length=30)
-    fullname = models.CharField(max_length=30)
+    fullname = models.CharField(max_length=128)
     date_l_v = models.DateTimeField(default=datetime.datetime.now)
     prim = models.CharField(max_length=100, blank=True)
 

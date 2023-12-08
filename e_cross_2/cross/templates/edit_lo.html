@@ -17,11 +17,11 @@
     {% csrf_token %}
     
     <table>
-        <tr class="tbl-main-item">
+        <tr class="tone2">
             <td align="right">&nbspимя УД:&nbsp</td>
             <td colspan="2" align="left">&nbsp{{ form.lo_name }}&nbsp&nbsp&nbspтип:&nbsp{{ form.lo_name_type }}</td>
         </tr>
-        <tr class="tbl-main-item">
+        <tr class="tone2">
             <td align="right">&nbsp{{ form.object_owner.label }}:&nbsp</td>
             <td colspan="2">&nbsp{{ form.object_owner }}&nbsp&nbsp&nbsp<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp&nbsp&nbsp{{ form.object_owner_list }}&nbsp</td>
         </tr>
@@ -44,19 +44,19 @@
             <td colspan="2"><label style="color:gray">&nbsp{{ form.status.3 }}</label></td>
         </tr>
 
-        <tr class="tbl-main-item">
+        <tr class="tone2">
             <td align="right">&nbspрасположение:&nbsp</td>
             <td colspan="2">{{ form.rasp }}&nbsp</td>
         </tr>
-        <tr class="tbl-main-item">
+        <tr class="tone2">
             <td align="right">&nbspпримечание:&nbsp</td>
             <td colspan="2">{{ form.prim }}&nbsp</td>
         </tr>
-        <tr class="tbl-main-item">
+        <tr class="tone2">
             <td align="right">&nbsp{{ form.coord.label }}:&nbsp</td>
             <td colspan="2" align="left">{{ form.coord }}&nbsp</td>
         </tr>
-        <tr class="tbl-main-item">
+        <tr class="tone2">
             <td align="right">&nbsp{{ form.racks.label }}:&nbsp</td>
             <td colspan="2">{{ form.racks }}&nbsp</td>
         </tr>
@@ -68,7 +68,7 @@
             <td align="right">&nbsp{{ form.co.label }}:&nbsp</td>
             <td colspan="2" align="left">&nbsp{{ form.co }}&nbsp</td>
         </tr>
-        <tr class="tbl-main-item">
+        <tr class="tone2">
             <td colspan="2" align="right">&nbspиндивидуальное подключение:&nbsp</td>
             <td>&nbsp{{ form.detached }}&nbsp</td>
         </tr>

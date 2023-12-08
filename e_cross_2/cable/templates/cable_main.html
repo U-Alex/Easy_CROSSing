@@ -17,7 +17,7 @@
     <br>
     
 {% if list1 or list2 %}
-    <table class="tbl-main" width="1404px">
+    <table class="tone1" width="1404px">
         <tr valign="top">
             <td align="left">
                 <table width="880px" border="1">
@@ -28,12 +28,12 @@
                         <td></td>
                     </tr>
                 {% for ob in list1 %}
-                    <tr id="tr_hover" {% if ob.0.double %} style="background-color:silver" {% endif %}>
+                    <tr class="tr_hover" {% if ob.0.double %} style="background-color:silver" {% endif %}>
                         <td>&nbsp{{ ob.0.name }}&nbsp{{ ob.0.house_num }}</td>
                         <td>
                             <table width="100%">
                             {% for ob2 in ob.2 %}
-                                <tr id="tr_hover">
+                                <tr class="tr_hover">
                                     <td width="45%">&nbsp
                                         <a href="/cross/build={{ ob.0.id }}/locker={{ ob2.2 }}/" title="просмотр УД" target="_blank">{{ ob2.0 }}</a>&nbsp
                                     </td>
@@ -56,7 +56,7 @@
                         <td>
                             <table width="100%">
                             {% for ob2 in ob.1 %}
-                                <tr id="tr_hover">
+                                <tr class="tr_hover">
                                     <td align="right">
                                         <a href="/cable/coup={{ ob2.id }}/" title="просмотр муфты">{{ ob2.name }}</a>&emsp;
                                     </td>
@@ -91,9 +91,9 @@
                         <td></td>
                     </tr>
                 {% for ob in list2 %}
-                    <tr id="tr_hover">
+                    <tr class="tr_hover">
                         <td>{{ ob.0.name }}</td>
-                        <td width="48px" align="left">
+                        <td width="50px" align="left">
                             <a href="kv={{ kvar }}/pw_edit={{ ob.0.id }}"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="12" height="12"></a>
                             <a href="kv={{ kvar }}/pw_del={{ ob.0.id }}"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить объект" width="12" height="12"></a>
                         {% if ob.0.coord_x != 0 and ob.0.coord_y != 0 %}
@@ -105,7 +105,7 @@
                         <td>
                             <table width="100%">
                             {% for ob2 in ob.1 %}
-                                <tr id="tr_hover">
+                                <tr class="tr_hover">
                                     <td align="right">
                                         <a href="/cable/coup={{ ob2.id }}/" title="просмотр муфты">{{ ob2.name }}</a>&nbsp
                                     </td>

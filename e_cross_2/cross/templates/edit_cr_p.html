@@ -14,7 +14,7 @@
     {% csrf_token %}
     
     <table>
-        <tr class="tbl-main-item">
+        <tr class="tone2">
             <td colspan="4">&nbsp<label style="color:brown">порт исправен: {{ form.valid }}</label>&nbsp</td>
         </tr>
         <tr>
@@ -51,10 +51,10 @@
             {% endif %}
             </td>
         </tr>
-        <tr class="tbl-main-item">
+        <tr class="tone2">
             <td colspan="4">&nbsp<label>{{ form.prim.label }}: {{ form.prim }}</label>&nbsp</td>
         </tr>
-        <tr>
+        <tr class="tone2">
             <td colspan="4">&nbsp<label>{{ form.opt_len.label }}: {{ form.opt_len }}</label>&nbsp</td>
         </tr>
         

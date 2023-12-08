@@ -3,96 +3,39 @@
 {% block find %}
 
 <section class="link_list">
-    <div class="link_item_left">
-    </div>
+    <div class="link_item_left"></div>
     <div class="link_item">
         <a href="/find/map/">
-            <img src="/static/images/_map-icon_2.png" alt="" title="Схема сети">
+            <img src="/static/images/_map1.png" alt="" title="Схема сети">
         </a>
     </div>
     <div class="link_item">
         <a href="/app/status=0/">
-            <img src="/static/images/_app.png" alt="" title="Заявки">
+            <img src="/static/images/_app2.png" alt="" title="Заявки">
         </a>
     </div>
     <div class="link_item">
         <a href="/cable/">
-            <img src="/static/images/_fudjikura_2.png" alt="" title="ВОЛС">
+            <img src="/static/images/_vols4.png" alt="" title="ВОЛС">
         </a>
     </div>
     <div class="link_item">
         <a href="">
-            <img src="/static/images/_rent_2.png" alt="" title="Аренда оборудования">
+            <img src="/static/images/_rent2.png" alt="" title="Аренда оборудования">
         </a>
     </div>
     <div class="link_item">
         <a href="/core/service/">
-            <img src="/static/images/_stat.png" alt="" title="Сервис">
+            <img src="/static/images/_stat4.png" alt="" title="Сервис | отчёты">
         </a>
     </div>
     <div class="link_item">
         <a href="/manual/" target="_blank">
-            <img src="/static/images/_help-icon.png" alt="" title="Помощь">
+            <img src="/static/images/_help2.png" alt="" title="Помощь">
         </a>
     </div>
-    <div class="link_item_right">
-    </div>
+    <div class="link_item_right"></div>
 </section>
-
-{% comment %} <br>
-<table class="tbl-main">
-    <tr align="center">
-        <td width="158" height="158">
-            <table class="tbl-main" width="152" height="152">
-                <tr valign="bottom"><td><img src="/static/images/_left.png" width="148" height="148"></td></tr>
-            </table>
-        </td>
-        <td width="158" height="158">
-            <table class="tbl-main-item" width="152" height="152">
-                <tr><td><a href="/find/map/"><img src="/static/images/_map-icon.png" alt="" title="Схема сети" width="145" height="145"></a></td></tr>
-            </table>
-        </td>
-        <td width="158" height="158">
-            <table class="tbl-main-item" width="152" height="152">
-                <tr><td><a href="/app/status=0/"><img src="/static/images/_app.png" alt="" title="Заявки" width="145" height="145"></a></td></tr>
-            </table>
-        </td>
-        <td width="158" height="158">
-            <table class="tbl-main-item" width="152" height="152">
-                <tr><td><a href="/cable/"><img src="/static/images/_fudjikura.png" alt="" title="Кабели и муфты" width="145" height="145"></a></td></tr>
-            </table>
-        </td>
-    <!--</tr>
-    <tr align="center">-->
-        <td width="158" height="158">
-            <table class="tbl-main-item" width="152" height="152">
-                <tr><td><img src="/static/images/_rent.png" alt="" title="Аренда оборудования" width="145" height="145"></a></td></tr>
-            </table>
-        </td>
-        <!--<td width="158" height="158">
-            <table border="0" width="152" height="152" style="background-color:#b7c5b7">
-                <tr><td><a href="/mess/"><img src="/static/images/_mess.png" alt="" title="Сообщения" width="145" height="145"></a></td></tr>
-            </table>
-        </td>-->
-        <td width="158" height="158">
-            <table class="tbl-main-item" width="152" height="152">
-                <tr><td><a href="/core/service/"><img src="/static/images/_stat.png" alt="" title="Сервис" width="145" height="145"></a></td></tr>
-            </table>
-        </td>
-        <td width="158" height="158">
-            <table class="tbl-main-item" width="152" height="152">
-                <tr><td><a href="/manual/" target="_blank"><img src="/static/images/_help-icon.png" alt="" title="Помощь" width="145" height="145"></a></td></tr>
-            </table>
-        </td>
-        <td width="158" height="158">
-            <table class="tbl-main" width="152" height="152">
-                <tr valign="bottom"><td><img src="/static/images/_right.png" width="148" height="148"></td></tr>
-            </table>
-        </td>
-    </tr>
-</table> {% endcomment %}
-
-
 
 <section class="form_list">
     <form class="form_block t_header1" method="post" action="/find/find_bu">
@@ -103,13 +46,13 @@
     </form>
     <form class="form_block t_header1" method="post" action="/find/find_agr">
         {% csrf_token %}
-        <img src="/static/images/stat2.png" alt="" title="агрегации">
+        <img src="/static/images/stat3.png" alt="" title="агрегации">
         <div class="form_item">{{ form4.co }}</div>
         <input class="form_button" type="submit" value="&#9660;&#9660;&#9660;">
     </form>
     <form class="form_block t_header1" method="post" action="/app/status%3D0/app_find/">
         {% csrf_token %}
-        <img src="/static/images/_logs.png" alt="" title="договор / ордер">
+        <img src="/static/images/_app1.png" alt="" title="договор / ордер">
         <div class="form_item">{{ form2.dog }}</div>
         <input class="form_button" type="submit" value="&#9660;&#9660;&#9660;">
     </form>
@@ -125,86 +68,6 @@
         <input class="form_button" type="submit" value="&#9660;&#9660;&#9660;">
     </form>
 </section> 
-
-{% comment %} <br>
-<table class="tbl-main">
-    <tr align="center">
-        <td>
-            <table class="tbl-main-item" width="98%" height="66">
-                <form method="post" action="/find/find_bu">
-                {% csrf_token %}
-                    <tr>
-                        <td width="190" align="right">{{ form1.street }}</td>
-                        <td width="90">&#9664;&nbsp{{ form1.street.label }}</td>
-                        <td rowspan="2" width="80" align="center">
-                            <input type="submit" value="&#9660;&#9660;&#9660;" style="width:60px;height:40px;">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right">номер дома&nbsp&#9654;</td>
-                        <td align="left">&nbsp{{ form1.house_num }}&nbsp</td>
-                    </tr>
-                </form>
-            </table>
-        </td>
-        <td>
-            <table class="tbl-main-item" width="98%" height="66">
-                <form method="post" action="/find/find_agr">
-                {% csrf_token %}
-                    <tr>
-                        <td width="140" align="right">{{ form4.co }}&nbsp</td>
-                        <td rowspan="2" width="80" align="center">
-                            <input type="submit" value="&#9660;&#9660;&#9660;" style="width:60px;height:40px;">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left">&nbsp&nbsp&nbsp{{ form4.co.label }}&nbsp&#9650;</td>
-                    </tr>
-                </form>
-            </table>
-        </td>
-        <td>
-            <table class="tbl-main-item" width="98%" height="66">
-                <form method="post" action="/app/status%3D0/app_find/">
-                {% csrf_token %}
-                    <tr>
-                        <td width="180" align="right">{{ form2.dog }}&nbsp</td>
-                        <td rowspan="2" width="80" align="center">
-                            <input type="submit" value="&#9660;&#9660;&#9660;" style="width:60px;height:40px;">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left">&nbsp&nbsp&nbsp№ договора / ордера&nbsp&#9650;</td>
-                    </tr>
-                </form>
-            </table>
-        </td>
-        <td>
-            <table class="tbl-main-item" width="98%" height="66">
-                <form id="dev" method="post" action="/find/find_dev=0/">
-                {% csrf_token %}
-                    <tr {% if ok_dev == False  %} style="background-color:#ff7575" {% endif %}>
-                        <td width="60" align="right" ><label id="lab_1">{{ form3.dev_ip.label }}&nbsp&#9654;</label></td>
-                        <td width="140" align="left" >{{ form3.dev_ip }}</td>
-                        <td width="50" align="right" ><label id="lab_2">{{ form3.dev_mac.label }}&nbsp&#9654;</label></td>
-                        <td width="140" align="left" >{{ form3.dev_mac }}</td>
-                        <td rowspan="2" width="80" align="center">
-                            <input type="submit" value="&#9660;&#9660;&#9660;" style="width:60px;height:40px;">&nbsp&nbsp&nbsp
-                        </td>
-                    </tr>
-                    <tr {% if ok_dev == False %} style="background-color:#ff7575" {% endif %}>
-                        <td align="right" ><label id="lab_3">{{ form3.dev_sn.label }}&nbsp&#9654;</label></td>
-                        <td align="left" >{{ form3.dev_sn }}</td>
-                        <td align="right" ><label id="lab_4">{{ form3.dev_vlan.label }}&nbsp&#9654;</label></td>
-                        <td align="left" >{{ form3.dev_vlan }}</td>
-                    </tr>
-                </form>
-            </table>
-        </td>
-    </tr>
-
-</table>
-<br> {% endcomment %}
 
 {% block result %}{% endblock %}
 

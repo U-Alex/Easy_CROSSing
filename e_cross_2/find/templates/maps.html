@@ -17,7 +17,7 @@
             {% endfor %}
         </div>
         <div class="map_form">
-            <table class="tbl-main-item" width="100%">
+            <table class="tone2" width="100%">
                 <tr>
                     <td>&nbspул.:</td>
                     <td colspan="2">{{ form1.street }}</td>
@@ -33,13 +33,13 @@
                     <td>&nbspУА:</td>
                     <td>{{ form1.agr_list }}</td>
                     <td align="right"><input type="button" id="go_agr" value=">>>" onClick='location.href=""' style="width:50px"></td>
-                    <td align="center">&nbsp<img src="/static/images/stat2.png" alt="" title="агрегации" width="30" height="30"></td>
+                    <td align="center">&nbsp<img src="/static/images/stat3.png" alt="" title="агрегации" width="30" height="30"></td>
                 </tr>
                 <tr>
                     <td>&nbspкв.:</td>
                     <td>{{ form2.kvar }}</td>
                     <td align="right"><input type="button" id="go_kvar" value=">>>" onClick='location.href=""' style="width:50px"></td>
-                    <td align="center">&nbsp<img src="/static/images/_cross2.png" alt="" title="квартал" width="30" height="30"></td>
+                    <td align="center">&nbsp<img src="/static/images/_cross3.png" alt="" title="квартал" width="30" height="30"></td>
                 </tr>
                 <tr>
                     <td>&nbsp</td>
@@ -53,7 +53,7 @@
             <input type="hidden" id="cx" {% if c_x %} value="{{ c_x }}" {% endif %}>
             <input type="hidden" id="cy" {% if c_y %} value="{{ c_y }}" {% endif %}>
             <input type="hidden" id="m_num" value="{{ m_num }}">
-            <!--<label id="info1">debug info</label>-->
+            <!-- <label id="info1">debug info</label> -->
         </div>
         <div class="map_copyright">
             <!--<span class="tooltip2 tooltip2-effect-2">
@@ -64,7 +64,7 @@
                     </div>
                 </span>
             </span>-->
-            <a href="https://openseadragon.github.io/" target="_blank">OpenSeadragon</a>
+            <div><a href="https://openseadragon.github.io/" target="_blank">OpenSeadragon</a></div>
         </div>
     </div>
 
@@ -75,111 +75,6 @@
     {% endif %}
 
 </section>
-
-
-{% comment %} <link rel="stylesheet" type="text/css" href="/static/tooltip/css/tooltip-classic.css"> {% endcomment %}
-
-    {% comment %} <table>
-        <tr class="tr-main" valign="top">
-            <td align="right">
-                <table width="286px">
-                    <tr class="tr-main">
-                        <td>
-                            <br>
-                            <div>
-                                <table class="tbl-main-item" width="100%">
-                                    <caption><i>карты:</i></caption>
-                                    {% for ob in map_list %}
-                                    <tr><td>
-                                    {% if m_num == forloop.counter %}
-                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<label style="color:blue"><i>{{ forloop.counter }}:</i>&nbsp<strong>{{ ob.2 }}</strong></label>
-                                    {% else %}
-                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a href="/find/map{{ forloop.counter }}" style="color:black"><i>{{ forloop.counter }}:</i>&nbsp{{ ob.2 }}</a>
-                                    {% endif %}
-                                    </td></tr>
-                                    {% endfor %}
-                                </table>
-                            </div>
-                            <br>
-                            <div>
-                                <table class="tbl-main" width="100%">
-                                    <tr>
-                                        <td>&nbspул.:</td>
-                                        <td colspan="2">{{ form1.street }}</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp№:</td>
-                                        <td>{{ form1.h_num }}</td>
-                                        <td align="right"><input type="button" id="go_bu" value=">>>" onClick='location.href=""' style="width:50px"></td>
-                                        <td align="center">&nbsp<img src="/static/images/SKS2.png" alt="" title="здания" width="30" height="30"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbspУА:</td>
-                                        <td>{{ form1.agr_list }}</td>
-                                        <td align="right"><input type="button" id="go_agr" value=">>>" onClick='location.href=""' style="width:50px"></td>
-                                        <td align="center">&nbsp<img src="/static/images/stat2.png" alt="" title="агрегации" width="30" height="30"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbspкв.:</td>
-                                        <td>{{ form2.kvar }}</td>
-                                        <td align="right"><input type="button" id="go_kvar" value=">>>" onClick='location.href=""' style="width:50px"></td>
-                                        <td align="center">&nbsp<img src="/static/images/_cross2.png" alt="" title="квартал" width="30" height="30"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp</td>
-                                        <td colspan="2"><input type="text" id="coord"></td>
-                                        <td align="center">&nbsp<img src="/static/images/coord.png" alt="" title="текущие координаты" width="30" height="30"></td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <br>
-                            <div class="tbl-main-item" id="obj_in_map">&nbsp</div>
-                            
-                            <div>
-                                <input type="hidden" id="cx" {% if c_x %} value="{{ c_x }}" {% endif %}>
-                                <input type="hidden" id="cy" {% if c_y %} value="{{ c_y }}" {% endif %}>
-                                <input type="hidden" id="m_num" value="{{ m_num }}">
-                                <!--<label id="info1">debug info</label>-->
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-{# maps #}
-            <td rowspan="2" width="100%" align="left">
-                <table class="tbl-main" width="100%">
-                    <tr align="center">
-                        <td>
-                        {% if map_perm %}
-                            <div id="maps" style="width:100%; height:88vh;"></div>
-                        {% else %}
-                            <br><label style="color:red"><b>недостаточно прав</b></label>
-                        {% endif %}
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-{# about #}
-        <tr class="tr-main" valign="bottom">
-            <td align="center">
-                <div>
-                   <span class="tooltip2 tooltip2-effect-2">
-                        <span class="tooltip2-item">условные обозначения</span>
-                        <span class="tooltip2-content clearfix">
-                            <div align="center">
-                                <img src="/static/images/usl_ob.png">
-                            </div>
-                        </span>
-                    </span>
-                    <br><br><a href="https://openseadragon.github.io/" target="_blank">OpenSeadragon</a>
-                </div>
-            </td>
-        </tr>
-
-    </table>
- {% endcomment %}
 
 <script src="/static/js/map.js"></script>
 

@@ -15,9 +15,9 @@
         <caption>объекты без координат</caption>
             <tr class="t_header2" align="center">
                 <td>УД</td>
-                <td class="tbl-main">&nbsp</td>
+                <td class="tone1">&nbsp</td>
                 <td>муфты</td>
-                <td class="tbl-main">&nbsp</td>
+                <td class="tone1">&nbsp</td>
                 <td>объекты</td>
             </tr>
             <tr align="center" valign="top">
@@ -27,14 +27,14 @@
                     <br>
                 {% endfor %}
                 </td>
-                <td class="tbl-main">&nbsp</td>
+                <td class="tone1">&nbsp</td>
                 <td>
                 {% for ob in coup_list %}
                     <a style="color:black" href="/cable/coup={{ ob.id }}/" target="_blank"><strong>{{ ob.name }}</strong></a>
                     <br>
                 {% endfor %}
                 </td>
-                <td class="tbl-main">&nbsp</td>
+                <td class="tone1">&nbsp</td>
                 <td>
                 {% for ob in obj_list %}
                     <a style="color:black" href="/cable/kv={{ ob.parrent.id }}/pw_edit={{ ob.id }}/" target="_blank"><strong>{{ ob.name }}</strong></a>

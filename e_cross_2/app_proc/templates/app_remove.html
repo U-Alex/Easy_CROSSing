@@ -6,7 +6,7 @@
     
     <table width="1404px">
         <tr>
-            <td class="tbl-main-item" width="30%" valign="top">
+            <td class="tone2" width="30%" valign="top">
             {% if bu_b_p and app.app_status == 0 %}
                 <table width="96%" border="1" align="center">
                     <caption><h3>ВНИМАНИЕ!</h3><i>номер квартиры из заявки <br> забронирован на других ресурсах:</i></caption>
@@ -48,7 +48,7 @@
                 </table>
                 <br>
             </td>
-            <td class="tbl-main" valign="top">
+            <td class="tone1" valign="top">
                 <table width="100%" border="0" align="center">
                     <caption><i>текущие кроссировки договора:</i></caption>
                 {% for ob in dog_list %}
@@ -73,7 +73,7 @@
                 {% endfor %}
                 </table>
                 <br>
-                <table class="tbl-main" width="100%" align="center">
+                <table class="tone1" width="100%" align="center">
                     <tr>
                         <td colspan="2">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                         {% if kv %}

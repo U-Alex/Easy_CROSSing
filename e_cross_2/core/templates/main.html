@@ -24,60 +24,35 @@
 <body>
 
     <section class="header t_header2">
-        <div class="header_logo">
-            <a href="/"><b>Easy CROSSing</b></a>
-        </div>
-        <div class="header_menu">
-            {% if bu %}  <a href="/find/str={{ bu.parrent_id }}">Поиск</a>
-            {% elif lo %}<a href="/find/str={{ lo.parrent.parrent_id }}">Поиск</a>
-            {% else %}   <a href="/find/">Поиск</a>
-            {% endif %}
-            <a href="/find/map">Схема&nbspсети</a>
-            <a href="/app/status=0">Заявки</a>
-            <a href="/cable">Муфты</a>
-            <a href="/core/service">Сервис</a>
-            {% if perms.core.can_adm %}<a href="/admin" target="_blank">Админка</a>{% endif %}
-            <a href="/manual" target="_blank">Помощь</a>
-        </div>
-        <div class="header_user">
-            {% if user.is_authenticated %}<a href="/core/logout/">Выйти ({{ user.get_full_name }})</a>
-            {% else %}                    <a href="/core/login/">Войти</a>
-            {% endif %}
+        <div class="header_line">
+            <div class="header_logo">
+                <a href="/">Easy&nbspCROSSing</a>
+            </div>
+            <div class="header_menu link_in_out">
+                {% if bu %}  <a href="/find/str={{ bu.parrent_id }}">Поиск</a>
+                {% elif lo %}<a href="/find/str={{ lo.parrent.parrent_id }}">Поиск</a>
+                {% else %}   <a href="/find/">Поиск</a>
+                {% endif %}
+                <a href="/find/map">Схема&nbspсети</a>
+                <a href="/app/status=0">Заявки</a>
+                <a href="/cable">Муфты</a>
+                    <!--|&nbsp<a href="">Аренда</a>-->
+                    <!--|&nbsp<a href="">Сообщения</a>-->
+                    <!--|&nbsp<a href="/plan">Строительство</a>-->
+                <a href="/core/service">Сервис</a>
+                {% if perms.core.can_adm %}<a href="/admin" target="_blank">Админка</a>{% endif %}
+                <a href="/manual" target="_blank">Помощь</a>
+            </div>
+            <div class="header_user">
+                {% if user.is_authenticated %}
+                <p>{{ user.get_full_name }}</p>
+                <a href="/core/logout/"><img src="/static/images/logout.png" alt="" title="Выйти"></a>
+                {% else %}                    
+                <a href="/core/login/"><img src="/static/images/login.png" alt="" title="Войти"></a>
+                {% endif %}
+            </div>
         </div>
     </section>
-
-
-    {% comment %} <div id="fixed-top">
-        <div id="header">
-            <div id="branding">
-                <h1 id="site-name">&nbsp<a href="/"><b>Easy CROSSing</b></a></h1>
-            </div>
-            <div id="user-tools1">
-            &nbsp&nbsp&nbsp
-            {% if bu %}    <a href="/find/str={{ bu.parrent_id }}"><b>Поиск</b></a>
-            {% elif lo %}  <a href="/find/str={{ lo.parrent.parrent_id }}"><b>Поиск</b></a>
-            {% else %}     <a href="/find/"><b>Поиск</b></a>
-            {% endif %}
-                |&nbsp<a href="/find/map"><b>Схема сети</b></a>
-                |&nbsp<a href="/app/status=0"><b>Заявки</b></a>
-                |&nbsp<a href="/cable">Муфты</a>
-                <!--|&nbsp<a href="">Аренда</a>-->
-                <!--|&nbsp<a href="">Сообщения</a>-->
-                <!--|&nbsp<a href="/plan">Строительство</a>-->
-                |&nbsp<a href="/core/service">Сервис</a>
-                <!--|&nbsp<a href="/hard">Архив</a>-->
-            {% if perms.core.can_adm %}
-                |&nbsp<a href="/admin" target="_blank">Админка</a>
-            {% endif %}
-                |&nbsp<a href="/manual" target="_blank">Помощь</a>
-            </div>
-            <div id="user-tools2">
-            {% if user.is_authenticated %}  <a href="/core/logout/">Выйти <strong>({{ user.get_full_name }})</strong></a>
-            {% else %}                      <a href="/core/login/">Войти</a>
-            {% endif %}
-            </div>
-        </div>
-    </div> {% endcomment %}
 
     <div class="content" align="center">
     {% block index %}{% endblock %}
@@ -95,12 +70,9 @@
     {% block mess %}{% endblock %}
     </div>
 
-    {% comment %} <div id="fixed-bottom"> {% endcomment %}
-        <div class="fixed-bottom t_footer2">
-            &nbsp<!--<a href="/statist/talkback/" target="_blank">сообщить разработчику&nbsp</a>-->
-        </div>
-    {% comment %} </div> {% endcomment %}
-
+    <div class="fixed-bottom t_footer2">
+        &nbsp<!--<a href="/statist/talkback/" target="_blank">сообщить разработчику&nbsp</a>-->
+    </div>
 
 </body>
 </html>

@@ -26,8 +26,10 @@ var viewer = OpenSeadragon({
     tileSources: "/media/map/"+document.getElementById("m_num").value+"/map.dzi",
     visibilityRatio: 0.8,
     animationTime:  0.8,
-    //toolbar:       "toolbarDiv",
-    //showNavigator:  true,
+    // toolbar:       "toolbarDiv",
+    // showNavigator:  true,
+    showNavigationControl: false,
+    // navigatorId:   "navigatorDiv",
     //debugMode:  true,
 });
 
