@@ -5,7 +5,7 @@
     <table class="t_header1">
         <tr>
         {% if bu %}
-            <td width="1000px" align="left"><h3>&nbsp&nbsp{{ bu.name }} {{ bu.house_num }}</h3></td>
+            <td width="1000px" align="left"><h3>&nbsp{{ bu.name }} {{ bu.house_num }}</h3></td>
             <td width="280px" align="right">&nbsp</td>
         {% else %}
             <td width="1000px" align="left"><h3>&nbsp&nbsp{{ lo.parrent.name }} {{ lo.parrent.house_num }},&nbsp&nbspУД: {{ lo.name }}</h3></td>

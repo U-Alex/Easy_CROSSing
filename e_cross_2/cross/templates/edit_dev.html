@@ -4,7 +4,7 @@
 
     <table class="t_header1">
         <tr>
-            <td width="1000px" align="left"><h3>&nbsp&nbsp{{ dev.parrent.parrent.name }}&nbsp{{ dev.parrent.parrent.house_num }},&nbsp&nbspУД: {{ dev.parrent.name }},&nbsp&nbsp{{ dev.name }}</h3></td>
+            <td width="1000px" align="left"><h3>&nbsp{{ dev.parrent.parrent.name }}&nbsp{{ dev.parrent.parrent.house_num }},&nbsp&nbspУД: {{ dev.parrent.name }},&nbsp&nbsp{{ dev.name }}</h3></td>
             <td width="280px" align="right">&nbsp</td>
         </tr>
     </table>
@@ -12,68 +12,80 @@
 <form method="post">
     {% csrf_token %}
 
-    <table>
-        <tr class="tone2">
-            <td width="240px" align="right">&nbsp{{ dev.obj_type.parrent.name }}:&nbsp</td>
-            <td width="390px" align="left">&nbsp{{ form.dev_name }}&nbsp</td>
+    <table class="t_header1">
+        <tr>
+            <td width="240px" align="right">{{ dev.obj_type.parrent.name }}:</td>
+            <td width="390px" align="left">{{ form.dev_name }}</td>
             </td>
         </tr>
-        <tr class="tone2">
-            <td align="right">&nbsp{{ form.object_owner.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.object_owner }}&nbsp&nbsp&nbsp<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp&nbsp&nbsp{{ form.object_owner_list }}&nbsp</td>
+        <tr>
+            <td align="right">{{ form.object_owner.label }}:</td>
+            <td align="left">{{ form.object_owner }}&nbsp&nbsp<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp&nbsp{{ form.object_owner_list }}</td>
         </tr>
         <tr>
-            <td align="right"><label>&nbspмодель:&nbsp</label></td>
-            <td align="left">&nbsp<input type="text" size="20" name="type_name" value="{{ dev.obj_type.name }}" disabled="1" style="color:teal">&nbsp</td>
+            <td align="right"><label>модель:</label></td>
+            <td align="left"><input type="text" size="20" name="type_name" value="{{ dev.obj_type.name }}" disabled="1" style="color:teal"></td>
         </tr>
         <tr>
-            <td align="right" >&nbsp{{ form.ip.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.ip }}&nbsp</td>
+            <td align="right">{{ form.ip.label }}:</td>
+            <td align="left">{{ form.ip }}</td>
+        </tr>
+<!--        <tr>
+            <td align="right">{{ form.ip_mask.label }}:</td>
+            <td align="left">{{ form.ip_mask }}</td>
         </tr>
         <tr>
-            <td align="right">&nbsp{{ form.mac.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.mac }}&nbsp</td>
+            <td align="right">{{ form.ip_gateway.label }}:</td>
+            <td align="left">{{ form.ip_gateway }}</td>
         </tr>
         <tr>
-            <td align="right">&nbsp{{ form.sn.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.sn }}&nbsp</td>
+            <td align="right">{{ form.vlan.label }}:</td>
+            <td align="left">{{ form.vlan }}</td>
+        </tr>-->
+        <tr>
+            <td align="right">{{ form.mac.label }}:</td>
+            <td align="left">{{ form.mac }}</td>
         </tr>
         <tr>
-            <td align="right">&nbsp{{ form.vers_po.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.vers_po }}&nbsp</td>
+            <td align="right">{{ form.sn.label }}:</td>
+            <td align="left">{{ form.sn }}</td>
         </tr>
         <tr>
-            <td align="right">&nbsp{{ form.man_conf.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.man_conf }}&nbsp&nbsp&nbsp<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp&nbsp&nbsp{{ form.man_conf_list }}&nbsp</td>
+            <td align="right">{{ form.vers_po.label }}:</td>
+            <td align="left">{{ form.vers_po }}</td>
         </tr>
         <tr>
-            <td align="right">&nbsp{{ form.man_install.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.man_install }}&nbsp&nbsp&nbsp<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp&nbsp&nbsp{{ form.man_install_list }}&nbsp</td>
+            <td align="right">{{ form.man_conf.label }}:</td>
+            <td align="left">{{ form.man_conf }}&nbsp&nbsp<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp&nbsp{{ form.man_conf_list }}</td>
         </tr>
         <tr>
-            <td align="right">&nbsp{{ form.date_ent.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.date_ent }}&nbsp</td>
+            <td align="right">{{ form.man_install.label }}:</td>
+            <td align="left">{{ form.man_install }}&nbsp&nbsp<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp&nbsp{{ form.man_install_list }}</td>
         </tr>
         <tr>
-            <td align="right">&nbsp{{ form.date_repl.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.date_repl }}&nbsp</td>
+            <td align="right">{{ form.date_ent.label }}:</td>
+            <td align="left">{{ form.date_ent }}</td>
         </tr>
         <tr>
-            <td align="right">&nbsp{{ form.rack_num.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.rack_num }}&nbsp</td>
+            <td align="right">{{ form.date_repl.label }}:</td>
+            <td align="left">{{ form.date_repl }}</td>
         </tr>
         <tr>
-            <td align="right">&nbsp{{ form.rack_pos.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.rack_pos }}&nbsp</td>
+            <td align="right">{{ form.rack_num.label }}:</td>
+            <td align="left">{{ form.rack_num }}</td>
+        </tr>
+        <tr>
+            <td align="right">{{ form.rack_pos.label }}:</td>
+            <td align="left">{{ form.rack_pos }}</td>
         </tr>
         <tr>
             <td align="right">&nbsp</td>
             <td align="left">&nbsp</td>
         </tr>
-        <tr class="tone2">
+        <tr>
             <td colspan="2" align="center">{{ form.prim.label }}:</td>
         </tr>
-        <tr class="tone2">
+        <tr>
             <td colspan="2" align="center">{{ form.prim }}</td>
         </tr>
 

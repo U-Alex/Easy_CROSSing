@@ -7,10 +7,8 @@
     <table class="t_header1">
         <tr>
             <td width="1300px" align="left">
-                <h3>
-                    &nbsp&nbsp<a href="/cross/build={{ bu.id }}">{{ bu.name }}&nbsp{{ bu.house_num }}</a>,
-                    &nbsp&nbsp<label style="color:blue">УД:&nbsp{{ lo.name }}</label>
-                </h3>
+                <h3>&nbsp<a href="/cross/build={{ bu.id }}">{{ bu.name }}&nbsp{{ bu.house_num }}</a>,
+                    &nbsp&nbsp<label style="color:blue">УД:&nbsp{{ lo.name }}</label></h3>
             </td>
             <td width="300px" align="right">
                 {% if kv.id != 1 %}
@@ -46,8 +44,8 @@
         {% else %}
             <td align="center"><img src="/static/images/lo3.png" alt=" " title="" width="14" height="14"></td>
         {% endif %}
-            <td>&nbsp<strong><a style="color:black" href="../locker={{ ob.id }}/">{{ ob.name }}</a></strong>&nbsp</td>
-            <td>&nbsp<a style="color:black" href="/cross/build={{ bu.id }}/locker={{ ob.id }}/racks/">{{ ob.name_type }}</a>&nbsp</td>
+            <td><strong><a style="color:black" href="../locker={{ ob.id }}/">{{ ob.name }}</a></strong></td>
+            <td><a style="color:black" href="/cross/build={{ bu.id }}/locker={{ ob.id }}/racks/">{{ ob.name_type }}</a></td>
             <td align="center">
             {% if ob.coord_x > 30 and ob.coord_y > 30 %}
                 <a href="/find/map/?coord={{ ob.coord_x }},{{ ob.coord_y }}" target="_blank"><img src="/static/images/selector-search.gif" alt="map" title="найти на карте" width="15" height="15"></a>
@@ -64,16 +62,16 @@
             </td>
             <td style="background-color: {{ ob.status2.0 }}" align="center">{{ ob.status2.1.1 }}</td>
             {% if ob.date_ent|date:"d.m.Y" != "" %}<!-- != "01.01.2009"-->
-                <td align="center">&nbsp{% if ob.status == 2 %}{{ ob.date_ent|date:"d.m.Y" }}{% endif %}&nbsp</td>
+                <td align="center">{% if ob.status == 2 %}{{ ob.date_ent|date:"d.m.Y" }}{% endif %}</td>
             {% else %}
-                <td align="center">&nbsp{% if ob.status == 2 %}----{% endif %}&nbsp</td>
+                <td align="center">{% if ob.status == 2 %}----{% endif %}</td>
             {% endif %}
-            <td align="center">&nbsp{{ ob.co }}&nbsp</td>
-            <td align="center">&nbsp{{ ob.rasp }}&nbsp</td>
-            <td align="center">&nbsp{{ ob.cab_door }}&nbsp{% if ob.cab_door == 'в ключнице' %}{{ ob.cab_key }}&nbsp{% endif %}</td>
-            <td>&nbsp{{ ob.prim }}&nbsp</td>
-            <td>&nbsp{{ ob.object_owner }}&nbsp</td>
-            <td style="background-color:#bbbbbb" align="center"><a href="/core/logs/t=1/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
+            <td align="center">{{ ob.co }}</td>
+            <td align="center">{{ ob.rasp }}</td>
+            <td align="center">{{ ob.cab_door }}&nbsp{% if ob.cab_door == 'в ключнице' %}{{ ob.cab_key }}{% endif %}</td>
+            <td>{{ ob.prim }}</td>
+            <td>{{ ob.object_owner }}</td>
+            <td class="tone2" align="center"><a href="/core/logs/t=1/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
         </tr>
     {% endfor %}
         <tr class="t_footer">
@@ -107,8 +105,8 @@
     {% for ob in cr_list %}
         <tr class="tr_hover">
             <td align="center"><img src="/static/images/laser2.png" alt=" " title="" height="15"></td>
-            <td>&nbsp<strong><a style="color:black" href="cr={{ ob.id }}/" title="просмотр кроссировок">{{ ob.name }}</a></strong>&nbsp</td>
-            <td>&nbsp{{ ob.name_type }}&nbsp</td>
+            <td><strong><a style="color:black" href="cr={{ ob.id }}/" title="просмотр кроссировок">{{ ob.name }}</a></strong></td>
+            <td>{{ ob.name_type }}</td>
             <td align="center">
                 <a href="cr={{ ob.id }}/edit"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="16" height="16"></a>
             </td>
@@ -119,10 +117,10 @@
                 <label title="неисправные">{{ ob.st_list1.5 }}</label>
             {% endif %}
             </td>
-            <td>&nbsp{{ ob.prim }}&nbsp</td>
-            <td>&nbsp{{ ob.object_owner }}&nbsp</td>
+            <td>{{ ob.prim }}</td>
+            <td>{{ ob.object_owner }}</td>
             <td align="center"><a href="del_cross={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" width="12" height="12"></a></td>
-            <td style="background-color:#bbbbbb" align="center"><a href="/core/logs/t=2/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
+            <td class="tone2" align="center"><a href="/core/logs/t=2/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
         </tr>
     {% endfor %}
         <tr class="t_footer">
@@ -148,8 +146,9 @@
             <td width="200px" align="center">модель</td>
             <td width="70px" align="center">...</td>
             <td colspan="2" align="center">кроссировки</td>
-            <td width="110px" align="center">ip - адрес</td>
-            <!--<td width="60px" align="center">vlan</td>-->
+            <td width="130px" align="center">ip / mask</td>
+            <td width="110px" align="center">gateway</td>
+            <td width="50px" align="center">vlan</td>
             <td align="center">примечание</td>
             <td width="8%" align="center">владелец</td>
             <td width="20px" align="center">&nbsp</td>
@@ -159,8 +158,8 @@
     {% for ob in dev_list %}
         <tr class="tr_hover">
             <td align="center"><img src="{{ ob.pic }}" alt=" " title="{{ ob.obj_type__parrent__name }}" width="22"></td>
-            <td>&nbsp<strong><a style="color:black" href="dev={{ ob.id }}/" title="просмотр кроссировок">{{ ob.name }}</a></strong>&nbsp</td>
-            <td>&nbsp{{ ob.obj_type__name }}&nbsp</td>
+            <td><strong><a style="color:black" href="dev={{ ob.id }}/" title="просмотр кроссировок">{{ ob.name }}</a></strong></td>
+            <td>{{ ob.obj_type__name }}</td>
             <td align="center">
                 <a href="dev={{ ob.id }}/l2=1"><img src="/static/images/chain3.png" alt="config" title="конфигурация" width="16" height="16"></a>
                 <a href="dev={{ ob.id }}/ips"><img src="/static/images/stat.png" alt="config" title="коммутация" width="16" height="16"></a>
@@ -173,16 +172,18 @@
                 <label title="неисправные">{{ ob.st_list.5 }}</label>
             {% endif %}
             </td>
-            <td>&nbsp{{ ob.ip_addr }}&nbsp</td>
-            <td>&nbsp{{ ob.prim }}&nbsp</td>
-            <td>&nbsp{{ ob.object_owner }}&nbsp</td>
+            <td>&nbsp{{ ob.ip_addr }}{% if ob.ip_mask %} / {{ ob.ip_mask }}{% endif %}&nbsp</td>
+            <td>&nbsp{{ ob.ip_gateway }}&nbsp</td>
+            <td>&nbsp{{ ob.vlan }}&nbsp</td>
+            <td>{{ ob.prim }}</td>
+            <td>{{ ob.object_owner }}</td>
             <td align="center">
                 <a href="/statist/agr_to_abon={{ ob.id }}" target="_blank"><img src="/static/images/eq_inf.png" alt="i" title="абоненты" width="20" height="14"></a>
             </td>
             <td align="center">
                 <a href="del_dev={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" width="12" height="12"></a>
             </td>
-            <td style="background-color:#bbbbbb" align="center">
+            <td class="tone2" align="center">
                 <a href="/core/logs/t=3/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a>
             </td>
         </tr>
@@ -226,8 +227,8 @@
                 <img src="/static/images/rj45_2.png" alt=" " title="" height="15">
             {% endif %}
             </td>
-            <td>&nbsp<strong><a style="color:black" href="box={{ ob.id }}/" title="просмотр кроссировок">{{ ob.name }}-{{ ob.num }}</a></strong>&nbsp</td>
-            <td>&nbsp{{ ob.name_type }}&nbsp&nbsp&nbsp({{ ob.num_plints }})</td>
+            <td><strong><a style="color:black" href="box={{ ob.id }}/" title="просмотр кроссировок">{{ ob.name }}-{{ ob.num }}</a></strong></td>
+            <td>{{ ob.name_type }}&nbsp&nbsp&nbsp({{ ob.num_plints }})</td>
             <td align="center"><a href="box={{ ob.id }}/edit"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="16" height="16"></a></td>
             <td width="60px" align="center">
                 <label title="свободные">{{ ob.st_list1.0 }}/{{ ob.st_list2.0 }}</label></td>
@@ -236,12 +237,12 @@
                 <label title="неисправные">{{ ob.st_list1.5 }}</label>
             {% endif %}
             </td>
-            <td align="center">&nbsp{{ ob.stairway }}&nbsp</td>
-            <td align="center">&nbsp{{ ob.floor }}&nbsp</td>
-            <td>&nbsp{{ ob.serv_area }}&nbsp</td>
-            <td>&nbsp{{ ob.prim }}&nbsp</td>
+            <td align="center">{{ ob.stairway }}</td>
+            <td align="center">{{ ob.floor }}</td>
+            <td>{{ ob.serv_area }}</td>
+            <td>{{ ob.prim }}</td>
             <td align="center"><a href="del_box={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" width="12" height="12"></a></td>
-            <td style="background-color:#bbbbbb" align="center"><a href="/core/logs/t=4/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
+            <td class="tone2" align="center"><a href="/core/logs/t=4/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
         </tr>
     {% endfor %}
         <tr class="t_footer">
@@ -278,25 +279,25 @@
     {% for ob in subunit_list %}
         <tr class="tr_hover">
             <td align="center"><img src="{{ ob.pic }}" alt=" " title="" height="13"></td>
-            <td>&nbsp<strong>{{ ob.name }}</strong>&nbsp</td>
-            <td><label title="{{ ob.name_type.1 }}">&nbsp{{ ob.name_type.0 }}&nbsp</label></td>
+            <td><strong>{{ ob.name }}</strong></td>
+            <td><label title="{{ ob.name_type.1 }}">{{ ob.name_type.0 }}</label></td>
             <td align="center">
                 <a href="subunit={{ ob.id }}"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="16" height="16"></a>
             </td>
         {% if ob.box %}
             <td style="background-color:{{ color.3 }}">
-                <a href="box={{ ob.box.parrent.id }}/?sel={{ ob.box.id }}">&nbsp{{ ob.box.parrent.name }}-{{ ob.box.parrent.num }}-{{ ob.box.p_alias }}&nbsp</a>
+                <a href="box={{ ob.box.parrent.id }}/?sel={{ ob.box.id }}">{{ ob.box.parrent.name }}-{{ ob.box.parrent.num }}-{{ ob.box.p_alias }}</a>
         {% else %}
             <td>
         {% endif %}
             </td>
             <td align="center"><img src="{{ ob.poe.1 }}" alt=" " title="{{ ob.poe.0 }}" height="15"></td>
-            <td align="center">&nbsp{{ ob.stairway }}&nbsp</td>
-            <td align="center">&nbsp{{ ob.floor }}&nbsp</td>
-            <td>&nbsp{{ ob.prim }}&nbsp</td>
-            <td>&nbsp{{ ob.object_owner }}&nbsp</td>
+            <td align="center">{{ ob.stairway }}</td>
+            <td align="center">{{ ob.floor }}</td>
+            <td>{{ ob.prim }}</td>
+            <td>{{ ob.object_owner }}</td>
             <td align="center"><a href="del_subunit={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" width="12" height="12"></a></td>
-            <td style="background-color:#bbbbbb" align="center"><a href="/core/logs/t=13/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
+            <td class="tone2" align="center"><a href="/core/logs/t=13/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
         </tr>
     {% endfor %}
         <tr class="t_footer">

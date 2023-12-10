@@ -5,7 +5,7 @@
     <table class="t_header1">
         <tr>
             <td width="1300px" align="left">
-                <h3>&nbsp&nbsp
+                <h3>&nbsp
                 {% if s_type != '3' %}
                     {{ s_p_id.parrent.parrent.parrent.name }} {{ s_p_id.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ s_p_id.parrent.parrent.name }}, {{ s_p_id.parrent.name }}, порт: {{ s_p_id.num }}&nbsp&nbsp▶&nbsp▶&nbsp▶
                 {% else %}
@@ -22,7 +22,7 @@
 
 <table>
     <tr>
-        <td class="tbl-main-item" width="1604px" align="center">
+        <td class="tone2" width="1604px" align="center">
         
 {% for ob1 in cr %}
     <br>
@@ -31,7 +31,7 @@
     {% for ob2 in ob1.cr_p %}
         <tr>
         {% for ob3 in ob2 %}
-            <td class="tbl-main-item">
+            <td class="tone2">
                 {% if ob3.3 == False %}
                     <input type="button" style="background:none; border-color:black; background-color:gray; color:white; border-radius:20px; width:30px; height:30px" value="{{ ob3.1 }}" title="{{ ob3.5 }} (неисправен)">
                 {% elif ob3.2 == 0 %}
@@ -62,7 +62,7 @@
 
 <table border="0">
     <tr>
-        <td class="tbl-main-item" width="1604px" align="center">
+        <td class="tone2" width="1604px" align="center">
 
 {% for ob1 in dev %}
     <br>
@@ -72,7 +72,7 @@
     </caption>
         <tr>
         {% for ob2 in ob1.dev_p %}
-            <td class="tbl-main-item">
+            <td class="tone2">
                 {% if ob2.p_valid == False %}
                     <input type="button" style="background:none; border-color:black; background-color:gray; color:white; border-radius:8px; width:30px; height:30px" value="{{ ob2.num }}" title="{{ ob2.p_alias }} ▲ {{ ob2.prim }} (неисправен)">
                 {% elif ob2.int_c_status == 0 %}
@@ -102,11 +102,11 @@
 
 <table border="0">
     <tr>
-        <td class="tbl-main-item" width="1604px" align="left">
+        <td class="tone2" width="1604px" align="left">
 
 {% for ob1 in box %}
     <table border="0">
-        <tr class="tbl-main-item">
+        <tr class="tone2">
             <td align="right" width="60px">
                 <b>{{ ob1.name }}-{{ ob1.num }}&nbsp>&nbsp</b>
             </td>

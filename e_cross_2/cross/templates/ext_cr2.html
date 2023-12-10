@@ -5,7 +5,7 @@
     <table class="t_header1">
         <tr>
             <td width="1300px" align="left">
-                <h3>&nbsp&nbsp{{ s_p_id.parrent.parrent.parrent.name }} {{ s_p_id.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ s_p_id.parrent.parrent.name }}, кросс: {{ s_p_id.parrent.name }}, порт: {{ s_p_id.num }}&nbsp&nbsp▶&nbsp▶&nbsp▶&nbsp&nbsp{{ bu2.name }} {{ bu2.house_num }}</h3>
+                <h3>&nbsp{{ s_p_id.parrent.parrent.parrent.name }} {{ s_p_id.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ s_p_id.parrent.parrent.name }}, кросс: {{ s_p_id.parrent.name }}, порт: {{ s_p_id.num }}&nbsp&nbsp▶&nbsp▶&nbsp▶&nbsp&nbsp{{ bu2.name }} {{ bu2.house_num }}</h3>
             </td>
             <td width="300px" align="right">
                 <input type="button" value="новый поиск" onClick='location.href="../ext_cr1/"'>
@@ -19,7 +19,7 @@
 <table>
     <caption>{{ ob.name }}</caption>
     <tr>
-        <td class="tbl-main-item" width="1604px" align="center">
+        <td class="tone2" width="1604px" align="center">
         <br>
 
 {% for cr in ob.cr %}
@@ -30,7 +30,7 @@
     {% for ob2 in cr.cr_p %}
         <tr>
         {% for ob3 in ob2 %}
-            <td class="tbl-main-item" align="center">
+            <td class="tone2" align="center">
                 {% if ob3.3 == False %}
                     <input type="button" style="background:none; border-color:black; background-color:gray; color:white; border-radius:20px; width:30px; height:30px" value="{{ ob3.1 }}" title="{{ ob3.4 }} (неисправен)">
                 {% elif ob3.2 == 0 %}

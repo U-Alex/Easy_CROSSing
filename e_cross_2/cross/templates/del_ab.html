@@ -8,22 +8,22 @@
     <table class="t_header1">
         <tr>
             <td width="1000px" align="left">
-                <h3>&nbsp&nbsp<a href="/cross/build={{ s_p.parrent.parrent.parrent.id }}">{{ s_p.parrent.parrent.parrent.name }} {{ s_p.parrent.parrent.parrent.house_num }}</a>,&nbsp&nbsp<a href="/cross/build={{ s_p.parrent.parrent.parrent.id }}/locker={{ s_p.parrent.parrent.id }}">УД: {{ s_p.parrent.parrent.name }}</a>,&nbsp&nbsp<a href="/cross/build={{ s_p.parrent.parrent.parrent.id }}/locker={{ s_p.parrent.parrent.id }}/box={{ s_p.parrent.id }}/">крт: {{ s_p.parrent.name }}-{{ s_p.parrent.num }}-{{ s_p.p_alias }}</a>,&nbsp&nbsp 
+                <h3>&nbsp<a href="/cross/build={{ s_p.parrent.parrent.parrent.id }}">{{ s_p.parrent.parrent.parrent.name }} {{ s_p.parrent.parrent.parrent.house_num }}</a>,&nbsp&nbsp<a href="/cross/build={{ s_p.parrent.parrent.parrent.id }}/locker={{ s_p.parrent.parrent.id }}">УД: {{ s_p.parrent.parrent.name }}</a>,&nbsp&nbsp<a href="/cross/build={{ s_p.parrent.parrent.parrent.id }}/locker={{ s_p.parrent.parrent.id }}/box={{ s_p.parrent.id }}/">крт: {{ s_p.parrent.name }}-{{ s_p.parrent.num }}-{{ s_p.p_alias }}</a>,&nbsp&nbsp
                 {% if d_p %}
                 бр.: {{ d_p.parrent.name }} порт: {{ d_p.num }},&nbsp&nbsp 
                 {% endif %}
-                договор: {{ s_p.dogovor }}&nbsp&nbsp кв: {{ s_p.ab_kv }}&nbsp&nbsp</h3>
+                договор: {{ s_p.dogovor }}&nbsp&nbsp кв: {{ s_p.ab_kv }}s</h3>
             </td>
             <td width="280px" align="right">&nbsp</td>
         </tr>
     </table>
     <br>
     <table>
-        <tr>
+        <tr class="t_header1">
             <td align="center"><br>&nbsp{{ form.pri.label }}:&nbsp</td>
         </tr>
         <tr>
-            <td align="left">
+            <td class="tone2" align="left">
                 &nbsp&nbsp&nbsp&nbsp{{ form.pri.0 }}&nbsp&nbsp&nbsp&nbsp<br>
                 &nbsp&nbsp&nbsp&nbsp{{ form.pri.1 }}&nbsp&nbsp&nbsp&nbsp<br>
                 &nbsp&nbsp&nbsp&nbsp{{ form.pri.2 }}&nbsp&nbsp&nbsp&nbsp<br>&nbsp

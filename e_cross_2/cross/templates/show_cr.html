@@ -8,7 +8,7 @@
         <tr class="t_header1">
             <td width="1300px" align="left">
                 <h3>
-                    &nbsp&nbsp<a href="/cross/build={{ lo.parrent_id }}">{{ lo.parrent.name }}&nbsp{{ lo.parrent.house_num }}</a>,
+                    &nbsp<a href="/cross/build={{ lo.parrent_id }}">{{ lo.parrent.name }}&nbsp{{ lo.parrent.house_num }}</a>,
                     &nbsp&nbsp<a href="/cross/build={{ lo.parrent_id }}/locker={{ cr.parrent_id }}">УД:&nbsp{{ lo.name }}</a>,
                     &nbsp&nbsp<label style="color:blue">{{ cr.name }}</label>
                     &nbsp&nbsp({{ cr.name_type }}),
@@ -19,13 +19,12 @@
             <td width="300px" align="right">
                 {% if kv.id != 1 %}
                 квартал: {{ kv.name }}&nbsp&nbsp
-                <a href="/statist/bu_doc={{ lo.parrent_id }}" target="_blank"><b>карточка ввода</b>&nbsp&nbsp</a>
+                <a href="/statist/bu_doc={{ lo.parrent_id }}" target="_blank"><b>карточка ввода</b>&nbsp</a>
                 {% endif %}
             </td>
         </tr>
         <tr class="t_footer">
-            <td colspan="2" align="right">
-                {#доступные кроссы:&nbsp&nbsp#}
+            <td colspan="2" align="left">&nbsp
             {% for nav in cr_list %}
                 {% if nav.id == cr.id %}
                     <label style="color:blue"><strong>{{ nav.name }}</strong></label>&nbsp&nbsp
@@ -96,7 +95,9 @@
                             <a href="{{ ob.c_up_l }}/?sel={{ ob.c_up.6 }}" target="_blank"><b>{{ ob.c_up.3 }}</b></a>
                         </td>
                         <td width="36px" style="background-color:{{ ob.c_up.5 }}" align="center">
-                            <a href="{{ ob.c_up_l }}/?sel={{ ob.c_up.6 }}" target="_blank"><b>{{ ob.c_up.4 }}</b></a>
+                            {% if ob.c_up.4 %}
+                            <a href="{{ ob.c_up_l }}/?sel={{ ob.c_up.6 }}" target="_blank"><b>&nbsp{{ ob.c_up.4 }}&nbsp</b></a>
+                            {% endif %}
                         </td>
                     {% else %}
                         <td colspan="2">&nbsp&nbsp&nbsp<i><--&nbsp{{ ob.c_up.2 }}</i></td>
@@ -124,7 +125,9 @@
                         <a href="{{ ob.c_down.4 }}/?sel={{ ob.c_down.5 }}" target="_blank"><b>{{ ob.c_down.1 }}</b></a>
                     </td>
                     <td width="36px" style="background-color:{{ ob.c_down.3 }}" align="center">
-                        <a href="{{ ob.c_down.4 }}/?sel={{ ob.c_down.5 }}" target="_blank"><b>{{ ob.c_down.2 }}</b></a>
+                        {% if ob.c_down.2 %}
+                        <a href="{{ ob.c_down.4 }}/?sel={{ ob.c_down.5 }}" target="_blank"><b>&nbsp{{ ob.c_down.2 }}&nbsp</b></a>
+                        {% endif %}
                     </td>
                     {% if ob.int_c_status != 0 %}
                         <td width="36px" align="center"><a href="del={{ ob.id }}/s_type=1/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удаление кроссировки" width="12" height="12"></a></td>
@@ -146,12 +149,11 @@
                 <td width="30px" align="center">
                     <a href="p_edit={{ ob.id }}/"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="16" height="16"></a>
                 </td>
-                <td width="20px" style="background-color:#bbbbbb" align="center"><a href="/core/logs/t=5/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
+                <td class="tone2" width="20px" align="center"><a href="/core/logs/t=5/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
             </tr>
             {% endfor %}
         </table>
-    {% else %}
-        <p>Not ports!!??</p>
+
     {% endif %}
     </div>
 </div>

@@ -104,10 +104,10 @@ def show_locker(request, bu_id, lo_id):
         kv = Kvartal.objects.get(pk=bu.kvar)
         lo = Locker.objects.get(pk=lo_id)
     except ObjectDoesNotExist:
-        return render(request, 'error.html', {'mess': 'объект не найден', 'back': 2})
+        return render(request, 'error.html', {'mess': 'объект не найден', 'back': 3})
 
     if lo.parrent_id != int(bu_id):
-        return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 2})
+        return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3})
 
     if lo.agr and not request.user.has_perm("core.can_sh_agr"):
         return render(request, 'denied.html', {'mess': 'нет прав для доступа',

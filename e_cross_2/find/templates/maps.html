@@ -10,14 +10,14 @@
             <p><i>карты:</i></p>
             {% for ob in map_list %}
             {% if m_num == forloop.counter %}
-            <label style="color:blue"><i>{{ forloop.counter }}:</i>&nbsp&nbsp<strong>{{ ob.2 }}</strong></label>
+            <label class="color_link2"><i>{{ forloop.counter }}:</i>&nbsp&nbsp<strong>{{ ob.2 }}</strong></label>
             {% else %}
             <a href="/find/map{{ forloop.counter }}"><i>{{ forloop.counter }}:</i>&nbsp&nbsp{{ ob.2 }}</a>
             {% endif %}
             {% endfor %}
         </div>
         <div class="map_form">
-            <table class="tone2" width="100%">
+            <table class="tone2">
                 <tr>
                     <td>&nbspул.:</td>
                     <td colspan="2">{{ form1.street }}</td>
@@ -27,24 +27,24 @@
                     <td>&nbsp№:</td>
                     <td>{{ form1.h_num }}</td>
                     <td align="right"><input type="button" id="go_bu" value=">>>" onClick='location.href=""' style="width:50px"></td>
-                    <td align="center">&nbsp<img src="/static/images/SKS2.png" alt="" title="здания" width="30" height="30"></td>
+                    <td align="center"><img src="/static/images/SKS2.png" alt="" title="здания" width="30" height="30"></td>
                 </tr>
                 <tr>
                     <td>&nbspУА:</td>
                     <td>{{ form1.agr_list }}</td>
                     <td align="right"><input type="button" id="go_agr" value=">>>" onClick='location.href=""' style="width:50px"></td>
-                    <td align="center">&nbsp<img src="/static/images/stat3.png" alt="" title="агрегации" width="30" height="30"></td>
+                    <td align="center"><img src="/static/images/stat3.png" alt="" title="агрегации" width="30" height="30"></td>
                 </tr>
                 <tr>
                     <td>&nbspкв.:</td>
                     <td>{{ form2.kvar }}</td>
                     <td align="right"><input type="button" id="go_kvar" value=">>>" onClick='location.href=""' style="width:50px"></td>
-                    <td align="center">&nbsp<img src="/static/images/_cross3.png" alt="" title="квартал" width="30" height="30"></td>
+                    <td align="center"><img src="/static/images/_cross3.png" alt="" title="квартал" width="30" height="30"></td>
                 </tr>
                 <tr>
                     <td>&nbsp</td>
                     <td colspan="2"><input type="text" id="coord"></td>
-                    <td align="center">&nbsp<img src="/static/images/coord.png" alt="" title="текущие координаты" width="30" height="30"></td>
+                    <td align="center"><img src="/static/images/coord.png" alt="" title="текущие координаты" width="30" height="30"></td>
                 </tr>
             </table>
         </div>
@@ -55,16 +55,9 @@
             <input type="hidden" id="m_num" value="{{ m_num }}">
             <!-- <label id="info1">debug info</label> -->
         </div>
-        <div class="map_copyright">
-            <!--<span class="tooltip2 tooltip2-effect-2">
-                <span class="tooltip2-item">условные обозначения</span>
-                <span class="tooltip2-content clearfix">
-                    <div align="center">
-                        <img src="/static/images/usl_ob.png">
-                    </div>
-                </span>
-            </span>-->
-            <div><a href="https://openseadragon.github.io/" target="_blank">OpenSeadragon</a></div>
+        <div class="map_copyright tone1">
+            <!--<span>условные обозначения</span>-->
+            <span><a href="https://openseadragon.github.io/" target="_blank">OpenSeadragon</a></span>
         </div>
     </div>
 

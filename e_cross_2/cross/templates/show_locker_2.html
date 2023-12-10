@@ -27,7 +27,7 @@
                 {% for ob in lo_list %}
                     <div style="width:100%;">
                         
-                        <table class="tbl-main-item" width="100%" border="0" {% if lo.name == ob.name %}style="background-color: #eee{% endif %}">
+                        <table class="tone2" width="100%" border="0" {% if lo.name == ob.name %}style="background-color: #eee{% endif %}">
                             <tr>
                                 <td rowspan="2" width="30px" align="center" {% if lo.name == ob.name %}style="background-color: #D8FF93{% endif %}">
                                 {% if ob.agr %}
@@ -44,14 +44,14 @@
                                 {% if lo.name == ob.name %}
                                 <td width="30px" align="center" style="background-color:#D8FF93;"> &#9658;&#9658; </td>
                                 {% else %}
-                                <td class="tbl-main" width="30px" align="center"></td>
+                                <td class="tone1" width="30px" align="center"></td>
                                 {% endif %}
                             </tr>
                             <tr>
                                 <td colspan="2">&nbsp&nbsp
                                     <font size="1"><a style="color:black" href="/cross/build={{ bu.id }}/locker={{ ob.id }}/racks/">{{ ob.name_type }}</a></font>
                                 </td>
-                                <td class="tbl-main" width="30px" align="center"></td>
+                                <td class="tone1" width="30px" align="center"></td>
                             </tr>
                             <tr>
                                 <td rowspan="4">&nbsp</td>
@@ -78,7 +78,7 @@
                                     <a href="/core/logs/t=1/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="14" height="14"></a>
                                     &nbsp
                                 </td>
-                                <td class="tbl-main"></td>
+                                <td class="tone1"></td>
                             </tr>
                             <tr>
                                 <!--<td>&nbsp</td>-->
@@ -90,7 +90,7 @@
                                         {% if ob.status == 2 or ob.status == 3 %}&#8987;&nbsp----{% endif %}
                                     {% endif %}
                                 </td>
-                                <td class="tbl-main"></td>
+                                <td class="tone1"></td>
                             </tr>
                             <tr>
                                 <!--<td>&nbsp</td>-->
@@ -98,12 +98,12 @@
                                 <td align="left">&#128275;
                                     <font size="1">{{ ob.cab_door }}&nbsp{% if ob.cab_door == 'в ключнице' %}{{ ob.cab_key }}&nbsp{% endif %}</font>
                                 </td>
-                                <td class="tbl-main"></td>
+                                <td class="tone1"></td>
                             </tr>
                             <tr>
                                 <!--<td>&nbsp</td>-->
                                 <td colspan="2">&nbsp&nbsp&nbsp<font size="1">{{ ob.prim }}&nbsp</font></td>
-                                <td class="tbl-main"></td>
+                                <td class="tone1"></td>
                             </tr>
                         </table>
                             
@@ -117,11 +117,11 @@
                                     <a href="../new_locker/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить УД" width="15" height="15"></a>
                                 </td>
                                 <td>&nbsp</td>
-                                <td class="tbl-main" width="30px" align="center">&nbsp</td>
+                                <td class="tone1" width="30px" align="center">&nbsp</td>
                             </tr>
                             <tr>
                                 <td>&nbsp</td>
-                                <td class="tbl-main" width="30px" align="center">&nbsp</td>
+                                <td class="tone1" width="30px" align="center">&nbsp</td>
                             </tr>
                         </table>
                     </div>

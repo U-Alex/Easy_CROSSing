@@ -6,7 +6,7 @@
         <tr class="t_header1">
             <td width="1300px" align="left">
                 <h3>
-                    &nbsp&nbsp<a href="/cross/build={{ lo.parrent_id }}">{{ lo.parrent.name }} {{ lo.parrent.house_num }}</a>,
+                    &nbsp<a href="/cross/build={{ lo.parrent_id }}">{{ lo.parrent.name }} {{ lo.parrent.house_num }}</a>,
                     &nbsp&nbsp<a href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}">УД: {{ lo.name }}</a>,
                     &nbsp&nbsp<label style="color:blue">{{ dev.name }}</label>
                     &nbsp&nbsp<a href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}/dev={{ dev.id }}/">кроссировки</a> / 
@@ -17,13 +17,12 @@
             <td width="300px" align="right">
                 {% if kv.id != 1 %}
                 квартал: {{ kv.name }}&nbsp&nbsp
-                <a href="/statist/bu_doc={{ lo.parrent_id }}" target="_blank"><b>карточка ввода</b>&nbsp&nbsp</a>
+                <a href="/statist/bu_doc={{ lo.parrent_id }}" target="_blank"><b>карточка ввода</b>&nbsp</a>
                 {% endif %}
             </td>
         </tr>
         <tr class="t_footer">
-            <td colspan="2" align="left">&nbsp&nbsp
-                {#доступные коммутаторы:&nbsp&nbsp#}
+            <td colspan="2" align="left">&nbsp
             {% for nav in dev_list %}
             {% if nav.id == dev.id %}
                 <label style="color:blue"><strong>{{ nav.name }}</strong></label>&nbsp&nbsp
@@ -95,18 +94,16 @@
         <tr>
             <td width="1400px">&nbsp
                 {{ dev.obj_type.parrent.name }}: <b>{{ dev.obj_type.name }}</b>
-            {% if dev.ip_addr != None %}, IP: <b>{{ dev.ip_addr }}</b>{% endif %}
+            {% if dev.ip_addr %}, IP: <b>{{ dev.ip_addr }}{% if dev.ip_mask %} / {{ dev.ip_mask }}{% endif %}</b>{% endif %}
             {% if dev.mac_addr != "" %}, MAC: <b>{{ dev.mac_addr }}</b>{% endif %}
             {% if dev.sn != "" %}, SN: <b>{{ dev.sn }}</b>{% endif %}
-            {% if dev.vers_po != "" %}, версия ПО: <b>{{ dev.vers_po }}</b>{% endif %}
-            {% if dev.man_conf != "" %}, прошил: <b>{{ dev.man_conf }}</b>{% endif %}
-            {% if dev.man_install != "" %}, монтаж: <b>{{ dev.man_install }}</b>{% endif %}
-            {% if dev.date_ent|date:"d.m.Y" != "" %}, дата ввода: <b>{{ dev.date_ent|date:"d.m.Y" }}</b>{% endif %}
-            {% if dev.date_repl|date:"d.m.Y" != "" %}, дата замены: <b>{{ dev.date_repl|date:"d.m.Y" }}</b>{% endif %}
-            {% if temp %} {# отключено #}
-                <input type="button" value="upload" onClick='location.href="/statist/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}/dev={{ dev.id }}/upl_dev/"'>&nbsp
-                <input type="button" value="clear" onClick='location.href="/statist/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}/dev={{ dev.id }}/cl_dev/"'>
-            {% endif %}
+            {% if dev.ip_gateway %}, gateway: <b>{{ dev.ip_gateway }}</b>{% endif %}
+            {% if dev.vlan %}, vlan: <b>{{ dev.vlan }}</b>{% endif %}
+            {#{% if dev.vers_po != "" %}, версия ПО: <b>{{ dev.vers_po }}</b>{% endif %}#}
+            {#{% if dev.man_conf != "" %}, прошил: <b>{{ dev.man_conf }}</b>{% endif %}#}
+            {#{% if dev.man_install != "" %}, монтаж: <b>{{ dev.man_install }}</b>{% endif %}#}
+            {#{% if dev.date_ent|date:"d.m.Y" != "" %}, дата ввода: <b>{{ dev.date_ent|date:"d.m.Y" }}</b>{% endif %}#}
+            {#{% if dev.date_repl|date:"d.m.Y" != "" %}, дата замены: <b>{{ dev.date_repl|date:"d.m.Y" }}</b>{% endif %}#}
             </td>
             <td width="200px" align="right">
                 <input type="button" value="история" onClick='location.href="/core/logs/t=3/id={{ dev.id }}"'>&nbsp

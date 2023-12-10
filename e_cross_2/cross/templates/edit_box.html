@@ -4,7 +4,7 @@
 
     <table class="t_header1">
         <tr>
-                <td width="1000px" align="left"><h3>&nbsp&nbsp{{ box.parrent.parrent.name }} {{ box.parrent.parrent.house_num }},&nbsp&nbspУД: {{ box.parrent.name }}, КРТ: {{ box.name }}-{{ box.num }}</h3></td>
+                <td width="1000px" align="left"><h3>&nbsp{{ box.parrent.parrent.name }} {{ box.parrent.parrent.house_num }},&nbsp&nbspУД: {{ box.parrent.name }}, КРТ: {{ box.name }}-{{ box.num }}</h3></td>
                 <td width="280px" align="right">&nbsp</td>
         </tr>
     </table>
@@ -13,7 +13,7 @@
     {% csrf_token %}
     
     <table>
-        <tr class="tone2">
+        <tr class="t_header1">
             <td width="360px" align="right">
                 &nbsp{{ form.box_name.label }}&nbsp&nbsp->&nbsp&nbsp{{ form.box_name }}&nbsp
             </td>
@@ -31,7 +31,7 @@
                 &nbsp{{ form.floor }}&nbsp&nbsp<-&nbsp&nbsp{{ form.floor.label }}&nbsp
             </td>
         </tr>
-        <tr class="tone2">
+        <tr class="t_footer">
             <td align="right">
                 &nbsp{{ form.rack_num.label }}&nbsp&nbsp->&nbsp&nbsp{{ form.rack_num }}&nbsp
             </td>
@@ -41,32 +41,35 @@
             </td>
         </tr>
         
-        <tr>
+        <tr class="tone1">
             <td align="right">&nbsp{{ form.box_name_type.label }}:&nbsp</td>
             <td align="center"></td>
             <td align="left">&nbsp{{ form.box_name_type }}&nbsp</td>
         </tr>
-        <tr class="tone2">
+        <tr class="t_header1">
             <td colspan="3" align="center"><label>{{ form.add_cable }} добавить кабель</label></td>
         </tr>
-        <tr>
+        <tr class="tone2">
             <td align="right">&nbsp{{ form.cable_name_type.label }}:&nbsp</td>
             <td align="center"></td>
             <td align="left">&nbsp{{ form.cable_name_type }}&nbsp</td>
         </tr>
-        <tr class="tone2">
+        <tr class="t_footer">
             <td colspan="3" align="center"><label>{{ form.del_cable }} удалить последний кабель</label></td>
         </tr>
-        <tr class="tone2">
+        <tr class="tone1">
+            <td colspan="3">&nbsp</td>
+        </tr>
+        <tr class="tone1">
             <td colspan="3" align="center">{{ form.serv_area.label }}:</td>
         </tr>
-        <tr class="tone2">
+        <tr class="tone1">
             <td colspan="3" align="center">{{ form.serv_area }}</td>
         </tr>
-        <tr class="tone2">
+        <tr class="tone1">
             <td colspan="3" align="center"><br>{{ form.prim.label }}:</td>
         </tr>
-        <tr class="tone2">
+        <tr class="tone1">
             <td colspan="3" align="center">{{ form.prim }}</td>
         </tr>
 

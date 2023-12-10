@@ -4,7 +4,7 @@
 
     <table class="t_header1">
         <tr>
-            <td width="1300px" align="left"><h3>&nbsp&nbsp{{ bu.name }}&nbsp{{ bu.house_num }}</h3></td>
+            <td width="1300px" align="left"><h3>&nbsp{{ bu.name }}&nbsp{{ bu.house_num }}</h3></td>
             <td width="300px" align="right">
                 {% if kv.id != 1 %}
                 квартал: {{ kv.name }}&nbsp&nbsp
@@ -45,7 +45,6 @@
         </tr>
         {% for ob in lo_list %}
         <tr class="tr_hover">
-            <!--<td align="center">&#10042</td>-->
         {% if ob.agr %}
             <td align="center"><img src="/static/images/lo1.png" alt="" title="" width="16" height="16"></td>
         {% elif ob.detached %}
@@ -53,8 +52,8 @@
         {% else %}
             <td align="center"><img src="/static/images/lo3.png" alt="" title="" width="14" height="14"></td>
         {% endif %}
-            <td>&nbsp<strong><a style="color:black" href="locker={{ ob.id }}/">{{ ob.name }}</a></strong>&nbsp</td>
-            <td>&nbsp<a style="color:black" href="/cross/build={{ bu.id }}/locker={{ ob.id }}/racks/">{{ ob.name_type }}</a>&nbsp</td>
+            <td><strong><a style="color:black" href="locker={{ ob.id }}/">{{ ob.name }}</a></strong></td>
+            <td><a style="color:black" href="/cross/build={{ bu.id }}/locker={{ ob.id }}/racks/">{{ ob.name_type }}</a></td>
             <td align="center">
             {% if ob.coord_x > 30 and ob.coord_y > 30 %}
                 <a href="/find/map/?coord={{ ob.coord_x }},{{ ob.coord_y }}" target="_blank"><img src="/static/images/selector-search.gif" alt="map" title="найти на карте" width="15" height="15"></a>
@@ -71,18 +70,18 @@
             </td>
             <td style="background-color:{{ ob.status2.0 }}" align="center">{{ ob.status2.1.1 }}</td>
             {% if ob.date_ent|date:"d.m.Y" != "" %}
-                <td align="center">&nbsp{% if ob.status == 2 or ob.status == 3 %}{{ ob.date_ent|date:"d.m.Y" }}{% endif %}&nbsp</td>
+                <td align="center">{% if ob.status == 2 or ob.status == 3 %}{{ ob.date_ent|date:"d.m.Y" }}{% endif %}</td>
             {% else %}
-                <td align="center">&nbsp{% if ob.status == 2 or ob.status == 3 %}----{% endif %}&nbsp</td>
+                <td align="center">{% if ob.status == 2 or ob.status == 3 %}----{% endif %}</td>
             {% endif %}
-            <td align="center">&nbsp{{ ob.co }}&nbsp</td>
-            <td align="center">&nbsp{{ ob.rasp }}&nbsp</td>
+            <td align="center">{{ ob.co }}</td>
+            <td align="center">{{ ob.rasp }}</td>
             <td align="center">
-                &nbsp{{ ob.cab_door }}&nbsp{% if ob.cab_door == 'в ключнице' %}{{ ob.cab_key }}&nbsp{% endif %}
+                {{ ob.cab_door }}&nbsp{% if ob.cab_door == 'в ключнице' %}{{ ob.cab_key }}{% endif %}
             </td>
-            <td>&nbsp{{ ob.prim }}&nbsp</td>
-            <td>&nbsp{{ ob.object_owner }}&nbsp</td>
-            <td style="background-color:#bbbbbb" align="center"><a href="/core/logs/t=1/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
+            <td>{{ ob.prim }}</td>
+            <td>{{ ob.object_owner }}</td>
+            <td class="tone2" align="center"><a href="/core/logs/t=1/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
         </tr>
         {% endfor %}
         <tr class="t_footer">
@@ -97,27 +96,27 @@
     </table>
 {% elif not bu_double %}
     <br>
-    <p>&nbsp&nbspУзлы доступа отсутствуют</p>
-    <p><a href="new_locker/">&nbsp&nbsp добавить УД</a></p>
+    <p>&nbspУзлы доступа отсутствуют</p>
+    <p><a href="new_locker/">&nbsp добавить УД</a></p>
 {% endif %}
     <br>
 
     <table width="1404px" border="1">
         <caption id="templ_header">юридическая информация:</caption>
         <tr>
-            <td width="300px" align="right" style="background-color:#dddddd">УК/ТСЖ/ЖСК&nbsp</td>
-            <td>&nbsp<b>{{ upr_comp.name }}</b>&nbsp&nbsp&nbsp&nbsp{{ upr_comp.info }}</td>
+            <td class="tone2" width="300px" align="right">УК/ТСЖ/ЖСК</td>
+            <td><b>{{ upr_comp.name }}</b>&nbsp&nbsp&nbsp{{ upr_comp.info }}</td>
         </tr>
         <tr>
-            <td align="right" style="background-color:#dddddd">Контактная информация уполномоченного&nbsp<br> представителя собственников&nbsp</td>
-            <td>&nbsp{{ bu.info_cont }}</td>
+            <td class="tone2" align="right">Контактная информация уполномоченного<br> представителя собственников</td>
+            <td>{{ bu.info_cont }}</td>
         </tr>
         <tr>
-            <td align="right" style="background-color:#dddddd">Договор на размещение оборудования&nbsp</td>
-            <td>&nbsp{{ bu.cnt_place }}&nbsp&nbsp&nbsp&nbsp{{ bu.cnt_price }}</td>
+            <td class="tone2" align="right">Договор на размещение оборудования</td>
+            <td>{{ bu.cnt_place }}&nbsp&nbsp&nbsp{{ bu.cnt_price }}</td>
         </tr>
         <tr>
-            <td align="right" style="background-color:#dddddd">Сроки оплаты по договору (за размещение)&nbsp</td>
+            <td class="tone2" align="right">Сроки оплаты по договору (за размещение)</td>
             {% if deadline.2 %}
             <td style="background-color:orange">
             {% else %}
@@ -127,28 +126,28 @@
             </td>
         </tr>
         <tr>
-            <td align="right" style="background-color:#dddddd">Акты сверки показаний и возмещение эл/эн&nbsp</td>
-            <td>&nbsp{{ bu.electricity }}</td>
+            <td class="tone2" align="right">Акты сверки показаний и возмещение эл/эн</td>
+            <td>{{ bu.electricity }}</td>
         </tr>
         <tr>
-            <td align="right" style="background-color:#dddddd">Информационные таблички&nbsp</td>
-            <td>&nbsp{% if bu.info_signs %}Да{% else %}Нет{% endif %}</td>
+            <td class="tone2" align="right">Информационные таблички</td>
+            <td>{% if bu.info_signs %}Да{% else %}Нет{% endif %}</td>
         </tr>
         <tr>
-            <td align="right" style="background-color:#dddddd">Льгота старшему дома&nbsp</td>
-            <td>&nbsp{{ bu.senior_home }}</td>
+            <td class="tone2" align="right">Льгота старшему дома</td>
+            <td>{{ bu.senior_home }}</td>
         </tr>
         <tr>
-            <td align="right" style="background-color:#dddddd">Наличие тех.условий и актов разграничения&nbsp</td>
-            <td>&nbsp{{ bu.tech_conditions }}</td>
+            <td class="tone2" align="right">Наличие тех.условий и актов разграничения</td>
+            <td>{{ bu.tech_conditions }}</td>
         </tr>
         <tr>
-            <td align="right" style="background-color:#dddddd">Доступ&nbsp</td>
-            <td>&nbsp{{ bu.access }}</td>
+            <td class="tone2" align="right">Доступ</td>
+            <td>{{ bu.access }}</td>
         </tr>
         <tr>
-            <td align="right" style="background-color:#dddddd">Примечание&nbsp</td>
-            <td>&nbsp{{ bu.prim }}</td>
+            <td class="tone2" align="right">Примечание</td>
+            <td>{{ bu.prim }}</td>
         </tr>
         <!--<tr>
             <td align="right" style="background-color:#dddddd">Сторонние провайдеры&nbsp</td>

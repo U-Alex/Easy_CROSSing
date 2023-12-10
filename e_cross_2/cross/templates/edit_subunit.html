@@ -12,13 +12,13 @@
 <form method="post">
     {% csrf_token %}
 
-    <table>
-        <tr class="tbl-main-item">
+    <table class="t_header1">
+        <tr>
             <td width="210px" align="right">&nbsp{{ form.name.label }}:&nbsp</td>
             <td width="330px" align="left">&nbsp{{ form.name }}&nbsp</td>
             </td>
         </tr>
-        <tr class="tbl-main-item">
+        <tr>
             <td align="right">&nbsp{{ form.object_owner.label }}:&nbsp</td>
             <td align="left">&nbsp{{ form.object_owner }}&nbsp&nbsp&nbsp<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp&nbsp&nbsp{{ form.object_owner_list }}&nbsp</td>
         </tr>
@@ -66,10 +66,10 @@
             <td align="right">&nbsp{{ form.floor.label }}:&nbsp</td>
             <td align="left">&nbsp{{ form.floor }}&nbsp</td>
         </tr>
-        <tr class="tbl-main-item">
+        <tr>
             <td colspan="2" align="center">{{ form.prim.label }}:</td>
         </tr>
-        <tr class="tbl-main-item">
+        <tr>
             <td colspan="2" align="center">{{ form.prim }}</td>
         </tr>
         

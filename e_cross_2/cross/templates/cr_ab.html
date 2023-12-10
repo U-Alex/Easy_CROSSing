@@ -5,7 +5,7 @@
     <table class="t_header1">
         <tr>
             <td width="1000px" align="left">
-                <h3>&nbsp&nbsp
+                <h3>&nbsp
                     <a href="/cross/build={{ lo.parrent.id }}">{{ lo.parrent.name }} {{ lo.parrent.house_num }}</a>,&nbsp&nbsp<a href="/cross/build={{ lo.parrent.id }}/locker={{ lo.id }}">УД: {{ lo.name }}</a>,&nbsp&nbsp<a href="/cross/build={{ lo.parrent.id }}/locker={{ lo.id }}/box={{ cur_box_p.parrent.id }}/">крт: {{ cur_box_p.parrent.name }}-{{ cur_box_p.parrent.num }}-{{ cur_box_p.p_alias }}</a>
                 {% if cur_box_p.changed %}
                     &nbsp&nbsp<label style="color:fuchsia">ВНИМАНИЕ !  запланировано снятие </label>
@@ -36,7 +36,7 @@
         </tr>
         <tr>
             <td colspan="3" align="right">
-                &nbspпримечание: 
+                &nbspпримечание:
                 <input type="text" size="32" name="prim_l" value="{{ txt_p }}{{ txt_l }}" disabled="1" style="color:teal">
                 <input type="hidden" name="prim_2" value="{{ txt_p }}{{ txt_l }}">
                 {{ form.prim }}&nbsp
@@ -103,7 +103,7 @@
     <table>
     <caption><i>история пары</i></caption>
         <tr>
-            <td style="background-color:#bbbbbb" colspan="3" align="center">
+            <td class="tone2" colspan="3" align="center">
                 &nbspдоговор: <b>{{ cur_box_p.his_dogovor }}</b>
                 &nbspкв: <b>{{ cur_box_p.his_ab_kv }}</b>
                 &nbspФИО: <b>{{ cur_box_p.his_ab_fio }}</b>

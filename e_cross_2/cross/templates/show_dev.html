@@ -7,7 +7,7 @@
         <tr class="t_header1">
             <td width="1300px" align="left">
                 <h3>
-                    &nbsp&nbsp<a href="/cross/build={{ lo.parrent_id }}">{{ lo.parrent.name }} {{ lo.parrent.house_num }}</a>,
+                    &nbsp<a href="/cross/build={{ lo.parrent_id }}">{{ lo.parrent.name }} {{ lo.parrent.house_num }}</a>,
                     &nbsp&nbsp<a href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}">УД: {{ lo.name }}</a>,
                     &nbsp&nbsp<label style="color:blue">{{ dev.name }}</label>
                     &nbsp&nbsp<a href="" style="color:blue">кроссировки</a> / 
@@ -18,13 +18,12 @@
             <td width="300px" align="right">
                 {% if kv.id != 1 %}
                 квартал: {{ kv.name }}&nbsp&nbsp
-                <a href="/statist/bu_doc={{ lo.parrent_id }}" target="_blank"><b>карточка ввода</b>&nbsp&nbsp</a>
+                <a href="/statist/bu_doc={{ lo.parrent_id }}" target="_blank"><b>карточка ввода</b>&nbsp</a>
                 {% endif %}
             </td>
         </tr>
         <tr class="t_footer">
-            <td colspan="2" align="left">&nbsp&nbsp
-                {#доступные коммутаторы:&nbsp&nbsp#}
+            <td colspan="2" align="left">&nbsp
             {% for nav in dev_list %}
             {% if nav.id == dev.id %}
                 <label style="color:blue"><strong>{{ nav.name }}</strong></label>&nbsp&nbsp
@@ -86,9 +85,10 @@
                         <a href="{{ ob.c_down.7 }}/?sel={{ ob.c_down.10 }}" target="_blank"><b>{{ ob.c_down.1 }}</b></a>
                     </td>
                     <td style="background-color:{{ ob.c_down.5 }}" align="center">
-                        <a href="{{ ob.c_down.7 }}/?sel={{ ob.c_down.10 }}" target="_blank">
-                        {% if ob.c_down.1|slice:":1" == "0" %}<b>напрямую</b></a>
-                        {% else %}<b>{{ ob.c_down.2 }}</b></a>
+                        {% if ob.c_down.1|slice:":1" == "0" %}
+                        <a href="{{ ob.c_down.7 }}/?sel={{ ob.c_down.10 }}" target="_blank"><b>напрямую</b></a>
+                        {% elif ob.c_down.2 %}
+                        <a href="{{ ob.c_down.7 }}/?sel={{ ob.c_down.10 }}" target="_blank"><b>&nbsp{{ ob.c_down.2 }}&nbsp</b></a>
                         {% endif %}
                     </td>
                     {% if ob.int_c_status != 0 %}
@@ -118,7 +118,9 @@
                             <a href="/cross/build={{ ob.c_down.8.parrent.parrent.parrent_id }}/locker={{ ob.c_down.8.parrent.parrent_id }}/cr={{ ob.c_down.8.parrent_id }}/?sel={{ ob.c_down.8.id }}" target="_blank"><b>{{ ob.c_down.8.parrent.name }}</b></a>
                         </td>
                         <td style="background-color:{{ ob.c_down.9 }}" align="center">
-                            <a href="/cross/build={{ ob.c_down.8.parrent.parrent.parrent_id }}/locker={{ ob.c_down.8.parrent.parrent_id }}/cr={{ ob.c_down.8.parrent_id }}/?sel={{ ob.c_down.8.id }}" target="_blank"><b>{{ ob.c_down.8.num }}</b></a>
+                            {% if ob.c_down.8.num %}
+                            <a href="/cross/build={{ ob.c_down.8.parrent.parrent.parrent_id }}/locker={{ ob.c_down.8.parrent.parrent_id }}/cr={{ ob.c_down.8.parrent_id }}/?sel={{ ob.c_down.8.id }}" target="_blank"><b>&nbsp{{ ob.c_down.8.num }}&nbsp</b></a>
+                            {% endif %}
                         </td>
                 {% else %}
                     <td style="background-color:{{ ob.c_down.2 }}" align="center">{{ ob.c_down.0 }}</td>
@@ -129,33 +131,29 @@
                 <td align="center">
                     <a href="p_edit={{ ob.id }}/"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="16" height="16"></a>
                 </td>
-                <td style="background-color:#bbbbbb" align="center">
+                <td class="tone2" align="center">
                     <a href="/core/logs/t=6/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a>
                 </td>
         </tr>
         {% endfor %}
     </table>
 
-{% else %}
-    <p>Not ports!!?? (_)*(_)</p>
 {% endif %}
     <br>
     <table class="t_footer">
         <tr>
             <td width="1380px">&nbsp
                 {{ dev.obj_type.parrent.name }}: <b>{{ dev.obj_type.name }}</b>
-            {% if dev.ip_addr != None %}, IP: <b>{{ dev.ip_addr }}</b>{% endif %}
+            {% if dev.ip_addr %}, IP: <b>{{ dev.ip_addr }}{% if dev.ip_mask %} / {{ dev.ip_mask }}{% endif %}</b>{% endif %}
             {% if dev.mac_addr != "" %}, MAC: <b>{{ dev.mac_addr }}</b>{% endif %}
             {% if dev.sn != "" %}, SN: <b>{{ dev.sn }}</b>{% endif %}
-            {% if dev.vers_po != "" %}, версия ПО: <b>{{ dev.vers_po }}</b>{% endif %}
-            {% if dev.man_conf != "" %}, прошил: <b>{{ dev.man_conf }}</b>{% endif %}
-            {% if dev.man_install != "" %}, монтаж: <b>{{ dev.man_install }}</b>{% endif %}
-            {% if dev.date_ent|date:"d.m.Y" != "" %}, дата ввода: <b>{{ dev.date_ent|date:"d.m.Y" }}</b>{% endif %}
-            {% if dev.date_repl|date:"d.m.Y" != "" %}, дата замены: <b>{{ dev.date_repl|date:"d.m.Y" }}</b>{% endif %}
-            {% if temp %} {# отключено #}
-                <input type="button" value="upload" onClick='location.href="/statist/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}/dev={{ dev.id }}/upl_dev/"'>&nbsp
-                <input type="button" value="clear" onClick='location.href="/statist/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}/dev={{ dev.id }}/cl_dev/"'>
-            {% endif %}
+            {% if dev.ip_gateway %}, gateway: <b>{{ dev.ip_gateway }}</b>{% endif %}
+            {% if dev.vlan %}, vlan: <b>{{ dev.vlan }}</b>{% endif %}
+            {#{% if dev.vers_po != "" %}, версия ПО: <b>{{ dev.vers_po }}</b>{% endif %}#}
+            {#{% if dev.man_conf != "" %}, прошил: <b>{{ dev.man_conf }}</b>{% endif %}#}
+            {#{% if dev.man_install != "" %}, монтаж: <b>{{ dev.man_install }}</b>{% endif %}#}
+            {#{% if dev.date_ent|date:"d.m.Y" != "" %}, дата ввода: <b>{{ dev.date_ent|date:"d.m.Y" }}</b>{% endif %}#}
+            {#{% if dev.date_repl|date:"d.m.Y" != "" %}, дата замены: <b>{{ dev.date_repl|date:"d.m.Y" }}</b>{% endif %}#}
             </td>
             <td width="220px" align="right">
                 <input type="button" value="абоненты" onClick='window.open("/statist/agr_to_abon={{ dev.id }}")'>&nbsp

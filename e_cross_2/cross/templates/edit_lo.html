@@ -8,7 +8,7 @@
 
     <table class="t_header1">
         <tr>
-            <td width="1000px" align="left"><h3>&nbsp&nbsp{{ lo.parrent.name }} {{ lo.parrent.house_num }},&nbsp&nbspУД: {{ lo.name }}</h3></td>
+            <td width="1000px" align="left"><h3>&nbsp{{ lo.parrent.name }} {{ lo.parrent.house_num }},&nbsp&nbspУД: {{ lo.name }}</h3></td>
             <td width="280px" align="right">&nbsp</td>
         </tr>
     </table>
@@ -16,12 +16,12 @@
 <form method="post">
     {% csrf_token %}
     
-    <table>
-        <tr class="tone2">
+    <table class="t_header1">
+        <tr>
             <td align="right">&nbspимя УД:&nbsp</td>
             <td colspan="2" align="left">&nbsp{{ form.lo_name }}&nbsp&nbsp&nbspтип:&nbsp{{ form.lo_name_type }}</td>
         </tr>
-        <tr class="tone2">
+        <tr>
             <td align="right">&nbsp{{ form.object_owner.label }}:&nbsp</td>
             <td colspan="2">&nbsp{{ form.object_owner }}&nbsp&nbsp&nbsp<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp&nbsp&nbsp{{ form.object_owner_list }}&nbsp</td>
         </tr>
@@ -44,19 +44,19 @@
             <td colspan="2"><label style="color:gray">&nbsp{{ form.status.3 }}</label></td>
         </tr>
 
-        <tr class="tone2">
+        <tr>
             <td align="right">&nbspрасположение:&nbsp</td>
             <td colspan="2">{{ form.rasp }}&nbsp</td>
         </tr>
-        <tr class="tone2">
+        <tr>
             <td align="right">&nbspпримечание:&nbsp</td>
             <td colspan="2">{{ form.prim }}&nbsp</td>
         </tr>
-        <tr class="tone2">
+        <tr>
             <td align="right">&nbsp{{ form.coord.label }}:&nbsp</td>
             <td colspan="2" align="left">{{ form.coord }}&nbsp</td>
         </tr>
-        <tr class="tone2">
+        <tr>
             <td align="right">&nbsp{{ form.racks.label }}:&nbsp</td>
             <td colspan="2">{{ form.racks }}&nbsp</td>
         </tr>
@@ -68,7 +68,7 @@
             <td align="right">&nbsp{{ form.co.label }}:&nbsp</td>
             <td colspan="2" align="left">&nbsp{{ form.co }}&nbsp</td>
         </tr>
-        <tr class="tone2">
+        <tr>
             <td colspan="2" align="right">&nbspиндивидуальное подключение:&nbsp</td>
             <td>&nbsp{{ form.detached }}&nbsp</td>
         </tr>

@@ -30,8 +30,8 @@
             <td align="center">{{ ob.dogovor }}</td>
             <td align="center">{{ ob.street }}</td>
             <td align="center">{{ ob.build }}</td>
-            <td align="center">&nbsp{{ ob.kv }}&nbsp</td>
-            <td><label title="{{ ob.prim }}">&nbsp{{ ob.fio }}&nbsp</label></td>
+            <td align="center">{{ ob.kv }}</td>
+            <td><label title="{{ ob.prim }}">{{ ob.fio }}</label></td>
             <td width="75px" align="center"><label title="оператор: {{ ob.man_oper }}">{{ ob.date_2|date:"d.m.Y" }}</label></td>
             <td width="50px" align="center"><label title="оператор: {{ ob.man_oper }}">{{ ob.date_2|time:"H:i" }}</label></td>
             <td><label title="{{ ob.comment }}">&nbsp{{ ob.pause_type }}&nbsp</label></td>

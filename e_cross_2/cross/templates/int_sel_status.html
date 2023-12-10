@@ -5,7 +5,7 @@
     <table class="t_header1">
         <tr>
             <td width="1200px" align="left">
-                <h3>&nbsp&nbsp
+                <h3>&nbsp
                 {% if s_type != '3' %}
                     {{ s_p.parrent.parrent.parrent.name }} {{ s_p.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ s_p.parrent.parrent.name }}, {{ s_p.parrent.name }}, порт: {{ s_p.num }}&nbsp&nbsp▶&nbsp▶&nbsp▶
                 {% else %}
@@ -25,7 +25,7 @@
 <form method="post">
     {% csrf_token %}
 
-    <table border="0">
+    <table class="tone2">
         <tr>
             <td align="right">&nbsp&nbsp&nbsp{{ form.status.label }}:&nbsp&nbsp&nbsp</td>
             <td align="left">
