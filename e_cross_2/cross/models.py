@@ -24,8 +24,9 @@ class Building(models.Model):
     name = models.CharField(max_length=30, blank=True)
     house_num = models.CharField(max_length=10)
     kvar = models.IntegerField(default=1)
-    double = models.BooleanField(default=False)
-    double_list = models.CharField(max_length=30, blank=True)
+    #double = models.BooleanField(default=False) ###
+    double_id = models.IntegerField(default=0)
+    #double_list = models.CharField(max_length=30, blank=True)   ###
 
     info_comp = models.IntegerField(default=1)                          # УК/ТСЖ/ЖСК   kpp.manage_comp
     info_cont = models.CharField(max_length=2048, blank=True)           # Контактная информация уполномоченного представителя собственников

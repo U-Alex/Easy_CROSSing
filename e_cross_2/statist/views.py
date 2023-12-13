@@ -19,7 +19,7 @@ from cross.models import Cross_ports, Device_ports, Box_ports#, Templ_box
 from core.models import Templ_device, Templ_subunit
 from cable.models import PW_cont, Coupling, Coupling_ports
 from core.models import last_visit, Energy_type, Subunit_type, History
-from .forms import upl_Form, stat4_Form#, stat_su_Form#, tb_Form
+from .forms import upl_Form#, stat4_Form#, stat_su_Form#, tb_Form
 
 from core.e_config import conf
 
@@ -415,20 +415,5 @@ def agr_to_abon(request, dev_id):
     return render(request, 'agr_to_abon.html', {'abon_list': box_p_list, 'count': box_p_list.count()})
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+####################################################################################################
 

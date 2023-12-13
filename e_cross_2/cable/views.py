@@ -37,6 +37,8 @@ def cable_main(request):
         form = find_Form_kv(request.POST)
         if form.is_valid():
             kvar = form.cleaned_data['kvar']
+        else:
+            kvar = 0
     else:
         try:
             kvar = request.GET['kv']

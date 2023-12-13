@@ -6,16 +6,18 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="robots" content="NONE,NOARCHIVE">
-        {#{% if app %}  <title>Дог.: {{ app.dogovor }}</title>#}
-        {% if title %}  <title>{{ title }}</title>
-        {% elif bu %}   <title>{{ bu.name }} {{ bu.house_num }}</title>
-        {% elif lo %}   <title>{{ lo.parrent.name }} {{ lo.parrent.house_num }}</title>
-        {% elif port %} <title>{{ port.parrent.parrent.parrent.name }} {{ port.parrent.parrent.parrent.house_num }}</title>
-        {% elif coup %} <title>м: {{ coup.name }}</title>
-        {% elif map %}  <title>Схема сети</title>
-        {% elif his %}  <title>История операций</title>
-        {% else %}      <title>Easy CROSSing</title>
+        <title>
+        {#{% if app %}  Дог.: {{ app.dogovor }}#}
+        {% if title %}  {{ title }}
+        {% elif bu %}   {{ bu.name }} {{ bu.house_num }}
+        {% elif lo %}   {{ lo.parrent.name }} {{ lo.parrent.house_num }}
+        {% elif port %} {{ port.parrent.parrent.parrent.name }} {{ port.parrent.parrent.parrent.house_num }}
+        {% elif coup %} м: {{ coup.name }}
+        {% elif map %}  Схема сети
+        {% elif his %}  История операций
+        {% else %}      Easy CROSSing
         {% endif %}
+        </title>
         <link rel="stylesheet" type="text/css" href="{% static 'fonts.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
         <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}">
@@ -23,12 +25,12 @@
 
 <body>
 
-    <section class="header t_header2">
+    <header class="header t_header2">
         <div class="header_line">
             <div class="header_logo">
                 <a href="/">Easy&nbspCROSSing</a>
             </div>
-            <div class="header_menu link_in_out">
+            <nav class="header_menu link_in_out">
                 {% if bu %}  <a href="/find/str={{ bu.parrent_id }}">Поиск</a>
                 {% elif lo %}<a href="/find/str={{ lo.parrent.parrent_id }}">Поиск</a>
                 {% else %}   <a href="/find/">Поиск</a>
@@ -42,7 +44,7 @@
                 <a href="/core/service">Сервис</a>
                 {% if perms.core.can_adm %}<a href="/admin" target="_blank">Админка</a>{% endif %}
                 <a href="/manual" target="_blank">Помощь</a>
-            </div>
+            </nav>
             <div class="header_user">
                 {% if user.is_authenticated %}
                 <p>{{ user.get_full_name }}</p>
@@ -52,7 +54,7 @@
                 {% endif %}
             </div>
         </div>
-    </section>
+    </header>
 
     <div class="content" align="center">
     <!-- <div class="content"> -->

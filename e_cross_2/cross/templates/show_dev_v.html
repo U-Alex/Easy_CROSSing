@@ -127,7 +127,7 @@
                 <td align="center">{% if ob.shut %}<img src="/static/images/shut_1.png" alt="sh" title="shutdown" width="14" height="14">{% endif %}</td>
                 <!--<td align="center">&nbsp{% if ob.p_chan %}<label title="port_channel">{{ ob.p_chan }}</label>{% endif %}&nbsp</td>-->
                 <td align="center"><a href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}/dev={{ dev.id }}/edit_f_port={{ ob.id }}/"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="16" height="16"></a></td>
-                <td class="tone2" align="center"><a href="/core/logs/t=6/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
+                <td class="tone2" align="center"><a href="/core/logs/t=6/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="?" title="история операций" height="14"></a></td>
         </tr>
         {% endfor %}
     </table>
@@ -161,7 +161,7 @@
             <td align="center">{% if ob.shut %}<img src="/static/images/shut_1.png" alt="sh" title="shutdown" width="14" height="14">{% endif %}</td>
             <td align="center"><a href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}/dev={{ dev.id }}/del_v_port={{ ob.id }}"><img src="/static/images/icon_deletelink.gif" alt="X" title="удаление порта" width="12" height="12"></a></td>
             <td align="center"><a href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}/dev={{ dev.id }}/edit_v_port={{ ob.id }}"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="16" height="16"></a></td>
-            <td class="tone2" align="center"><a href="/core/logs/t=11/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
+            <td class="tone2" align="center"><a href="/core/logs/t=11/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="?" title="история операций" height="14"></a></td>
         </tr>
         {% endfor %}
         <tr class="t_footer">

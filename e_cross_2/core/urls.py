@@ -3,6 +3,7 @@
 from django.urls import re_path
 
 from . import views
+from . import views_obj_mgr
 from . import views_templ
 from . import views_map_mgr
 #from . import views_ext
@@ -17,6 +18,8 @@ urlpatterns = [
     re_path(r'^service/$', views.service, name='service'),
     re_path(r'^service/clean_his/$', views.service_clean_his, name='service_clean_his'),
     re_path(r'^switch_agr/$', views.switch_agr, name='switch_agr'),
+
+    re_path(r'^o_manager/$', views_obj_mgr.o_manager, name='o_manager'),
 
     re_path(r'^m_manager(?P<m_num>[1-5]+)/$', views_map_mgr.m_manager, name='m_manager'),
     re_path(r'^m_manager(?P<m_num>[1-5]+)/cut/$', views_map_mgr.m_manager_cut, name='m_manager_cut'),
@@ -41,9 +44,9 @@ urlpatterns = [
     re_path(r'^templ_coup=(?P<coup_id>[0-9]+)/$', views_templ.templ_coup, name='templ_coup'),
     re_path(r'^templ_coup_del=(?P<coup_id>[0-9]+)/$', views_templ.templ_coup_del, name='templ_coup_del'),
 
-    re_path(r'^new_kvar/$', views.new_kvar, name='new_kvar'),
-    re_path(r'^new_str/$', views.new_str, name='new_str'),
-    re_path(r'^new_bu/$', views.new_bu, name='new_bu'),
+    # re_path(r'^new_kvar/$', views.new_kvar, name='new_kvar'),
+    # re_path(r'^new_str/$', views.new_str, name='new_str'),
+    # re_path(r'^new_bu/$', views.new_bu, name='new_bu'),
 
     re_path(r'^sprav/$', views.sprav, name='sprav'),
     re_path(r'^sprav_upr=(?P<upr_id>[0-9]+)/$', views.sprav_upr, name='sprav_upr'),

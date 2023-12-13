@@ -1342,6 +1342,38 @@ def edit_subunit(request, bu_id, lo_id, su_id):
 #############################################################################################################################
 
 @login_required(login_url='/core/login/')
+def del_locker(request, bu_id, lo_id):
+
+    try:
+        lo = Locker.objects.get(pk=lo_id)
+    except ObjectDoesNotExist:
+        return render(request, 'error.html', {'mess': 'объект не найден', 'back': 1})
+
+    if lo.parrent_id != int(bu_id):
+        return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 2})
+
+    if not request.user.has_perm("core.can_del"):
+        return render(request, 'denied.html', {'mess': 'insufficient access rights',
+                                               'back': 1,
+                                               'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/'
+                                               })
+
+    del_ok = True
+    if Cross.objects.filter(parrent=lo.id).exists() \
+    or Device.objects.filter(parrent=lo.id).exists() \
+    or Box.objects.filter(parrent=lo.id).exists() \
+    or Subunit.objects.filter(parrent=lo.id).exists() \
+    or Coupling.objects.filter(parrent=lo.id, parr_type=0).exists():
+        del_ok = False
+
+
+
+
+
+
+
+
+@login_required(login_url='/core/login/')
 def del_cross(request, bu_id, lo_id, cr_id):
 
     try:
@@ -1354,7 +1386,7 @@ def del_cross(request, bu_id, lo_id, cr_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3})
 
     if not request.user.has_perm("core.can_del"):
-        return render(request, 'denied.html', {'mess': 'нет прав для удаления',
+        return render(request, 'denied.html', {'mess': 'insufficient access rights',
                                                'back': 1,
                                                'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/'
                                                })
@@ -1385,7 +1417,7 @@ def del_dev(request, bu_id, lo_id, dev_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3})
 
     if not request.user.has_perm("core.can_del"):
-        return render(request, 'denied.html', {'mess': 'нет прав для удаления',
+        return render(request, 'denied.html', {'mess': 'insufficient access rights',
                                                'back': 1,
                                                'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/'
                                                })
@@ -1417,7 +1449,7 @@ def del_v_port(request, bu_id, lo_id, dev_id, v_p_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3})
 
     if not request.user.has_perm("core.can_del"):
-        return render(request, 'denied.html', {'mess': 'нет прав для удаления',
+        return render(request, 'denied.html', {'mess': 'insufficient access rights',
                                                'back': 1,
                                                'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/'
                                                })
@@ -1444,7 +1476,7 @@ def del_box(request, bu_id, lo_id, box_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3})
 
     if not request.user.has_perm("core.can_del"):
-        return render(request, 'denied.html', {'mess': 'нет прав для удаления',
+        return render(request, 'denied.html', {'mess': 'insufficient access rights',
                                                'back': 1,
                                                'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/'
                                                })
@@ -1475,7 +1507,7 @@ def del_subunit(request, bu_id, lo_id, su_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3})
 
     if not request.user.has_perm("core.can_del"):
-        return render(request, 'denied.html', {'mess': 'нет прав для удаления',
+        return render(request, 'denied.html', {'mess': 'insufficient access rights',
                                                'back': 1,
                                                'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/'
                                                })

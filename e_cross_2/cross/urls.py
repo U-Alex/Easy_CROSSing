@@ -26,6 +26,8 @@ urlpatterns = [
     re_path(r'^build=(?P<bu_id>[0-9]+)/locker=(?P<lo_id>[0-9]+)/dev=(?P<dev_id>[0-9]+)/l2=(?P<l2>[0-1]+)/$', views.show_dev, name='show_dev'),
     re_path(r'^build=(?P<bu_id>[0-9]+)/locker=(?P<lo_id>[0-9]+)/box=(?P<box_id>[0-9]+)/$', views.show_box, name='show_box'),
 
+    re_path(r'^build=(?P<bu_id>[0-9]+)/del_locker=(?P<lo_id>[0-9]+)/$', views_objects.del_locker, name='del_locker'),
+
     re_path(r'^build=(?P<bu_id>[0-9]+)/locker=(?P<lo_id>[0-9]+)/del_cross=(?P<cr_id>[0-9]+)/$', views_objects.del_cross, name='del_cross'),
     re_path(r'^build=(?P<bu_id>[0-9]+)/locker=(?P<lo_id>[0-9]+)/del_dev=(?P<dev_id>[0-9]+)/$', views_objects.del_dev, name='del_dev'),
     re_path(r'^build=(?P<bu_id>[0-9]+)/locker=(?P<lo_id>[0-9]+)/del_box=(?P<box_id>[0-9]+)/$', views_objects.del_box, name='del_box'),

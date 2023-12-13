@@ -48,17 +48,17 @@
             <td><a style="color:black" href="/cross/build={{ bu.id }}/locker={{ ob.id }}/racks/">{{ ob.name_type }}</a></td>
             <td align="center">
             {% if ob.coord_x > 30 and ob.coord_y > 30 %}
-                <a href="/find/map/?coord={{ ob.coord_x }},{{ ob.coord_y }}" target="_blank"><img src="/static/images/selector-search.gif" alt="map" title="найти на карте" width="15" height="15"></a>
+                <a href="/find/map/?coord={{ ob.coord_x }},{{ ob.coord_y }}" target="_blank"><img src="/static/images/selector-search.gif" alt="M" title="найти на карте" width="15" height="15"></a>
             {% else %}
-                <a href="/find/map/" target="_blank"><img src="/static/img/icon_error.gif" alt="no_coord" title="не внесены координаты" width="15" height="15"></a>
+                <a href="/find/map/" target="_blank"><img src="/static/img/icon_error.gif" alt="X" title="не внесены координаты" width="15" height="15"></a>
             {% endif %}
             {% if ob.coup %}
-                <a href="/cable/coup={{ ob.coup.id }}/" target="_blank"><img src="/static/images/mufta.png" alt="M" title="просмотр муфты" width="16" height="16"></a>
+                <a href="/cable/coup={{ ob.coup.id }}/" target="_blank"><img src="/static/images/mufta.png" alt="C" title="просмотр муфты" width="16" height="16"></a>
             {% else %}
                 <img src="/static/images/blank.png" alt="" title="" width="15" height="15">
             {% endif %}
-                <a href="../locker={{ ob.id }}/edit"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="16" height="16"></a>
-                <a href="../locker={{ ob.id }}/energy"><img src="/static/images/shut_{{ ob.en_model }}.png" alt="ред." title="электроэнергия" width="15" height="15"></a>
+                <a href="../locker={{ ob.id }}/edit"><img src="/static/images/edit.png" alt="Р" title="редактирование" width="16" height="16"></a>
+                <a href="../locker={{ ob.id }}/energy"><img src="/static/images/shut_{{ ob.en_model }}.png" alt="Э" title="электроэнергия" width="15" height="15"></a>
             </td>
             <td style="background-color: {{ ob.status2.0 }}" align="center">{{ ob.status2.1.1 }}</td>
             {% if ob.date_ent|date:"d.m.Y" != "" %}<!-- != "01.01.2009"-->
@@ -71,7 +71,7 @@
             <td align="center">{{ ob.cab_door }}&nbsp{% if ob.cab_door == 'в ключнице' %}{{ ob.cab_key }}{% endif %}</td>
             <td>{{ ob.prim }}</td>
             <td>{{ ob.object_owner }}</td>
-            <td class="tone2" align="center"><a href="/core/logs/t=1/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
+            <td class="tone2" align="center"><a href="/core/logs/t=1/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="?" title="история операций" height="14"></a></td>
         </tr>
     {% endfor %}
         <tr class="t_footer">
@@ -119,8 +119,8 @@
             </td>
             <td>{{ ob.prim }}</td>
             <td>{{ ob.object_owner }}</td>
-            <td align="center"><a href="del_cross={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" width="12" height="12"></a></td>
-            <td class="tone2" align="center"><a href="/core/logs/t=2/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
+            <td align="center"><a href="del_cross={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" height="12"></a></td>
+            <td class="tone2" align="center"><a href="/core/logs/t=2/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="?" title="история операций" height="14"></a></td>
         </tr>
     {% endfor %}
         <tr class="t_footer">
@@ -178,13 +178,13 @@
             <td>{{ ob.prim }}</td>
             <td>{{ ob.object_owner }}</td>
             <td align="center">
-                <a href="/statist/agr_to_abon={{ ob.id }}" target="_blank"><img src="/static/images/eq_inf.png" alt="i" title="абоненты" width="20" height="14"></a>
+                <a href="/statist/agr_to_abon={{ ob.id }}" target="_blank"><img src="/static/images/icon_team2.png" alt="i" title="абоненты" height="14"></a>
             </td>
             <td align="center">
-                <a href="del_dev={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" width="12" height="12"></a>
+                <a href="del_dev={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" height="12"></a>
             </td>
             <td class="tone2" align="center">
-                <a href="/core/logs/t=3/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a>
+                <a href="/core/logs/t=3/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="?" title="история операций" height="14"></a>
             </td>
         </tr>
     {% endfor %}
@@ -241,8 +241,8 @@
             <td align="center">{{ ob.floor }}</td>
             <td>{{ ob.serv_area }}</td>
             <td>{{ ob.prim }}</td>
-            <td align="center"><a href="del_box={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" width="12" height="12"></a></td>
-            <td class="tone2" align="center"><a href="/core/logs/t=4/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
+            <td align="center"><a href="del_box={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" height="12"></a></td>
+            <td class="tone2" align="center"><a href="/core/logs/t=4/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="?" title="история операций" height="14"></a></td>
         </tr>
     {% endfor %}
         <tr class="t_footer">
@@ -296,8 +296,8 @@
             <td align="center">{{ ob.floor }}</td>
             <td>{{ ob.prim }}</td>
             <td>{{ ob.object_owner }}</td>
-            <td align="center"><a href="del_subunit={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" width="12" height="12"></a></td>
-            <td class="tone2" align="center"><a href="/core/logs/t=13/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
+            <td align="center"><a href="del_subunit={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" height="12"></a></td>
+            <td class="tone2" align="center"><a href="/core/logs/t=13/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="?" title="история операций" height="14"></a></td>
         </tr>
     {% endfor %}
         <tr class="t_footer">

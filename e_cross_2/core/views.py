@@ -23,7 +23,7 @@ from cross.models import Cross_ports, Device_ports, Device_ports_v, Box_ports
 from core.models import Templ_box_cable
 from cable.models import Coupling, Coupling_ports
 
-from .forms import n_kvar_Form, n_str_Form, n_bu_Form, sprav_upr_Form
+from .forms import sprav_upr_Form#, n_kvar_Form, n_str_Form, n_bu_Form
 from .forms import switch_agr_Form
 
 from core.shared_def import to_his
@@ -109,7 +109,7 @@ def service_clean_his(request):
     return HttpResponseRedirect('/core/service/')
 
 ####################################################################################################
-
+"""
 @login_required(login_url='/core/login/')
 def new_kvar(request):
 
@@ -180,7 +180,7 @@ def new_bu(request):
     form = n_bu_Form(initial={'street': sel_str})
 
     return render(request, 'serv_new_obj.html', {'form': form, 'mess': mess, 'new_bu': True})
-
+"""
 ####################################################################################################
 
 @login_required(login_url='/core/login/')

@@ -1,0 +1,91 @@
+{% extends 'main.html' %}
+
+{% block service %}
+
+    <table class="t_header1">
+        <tr>
+            <td width="620px">
+                <h3>&nbspдобавление / удаление объектов</h3>
+            </td>
+            <td width="400px" align="right">&nbsp</td>
+        </tr>
+    </table>
+
+    <p style="color:red"><b>в разработке</b></p>
+
+<div align="right" style="width:800px;">
+    <form method="post" action="/core/o_manager/">
+    {% csrf_token %}
+    {{ forms_add.0 }}
+    <input type="submit" name="form1" value="добавить">
+    </form>
+
+    <form method="post" action="/core/o_manager/">
+    {% csrf_token %}
+    {{ forms_add.1 }}
+    <input type="submit" name="form2" value="добавить">
+    </form>
+
+    <form method="post" action="/core/o_manager/">
+    {% csrf_token %}
+    {{ forms_add.2 }}
+    <input type="submit" name="form3" value="добавить">
+    </form>
+
+    <br>
+
+    <form method="post" action="/core/o_manager/">
+    {% csrf_token %}
+    {{ forms_del.0 }}
+    <input type="submit" name="form4" value="удалить">
+    </form>
+
+    <form method="post" action="/core/o_manager/">
+    {% csrf_token %}
+    {{ forms_del.1 }}
+    <input type="submit" name="form5" value="удалить">
+    </form>
+
+    <form method="post" action="/core/o_manager/">
+    {% csrf_token %}
+    {{ forms_del.2 }}
+    <input type="submit" name="form6" value="удалить">
+    </form>
+
+</div>
+
+    <br>
+    <div style="width:400px; border: 1px solid #000;">{% if mess  %}{{ mess }}{% endif %}</div>
+    <br>
+
+<div>
+    <details>
+        <summary>здания - дубликаты</summary>
+        <table border="1">
+            <tr class="t_header1">
+                <td width="260px" align="center">адрес</td>
+                <td width="90px" align="center">связанный id</td>
+            </tr>
+            {% for ob in bu_list %}
+            <tr>
+                <td align="center"><a href="/cross/build={{ ob.id }}/" target="_blank">{{ ob.name }} {{ ob.house_num }}</a></td>
+                <td align="center">{{ ob.double_id }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </details>
+</div>
+        
+    <br>
+    <table class="t_footer">
+        <tr>
+            <td width="620px" align="left">&nbsp</td>
+            <td width="400px" align="right">
+                <input type="button" value="отмена" onClick='location.href="/core/service/"'>&nbsp
+            </td>
+        </tr>
+    </table>
+        
+
+{% endblock %}
+

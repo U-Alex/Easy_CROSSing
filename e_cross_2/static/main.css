@@ -49,7 +49,9 @@ body {
     padding: 0 10px;
 }
 .header .header_logo a {
-    font-family: "SimplerMrnUp";
+    /* font-family: "SimplerMrnUp"; */
+    font-family: "Montserrat";
+    /* font-family: "Duo_quadruple"; */
     color: #ffff00;
     font-size: 26px;
 }
@@ -358,5 +360,7 @@ tr.tr_hover:hover > td {
     justify-content: center;
 }
 
-
+.int_field {
+  width: 5em;
+}
 

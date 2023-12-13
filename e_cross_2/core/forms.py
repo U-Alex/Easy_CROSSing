@@ -3,12 +3,66 @@
 from django import forms
 from django.forms import ModelForm
 from .models import manage_comp
-from cross.models import Street
+from cross.models import Kvartal, Street, Building, Locker
 from .models import Templ_locker, Templ_cross, Templ_device, Templ_box, Templ_box_cable, Templ_subunit
-from cable.models import Templ_cable, Templ_coupling
+from cable.models import Templ_cable, Templ_coupling, PW_cont, Coupling
 
 ####################################################################################################
+class add_kv_Form(forms.Form):
+    kv = forms.CharField(label='квартал', max_length=28, widget=forms.TextInput(attrs={'size': 28}))
 
+class del_kv_Form(forms.Form):
+    kv = forms.ChoiceField(label='квартал', widget=forms.Select, choices=[])
+
+    def __init__(self, *args, **kwargs):
+        super(del_kv_Form, self).__init__(*args, **kwargs)
+        qs1 = Building.objects.values_list('kvar', flat=True)
+        qs2 = PW_cont.objects.values_list('parrent_id', flat=True)
+        qs = set(qs1).union(set(qs2))
+        result = Kvartal.objects.exclude(pk=1).exclude(pk__in=qs)\
+                        .values_list('id', 'name').order_by('name')
+        self.fields['kv'].choices = result
+
+class add_st_Form(forms.Form):
+    st = forms.CharField(label='улица', max_length=28, widget=forms.TextInput(attrs={'size': 28}))
+
+class del_st_Form(forms.Form):
+    st = forms.ChoiceField(label='улица', widget=forms.Select, choices=[])
+
+    def __init__(self, *args, **kwargs):
+        super(del_st_Form, self).__init__(*args, **kwargs)
+        qs = set(Building.objects.values_list('parrent_id', flat=True))
+        result = Street.objects.exclude(pk=1).exclude(pk__in=qs)\
+                        .values_list('id', 'name').order_by('name')
+        self.fields['st'].choices = result
+
+class add_bu_Form(forms.Form):
+    street = forms.ChoiceField(label='улица', widget=forms.Select, choices=[])
+    h_num = forms.CharField(label='№', max_length=6, widget=forms.TextInput(attrs={'size': 5}))
+    double = forms.BooleanField(label='дубликат', required=False)
+    double_id = forms.IntegerField(label='id здания для привязки', min_value=0, required=False,
+                                   widget=forms.NumberInput(attrs={'class': 'int_field'}))
+    def __init__(self, *args, **kwargs):
+        super(add_bu_Form, self).__init__(*args, **kwargs)
+        self.fields['street'].choices = Street.objects.exclude(pk=1).values_list('id', 'name').order_by('name')
+
+class del_bu_Form(forms.Form):
+    bu = forms.ChoiceField(label='здание', widget=forms.Select, choices=[])
+
+    def __init__(self, *args, **kwargs):
+        super(del_bu_Form, self).__init__(*args, **kwargs)
+        qs1 = Locker.objects.values_list('parrent_id', flat=True)
+        qs2 = Coupling.objects.filter(parr_type=1).values_list('parrent', flat=True)
+        qs = set(qs1).union(set(qs2))
+        qs3 = Building.objects.exclude(pk__in=qs)\
+                        .values('id', 'name', 'house_num', 'double_id').order_by('name', 'house_num')
+        result = []
+        for ob in qs3:
+            result.append((ob['id'], f"{ob['name']} {ob['house_num']}{' (дубликат)' if ob['double_id'] else ''}"))
+        self.fields['bu'].choices = result
+
+####################################################################################################
+"""
 class n_kvar_Form(forms.Form):
     n_kvar = forms.CharField(label='квартал', max_length=28, widget=forms.TextInput(attrs={'size': 28}))
 
@@ -22,6 +76,7 @@ class n_bu_Form(forms.Form):
     def __init__(self, *args, **kwargs):
         super(n_bu_Form, self).__init__(*args, **kwargs)
         self.fields['street'].choices = Street.objects.values_list('id', 'name').order_by('name')
+"""
 
 class sprav_upr_Form(ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'size': 141}))
@@ -111,3 +166,4 @@ class templ_su_Form(ModelForm):
 class upl_Form(forms.Form):
     #title = forms.CharField(max_length=50)
     file = forms.FileField()
+

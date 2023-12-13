@@ -61,8 +61,8 @@ class edit_lo_Form(new_locker_Form):#(forms.Form):
     coord = forms.CharField(label='координаты', max_length=32, required=False, widget=forms.TextInput(attrs={'size': 54}))
     racks = forms.CharField(label='стойки, ёмкость', max_length=190, required=False, widget=forms.TextInput(attrs={'size': 54}))
     cab_door = forms.ChoiceField(label='ключи от УД', required=False, widget=forms.Select, choices=[])
-    cab_key1 = forms.IntegerField(label='', required=False, min_value=1, max_value=3, widget=forms.NumberInput(attrs={'id': 'dva'}))
-    cab_key2 = forms.IntegerField(label='', required=False, min_value=1, max_value=96, widget=forms.NumberInput(attrs={'id': 'dva'}))
+    cab_key1 = forms.IntegerField(label='', required=False, min_value=1, max_value=3, widget=forms.NumberInput(attrs={'class': 'int_field'}))
+    cab_key2 = forms.IntegerField(label='', required=False, min_value=1, max_value=96, widget=forms.NumberInput(attrs={'class': 'int_field'}))
     object_owner = forms.CharField(label='владелец', max_length=60, required=False, widget=forms.TextInput(attrs={'size': 20}))
     object_owner_list = forms.ChoiceField(label='владелец', required=False, widget=forms.Select, choices=[])
 

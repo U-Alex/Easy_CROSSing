@@ -30,12 +30,12 @@ from core.e_config import conf
 def show_build(request, bu_id):
     
     upd_visit(request.user, 'sh_bu')
-    bu_double = ''
+    bu_double = False
     try:
         bu = Building.objects.get(pk=bu_id)
         kv = Kvartal.objects.get(pk=bu.kvar)
-    except ObjectDoesNotExist:
-        return render(request, 'error.html', {'mess': 'объект не найден', 'back': 1})
+    except ObjectDoesNotExist as error:
+        return render(request, 'error.html', {'mess': f'объект не найден ({error})', 'back': 1})
     
     locker_list = Locker.objects.filter(parrent_id=bu_id).values().order_by('-agr', 'name')
     
@@ -48,10 +48,15 @@ def show_build(request, bu_id):
             except ObjectDoesNotExist:
                 ob['coup'] = False
     
-    if bu.double:
-        d_list = bu.double_list.split(',')
-        bu_double = Building.objects.filter(pk__in=d_list)
-    
+    # if bu.double:
+    #     d_list = bu.double_list.split(',')
+    #     bu_double = Building.objects.filter(pk__in=d_list)
+    try:
+        if bu.double_id != 0:
+            bu_double = Building.objects.get(pk=bu.double_id)
+    except ObjectDoesNotExist:
+        pass
+
     try:
         upr_comp = manage_comp.objects.get(pk=bu.info_comp)
     except ObjectDoesNotExist:
@@ -103,8 +108,8 @@ def show_locker(request, bu_id, lo_id):
         bu = Building.objects.get(pk=bu_id)
         kv = Kvartal.objects.get(pk=bu.kvar)
         lo = Locker.objects.get(pk=lo_id)
-    except ObjectDoesNotExist:
-        return render(request, 'error.html', {'mess': 'объект не найден', 'back': 3})
+    except ObjectDoesNotExist as error:
+        return render(request, 'error.html', {'mess': f'объект не найден ({error})', 'back': 3})
 
     if lo.parrent_id != int(bu_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3})
@@ -229,8 +234,8 @@ def show_cr(request, bu_id, lo_id, cr_id):
         lo = Locker.objects.get(pk=lo_id)
         kv = Kvartal.objects.get(pk=lo.parrent.kvar)
         cr = Cross.objects.get(pk=cr_id)
-    except ObjectDoesNotExist:
-        return render(request, 'error.html', {'mess': 'объект не найден', 'back': 2})
+    except ObjectDoesNotExist as error:
+        return render(request, 'error.html', {'mess': f'объект не найден ({error})', 'back': 2})
     try:
         coup = Coupling.objects.get(parrent=lo_id, parr_type=0)
     except ObjectDoesNotExist:
@@ -344,8 +349,8 @@ def show_dev(request, bu_id, lo_id, dev_id, l2=0):
         lo = Locker.objects.get(pk=lo_id)
         kv = Kvartal.objects.get(pk=lo.parrent.kvar)
         dev = Device.objects.get(pk=dev_id)
-    except ObjectDoesNotExist:
-        return render(request, 'error.html', {'mess': 'объект не найден', 'back': 2+int(l2)})
+    except ObjectDoesNotExist as error:
+        return render(request, 'error.html', {'mess': f'объект не найден ({error})', 'back': 2+int(l2)})
 
     if lo.parrent_id != int(bu_id) or dev.parrent_id != int(lo_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3+int(l2)})
@@ -495,8 +500,8 @@ def show_dev_ips(request, bu_id, lo_id, dev_id):
         lo = Locker.objects.get(pk=lo_id)
         kv = Kvartal.objects.get(pk=lo.parrent.kvar)
         dev = Device.objects.get(pk=dev_id)
-    except ObjectDoesNotExist:
-        return render(request, 'error.html', {'mess': 'объект не найден', 'back': 2+1})
+    except ObjectDoesNotExist as error:
+        return render(request, 'error.html', {'mess': f'объект не найден ({error})', 'back': 2+1})
 
     if lo.parrent_id != int(bu_id) or dev.parrent_id != int(lo_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3+1})
@@ -618,8 +623,8 @@ def show_box(request, bu_id, lo_id, box_id):
         lo = Locker.objects.get(pk=lo_id)
         kv = Kvartal.objects.get(pk=lo.parrent.kvar)
         box = Box.objects.get(pk=box_id)
-    except ObjectDoesNotExist:
-        return render(request, 'error.html', {'mess': 'объект не найден', 'back': 2})
+    except ObjectDoesNotExist as error:
+        return render(request, 'error.html', {'mess': f'объект не найден ({error})', 'back': 2})
 
     if lo.parrent_id != int(bu_id) or box.parrent_id != int(lo_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3})
@@ -784,8 +789,9 @@ def show_racks(request, bu_id, lo_id):
         bu = Building.objects.get(pk=bu_id)
         kv = Kvartal.objects.get(pk=bu.kvar)
         lo = Locker.objects.get(pk=lo_id)
-    except ObjectDoesNotExist:
-        return render(request, 'error.html', {'mess': 'объект не найден', 'back': 2})
+    except ObjectDoesNotExist as error:
+        return render(request, 'error.html', {'mess': f'объект не найден ({error})', 'back': 2})
+
     if lo.parrent_id != int(bu_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 2})
     if lo.agr and not request.user.has_perm("core.can_sh_agr"):

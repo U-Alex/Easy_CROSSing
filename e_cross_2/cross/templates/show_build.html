@@ -17,10 +17,10 @@
 {% if bu_double %}
 
     <div width="1000px">
-        <h3>Внимание, данное строение отмечено как "дубликат"</h3>Ссылается на:<br>
-        {% for ob in bu_double %}
-            <a href="/cross/build={{ ob.id }}"><b>{{ ob.name }}&nbsp{{ ob.house_num }}</b></a><br>
-        {% endfor %}
+        <h3>Внимание, данное строение отмечено как "дубликат"</h3>
+        Ссылается на:<br>
+        <h3><a href="/cross/build={{ bu_double.id }}"><b>{{ bu_double.name }}&nbsp{{ bu_double.house_num }}</b></a></h3>
+        <br>
     </div>
     <br>
 {% endif %}
@@ -56,17 +56,17 @@
             <td><a style="color:black" href="/cross/build={{ bu.id }}/locker={{ ob.id }}/racks/">{{ ob.name_type }}</a></td>
             <td align="center">
             {% if ob.coord_x > 30 and ob.coord_y > 30 %}
-                <a href="/find/map/?coord={{ ob.coord_x }},{{ ob.coord_y }}" target="_blank"><img src="/static/images/selector-search.gif" alt="map" title="найти на карте" width="15" height="15"></a>
+                <a href="/find/map/?coord={{ ob.coord_x }},{{ ob.coord_y }}" target="_blank"><img src="/static/images/selector-search.gif" alt="М" title="найти на карте" width="15" height="15"></a>
             {% else %}
-                <a href="/find/map/" target="_blank"><img src="/static/img/icon_error.gif" alt="no_coord" title="не внесены координаты" width="15" height="15"></a>
+                <a href="/find/map/" target="_blank"><img src="/static/img/icon_error.gif" alt="X" title="не внесены координаты" width="15" height="15"></a>
             {% endif %}
             {% if ob.coup %}
-                <a href="/cable/coup={{ ob.coup.id }}/" target="_blank"><img src="/static/images/mufta.png" alt="M" title="просмотр муфты" width="16" height="16"></a>
+                <a href="/cable/coup={{ ob.coup.id }}/" target="_blank"><img src="/static/images/mufta.png" alt="С" title="просмотр муфты" width="16" height="16"></a>
             {% else %}
                 <img src="/static/images/blank.png" alt="" title="" width="15" height="15">
             {% endif %}
-                <a href="locker={{ ob.id }}/edit"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="16" height="16"></a>
-                <a href="locker={{ ob.id }}/energy"><img src="/static/images/shut_{{ ob.en_model }}.png" alt="ред." title="электроэнергия" width="15" height="15"></a>
+                <a href="locker={{ ob.id }}/edit"><img src="/static/images/edit.png" alt="Р" title="редактирование" width="16" height="16"></a>
+                <a href="locker={{ ob.id }}/energy"><img src="/static/images/shut_{{ ob.en_model }}.png" alt="Э" title="электроэнергия" width="15" height="15"></a>
             </td>
             <td style="background-color:{{ ob.status2.0 }}" align="center">{{ ob.status2.1.1 }}</td>
             {% if ob.date_ent|date:"d.m.Y" != "" %}
@@ -81,7 +81,7 @@
             </td>
             <td>{{ ob.prim }}</td>
             <td>{{ ob.object_owner }}</td>
-            <td class="tone2" align="center"><a href="/core/logs/t=1/id={{ ob.id }}"><img src="/static/images/icon-unknown.gif" alt="?" title="история операций" width="10" height="10"></a></td>
+            <td class="tone2" align="center"><a href="/core/logs/t=1/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="?" title="история операций" height="14"></a></td>
         </tr>
         {% endfor %}
         <tr class="t_footer">
