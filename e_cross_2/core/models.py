@@ -39,7 +39,7 @@ class History(models.Model):
     text = models.CharField(max_length=2560, blank=True)
 
     def __str__(self):
-        return 'id-'+str(self.id)+' | '+self.user+' | '+str(self.time_rec)+' | '+self.text
+        return f"{self.id} | {self.user} | {self.time_rec} | {self.text}"
 
 class engineer(models.Model):
     fio = models.CharField(max_length=20)
@@ -47,19 +47,19 @@ class engineer(models.Model):
     rent = models.BooleanField(default=False)
 
     def __str__(self):
-        return 'id-'+str(self.id)+' | lo '+str(int(self.lo))+' | rent '+str(int(self.rent))+' | '+self.fio
+        return f"{self.id} | lo: {int(self.lo)} | rent: {int(self.rent)} | {self.fio}"
 
 class COffice(models.Model):
     name = models.CharField(max_length=8)
 
     def __str__(self):
-        return 'id-'+str(self.id)+' | '+self.name
+        return f"{self.id} | {self.name}"
 
 class Device_type(models.Model):
     name = models.CharField(max_length=30)
 
     def __str__(self):
-        return 'id-'+str(self.id)+' | '+self.name
+        return f"{self.id} | {self.name}"
 
 class last_visit(models.Model):
     login = models.CharField(max_length=30)
@@ -68,7 +68,7 @@ class last_visit(models.Model):
     prim = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
-        return str(self.date_l_v)+' | '+self.login+' | '+self.fullname+' | >>>>>>  '+self.prim
+        return f"{self.date_l_v} | {self.login} | {self.fullname} | >>> {self.prim}"
 
 class firm(models.Model):
     name = models.CharField(max_length=20)
@@ -78,36 +78,33 @@ class firm(models.Model):
     rent = models.BooleanField(default=False)           #equipment
 
     def __str__(self):
-        ret = 'id-'+str(self.id)
-        ret += ' | lo '+str(int(self.lo))+' | obj '+str(int(self.obj))+' | coup '+str(int(self.coup))+' | rent '+str(int(self.rent))
-        ret += ' | '+self.name
-        return ret
+        return f"{self.id} | lo: {int(self.lo)} | obj: {int(self.obj)} | coup: {int(self.coup)} | rent: {int(self.rent)} | {self.name}"
 
 class manage_comp(models.Model):
     name = models.CharField(max_length=60)
     info = models.CharField(max_length=2048, blank=True)
 
     def __str__(self):
-        return 'id-'+str(self.id)+' | '+self.name+' | '+self.info
+        return f"{self.id} | {self.name} | {self.info}"
 
 class Energy_type(models.Model):
     name = models.CharField(max_length=30)
 
     def __str__(self):
-        return 'id-'+str(self.id)+' | '+self.name
+        return f"{str(self.id)} | {self.name}"
 
 class Subunit_type(models.Model):
     name = models.CharField(max_length=30)
 
     def __str__(self):
-        return 'id-'+str(self.id)+' | '+self.name
+        return f"{self.id} | {self.name}"
 
 class map_slot(models.Model):
     num = models.IntegerField(unique=True)
     name = models.CharField(max_length=16)
 
     def __str__(self):
-        return 'id-'+str(self.id)+' | '+str(self.num)+' | '+self.name
+        return f"{self.id} | {self.num} | {self.name}"
 
 ######################################
 
@@ -115,7 +112,7 @@ class Templ_locker(models.Model):
     name = models.CharField(max_length=30)
 
     def __str__(self):
-        return str(self.id)+' | '+self.name
+        return f"{self.id} | {self.name}"
 
 class Templ_cross(models.Model):
     name = models.CharField(max_length=30)
@@ -128,7 +125,7 @@ class Templ_cross(models.Model):
     units = models.IntegerField(default=1)
 
     def __str__(self):
-        return str(self.id)+' | '+self.name
+        return f"{self.id} | {self.name} | ports: {self.ports}"
 
 class Templ_device(models.Model):
     parrent = models.ForeignKey(Device_type, on_delete=models.PROTECT, default=1) ### на новой базе - default=0 (или без)
@@ -140,21 +137,21 @@ class Templ_device(models.Model):
     units = models.IntegerField(default=1)
 
     def __str__(self):
-        return str(self.id)+' | '+self.name+' || '+self.parrent.name
+        return f"{self.id} | {self.name} | ports: {self.ports} ⏩ {self.parrent}"
 
 class Templ_box(models.Model):
     name = models.CharField(max_length=20)
     units = models.IntegerField(default=1)
 
     def __str__(self):
-        return 'id-'+str(self.id)+' | '+self.name
+        return f"{self.id} | {self.name} | units: {self.units}"
 
 class Templ_subunit(models.Model):
     parrent = models.ForeignKey(Subunit_type, on_delete=models.PROTECT, default=1) ### на новой базе - default=0 (или без)
     name = models.CharField(max_length=30)
 
     def __str__(self):
-        return str(self.id)+' | '+self.name+' || '+self.parrent.name
+        return f"{self.id} | {self.name} ⏩ {self.parrent}"
 
 class Templ_box_cable(models.Model):
     name = models.CharField(max_length=30)
@@ -165,4 +162,6 @@ class Templ_box_cable(models.Model):
     color_cable = models.CharField(max_length=16, blank=True)
 
     def __str__(self):
-        return str(self.id)+' | '+self.name
+        return f"{self.id} | {self.name} | ports: {self.ports}"
+
+

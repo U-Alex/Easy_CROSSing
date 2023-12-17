@@ -44,10 +44,6 @@ urlpatterns = [
     re_path(r'^templ_coup=(?P<coup_id>[0-9]+)/$', views_templ.templ_coup, name='templ_coup'),
     re_path(r'^templ_coup_del=(?P<coup_id>[0-9]+)/$', views_templ.templ_coup_del, name='templ_coup_del'),
 
-    # re_path(r'^new_kvar/$', views.new_kvar, name='new_kvar'),
-    # re_path(r'^new_str/$', views.new_str, name='new_str'),
-    # re_path(r'^new_bu/$', views.new_bu, name='new_bu'),
-
     re_path(r'^sprav/$', views.sprav, name='sprav'),
     re_path(r'^sprav_upr=(?P<upr_id>[0-9]+)/$', views.sprav_upr, name='sprav_upr'),
     re_path(r'^sprav_upr_del=(?P<upr_id>[0-9]+)/$', views.sprav_upr_del, name='sprav_upr_del'),

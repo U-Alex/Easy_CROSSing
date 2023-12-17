@@ -8,22 +8,22 @@ class PW_cont(models.Model):
     parrent = models.ForeignKey(Kvartal, on_delete=models.PROTECT)
     name = models.CharField(max_length=30)
     obj_type = models.IntegerField(default=0)                               #1-опора, 2-колодец
-    object_owner = models.CharField(max_length=60, blank=True)              #владелец
+    object_owner = models.CharField(max_length=60, blank=True)
     rasp = models.CharField(max_length=200, blank=True)
     prim = models.CharField(max_length=200, blank=True)
     coord_x = models.FloatField(default=0)
     coord_y = models.FloatField(default=0)
 
     def __str__(self):
-        return 'id-'+str(self.id)+' | '+self.name+' | '+'kv-'+self.parrent.name
+        return f"{self.id} | {self.name} ⏩ {self.parrent}"
 
 class Coupling(models.Model):
     parrent = models.IntegerField(default=0)
     parr_type = models.IntegerField(default=0)                              #0-Locker, 1-Building, 2-PW_cont
     name = models.CharField(max_length=40)
     name_type = models.CharField(max_length=30)
-    object_owner = models.CharField(max_length=60, blank=True)              #владелец
-    installed = models.BooleanField(default=True)                           #установлена/запланирована
+    object_owner = models.CharField(max_length=60, blank=True)
+    installed = models.BooleanField(default=True)
     date_ent = models.DateField(null=True, blank=True)
     rasp = models.CharField(max_length=200, blank=True)
     prim = models.CharField(max_length=200, blank=True)
@@ -31,7 +31,7 @@ class Coupling(models.Model):
     coord_y = models.FloatField(default=0)
 
     def __str__(self):
-        return 'id-'+str(self.id)+' | '+self.name+' | '+self.name_type
+        return f"{self.id} | parr_type: {self.parr_type} | {self.name} | {self.name_type}"
 
 class Coupling_ports(models.Model):
     parrent = models.ForeignKey(Coupling, on_delete=models.CASCADE)
@@ -52,7 +52,7 @@ class Coupling_ports(models.Model):
     int_c_status = models.IntegerField(default=0)                           #0-разрыв, 1-транзит, 2-варка
 
     def __str__(self):
-        return 'id-'+str(self.id)+' | cab_num-'+str(self.cable_num)+' | fiber_num-'+str(self.fiber_num)+' | p_id-'+str(self.parrent_id)
+        return f"{self.id} | cab: {self.cable_num} | fib: {self.fiber_num} ⏩ {self.parrent}"
 
 ####################################################################################################
 
@@ -65,13 +65,13 @@ class Templ_cable(models.Model):
     fiber_colors_list = models.CharField(max_length=2048, blank=True)       #список цветов
 
     def __str__(self):
-        return 'id-'+str(self.id)+' | '+self.name
+        return f"{self.id} | {self.name} | capa: {self.capacity} | mod: {self.modules}"
 
 class Templ_coupling(models.Model):
     name = models.CharField(max_length=36)
 
     def __str__(self):
-        return 'id-'+str(self.id)+' | '+self.name
+        return f"{self.id} | {self.name}"
 
 ####################################################################################################
 
@@ -86,7 +86,7 @@ class links(models.Model):
     param = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
-        return 'id-'+str(self.id)+' || '+self.lineidid+' || '+self.linecncn+' || '+self.cabtype+' || '+self.cabcolor+' || '+self.path+' || '+self.param
+        return f"{self.id} | {self.lineidid} | {self.linecncn} | {self.cabtype} | {self.cabcolor} | {self.path} | {self.param}"
 
 class labels(models.Model):
     text = models.CharField(max_length=4096)
@@ -96,4 +96,4 @@ class labels(models.Model):
     param = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
-        return 'id-'+str(self.id)+' || '+self.text+' || '+self.pos+' || '+self.color1+' || '+self.color2+' || '+self.param
+        return f"{self.id} | {self.text} | {self.pos} | {self.color1} | {self.color2} | {self.param}"

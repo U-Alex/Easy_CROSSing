@@ -4,11 +4,8 @@ import datetime
 import re
 
 from django.contrib.auth.decorators import login_required
-#from django.contrib.auth.decorators import permission_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-#from django.db.models import Q
-#from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -16,23 +13,19 @@ from .models import Kvartal, Building, Locker, Cross, Device, Box, Subunit
 from .models import Cross_ports, Device_ports, Device_ports_v, Box_ports
 from core.models import Templ_locker, Templ_cross, Templ_device, Templ_box_cable, Templ_box, Templ_subunit
 from core.models import Device_type, Subunit_type, manage_comp
-from cable.models import Coupling
+from cable.models import Coupling, Coupling_ports
 
-#from .forms import find_Form_dev, find_Form_agr, find_Form_bu
 from .forms import new_locker_Form, new_cr_Form, new_dev_Form, new_box_Form, new_su_Form
 from .forms import new_dev_p_v_Form, edit_dev_p_v_Form
 from .forms import edit_bu_Form, edit_lo_Form
 from .forms import edit_cr_p_Form, edit_dev_p_Form, edit_box_p_Form
 from .forms import edit_cr_Form, edit_dev_Form, edit_box_Form
 from .forms import edit_subunit_Form
-#from app_proc.forms import app_find_Form
 
 from core.shared_def import to_his
 from core.e_config import conf
 
 ####################################################################################################
-####################################################################################################
-
 
 @login_required(login_url='/core/login/')
 def new_locker(request, bu_id):
@@ -165,10 +158,7 @@ def new_dev(request, bu_id, lo_id):
             ob['next_type'] = False
             #ob['count_type'] = False
 
-    return render(request, 'new_dev.html', {'form': form,
-                                            'lo': lo,
-                                            't_list': t_list,
-                                            })
+    return render(request, 'new_dev.html', {'form': form, 'lo': lo, 't_list': t_list})
 
 
 @login_required(login_url='/core/login/')
@@ -295,11 +285,7 @@ def new_su(request, bu_id, lo_id):
             ob['next_type'] = False
             ob['count_type'] = False
     
-    return render(request, 'new_su.html', {'form': form,
-                                           'lo': lo,
-                                           't_list': t_list,
-                                           })
-
+    return render(request, 'new_su.html', {'form': form, 'lo': lo, 't_list': t_list})
 
 ####################################################################################################
 
@@ -413,9 +399,7 @@ def edit_build(request, bu_id):
                                      'prim': bu.prim,
                                      })
 
-    return render(request, 'edit_bu.html', {'form': form,
-                                            'bu': bu,
-                                            })
+    return render(request, 'edit_bu.html', {'form': form, 'bu': bu})
 
 
 @login_required(login_url='/core/login/')
@@ -540,10 +524,7 @@ def edit_locker(request, bu_id, lo_id):
         form.fields['co'].disabled = 1
         form.fields['detached'].disabled = 1
 
-    return render(request, 'edit_lo.html', {'form': form,
-                                            'lo': lo,
-                                            'date2': date2,
-                                            })
+    return render(request, 'edit_lo.html', {'form': form, 'lo': lo, 'date2': date2})
 
 
 @login_required(login_url='/core/login/')
@@ -687,9 +668,7 @@ def edit_cr_p(request, bu_id, lo_id, cr_id, p_id):
                                        'status2': s_p.int_c_status,
                                        })
 
-    return render(request, 'edit_cr_p.html', {'form': form,
-                                              'port': s_p,
-                                              })
+    return render(request, 'edit_cr_p.html', {'form': form, 'port': s_p})
 
 
 @login_required(login_url='/core/login/')
@@ -867,9 +846,7 @@ def edit_dev_p(request, bu_id, lo_id, dev_id, p_id):
                                         'uplink': s_p.uplink,
                                         })
 
-    return render(request, 'edit_dev_p.html', {'form': form,
-                                               'port': s_p,
-                                               })
+    return render(request, 'edit_dev_p.html', {'form': form, 'port': s_p})
 
 
 @login_required(login_url='/core/login/')
@@ -1134,9 +1111,7 @@ def edit_box(request, bu_id, lo_id, box_id):
 
     form.fields['rack_num'].choices = rack_list
 
-    return render(request, 'edit_box.html', {'form': form,
-                                             'box': box,
-                                             })
+    return render(request, 'edit_box.html', {'form': form, 'box': box})
 
 
 @login_required(login_url='/core/login/')
@@ -1227,9 +1202,7 @@ def edit_box_p(request, bu_id, lo_id, box_id, p_id):
                                         'h_prim': s_p.his_ab_prim
                                         })
 
-    return render(request, 'edit_box_p.html', {'form': form,
-                                               'port': s_p,
-                                               })
+    return render(request, 'edit_box_p.html', {'form': form, 'port': s_p})
 
 
 @login_required(login_url='/core/login/')
@@ -1332,13 +1305,8 @@ def edit_subunit(request, bu_id, lo_id, su_id):
     
         form = edit_subunit_Form(initial=su_f)
     
-    return render(request, 'edit_subunit.html', {'form': form,
-                                                 'lo': lo,
-                                                 'su': su,
-                                                 })
+    return render(request, 'edit_subunit.html', {'form': form, 'lo': lo, 'su': su})
     
-
-#############################################################################################################################
 #############################################################################################################################
 
 @login_required(login_url='/core/login/')
@@ -1357,20 +1325,26 @@ def del_locker(request, bu_id, lo_id):
                                                'back': 1,
                                                'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/'
                                                })
-
     del_ok = True
     if Cross.objects.filter(parrent=lo.id).exists() \
     or Device.objects.filter(parrent=lo.id).exists() \
     or Box.objects.filter(parrent=lo.id).exists() \
-    or Subunit.objects.filter(parrent=lo.id).exists() \
-    or Coupling.objects.filter(parrent=lo.id, parr_type=0).exists():
+    or Subunit.objects.filter(parrent=lo.id).exists():
         del_ok = False
+    else:
+        coup = Coupling.objects.get(parrent=lo.id, parr_type=0)
+        if Coupling_ports.objects.filter(parrent_id=coup.id).exists():
+            del_ok = False
 
+    if request.method == 'POST' and del_ok:
+        to_his([request.user, 0, bu_id, 13, 0, 'coup_name: '+coup.name])
+        to_his([request.user, 0, bu_id, 13, 0, 'lo_name: '+lo.name])
+        coup.delete()
+        lo.delete()
 
+        return HttpResponseRedirect('../')
 
-
-
-
+    return render(request, 'del.html', {'lo': lo, 'del_ok': del_ok})
 
 
 @login_required(login_url='/core/login/')
@@ -1399,9 +1373,7 @@ def del_cross(request, bu_id, lo_id, cr_id):
 
         return HttpResponseRedirect(request.get_full_path()+'../')
 
-    return render(request, 'del.html', {'cr': cr,
-                                        'del_ok': del_ok,
-                                        })
+    return render(request, 'del.html', {'cr': cr, 'del_ok': del_ok})
 
 
 @login_required(login_url='/core/login/')
@@ -1430,9 +1402,7 @@ def del_dev(request, bu_id, lo_id, dev_id):
 
         return HttpResponseRedirect(request.get_full_path()+'../')
 
-    return render(request, 'del.html', {'dev': dev,
-                                        'del_ok': del_ok,
-                                        })
+    return render(request, 'del.html', {'dev': dev, 'del_ok': del_ok})
 
 
 @login_required(login_url='/core/login/')
@@ -1489,9 +1459,7 @@ def del_box(request, bu_id, lo_id, box_id):
 
         return HttpResponseRedirect(request.get_full_path()+'../')
 
-    return render(request, 'del.html', {'box': box,
-                                        'del_ok': del_ok,
-                                        })
+    return render(request, 'del.html', {'box': box, 'del_ok': del_ok})
 
 
 @login_required(login_url='/core/login/')
@@ -1520,9 +1488,6 @@ def del_subunit(request, bu_id, lo_id, su_id):
 
         return HttpResponseRedirect(request.get_full_path()+'../')
 
-    return render(request, 'del.html', {'su': su,
-                                        'del_ok': del_ok,
-                                        })
-
+    return render(request, 'del.html', {'su': su, 'del_ok': del_ok})
 
 ####################################################################################################

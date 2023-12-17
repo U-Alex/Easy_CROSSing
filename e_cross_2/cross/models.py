@@ -10,23 +10,21 @@ class Kvartal(models.Model):
     name = models.CharField(max_length=30)
 
     def __str__(self):
-        return str(self.id)+' | '+self.name
+        return f"{self.id} | {self.name}"
 
 class Street(models.Model):
     parrent = models.IntegerField(default=0)
     name = models.CharField(max_length=30)
 
     def __str__(self):
-        return self.name#'id-'+str(self.id)+' | '+self.name
+        return self.name
 
 class Building(models.Model):
     parrent = models.ForeignKey(Street, on_delete=models.PROTECT)
     name = models.CharField(max_length=30, blank=True)
     house_num = models.CharField(max_length=10)
     kvar = models.IntegerField(default=1)
-    #double = models.BooleanField(default=False) ###
     double_id = models.IntegerField(default=0)
-    #double_list = models.CharField(max_length=30, blank=True)   ###
 
     info_comp = models.IntegerField(default=1)                          # УК/ТСЖ/ЖСК   kpp.manage_comp
     info_cont = models.CharField(max_length=2048, blank=True)           # Контактная информация уполномоченного представителя собственников
@@ -41,7 +39,7 @@ class Building(models.Model):
     prim = models.CharField(max_length=1024, blank=True)                # Примечание
 
     def __str__(self):
-        return str(self.id)+' | '+self.name+' '+self.house_num
+        return f"{self.id} | {self.name} {self.house_num} ⏩ {self.parrent}"
 
 class Locker(models.Model):
     parrent = models.ForeignKey(Building, on_delete=models.PROTECT)
@@ -49,7 +47,7 @@ class Locker(models.Model):
     name_type = models.CharField(max_length=30)
     con_type = models.IntegerField()
     agr = models.BooleanField(default=False)
-#    obj_type = models.ForeignKey(Templ_locker, on_delete=models.PROTECT, default=1) ### на новой базе - default=0 (или без))
+#    obj_type = models.ForeignKey(Templ_locker, on_delete=models.PROTECT, default=1)
     detached = models.BooleanField(default=False)
     co = models.CharField(max_length=10)
     status = models.IntegerField(default=0)
@@ -71,8 +69,7 @@ class Locker(models.Model):
     en_meter = models.CharField(max_length=30, default=',')
 
     def __str__(self):
-        #return str(self.id)+' | '+self.name+' || '+str(self.parrent)
-        return f"{str(self.id)} | {self.name} ⏩ {str(self.parrent)}"
+        return f"{self.id} | {self.name} ⏩ {self.parrent}"
 
 class Cross(models.Model):
     parrent = models.ForeignKey(Locker, on_delete=models.PROTECT)
@@ -88,7 +85,7 @@ class Cross(models.Model):
     object_owner = models.CharField(max_length=60, blank=True)
 
     def __str__(self):
-        return str(self.id)+' | '+self.name+' | type-'+str(self.name_type)
+        return f"{self.id} | {self.name} || {self.name_type} ⏩ {self.parrent.name}"
 
 class Device(models.Model):
     parrent = models.ForeignKey(Locker, on_delete=models.PROTECT)
@@ -111,7 +108,7 @@ class Device(models.Model):
     object_owner = models.CharField(max_length=60, blank=True)
 
     def __str__(self):
-        return f"{str(self.id)} | {self.name} || {self.obj_type.name} ⏩ {str(self.parrent.name)}"
+        return f"{self.id} | {self.name} || {self.obj_type.name} ⏩ {self.parrent.name}"
 
 class Box(models.Model):
     parrent = models.ForeignKey(Locker, on_delete=models.PROTECT)
@@ -128,7 +125,7 @@ class Box(models.Model):
     rack_pos = models.PositiveSmallIntegerField(default=0)
 
     def __str__(self):
-        return str(self.id)+' | '+self.name+'-'+self.num+' | '+self.name_type+' || locker-'+str(self.parrent)
+        return f"{self.id} | {self.name}-{self.num} || {self.name_type} ⏩ {self.parrent.name}"
 
 class Subunit(models.Model):
     parrent = models.ForeignKey(Locker, on_delete=models.PROTECT)
@@ -150,7 +147,7 @@ class Subunit(models.Model):
     box_p_id = models.IntegerField(default=0)
     
     def __str__(self):
-        return str(self.id)+' | '+self.name+' || locker-'+str(self.parrent)
+        return f"{self.id} | {self.name} ⏩ {self.parrent.name}"
 
 ####################################################################################################
 
@@ -170,7 +167,7 @@ class Cross_ports(models.Model):
     cab_p_id = models.IntegerField(default=0)           #для модуля cable
 
     def __str__(self):
-        return str(self.id)+' | p-'+str(self.num)+' || cr-'+str(self.parrent.name)+' || '+str(self.parrent.parrent)
+        return f"{self.id} | p: {self.num} ⏩ {self.parrent}"
 
 class Device_ports(models.Model):
     parrent = models.ForeignKey(Device, on_delete=models.CASCADE)
@@ -198,7 +195,7 @@ class Device_ports(models.Model):
     trunk = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.id)+' | p-'+str(self.num)+' || dev-'+str(self.parrent)+' || '+str(self.parrent.parrent)
+        return f"{self.id} | p: {self.num} | {self.p_alias} ⏩ {self.parrent}"
 
 class Device_ports_v(models.Model):
     parrent = models.ForeignKey(Device, on_delete=models.CASCADE)
@@ -210,6 +207,9 @@ class Device_ports_v(models.Model):
     ip = models.CharField(max_length=128, blank=True)
     shut = models.BooleanField(default=False)
     desc = models.CharField(max_length=30, blank=True)
+
+    def __str__(self):
+        return f"{self.id} | p: {self.p_alias} ⏩ {self.parrent}"
 
 class Box_ports(models.Model):
     parrent = models.ForeignKey(Box, on_delete=models.CASCADE)
@@ -238,7 +238,7 @@ class Box_ports(models.Model):
     date_del = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
-        return str(self.id)+' || box-'+str(self.parrent.name)+'-'+str(self.parrent.num)+'-'+self.p_alias+' || '+str(self.parrent.parrent)
+        return f"{self.id} | box: {self.parrent.name}-{self.parrent.num}-{self.p_alias} ⏩ {self.parrent}"
 
 ####################################################################################################
 

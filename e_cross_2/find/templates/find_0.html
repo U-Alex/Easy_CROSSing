@@ -1,8 +1,9 @@
 {% extends 'main.html' %}
 
 {% block find %}
+<link rel="stylesheet" type="text/css" href="/static/find.css">
 
-<section class="link_list">
+<section class="main_link_list">
     <div class="link_item_left"></div>
     <div class="link_item">
         <a href="/find/map/">
@@ -20,7 +21,7 @@
         </a>
     </div>
     <div class="link_item">
-        <a href="">
+        <a href="/rent">
             <img src="/static/images/_rent2.png" alt="" title="Аренда оборудования">
         </a>
     </div>
@@ -37,35 +38,40 @@
     <div class="link_item_right"></div>
 </section>
 
-<section class="form_list">
-    <form class="form_block t_header1" method="post" action="/find/find_bu">
+<section class="find_list">
+    <form class="find_block t_header1" method="post" action="/find/find_bu/">
         {% csrf_token %}
         <img src="/static/images/SKS2.png" alt="" title="здания">
-        <div class="form_item">{{ form1.street }}{{ form1.house_num }}</div>
-        <input class="form_button" type="submit" value="&#9660;&#9660;&#9660;">
+        <div class="find_item">{{ form1.street }}{{ form1.house_num }}</div>
+        <input class="find_button" type="submit" value="&#9660;&#9660;&#9660;">
     </form>
-    <form class="form_block t_header1" method="post" action="/find/find_agr">
+    <form class="find_block t_header1" method="post" action="/find/find_agr/">
         {% csrf_token %}
         <img src="/static/images/stat3.png" alt="" title="агрегации">
-        <div class="form_item">{{ form4.co }}</div>
-        <input class="form_button" type="submit" value="&#9660;&#9660;&#9660;">
+        <div class="find_item">{{ form4.co }}</div>
+        <input class="find_button" type="submit" value="&#9660;&#9660;&#9660;">
     </form>
-    <form class="form_block t_header1" method="post" action="/app/status%3D0/app_find/">
+    <form class="find_block t_header1" method="post" action="/app/status%3D0/app_find/">
         {% csrf_token %}
         <img src="/static/images/_find.png" alt="" title="договор / ордер">
-        <div class="form_item">{{ form2.dog }}</div>
-        <input class="form_button" type="submit" value="&#9660;&#9660;&#9660;">
+        <div class="find_item">{{ form2.dog }}</div>
+        <input class="find_button" type="submit" value="&#9660;&#9660;&#9660;">
     </form>
-    <form class="form_block t_header1" id="dev" method="post" action="/find/find_dev=0/">
+    <form class="find_block t_header1" id="dev" method="post" action="/find/find_dev=0/">
         {% csrf_token %}
         <img src="/static/images/_logs2.png" alt="" title="">
-        <div class="form_item2" {% if ok_dev == False %} style="background-color:#ff7575" {% endif %}>
-            <div class="item_elem"><label id="lab_1">&nbsp{{ form3.dev_ip.label }}&nbsp&#9654;&nbsp</label>{{ form3.dev_ip }}</div>
-            <div class="item_elem"><label id="lab_2">&nbsp{{ form3.dev_mac.label }}&nbsp&#9654;&nbsp</label>{{ form3.dev_mac }}</div>
-            <div class="item_elem"><label id="lab_3">&nbsp{{ form3.dev_sn.label }}&nbsp&#9654;&nbsp</label>{{ form3.dev_sn }}</div>
-            <div class="item_elem"><label id="lab_4">&nbsp{{ form3.dev_vlan.label }}&nbsp&#9654;&nbsp</label>{{ form3.dev_vlan }}</div>
+        <!-- <div class="find_item2" {% if ok_dev == False %} style="background-color:#ff7575" {% endif %}> -->
+        <div class="find_item2 {% if ok_dev == False %}tone_error{% endif %}" id="f3">
+            <div class="item_elem"><label>{{ form3.dev_ip.label }} &#9654; </label>{{ form3.dev_ip }}</div>
+            <div class="item_elem"><label>{{ form3.dev_mac.label }} &#9654; </label>{{ form3.dev_mac }}</div>
+            <div class="item_elem"><label>{{ form3.dev_sn.label }} &#9654; </label>{{ form3.dev_sn }}</div>
+            <div class="item_elem"><label>{{ form3.dev_vlan.label }} &#9654; </label>{{ form3.dev_vlan }}</div>
+            <!-- <div class="item_elem"><label id="lab_1" class="color_link1">{{ form3.dev_ip.label }} &#9654; </label>{{ form3.dev_ip }}</div>
+            <div class="item_elem"><label id="lab_2" class="color_link1">{{ form3.dev_mac.label }} &#9654; </label>{{ form3.dev_mac }}</div>
+            <div class="item_elem"><label id="lab_3" class="color_link1">{{ form3.dev_sn.label }} &#9654; </label>{{ form3.dev_sn }}</div>
+            <div class="item_elem"><label id="lab_4" class="color_link1">{{ form3.dev_vlan.label }} &#9654; </label>{{ form3.dev_vlan }}</div> -->
         </div>
-        <input class="form_button" type="submit" value="&#9660;&#9660;&#9660;">
+        <input class="find_button" type="submit" value="&#9660;&#9660;&#9660;">
     </form>
 </section> 
 
@@ -75,34 +81,38 @@
 
 id_dev_ip.addEventListener('focus', function(){
     document.getElementById("dev").action = "/find/find_dev=1/";
-    document.getElementById("lab_1").style = "color: blue; font-weight: bold;"
-    document.getElementById("lab_2").style = "color: #333; font-weight: normal;"
-    document.getElementById("lab_3").style = "color: #333; font-weight: normal;"
-    document.getElementById("lab_4").style = "color: #333; font-weight: normal;"
+    document.getElementById("f3").className = "find_item2";
+    // document.getElementById("lab_1").className = "color_link2";
+    // document.getElementById("lab_2").className = "color_link1";
+    // document.getElementById("lab_3").className = "color_link1";
+    // document.getElementById("lab_4").className = "color_link1";
 }, false);
 
 id_dev_mac.addEventListener('focus', function(){
     document.getElementById("dev").action = "/find/find_dev=2/";
-    document.getElementById("lab_1").style = "color: #333; font-weight: normal;"
-    document.getElementById("lab_2").style = "color: blue; font-weight: bold;"
-    document.getElementById("lab_3").style = "color: #333; font-weight: normal;"
-    document.getElementById("lab_4").style = "color: #333; font-weight: normal;"
+    document.getElementById("f3").className = "find_item2";
+    // document.getElementById("lab_1").className = "color_link1";
+    // document.getElementById("lab_2").className = "color_link2";
+    // document.getElementById("lab_3").className = "color_link1";
+    // document.getElementById("lab_4").className = "color_link1";
 }, false);
 
 id_dev_sn.addEventListener('focus', function(){
     document.getElementById("dev").action = "/find/find_dev=3/";
-    document.getElementById("lab_1").style = "color: #333; font-weight: normal;"
-    document.getElementById("lab_2").style = "color: #333; font-weight: normal;"
-    document.getElementById("lab_3").style = "color: blue; font-weight: bold;"
-    document.getElementById("lab_4").style = "color: #333; font-weight: normal;"
+    document.getElementById("f3").className = "find_item2";
+    // document.getElementById("lab_1").className = "color_link1";
+    // document.getElementById("lab_2").className = "color_link1";
+    // document.getElementById("lab_3").className = "color_link2";
+    // document.getElementById("lab_4").className = "color_link1";
 }, false);
 
 id_dev_vlan.addEventListener('focus', function(){
     document.getElementById("dev").action = "/find/find_dev=4/";
-    document.getElementById("lab_1").style = "color: #333; font-weight: normal;"
-    document.getElementById("lab_2").style = "color: #333; font-weight: normal;"
-    document.getElementById("lab_3").style = "color: #333; font-weight: normal;"
-    document.getElementById("lab_4").style = "color: blue; font-weight: bold;"
+    document.getElementById("f3").className = "find_item2";
+    // document.getElementById("lab_1").className = "color_link1";
+    // document.getElementById("lab_2").className = "color_link1";
+    // document.getElementById("lab_3").className = "color_link1";
+    // document.getElementById("lab_4").className = "color_link2";
 }, false);
 
 </script>

@@ -1,6 +1,7 @@
 {% extends 'main.html' %}
 
 {% block find %}
+<link rel="stylesheet" type="text/css" href="/static/find.css">
 
 <script src="/static/js/openseadragon.min.js"></script>
 
@@ -19,36 +20,36 @@
         <div class="map_form">
             <table class="tone2">
                 <tr>
-                    <td>&nbspул.:</td>
+                    <td align="right">ул.:</td>
                     <td colspan="2">{{ form1.street }}</td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td>&nbsp№:</td>
+                    <td align="right">№:</td>
                     <td>{{ form1.h_num }}</td>
-                    <td align="right"><input type="button" id="go_bu" value=">>>" onClick='location.href=""' style="width:50px"></td>
-                    <td align="center"><img src="/static/images/SKS2.png" alt="" title="здания" width="30" height="30"></td>
+                    <td align="right"><input type="button" id="go_bu" value=">>>" onClick='location.href=""'></td>
+                    <td align="center"><img src="/static/images/SKS2.png" alt="" title="здания"></td>
                 </tr>
                 <tr>
-                    <td>&nbspУА:</td>
+                    <td align="right">УА:</td>
                     <td>{{ form1.agr_list }}</td>
-                    <td align="right"><input type="button" id="go_agr" value=">>>" onClick='location.href=""' style="width:50px"></td>
-                    <td align="center"><img src="/static/images/stat3.png" alt="" title="агрегации" width="30" height="30"></td>
+                    <td align="right"><input type="button" id="go_agr" value=">>>" onClick='location.href=""'></td>
+                    <td align="center"><img src="/static/images/stat3.png" alt="" title="агрегации"></td>
                 </tr>
                 <tr>
-                    <td>&nbspкв.:</td>
+                    <td align="right">кв.:</td>
                     <td>{{ form2.kvar }}</td>
-                    <td align="right"><input type="button" id="go_kvar" value=">>>" onClick='location.href=""' style="width:50px"></td>
-                    <td align="center"><img src="/static/images/_cross3.png" alt="" title="квартал" width="30" height="30"></td>
+                    <td align="right"><input type="button" id="go_kvar" value=">>>" onClick='location.href=""'></td>
+                    <td align="center"><img src="/static/images/_cross3.png" alt="" title="квартал"></td>
                 </tr>
                 <tr>
-                    <td>&nbsp</td>
+                    <td></td>
                     <td colspan="2"><input type="text" id="coord"></td>
-                    <td align="center"><img src="/static/images/coord.png" alt="" title="текущие координаты" width="30" height="30"></td>
+                    <td align="center"><img src="/static/images/coord.png" alt="" title="текущие координаты"></td>
                 </tr>
             </table>
         </div>
-        <div class="map_obj t_footer" id="obj_in_map">&nbsp</div>
+        <div class="map_obj t_footer" id="obj_in_map"></div>
         <div>
             <input type="hidden" id="cx" {% if c_x %} value="{{ c_x }}" {% endif %}>
             <input type="hidden" id="cy" {% if c_y %} value="{{ c_y }}" {% endif %}>

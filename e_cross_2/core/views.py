@@ -35,7 +35,6 @@ from core.e_config import conf
 
 def index(request):
 
-    #return render(request, 'index.html')
     return HttpResponseRedirect('/find')
 
 
@@ -108,79 +107,6 @@ def service_clean_his(request):
 
     return HttpResponseRedirect('/core/service/')
 
-####################################################################################################
-"""
-@login_required(login_url='/core/login/')
-def new_kvar(request):
-
-    if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'нет прав для добавления объектов', 'back': 1})
-
-    mess = False
-    if request.method == 'POST':
-        form = n_kvar_Form(request.POST)
-        if form.is_valid():
-            n_kvar = form.cleaned_data['n_kvar']
-            if Kvartal.objects.filter(name=n_kvar).exists():
-                mess = 'квартал уже есть'
-            else:
-                Kvartal.objects.create(name=n_kvar)
-                mess = 'добавлено'
-
-    form = n_kvar_Form()
-
-    return render(request, 'serv_new_obj.html', {'form': form, 'mess': mess, 'new_kvar': True})
-
-
-@login_required(login_url='/core/login/')
-def new_str(request):
-
-    if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'нет прав для добавления объектов', 'back': 1})
-
-    mess = False
-    if request.method == 'POST':
-        form = n_str_Form(request.POST)
-        if form.is_valid():
-            n_str = form.cleaned_data['n_str']
-            if Street.objects.filter(name=n_str).exists():
-                mess = 'улица уже есть'
-            else:
-                Street.objects.create(parrent=0, name=n_str)
-                mess = 'добавлено'
-
-    form = n_str_Form()
-
-    return render(request, 'serv_new_obj.html', {'form': form, 'mess': mess, 'new_str': True})
-
-
-@login_required(login_url='/core/login/')
-def new_bu(request):
-
-    if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'нет прав для добавления объектов', 'back': 1})
-
-    mess = False
-    sel_str = 0
-    if request.method == 'POST':
-        form = n_bu_Form(request.POST)
-        if form.is_valid():
-            sel_str = form.cleaned_data['street']
-            str_name = Street.objects.get(pk=sel_str).name
-            h_num = form.cleaned_data['house_num']
-            if h_num != '' and str_name != '----':
-                if Building.objects.filter(parrent_id=sel_str, house_num=h_num).exists():
-                    mess = 'здание уже есть'
-                else:
-                    Building.objects.create(parrent_id=sel_str, name=str_name, house_num=h_num)
-                    mess = 'добавлено'
-            else:
-                mess = 'ошибка'
-
-    form = n_bu_Form(initial={'street': sel_str})
-
-    return render(request, 'serv_new_obj.html', {'form': form, 'mess': mess, 'new_bu': True})
-"""
 ####################################################################################################
 
 @login_required(login_url='/core/login/')

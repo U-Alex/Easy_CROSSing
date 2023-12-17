@@ -98,7 +98,6 @@ def o_manager(request):
                 del_bu.delete()
                 mess = f'здание: {del_bu.name} {del_bu.house_num} удалено'
 
-
     if not add_form_kv: add_form_kv = add_kv_Form()
     if not add_form_st: add_form_st = add_st_Form()
     if not add_form_bu: add_form_bu = add_bu_Form()

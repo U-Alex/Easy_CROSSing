@@ -28,6 +28,8 @@ class find_Form_kv(forms.Form):
         super(find_Form_kv, self).__init__(*args, **kwargs)
         self.fields['kvar'].choices = Kvartal.objects.values_list('id', 'name').order_by('name')
 
+####################################################################################################
+
 class find_Form_bu(forms.Form):
     street = forms.ChoiceField(label='улица', widget=forms.Select, choices=[])
     house_num = forms.CharField(label='№', max_length=8, required=False, widget=forms.TextInput(attrs={'size': 5}))

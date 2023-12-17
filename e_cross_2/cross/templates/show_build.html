@@ -2,17 +2,18 @@
 
 {% block cross %}
 
-    <table class="t_header1">
-        <tr>
-            <td width="1300px" align="left"><h3>&nbsp{{ bu.name }}&nbsp{{ bu.house_num }}</h3></td>
-            <td width="300px" align="right">
-                {% if kv.id != 1 %}
-                квартал: {{ kv.name }}&nbsp&nbsp
-                <a href="/statist/bu_doc={{ bu.id }}" target="_blank"><b>карточка ввода</b>&nbsp&nbsp</a>
-                {% endif %}
-            </td>
-        </tr>
-    </table>
+    <div class="c_header base_w t_header1">
+        <div class="c_title"><h3>&nbsp{{ bu.name }}&nbsp{{ bu.house_num }}</h3></div>
+        <div class="c_kv_card">
+            {% if kv.id != 1 %}
+            <p>квартал: {{ kv.name }}&nbsp&nbsp</p>
+            <a href="/statist/bu_doc={{ bu.id }}" target="_blank">
+                <img src="/static/images/input_card1.png" alt="фото" title="фотоотчет"></a>
+            <a href="/statist/bu_doc={{ bu.id }}" target="_blank">
+                <img src="/static/images/input_card2.png" alt="докум." title="документация"></a>
+            {% endif %}
+        </div>
+    </div>
 
 {% if bu_double %}
 
@@ -41,6 +42,7 @@
             <td width="8%" align="center">ключ от УД</td>
             <td align="center">примечание</td>
             <td width="8%" align="center">владелец</td>
+            <td width="20px" align="center">&nbsp</td>
             <td width="20px" align="center">?</td>
         </tr>
         {% for ob in lo_list %}
@@ -81,6 +83,7 @@
             </td>
             <td>{{ ob.prim }}</td>
             <td>{{ ob.object_owner }}</td>
+            <td align="center"><a href="del_locker={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" height="12"></a></td>
             <td class="tone2" align="center"><a href="/core/logs/t=1/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="?" title="история операций" height="14"></a></td>
         </tr>
         {% endfor %}
@@ -91,7 +94,7 @@
                 <a href="new_locker/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить УД" width="11" height="11"></a>
             {% endif %}
             </td>
-            <td colspan="8"></td>
+            <td colspan="9"></td>
         </tr>
     </table>
 {% elif not bu_double %}

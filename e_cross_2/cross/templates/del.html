@@ -5,7 +5,9 @@
     <table class="t_header1">
         <tr>
             <td width="1000px" align="left">
-                {% if cr %}
+                {% if lo %}
+                <h3>&nbspУД: {{ lo.name }}</h3>
+                {% elif cr %}
                 <h3>&nbspкросс: {{ cr.name }}</h3>
                 {% elif dev %}
                 <h3>&nbspкоммутатор: {{ dev.name }}</h3>
@@ -37,7 +39,7 @@
 
     {% else %}
         <h3 style="color:red">удаление невозможно</h3>
-        <h3>есть кроссировки</h3>
+        <h3>есть кроссировки или оборудование</h3>
     <br>
     <table class="t_footer">
         <tr>

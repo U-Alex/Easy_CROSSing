@@ -1,0 +1,25 @@
+
+.serv_cat {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.serv_cat img {
+    width: 20px;
+}
+.serv_obj {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 5px;
+    width: 420px;
+}
+.serv_obj_oper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+}
+.serv_obj input[type=submit] {
+    width: 80px;
+}

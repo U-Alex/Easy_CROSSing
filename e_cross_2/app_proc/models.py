@@ -30,4 +30,4 @@ class Appp(models.Model):
     date_3 = models.DateTimeField(default=datetime.datetime.now)    #выполнено
 
     def __str__(self):
-        return 'id-'+str(self.id)+' | '+self.dogovor+' '+self.street+' '+self.build+' kv:'+self.kv
+        return f"{self.id} | {self.dogovor} | {self.street} {self.build} kv:{self.kv}"

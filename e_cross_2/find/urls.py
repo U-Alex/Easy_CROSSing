@@ -8,8 +8,8 @@ urlpatterns = [
 
     re_path(r'^$', views.find_0, name='find_0'),
     re_path(r'^str=(?P<str_id>[0-9]+)/$', views.find_0, name='find_0'),
-    re_path(r'^find_bu$', views.find_bu, name='find_bu'),
-    re_path(r'^find_agr$', views.find_agr, name='find_agr'),
+    re_path(r'^find_bu/$', views.find_bu, name='find_bu'),
+    re_path(r'^find_agr/$', views.find_agr, name='find_agr'),
     re_path(r'^find_dev=(?P<param_id>[0-9]+)/$', views.find_dev, name='find_dev'),
     
     re_path(r'^map/$', views.maps, name='maps'),

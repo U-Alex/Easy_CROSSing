@@ -1,0 +1,131 @@
+
+/* find icon */
+.main_link_list {
+    padding-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+.main_link_list .link_item {
+    background: var(--tone2-color);
+}
+.main_link_list .link_item:hover {
+    -webkit-transition: ease-out 0.7s;
+    -moz-transition: ease-out 0.7s;
+    transition: ease-out 0.7s;
+    box-shadow: inset 0 0 0 150px var(--tone4-color);
+}
+.main_link_list .link_item_left {
+    width: 150px;
+    background: linear-gradient(to left, var(--tone2-color), var(--tone1-color));
+}
+.main_link_list .link_item_right {
+    width: 150px;
+    background: linear-gradient(to right, var(--tone2-color), var(--tone1-color));
+}
+.main_link_list img {
+    width: 150px;
+}
+
+/* find form */
+.find_list {
+    padding: 20px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 10px;
+    flex-wrap: wrap;
+    /* text-shadow: 2px 2px 3px var(--tone2-color); */
+}
+.find_list .find_block{
+    display: flex;
+    /* gap: 10px; */
+    align-items: center;
+    padding: 5px 10px;
+}
+.find_list .find_item{
+    display: flex;
+    padding: 0px 10px;
+}
+.find_list img{
+    width: 50px;
+}
+.find_list .item_elem{
+    font-size: 11px;
+}
+.find_list .find_button{
+    width: 60px;
+    height: 40px;
+}
+.find_list .find_item2{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: right;
+    padding: 0px 10px;
+}
+
+/* map */
+.map {
+    display: grid;
+    grid-template-columns: 300px auto;
+    /* padding: 0 5px; */
+    height: 92vh;
+}
+.map_left {
+    display: flex;
+    flex-direction: column;
+    /* border: 1px solid #000000; */
+    text-shadow: 2px 2px 3px var(--tone3-color);
+}
+.map_list {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    align-items: flex-start;
+    padding: 0 30px 20px 30px;
+}
+.map_list p {
+    align-self: center;
+}
+.map_form > table{
+    width: 100%;
+}
+.map_form img {
+    width: 30px;
+    height: 30px;
+}
+.map_form input[type=button] {
+    width: 50px;
+}
+.map_obj {
+    text-align: start;
+    font-size: 13px;
+    height: 100%;
+    /* border: 1px solid #000000; */
+}
+.map_copyright {
+    display: inline-flex;
+    justify-content: center;
+}
+
+.res_header {
+    display: flex;
+    justify-content: center;
+}
+.res_header_center {
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 50px;
+}
+.res_header .res_header_left {
+    width: 150px;
+    background: linear-gradient(to left, var(--tone2-color), var(--tone1-color));
+}
+.res_header .res_header_right {
+    width: 150px;
+    background: linear-gradient(to right, var(--tone2-color), var(--tone1-color));
+}
+
+
+
+
