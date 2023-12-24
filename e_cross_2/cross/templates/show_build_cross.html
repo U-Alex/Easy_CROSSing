@@ -1,0 +1,42 @@
+{% if lo_obj.0 %}
+
+<details open="open">
+    <summary>&nbsp;&nbsp;кроссы</summary>
+<table class="cross_list">
+    <!-- <caption><h5>кроссы:</h5></caption> -->
+    <tr class="t_header1 row_title">
+        <th class="col_pic"></th>
+        <th class="col_name">название</th>
+        <th class="col_type">модель</th>
+        <th>примечание</th>
+        <th class="col_oper2"></th>
+    </tr>
+    {% for ob in lo_obj.0 %}
+    <tr class="tr_hover">
+        <td class="col_pic"><img src="/static/images/laser2.png" alt=" " title=""></td>
+        <td><b><a href="cr={{ ob.id }}/" title="просмотр кроссировок">{{ ob.name }}</a></b></td>
+        <td>{{ ob.name_type }}</td>
+        <td>{{ ob.prim }}</td>
+        <td class="col_oper2">
+            <a href="cr={{ ob.id }}/edit"><img src="/static/images/edit.png" alt="р" title="редактирование"></a>&nbsp;
+            <a href="/core/logs/t=2/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="?" title="история операций"></a>&nbsp;
+            <!-- <a href="del_cross={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить"></a>&nbsp;&nbsp; -->
+        </td>
+    </tr>
+    {% endfor %}
+    <tr class="t_footer row_bottom">
+        <td></td><td></td><td></td><td></td>
+        <td class="col_add">&nbsp;
+        {% if perms.core.can_new %}
+            <a href="new_cr/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить кросс"></a>&nbsp;&nbsp;
+        {% endif %}
+        </td>
+    </tr>
+</table>
+</details>
+
+{% else %}
+<div class="card_txt_l"><h5>кроссы отсутствуют &nbsp;&nbsp;
+    <a href="new_cr/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить кросс"></a></h5>
+</div>
+{% endif %}

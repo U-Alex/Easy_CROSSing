@@ -1,0 +1,54 @@
+{% if lo_obj.3 %}
+
+<details open="open">
+    <summary>&nbsp;&nbsp;служебные устройства</summary>
+<table class="box_list">
+    <!-- <caption><h5>служебные устройства:</h5></caption> -->
+    <tr class="t_header1 row_title">
+        <th class="col_pic"></th>
+        <th class="col_name2">название</th>
+        <th class="col_type">модель</th>
+        <th class="col_small">под.</th>
+        <th class="col_small">этаж</th>
+        <th class="col_small">эл.пит.</th>
+        <th class="col_small2">кроссировки</th>
+        <th>примечание</th>
+        <th class="col_oper2"></th>
+    </tr>
+    {% for ob in lo_obj.3 %}
+    <tr class="tr_hover">
+        <td class="col_pic"><img src="{{ ob.pic }}" alt="" title="{{ ob.name_type.1 }}"></td>
+        <td><b>{{ ob.name }}</b></td>
+        <td>{{ ob.name_type.0 }}</td>
+        <td class="col_small">{{ ob.stairway }}</td>
+        <td class="col_small">{{ ob.floor }}</td>
+        <td class="col_small"><img src="{{ ob.poe.1 }}" alt="" title="{{ ob.poe.0 }}"></td>
+        <td>
+        {% if ob.box %}
+            <b><a href="box={{ ob.box.parrent.id }}/?sel={{ ob.box.id }}">{{ ob.box.parrent.name }}-{{ ob.box.parrent.num }}-{{ ob.box.p_alias }}</a></b>
+        {% endif %}
+        </td>
+        <td>{{ ob.prim }}</td>
+        <td class="col_oper2">
+            <a href="subunit={{ ob.id }}"><img src="/static/images/edit.png" alt="р" title="редактирование"></a>&nbsp;
+            <a href="/core/logs/t=13/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="?" title="история операций"></a>&nbsp;
+            <!-- <a href="del_subunit={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить"></a>&nbsp;&nbsp; -->
+        </td>
+    </tr>
+    {% endfor %}
+    <tr class="t_footer row_bottom">
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        <td class="col_add">&nbsp;
+        {% if perms.core.can_new %}
+            <a href="new_su/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить КРТ"></a>&nbsp;&nbsp;
+        {% endif %}
+        </td>
+    </tr>
+</table>
+</details>
+
+{% else %}
+<div class="card_txt_l"><h5>устройства отсутствуют &nbsp;&nbsp;
+    <a href="new_su/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить устройство"></a></h5>
+</div>
+{% endif %}

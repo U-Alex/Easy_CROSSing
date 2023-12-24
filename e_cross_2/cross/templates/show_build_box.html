@@ -1,0 +1,50 @@
+{% if lo_obj.2 %}
+
+<details open="open">
+    <summary>&nbsp;&nbsp;крт</summary>
+<table class="box_list">
+    <!-- <caption><h5>крт:</h5></caption> -->
+    <tr class="t_header1 row_title">
+        <th class="col_pic"></th>
+        <th class="col_name2">название</th>
+        <th class="col_type">модель (кол-во плинтов)</th>
+        <th class="col_small">под.</th>
+        <th class="col_small">этаж</th>
+        <th>зона действия</th>
+        <th>примечание</th>
+        <th class="col_oper2"></th>
+    </tr>
+    {% for ob in lo_obj.2 %}
+    <tr class="tr_hover">
+        <td class="col_pic">
+            <img src="/static/images/{% if ob.name == '0' %}rj45_1.png{% else %}rj45_2.png{% endif %}" alt="" title="">
+        </td>
+        <td><b><a href="box={{ ob.id }}/" title="просмотр кроссировок">{{ ob.name }}-{{ ob.num }}</a></b></td>
+        <td>{{ ob.name_type }}&nbsp;&nbsp;&nbsp;({{ ob.num_plints }})</td>
+        <td class="col_small">{{ ob.stairway }}</td>
+        <td class="col_small">{{ ob.floor }}</td>
+        <td>{{ ob.serv_area }}</td>
+        <td>{{ ob.prim }}</td>
+        <td class="col_oper2">
+            <a href="box={{ ob.id }}/edit"><img src="/static/images/edit.png" alt="р" title="редактирование">&nbsp;
+            <a href="/core/logs/t=4/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="?" title="история операций"></a>&nbsp;
+            <!-- <a href="del_box={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить"></a>&nbsp;&nbsp; -->
+        </td>
+    </tr>
+    {% endfor %}
+    <tr class="t_footer row_bottom">
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        <td class="col_add">&nbsp;
+        {% if perms.core.can_new %}
+            <a href="new_box/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить КРТ"></a>&nbsp;&nbsp;
+        {% endif %}
+        </td>
+    </tr>
+</table>
+</details>
+
+{% else %}
+<div class="card_txt_l"><h5>КРТ отсутствуют &nbsp;&nbsp;
+    <a href="new_box/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить кросс"></a></h5>
+</div>
+{% endif %}

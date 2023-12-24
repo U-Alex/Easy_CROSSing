@@ -12,6 +12,9 @@ class Kvartal(models.Model):
     def __str__(self):
         return f"{self.id} | {self.name}"
 
+    def get_dict(self):
+        return self.__dict__
+
 class Street(models.Model):
     parrent = models.IntegerField(default=0)
     name = models.CharField(max_length=30)
@@ -71,6 +74,9 @@ class Locker(models.Model):
     def __str__(self):
         return f"{self.id} | {self.name} ⏩ {self.parrent}"
 
+    def get_dict(self):
+        return self.__dict__
+
 class Cross(models.Model):
     parrent = models.ForeignKey(Locker, on_delete=models.PROTECT)
     name = models.CharField(max_length=30)
@@ -90,10 +96,10 @@ class Cross(models.Model):
 class Device(models.Model):
     parrent = models.ForeignKey(Locker, on_delete=models.PROTECT)
     name = models.CharField(max_length=30)
-    name_type = models.CharField(max_length=30, blank=True)
-    con_type = models.IntegerField()
-    obj_type = models.ForeignKey(Templ_device, on_delete=models.PROTECT, default=1) ### на новой базе - default=0 (или без))
-    ip_addr = models.GenericIPAddressField(protocol='IPv4', null=True, blank=True) ###для опроса конфигураций
+    #name_type = models.CharField(max_length=30, blank=True) #del
+    #con_type = models.IntegerField()                        #del
+    obj_type = models.ForeignKey(Templ_device, on_delete=models.PROTECT, default=1)
+    ip_addr = models.GenericIPAddressField(protocol='IPv4', null=True, blank=True)
     mac_addr = models.CharField(max_length=30, blank=True)
     sn = models.CharField(max_length=20, blank=True)
     vers_po = models.CharField(max_length=48, blank=True)

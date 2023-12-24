@@ -27,36 +27,74 @@ from core.e_config import conf
 
 
 @login_required(login_url='/core/login/')
-def show_build(request, bu_id):
-    
-    upd_visit(request.user, 'sh_bu')
-    bu_double = False
+def show_bu_lo(request, bu_id, lo_id=0):
+
+    upd_visit(request.user, f'sh_bu_{bu_id}_{lo_id}')
     try:
-        bu = Building.objects.get(pk=bu_id)
-        kv = Kvartal.objects.get(pk=bu.kvar)
+        bu = Building.objects.get(pk=bu_id)#.values()
+        kv = Kvartal.objects.get(pk=bu.kvar)#.values()
+        lo = Locker.objects.get(pk=lo_id, parrent_id=bu_id).get_dict() if lo_id else False
     except ObjectDoesNotExist as error:
         return render(request, 'error.html', {'mess': f'объект не найден ({error})', 'back': 1})
-    
-    locker_list = Locker.objects.filter(parrent_id=bu_id).values().order_by('-agr', 'name')
-    
-    if locker_list.count() != 0:
-        for ob in locker_list:
-            ob['status2'] = [conf.COLOR_LIST_LO[ob['status']], conf.STATUS_LIST_LO[ob['status']]]
-            #ob['name_type2'] = Templ_locker.objects.get(pk=ob['con_type']).name
-            try:
-                ob['coup'] = Coupling.objects.get(parrent=ob['id'], parr_type=0)
-            except ObjectDoesNotExist:
-                ob['coup'] = False
-    
-    # if bu.double:
-    #     d_list = bu.double_list.split(',')
-    #     bu_double = Building.objects.filter(pk__in=d_list)
+
+    jyr_info = check_deadline(bu) if not lo_id else False
+    bu_double = False
     try:
         if bu.double_id != 0:
-            bu_double = Building.objects.get(pk=bu.double_id)
+            bu_double = (True, Building.objects.get(pk=bu.double_id))
     except ObjectDoesNotExist:
-        pass
+        bu_double = (False, None)
 
+    lo_list = Locker.objects.filter(parrent_id=bu_id).exclude(pk=lo_id).values().order_by('-agr', 'name')
+    for ob in lo_list:
+        ob['status2'] = conf.STATUS_LIST_LO[ob['status']]
+        ob['coup_id'] = Coupling.objects.get(parrent=ob['id'], parr_type=0).id
+    lo_obj = False
+    if lo:
+        lo['status2'] = conf.STATUS_LIST_LO[lo['status']]
+        lo['coup_id'] = Coupling.objects.get(parrent=lo['id'], parr_type=0).id
+
+        cross_list = Cross.objects.filter(parrent_id=lo_id).order_by('name')\
+            .values('id', 'name', 'name_type', 'prim', 'object_owner')
+        device_list = Device.objects.filter(parrent_id=lo_id).order_by('obj_type__parrent_id', 'name')\
+            .values('id', 'name', 'obj_type__name', 'ip_addr', 'prim', 'object_owner', 'obj_type__parrent_id', 'obj_type__parrent__name')
+        box_list = Box.objects.filter(parrent_id=lo_id).order_by('name', 'num').values()
+        subunit_list = Subunit.objects.filter(parrent_id=lo_id).order_by('name').values()
+
+        if subunit_list.exists():
+            for ob in subunit_list:
+                name_type = Templ_subunit.objects.get(pk=ob['con_type'])
+                subunit_type = Subunit_type.objects.get(pk=name_type.parrent_id)
+                ob['name_type'] = [name_type.name, subunit_type.name]
+                ob['pic'] = '/static/images/obj_subunit/subunit_'+str(subunit_type.id)+'.png'
+                ob['poe'] = [conf.POE_TYPE[ob['poe']][1], f"/static/images/poe_{ob['poe']}.png"]
+                if ob['box_p_id'] == 0:
+                    ob['box'] = ''
+                else:
+                    try:
+                        ob['box'] = Box_ports.objects.get(\
+                            pk=ob['box_p_id'], parrent__parrent_id=lo_id, int_c_status=3, dogovor=f"_su_{ob['id']}")
+                    except ObjectDoesNotExist:
+                        ob['box'] = ''
+                        su = Subunit.objects.get(pk=ob['id'])
+                        su.box_p_id = 0
+                        su.save()
+
+        lo_obj = (cross_list, device_list, box_list, subunit_list)
+
+    return render(request, 'show_build_locker.html',   {'bu': bu,
+                                                        'kv': kv,
+                                                        'lo': lo,
+                                                        'lo_id': int(lo_id),
+                                                        'lo_list': lo_list,
+                                                        'lo_obj': lo_obj,
+                                                        'bu_double': bu_double,
+                                                        'jyr_info': jyr_info,
+                                                        })
+
+####################################################################################################
+
+def check_deadline(bu):
     try:
         upr_comp = manage_comp.objects.get(pk=bu.info_comp)
     except ObjectDoesNotExist:
@@ -86,143 +124,133 @@ def show_build(request, bu_id):
         deadline = [d_plan, conf.MONTHS[m_plan], alert]
     except:
         deadline = False
-    
-    v_templ = 'show_build_2.html' if (request.user.groups.filter(name='test').exists()) else 'show_build.html'
-    
-    return render(request, v_templ,           {'lo_list': locker_list,
-                                               'bu': bu,
-                                               'kv': kv,
-                                               'bu_double': bu_double,
-                                               'upr_comp': upr_comp,
-                                               'deadline': deadline,
-                                               })
+
+    return (upr_comp, deadline)
 
 
-####################################################################################################
-
-@login_required(login_url='/core/login/')
-def show_locker(request, bu_id, lo_id):
-
-    upd_visit(request.user, 'sh_lo')
-    try:
-        bu = Building.objects.get(pk=bu_id)
-        kv = Kvartal.objects.get(pk=bu.kvar)
-        lo = Locker.objects.get(pk=lo_id)
-    except ObjectDoesNotExist as error:
-        return render(request, 'error.html', {'mess': f'объект не найден ({error})', 'back': 3})
-
-    if lo.parrent_id != int(bu_id):
-        return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3})
-
-    if lo.agr and not request.user.has_perm("core.can_sh_agr"):
-        return render(request, 'denied.html', {'mess': 'нет прав для доступа',
-                                               'back': 1,
-                                               'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/'
-                                               })
-
-    locker_list = Locker.objects.filter(parrent_id=bu_id).order_by('-agr', 'name')\
-        .values('id', 'name', 'name_type', 'agr', 'detached', 'co', 'status', 'date_ent', 'rasp', 'prim', 'coord_x', 'coord_y', 'cab_door', 'cab_key', 'object_owner', 'en_model')
-    cross_list = Cross.objects.filter(parrent_id=lo_id).order_by('name')\
-        .values('id', 'name', 'name_type', 'prim', 'object_owner')
-    #device_list = Device.objects.filter(parrent_id=lo_id).values().order_by('name')
-    #device_list = Device.objects.filter(parrent_id=lo_id, obj_type__parrent_id__in=[2]).order_by('obj_type__parrent_id').values()
-    device_list = Device.objects.filter(parrent_id=lo_id).order_by('obj_type__parrent_id', 'name')\
-        .values('id', 'name', 'obj_type__name', 'ip_addr', 'prim', 'object_owner', 'obj_type__parrent_id', 'obj_type__parrent__name')
-    boxes_list = Box.objects.filter(parrent_id=lo_id).order_by('name', 'num').values()
-    subunit_list = Subunit.objects.filter(parrent_id=lo_id).order_by('name').values()
-
-    if locker_list.count() != 0:
-        for ob in locker_list:
-            ob['status2'] = [conf.COLOR_LIST_LO[ob['status']], conf.STATUS_LIST_LO[ob['status']]]
-            #ob['name_type2'] = Templ_locker.objects.get(pk=ob['con_type']).name
-            try:
-                ob['coup'] = Coupling.objects.get(parrent=ob['id'], parr_type=0)
-            except ObjectDoesNotExist:
-                ob['coup'] = False
-
-    if cross_list.count() != 0:
-        for cr in cross_list:
-            #cr['name_type2'] = Templ_cross.objects.get(pk=cr['con_type']).name
-            st_list1 = [0 for i in range(6)]
-            st_list2 = [0 for i in range(6)]
-            cr_p_list = Cross_ports.objects.filter(parrent_id=cr['id']).order_by('num')
-            for cr_p in cr_p_list:
-                if not cr_p.p_valid:
-                    st_list1[5] += 1
-                    st_list2[5] += 1
-                else:
-                    st_list1[cr_p.up_status] += 1
-                    st_list2[cr_p.int_c_status] += 1
-
-            cr['st_list1'] = st_list1
-            cr['st_list2'] = st_list2
-
-    if device_list.count() != 0:
-        for dev in device_list:
-            st_list = [0 for i in range(6)]
-            dev_p_list = Device_ports.objects.filter(parrent_id=dev['id']).order_by('num')
-            for dev_p in dev_p_list:
-                if not dev_p.p_valid:   st_list[5] += 1
-                else:                   st_list[dev_p.int_c_status] += 1
-            dev['st_list'] = st_list
-            #dev['vlan_more'] = False if (len(dev['vlan']) > 20) else True  #длинную строку не показывать    ########
-            #pic_type = Templ_device.objects.get(pk=dev['con_type']).parrent_id
-            #pic_type = dev['obj_type__parrent_id']
-            #dev['pic'] = '/static/images/dev_'+str(dev['obj_type__parrent_id'])+'.png'
-            dev['pic'] = f"/static/images/dev_{str(dev['obj_type__parrent_id'])}.png"
-
-    if boxes_list.count() != 0:
-        for box in boxes_list:
-            #box['name_type2'] = Templ_box.objects.get(pk=box['con_type']).name
-            st_list1 = [0 for i in range(6)]
-            st_list2 = [0 for i in range(6)]
-            box_p_list = Box_ports.objects.filter(parrent_id=box['id']).order_by('num')
-            for box_p in box_p_list:
-                if not box_p.p_valid:
-                    st_list1[5] += 1
-                    st_list2[5] += 1
-                else:
-                    st_list1[box_p.up_status] += 1
-                    st_list2[box_p.int_c_status] += 1
-
-            box['st_list1'] = st_list1
-            box['st_list2'] = st_list2
-
-    if subunit_list.count() != 0:
-        for ob in subunit_list:
-            #ob['name_type'] = conf.SUBUNIT_TYPE[ob['con_type']][1]
-            name_type = Templ_subunit.objects.get(pk=ob['con_type'])
-            subunit_type = Subunit_type.objects.get(pk=name_type.parrent_id)
-            ob['name_type'] = [name_type.name, subunit_type.name]
-            ob['pic'] = '/static/images/subunit_'+str(subunit_type.id)+'.png'
-            ob['poe'] = [conf.POE_TYPE[ob['poe']][1], '/static/images/poe_'+str(ob['poe'])+'.png']
-            if ob['box_p_id'] == 0:
-                ob['box'] = ''
-            else:
-                try:
-                    ob['box'] = Box_ports.objects.get(pk=ob['box_p_id'],
-                                                      parrent__parrent_id=lo_id,
-                                                      int_c_status=3,
-                                                      dogovor='_su_'+str(ob['id'])
-                                                      )
-                except ObjectDoesNotExist:
-                    ob['box'] = ''
-                    su = Subunit.objects.get(pk=ob['id'])
-                    su.box_p_id = 0
-                    su.save()
-
-    v_templ = 'show_locker_2.html' if (request.user.groups.filter(name='test').exists()) else 'show_locker.html'
-
-    return render(request, v_templ,            {'bu': bu,
-                                                'kv': kv,
-                                                'lo': lo,
-                                                'lo_list': locker_list,
-                                                'cr_list': cross_list,
-                                                'dev_list': device_list,
-                                                'box_list': boxes_list,
-                                                'subunit_list': subunit_list,
-                                                })
-
+# @login_required(login_url='/core/login/')
+# def show_locker(request, bu_id, lo_id):
+#
+#     upd_visit(request.user, 'sh_lo')
+#     try:
+#         bu = Building.objects.get(pk=bu_id)
+#         kv = Kvartal.objects.get(pk=bu.kvar)
+#         lo = Locker.objects.get(pk=lo_id)
+#     except ObjectDoesNotExist as error:
+#         return render(request, 'error.html', {'mess': f'объект не найден ({error})', 'back': 3})
+#
+#     if lo.parrent_id != int(bu_id):
+#         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3})
+#
+#     if lo.agr and not request.user.has_perm("core.can_sh_agr"):
+#         return render(request, 'denied.html', {'mess': 'нет прав для доступа',
+#                                                'back': 1,
+#                                                'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/'
+#                                                })
+#
+#     locker_list = Locker.objects.filter(parrent_id=bu_id).order_by('-agr', 'name')\
+#         .values('id', 'name', 'name_type', 'agr', 'detached', 'co', 'status', 'date_ent', 'rasp', 'prim', 'coord_x', 'coord_y', 'cab_door', 'cab_key', 'object_owner', 'en_model')
+#     cross_list = Cross.objects.filter(parrent_id=lo_id).order_by('name')\
+#         .values('id', 'name', 'name_type', 'prim', 'object_owner')
+#     #device_list = Device.objects.filter(parrent_id=lo_id).values().order_by('name')
+#     #device_list = Device.objects.filter(parrent_id=lo_id, obj_type__parrent_id__in=[2]).order_by('obj_type__parrent_id').values()
+#     device_list = Device.objects.filter(parrent_id=lo_id).order_by('obj_type__parrent_id', 'name')\
+#         .values('id', 'name', 'obj_type__name', 'ip_addr', 'prim', 'object_owner', 'obj_type__parrent_id', 'obj_type__parrent__name')
+#     boxes_list = Box.objects.filter(parrent_id=lo_id).order_by('name', 'num').values()
+#     subunit_list = Subunit.objects.filter(parrent_id=lo_id).order_by('name').values()
+#
+#     if locker_list.count() != 0:
+#         for ob in locker_list:
+#             ob['status2'] = [conf.COLOR_LIST_LO[ob['status']], conf.STATUS_LIST_LO[ob['status']]]
+#             #ob['name_type2'] = Templ_locker.objects.get(pk=ob['con_type']).name
+#             try:
+#                 ob['coup'] = Coupling.objects.get(parrent=ob['id'], parr_type=0)
+#             except ObjectDoesNotExist:
+#                 ob['coup'] = False
+#
+#     if cross_list.count() != 0:
+#         for cr in cross_list:
+#             #cr['name_type2'] = Templ_cross.objects.get(pk=cr['con_type']).name
+#             st_list1 = [0 for i in range(6)]
+#             st_list2 = [0 for i in range(6)]
+#             cr_p_list = Cross_ports.objects.filter(parrent_id=cr['id']).order_by('num')
+#             for cr_p in cr_p_list:
+#                 if not cr_p.p_valid:
+#                     st_list1[5] += 1
+#                     st_list2[5] += 1
+#                 else:
+#                     st_list1[cr_p.up_status] += 1
+#                     st_list2[cr_p.int_c_status] += 1
+#
+#             cr['st_list1'] = st_list1
+#             cr['st_list2'] = st_list2
+#
+#     if device_list.count() != 0:
+#         for dev in device_list:
+#             st_list = [0 for i in range(6)]
+#             dev_p_list = Device_ports.objects.filter(parrent_id=dev['id']).order_by('num')
+#             for dev_p in dev_p_list:
+#                 if not dev_p.p_valid:   st_list[5] += 1
+#                 else:                   st_list[dev_p.int_c_status] += 1
+#             dev['st_list'] = st_list
+#             #dev['vlan_more'] = False if (len(dev['vlan']) > 20) else True  #длинную строку не показывать    ########
+#             #pic_type = Templ_device.objects.get(pk=dev['con_type']).parrent_id
+#             #pic_type = dev['obj_type__parrent_id']
+#             #dev['pic'] = '/static/images/dev_'+str(dev['obj_type__parrent_id'])+'.png'
+#             dev['pic'] = f"/static/images/dev_{str(dev['obj_type__parrent_id'])}.png"
+#
+#     if boxes_list.count() != 0:
+#         for box in boxes_list:
+#             #box['name_type2'] = Templ_box.objects.get(pk=box['con_type']).name
+#             st_list1 = [0 for i in range(6)]
+#             st_list2 = [0 for i in range(6)]
+#             box_p_list = Box_ports.objects.filter(parrent_id=box['id']).order_by('num')
+#             for box_p in box_p_list:
+#                 if not box_p.p_valid:
+#                     st_list1[5] += 1
+#                     st_list2[5] += 1
+#                 else:
+#                     st_list1[box_p.up_status] += 1
+#                     st_list2[box_p.int_c_status] += 1
+#
+#             box['st_list1'] = st_list1
+#             box['st_list2'] = st_list2
+#
+#     if subunit_list.count() != 0:
+#         for ob in subunit_list:
+#             #ob['name_type'] = conf.SUBUNIT_TYPE[ob['con_type']][1]
+#             name_type = Templ_subunit.objects.get(pk=ob['con_type'])
+#             subunit_type = Subunit_type.objects.get(pk=name_type.parrent_id)
+#             ob['name_type'] = [name_type.name, subunit_type.name]
+#             ob['pic'] = '/static/images/subunit_'+str(subunit_type.id)+'.png'
+#             ob['poe'] = [conf.POE_TYPE[ob['poe']][1], '/static/images/poe_'+str(ob['poe'])+'.png']
+#             if ob['box_p_id'] == 0:
+#                 ob['box'] = ''
+#             else:
+#                 try:
+#                     ob['box'] = Box_ports.objects.get(pk=ob['box_p_id'],
+#                                                       parrent__parrent_id=lo_id,
+#                                                       int_c_status=3,
+#                                                       dogovor='_su_'+str(ob['id'])
+#                                                       )
+#                 except ObjectDoesNotExist:
+#                     ob['box'] = ''
+#                     su = Subunit.objects.get(pk=ob['id'])
+#                     su.box_p_id = 0
+#                     su.save()
+#
+#     v_templ = 'show_locker_2.html' if (request.user.groups.filter(name='test').exists()) else 'show_locker.html'
+#
+#     return render(request, v_templ,            {'bu': bu,
+#                                                 'kv': kv,
+#                                                 'lo': lo,
+#                                                 'lo_list': locker_list,
+#                                                 'cr_list': cross_list,
+#                                                 'dev_list': device_list,
+#                                                 'box_list': boxes_list,
+#                                                 'subunit_list': subunit_list,
+#                                                 })
+#
 
 ####################################################################################################
 
@@ -447,9 +475,7 @@ def show_dev(request, bu_id, lo_id, dev_id, l2=0):
                 cnt = 0
                 while True:
                     pos = str1.find(',', cnt+step)
-                    if pos == -1:
-                        break
-                    #str1 = str1[:pos+1]+' '+str1[pos+1:]
+                    if pos == -1: break
                     str1 = f"{str1[:pos+1]} {str1[pos+1:]}"
                     cnt = pos + 1
                 ob['vlan_tag_list'] = str1

@@ -7,8 +7,8 @@
     <div class="res_header">
         <div class="res_header_left"></div>
         <div class="tone2 res_header_center">
-            <p>ул: {{ str_list.0.name }} &nbsp&#10148;&#10148;&#10148;&nbsp
-            <i>найденные здания &nbsp&#9660;&#9660;&#9660;</i></p>
+            <p>ул: {{ str_list.0.name }} &nbsp;&#10148;&#10148;&#10148;&nbsp;
+            <i>найденные здания &nbsp;&#9660;&#9660;&#9660;</i></p>
         </div>
         <div class="res_header_right"></div>
     </div>
@@ -50,7 +50,7 @@
                 {% endfor %}
 
                 </td>
-                <td width="160px" align="center">&nbsp</td>
+                <td width="160px" align="center">&nbsp;</td>
             </tr>
         </table>
 
@@ -60,13 +60,13 @@
     <div class="res_header">
         <div class="res_header_left"></div>
         <div class="tone2 res_header_center">
-            <p>список агрегаций &nbsp&#9660;&#9660;&#9660;</p>
+            <p>список агрегаций &nbsp;&#9660;&#9660;&#9660;</p>
         </div>
         <div class="res_header_right"></div>
     </div>
         
         <table class="tone1">
-            <caption>&nbsp</caption>
+            <caption>&nbsp;</caption>
             <tr>
                 <td width="100px" align="center">
                     <img src="/static/images/stat3.png" alt="" title="" width="60" height="60">
@@ -78,10 +78,10 @@
                                  value="{{ ob.co }}"
                                  onClick='location.href="/cross/build={{ ob.parrent_id }}/locker={{ ob.id }}"'
                                  style="width:70px; height:30px;"
-                                 >&nbsp
+                                 >&nbsp;
                 {% endfor %}
                 </td>
-                <td width="10px" align="center">&nbsp</td>
+                <td width="10px" align="center">&nbsp;</td>
             </tr>
         </table>
         
@@ -102,7 +102,7 @@
         {% for ob in dev_list %}
             <tr>
                 <td width="490px">
-                    ул: {{ ob.parrent.parrent.name }} {{ ob.parrent.parrent.house_num }}&nbsp&nbspУД: {{ ob.parrent.name }}
+                    ул: {{ ob.parrent.parrent.name }} {{ ob.parrent.parrent.house_num }}&nbsp;&nbsp;УД: {{ ob.parrent.name }}
                     <a href="/cross/build={{ ob.parrent.parrent.id }}/locker={{ ob.parrent.id }}/dev={{ ob.id }}/" target="_blank">&nbsp&nbsp<b>{{ ob.name }}</b>&nbsp&nbsp</a>
                 </td>
                 <td width="30px" align="center"></td>
@@ -118,7 +118,7 @@
         {% for ob in dev_list_f %}
             <tr>
                 <td width="490px">
-                    ул: {{ ob.parrent.parrent.parrent.name }} {{ ob.parrent.parrent.parrent.house_num }}&nbsp&nbspУД: {{ ob.parrent.parrent.name }}
+                    ул: {{ ob.parrent.parrent.parrent.name }} {{ ob.parrent.parrent.parrent.house_num }}&nbsp;&nbsp;УД: {{ ob.parrent.parrent.name }}
                     <a href="/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/dev={{ ob.parrent.id }}/l2=1/" target="_blank">&nbsp&nbsp<b>{{ ob.parrent.name }}&nbsp&nbsp{{ ob.p_alias }}</b>&nbsp&nbsp</a>
                 </td>
                 <td width="30px" align="center">
@@ -136,7 +136,7 @@
         {% for ob in dev_list_v %}
             <tr>
                 <td width="490px">
-                    ул: {{ ob.parrent.parrent.parrent.name }} {{ ob.parrent.parrent.parrent.house_num }}&nbsp&nbspУД: {{ ob.parrent.parrent.name }}
+                    ул: {{ ob.parrent.parrent.parrent.name }} {{ ob.parrent.parrent.parrent.house_num }}&nbsp;&nbsp;УД: {{ ob.parrent.parrent.name }}
                     <a href="/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/dev={{ ob.parrent.id }}/l2=1/" target="_blank">&nbsp&nbsp<b>{{ ob.parrent.name }}&nbsp&nbsp{{ ob.p_alias }}</b>&nbsp&nbsp</a>
                 </td>
                 <td width="30px" align="center">
@@ -154,8 +154,8 @@
         {% for ob in dev_list_tag %}
             <tr>
                 <td width="490px">
-                    ул: {{ ob.parrent.parrent.parrent.name }} {{ ob.parrent.parrent.parrent.house_num }}&nbsp&nbspУД: {{ ob.parrent.parrent.name }}
-                    <a href="/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/dev={{ ob.parrent.id }}/l2=1/" target="_blank">&nbsp&nbsp<b>{{ ob.parrent.name }}&nbsp&nbsp{{ ob.p_alias }}</b>&nbsp&nbsp</a>
+                    ул: {{ ob.parrent.parrent.parrent.name }} {{ ob.parrent.parrent.parrent.house_num }}&nbsp;&nbsp;УД: {{ ob.parrent.parrent.name }}
+                    <a href="/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/dev={{ ob.parrent.id }}/l2=1/" target="_blank">&nbsp&nbsp<b>{{ ob.parrent.name }}&nbsp&nbsp{{ ob.p_alias }}</b>&nbsp;&nbsp;</a>
                 </td>
                 <td width="30px" align="center">
                     {% if ob.shut %}<img src="/static/images/shut_1.png" alt="sh" title="shutdown" width="12" height="12">{% endif %}
@@ -172,8 +172,8 @@
         {% for ob in su_list %}
             <tr>
                 <td width="490px">
-                    ул: {{ ob.parrent.parrent.name }} {{ ob.parrent.parrent.house_num }}&nbsp&nbspУД: {{ ob.parrent.name }}
-                    <a href="/cross/build={{ ob.parrent.parrent.id }}/locker={{ ob.parrent.id }}/" target="_blank">&nbsp&nbsp<b>{{ ob.name }}</b>&nbsp&nbsp</a>
+                    ул: {{ ob.parrent.parrent.name }} {{ ob.parrent.parrent.house_num }}&nbsp;&nbsp;УД: {{ ob.parrent.name }}
+                    <a href="/cross/build={{ ob.parrent.parrent.id }}/locker={{ ob.parrent.id }}/" target="_blank">&nbsp;&nbsp;<b>{{ ob.name }}</b>&nbsp;&nbsp;</a>
                 </td>
                 <td width="30px" align="center"></td>
             </tr>

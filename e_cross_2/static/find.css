@@ -81,7 +81,7 @@
     flex-direction: column;
     font-size: 14px;
     align-items: flex-start;
-    padding: 0 30px 20px 30px;
+    padding: 20px 30px;
 }
 .map_list p {
     align-self: center;

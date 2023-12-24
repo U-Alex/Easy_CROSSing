@@ -1,0 +1,104 @@
+{% extends 'main.html' %}
+
+{% block cross %}
+<link rel="stylesheet" type="text/css" href="/static/build.css">
+
+<div class="base_w c_header t_header4">
+    <div class="c_header_nav">
+        <!-- <div> -->
+            <h3 class="link_in_out">
+                <a href="/cross/build={{ bu.id }}">{{ bu.name }}&nbsp;{{ bu.house_num }}</a>
+            </h3>
+        <!-- </div> -->
+        {% if lo_id %}
+        <div>
+            <h3 class="link_in_out">
+                <a href="/cross/build={{ bu.id }}/locker={{ lo.id }}">УД:&nbsp;{{ lo.name }}</a>
+            </h3>
+        </div>
+        {% endif %}
+    </div>
+    <div class="c_kv_card">
+        {% if kv.id != 1 %}
+        <p>квартал: <b>{{ kv.name }}</b>&nbsp;&nbsp;</p>
+        <a href="/statist/bu_doc={{ bu.id }}" target="_blank">
+            <img class="link_oper" src="/static/images/input_card1.png" alt="фото" title="фотоотчет"></a>
+        <a href="/statist/bu_doc={{ bu.id }}" target="_blank">
+            <img class="link_oper" src="/static/images/input_card2.png" alt="докум." title="документация"></a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="base_w bu_main">
+    <div class="bu_left">
+
+        {% if lo_id %}
+        <div class="bu_left_active">
+            <div class="bu_card active">
+                {% include "show_build_lo_card.html" %}
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="bu_left_lo">
+
+            {% for lo in lo_list %}
+            <div class="bu_card {% if lo_id %}no_active{% endif %}">
+                {% include "show_build_lo_card.html" %}
+            </div>
+            {% endfor %}
+
+            {% if perms.core.can_new and not bu_double %}
+            <div class="bu_card">
+                <div class="bu_card_l"></div>
+                <div class="bu_card_add tone2">
+                    <a href="/cross/build={{ bu.id }}/new_locker/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить УД"></a>
+                </div>
+                <div class="bu_card_r"></div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="bu_right">
+        {% if bu_double %}
+        <div class="card_txt_l">
+            <h4>Внимание, данное строение отмечено как "дубликат"</h4>Ссылается на:<br>
+            {% if bu_double.0 %}
+            <a href="/cross/build={{ bu_double.1.id }}"><h4>{{ bu_double.1.name }}&nbsp;{{ bu_double.1.house_num }}</h4></a>
+            {% else %}
+                <h4>ОШИБКА, здание не найдено, возможно оно было удалено из базы</h4>
+            {% endif %}
+        </div>
+        {% elif not lo_id %}
+            {% include "show_build_jyr_info.html" %}
+        {% else %}
+            {% include "show_build_cross.html" %}
+            {% include "show_build_device.html" %}
+            {% include "show_build_box.html" %}
+            {% include "show_build_subunit.html" %}
+        {% endif %}
+    </div>
+</div>
+
+<div class="base_w c_footer t_footer4">
+    <div>
+        {% if not lo_id and not bu_double %}
+        <input type="button" value="блокировка портов" onClick='location.href="/core/block_ports={{ bu.id }}"'>
+        <input type="button" value="рассылка о приёме в работу" onClick='location.href="/core/send_mail={{ bu.id }}"'>
+        {% endif %}
+    </div>
+    <div>
+        {% if not lo_id and not bu_double %}
+        <input type="button" value="история" onClick='location.href="/core/logs/t=0/id={{ bu.id }}"'>
+        {% endif %}
+        {% if not lo_id %}
+        <input type="button" value="редактирование" onClick='location.href="edit"'>
+        {% else %}
+        <input type="button" value="удалить УД" onClick='location.href="../del_locker={{ lo.id }}/"'>
+        {% endif %}
+        <input type="button" value="закрыть" onClick='location.href="/find/str={{ bu.parrent_id }}"'>
+    </div>
+</div>
+
+{% endblock %}

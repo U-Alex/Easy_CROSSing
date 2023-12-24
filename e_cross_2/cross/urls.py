@@ -8,11 +8,14 @@ from . import views_links
 
 urlpatterns = [
 
-    re_path(r'^build=(?P<bu_id>[0-9]+)/$', views.show_build, name='show_build'),
+    re_path(r'^build=(?P<bu_id>[0-9]+)/$', views.show_bu_lo, name='show_bu_lo'),
+    re_path(r'^build=(?P<bu_id>[0-9]+)/locker=(?P<lo_id>[0-9]+)/$', views.show_bu_lo, name='show_bu_lo'),
+
+    # re_path(r'^build=(?P<bu_id>[0-9]+)/$', views.show_build, name='show_build'),
     re_path(r'^build=(?P<bu_id>[0-9]+)/edit/$', views_objects.edit_build, name='edit_build'),
 
     re_path(r'^build=(?P<bu_id>[0-9]+)/new_locker/$', views_objects.new_locker, name='new_locker'),
-    re_path(r'^build=(?P<bu_id>[0-9]+)/locker=(?P<lo_id>[0-9]+)/$', views.show_locker, name='show_locker'),
+    # re_path(r'^build=(?P<bu_id>[0-9]+)/locker=(?P<lo_id>[0-9]+)/$', views.show_locker, name='show_locker'),
     re_path(r'^build=(?P<bu_id>[0-9]+)/locker=(?P<lo_id>[0-9]+)/edit/$', views_objects.edit_locker, name='edit_locker'),
     re_path(r'^build=(?P<bu_id>[0-9]+)/locker=(?P<lo_id>[0-9]+)/energy/$', views.energy, name='energy'),
 

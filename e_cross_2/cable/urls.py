@@ -6,7 +6,9 @@ from . import views
 
 urlpatterns = [
 
-    re_path(r'^$', views.cable_main, name='cable_main'),
+    #re_path(r'^$', views.cable_main, name='cable_main'),
+    re_path(r'^$', views.cable_main_0, name='cable_main_0'),
+    re_path(r'^kv=(?P<kv_id>[0-9]+)/$', views.cable_main2, name='cable_main2'),
 
     re_path(r'^kv=(?P<kvar>[0-9]+)/pw_add/$', views.pw_add, name='pw_add'),
     re_path(r'^kv=(?P<kvar>[0-9]+)/pw_edit=(?P<s_pw>[0-9]+)/$', views.pw_edit, name='pw_edit'),

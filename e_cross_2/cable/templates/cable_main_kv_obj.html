@@ -1,0 +1,126 @@
+
+<div class="cab_up">
+{% if list1 %}
+    <table class="cab_list1 tone2">
+        <tr class="t_header1 row_title">
+            <th class="col_addr">адрес</th>
+            <th>УД / Муфта</th>
+            <th class="col_coup2">муфта</th>
+            <th class="col_oper1"></th>
+        </tr>
+        {% for ob in list1 %}
+        <tr class="tr_hover">
+            <td class="col_addr{% if ob.0.double_id %} tone_off{% endif %}"">
+                {{ ob.0.name }}&nbsp;&nbsp;{{ ob.0.house_num }}
+            </td>
+            <td class="col_lo_coup">
+                <table class="cab_list3">
+                {% for ob2 in ob.2 %}
+                    <tr class="tr_hover">
+                        <td class="col_lo">
+                            <a href="/cross/build={{ ob.0.id }}/locker={{ ob2.2 }}/" title="просмотр УД" target="_blank">{{ ob2.0 }}</a>
+                        </td>
+                        <td class="col_coup1">
+                            <a href="/cable/coup={{ ob2.1.id }}/" title="просмотр муфты">{{ ob2.1.name }}</a>
+                        </td>
+                        <td class="col_oper2">
+                            <a href="/cable/coup={{ ob2.1.id }}/coup_edit/"><img src="/static/images/edit.png" alt="р" title="редактирование"></a>
+                        {% if ob2.1.coord_x > 30 and ob2.1.coord_y > 30 %}
+                            <a href="/find/map/?coord={{ ob2.1.coord_x }},{{ ob2.1.coord_y }}" target="_blank"><img src="/static/images/selector-search.gif" alt="i" title="показать на карте"></a>
+                        {% else %}
+                            <a href="/find/map/" target="_blank"><img src="/static/img/icon_error.gif" alt="?" title="не внесены координаты"></a>
+                        {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </table>
+            </td>
+            <td class="col_coup2">
+                <table class="cab_list3">
+                {% for ob2 in ob.1 %}
+                    <tr class="tr_hover">
+                        <td class="cab_txt_r">
+                            <a href="/cable/coup={{ ob2.id }}/" title="просмотр муфты">{{ ob2.name }}</a>
+                        </td>
+                        <td class="col_oper2">
+                            <a href="/cable/coup={{ ob2.id }}/coup_edit/"><img src="/static/images/edit.png" alt="р" title="редактирование"></a>
+                        {% if ob2.coord_x != 0 and ob2.coord_y != 0 %}
+                            <a href="/find/map/?coord={{ ob2.coord_x }},{{ ob2.coord_y }}" target="_blank"><img src="/static/images/selector-search.gif" alt="i" title="показать на карте"></a>
+                        {% else %}
+                            <a href="/find/map/" target="_blank"><img src="/static/img/icon_error.gif" alt="?" title="не внесены координаты"></a>
+                        {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </table>
+            </td>
+            <td class="col_oper1">
+                {% if not ob.0.double_id %}
+                    <a href="/cable/kv={{ kv_id }}/coup_add/p_t=1/p_id={{ ob.0.id }}"><img src="/static/images/icon_addlink.gif" alt="+" title="добавление муфты"></a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+
+        <tr class="t_footer row_bottom">
+            <td></td><td></td><td></td><td></td>
+        </tr>
+    </table>
+{% endif %}
+</div>
+<div class="cab_down">
+    <div class="cab_down_left">
+    {% if list2 %}
+        <table class="cab_list2 tone2">
+            <tr class="t_header1 row_title">
+                <th class="col_addr2">объект</th>
+                <th class="col_oper3"></th>
+                <th class="col_coup3">муфта</th>
+                <th class="col_oper1"></th>
+            </tr>
+            {% for ob in list2 %}
+            <tr class="tr_hover">
+                <td class="col_addr3">{{ ob.0.name }}</td>
+                <td class="col_oper3">
+                    <a href="/cable/kv={{ kv_id }}/pw_edit={{ ob.0.id }}"><img src="/static/images/edit.png" alt="р" title="редактирование"></a>
+                    <a href="/cable/kv={{ kv_id }}/pw_del={{ ob.0.id }}"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить объект"></a>
+                {% if ob.0.coord_x != 0 and ob.0.coord_y != 0 %}
+                    <a href="/find/map/?coord={{ ob.0.coord_x }},{{ ob.0.coord_y }}" target="_blank"><img src="/static/images/selector-search.gif" alt="i" title="показать на карте"></a>
+                {% else %}
+                    <a href="/find/map/" target="_blank"><img src="/static/img/icon_error.gif" alt="?" title="не внесены координаты"></a>
+                {% endif %}
+                </td>
+                <td class="col_coup3">
+                    <table class="cab_list3">
+                    {% for ob2 in ob.1 %}
+                        <tr class="tr_hover">
+                            <td class="cab_txt_r">
+                                <a href="/cable/coup={{ ob2.id }}/" title="просмотр муфты">{{ ob2.name }}</a>
+                            </td>
+                            <td class="col_oper2">
+                                <a href="/cable/coup={{ ob2.id }}/coup_edit/"><img src="/static/images/edit.png" alt="" title="редактирование"></a>
+                            {% if ob2.coord_x != 0 and ob2.coord_y != 0 %}
+                                <a href="/find/map/?coord={{ ob2.coord_x }},{{ ob2.coord_y }}" target="_blank"><img src="/static/images/selector-search.gif" alt="i" title="показать на карте"></a>
+                            {% else %}
+                                <a href="/find/map/" target="_blank"><img src="/static/img/icon_error.gif" alt="?" title="не внесены координаты"></a>
+                            {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+                </td>
+                <td class="col_oper1">
+                    <a href="/cable/kv={{ kv_id }}/coup_add/p_t=2/p_id={{ ob.0.id }}"><img src="/static/images/icon_addlink.gif" alt="+" title="добавление муфты"></a>
+                </td>
+            </tr>
+            {% endfor %}
+            <tr class="t_footer row_bottom">
+                <td></td><td></td><td></td><td></td>
+            </tr>
+        </table>
+    {% elif kv_id %}
+        <a href="/cable/kv={{ kv_id }}/pw_add/">добавить объект</a>
+    {% endif %}
+    </div>
+    <div class="cab_down_right" id="maps">maps...  в разработке</div>
+</div>

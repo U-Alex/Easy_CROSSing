@@ -1,0 +1,69 @@
+    <div class="bu_card_l"></div>
+    <div class="bu_card_c tone2">
+        <div class="card_title">
+            <div class="card_logo">
+            {% if lo.agr %}<img class="lo_img" src="/static/images/lo1.png">
+            {% elif lo.detached %}<img class="lo_img" src="/static/images/lo2.png">
+            {% else %}<img class="lo_img" src="/static/images/lo3.png">
+            {% endif %}
+            </div>
+            <div class="lo_name">
+                <a href="/cross/build={{ bu.id }}/locker={{ lo.id }}/"><h2>{{ lo.name }}</h2></a>
+            </div>
+            <div class="lo_type">
+                <a href="/cross/build={{ bu.id }}/locker={{ lo.id }}/racks/"><h5>{{ lo.name_type }}</h5></a>
+            </div>
+        </div>
+        <div class="card_item">
+            <div></div>
+            <div class="_lo_status_{{ lo.status2.0 }}">
+                <label>{{ lo.status2.1 }}</label>
+            </div>
+            <div>
+            {% if lo.date_ent|date:"d.m.Y" != "" %}
+                {% if lo.status == 2 or lo.status == 3 %}&#128197;&nbsp;{{ lo.date_ent|date:"d.m.Y" }}{% endif %}
+            {% else %}
+                {% if lo.status == 2 or lo.status == 3 %}&#128197;&nbsp;----{% endif %}
+            {% endif %}
+            </div>
+        </div>
+        <div class="card_item">
+            <div class="card_agr"><img src="/static/images/stat3.png"></div>
+            <div class="card_txt_l">{{ lo.co }}</div>
+            <div class="card_oper link_oper">
+            {% if lo.coord_x > 30 and lo.coord_y > 30 %}
+                <a href="/find/map/?coord={{ lo.coord_x }},{{ lo.coord_y }}" target="_blank">
+                    <img class="link_oper" src="/static/images/selector-search.gif" alt="M" title="найти на карте">
+                </a>
+            {% else %}
+                <a href="/find/map/" target="_blank">
+                    <img class="link_oper" src="/static/img/icon_error.gif" alt="&#11097;" title="не внесены координаты">
+                </a>
+            {% endif %}
+                <a href="/cable/coup={{ lo.coup_id }}/" target="_blank">
+                    <img class="link_oper" src="/static/images/mufta.png" alt="M" title="просмотр муфты">
+                </a>
+                <a href="/cross/build={{ bu.id }}/locker={{ lo.id }}/energy">
+                    <img class="link_oper" src="/static/images/shut_{{ lo.en_model }}.png" alt="Э" title="электроэнергия">
+                </a>
+                <a href="/cross/build={{ bu.id }}/locker={{ lo.id }}/edit">
+                    <img class="link_oper" src="/static/images/edit.png" alt="." title="редактирование">
+                </a>
+                <a href="/core/logs/t=1/id={{ lo.id }}">
+                    <img class="link_oper" src="/static/images/icon_info.png" alt="?" title="история операций">
+                </a>
+            </div>
+        </div>
+        <div class="card_item">
+            <div>{% if lo.rasp %}&#9654;{% endif %}</div>
+            <div class="card_txt_l">{% if lo.rasp %}{{ lo.rasp }}{% endif %}&nbsp;</div>
+            <div>{% if lo.cab_door %}&#128275; {{ lo.cab_door }}<br>{{ lo.cab_key }}{% endif %}</div>
+        </div>
+        <div class="card_item">
+            <div>{% if lo.prim %}&#9655;{% endif %}</div>
+            <div class="card_txt_l card_prim">{% if lo.prim %}{{ lo.prim }}{% endif %}&nbsp;</div>
+            <div></div>
+        </div>
+
+    </div>
+    <div class="bu_card_r"></div>

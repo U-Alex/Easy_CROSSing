@@ -167,8 +167,9 @@ function h_num_get(url, agr, kv) {
                 else if (kv){;
                     //iframe.src = "/find/get_obj/";
                     //obj_from_map("/find/get_obj/");
-                    document.getElementById("obj_in_map").innerHTML = "&nbsp";
-                    document.getElementById("go_kvar").setAttribute('onclick', 'window.open("/cable/?kv='+arr2[2]+'")');
+                    document.getElementById("obj_in_map").innerHTML = "&nbsp;";
+                    //document.getElementById("go_kvar").setAttribute('onclick', 'window.open("/cable/?kv='+arr2[2]+'")');
+                    document.getElementById("go_kvar").setAttribute('onclick', 'window.open("/cable/kv='+arr2[2]+'/")');
                     document.getElementById("go_bu").disabled = true;
                     document.getElementById("go_agr").disabled = true;
                     document.getElementById("go_kvar").disabled = false;

@@ -125,7 +125,8 @@ def cable_null_len(request):
 
 def dev_no_sn_mac(request):
 
-    dev_list = Device.objects.filter(Q(ip_addr=None) | Q(sn='') | Q(mac_addr='')).exclude(con_type=3).order_by('name')
+    #dev_list = Device.objects.filter(Q(ip_addr=None) | Q(sn='') | Q(mac_addr='')).exclude(con_type=3).order_by('name')
+    dev_list = Device.objects.filter(Q(ip_addr=None) | Q(sn='') | Q(mac_addr='')).order_by('obj_type', 'name')
 
     return render(request, 'serv_dev_no_ip_sn_mac.html', {'dev_list':dev_list})
 
@@ -366,7 +367,7 @@ def agr_to_abon(request, dev_id):
     def allready_dev(dev_id):
         nonlocal dev_list
         if dev_id in dev_list:
-            print(dev_id)
+            # print(dev_id)
             return True
         dev_list.append(dev_id)
         return False
@@ -383,8 +384,9 @@ def agr_to_abon(request, dev_id):
     def ch_dev(p_id):
         dev_p = Device_ports.objects.get(pk=p_id)
         dev = Device.objects.get(pk=dev_p.parrent_id)
-        dev_type = Templ_device.objects.get(pk=dev.con_type).parrent_id
-        if dev_type in [2, 3, 4]:
+        #dev_type = Templ_device.objects.get(pk=dev.con_type).parrent_id
+        #if dev_type in [2, 3, 4]:
+        if dev.obj_type.parrent_id in [2, 3, 4]:
             if not allready_dev(dev.id):
                 dev_p_list = Device_ports.objects.filter(parrent_id=dev.id).order_by('num').exclude(pk=p_id)
                 for port in dev_p_list:

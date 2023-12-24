@@ -29,6 +29,58 @@ from .vols_def import vols_coup_move, vols_cab_up, vols_cab_remove
 ##########################################################################################
 
 @login_required(login_url='/core/login/')
+def cable_main_0(request):
+    return HttpResponseRedirect('./kv=0')
+
+@login_required(login_url='/core/login/')
+def cable_main2(request, kv_id=0):
+
+    upd_visit(request.user, f'vols_{kv_id}')
+
+    if request.method == 'POST':
+        form = find_Form_kv(request.POST)
+        if form.is_valid():
+            kv_id = form.cleaned_data['kvar']
+    try:
+        kv = Kvartal.objects.get(pk=kv_id).get_dict() if int(kv_id) else 0
+    except ObjectDoesNotExist as error:
+        return render(request, 'error.html', {'mess': f'объект не найден ({error})', 'back': 1})
+
+    kv_list = Kvartal.objects.exclude(pk=kv_id).values().order_by('name')
+    bu_list = Building.objects.all()
+    pw_list = PW_cont.objects.all()
+    for ob in kv_list:
+        bu_id_list = bu_list.filter(kvar=ob['id']).values_list('id', flat=True)
+        pw_id_list = pw_list.filter(parrent_id=ob['id']).values_list('id', flat=True)
+        ob['obj1'] = len(bu_id_list)
+        ob['obj2'] = Locker.objects.filter(parrent__kvar=ob['id']).count()
+        ob['obj3'] = Coupling.objects.filter(parr_type=1, parrent__in=bu_id_list).count()
+        ob['obj4'] = len(pw_id_list)
+        ob['obj5'] = Coupling.objects.filter(parr_type=2, parrent__in=pw_id_list).count()
+    if kv:
+        bu_id_list = bu_list.filter(kvar=kv['id']).values_list('id', flat=True)
+        pw_id_list = pw_list.filter(parrent_id=kv['id']).values_list('id', flat=True)
+        kv['obj1'] = len(bu_id_list)
+        kv['obj2'] = Locker.objects.filter(parrent__kvar=kv['id']).count()
+        kv['obj3'] = Coupling.objects.filter(parr_type=1, parrent__in=bu_id_list).count()
+        kv['obj4'] = len(pw_id_list)
+        kv['obj5'] = Coupling.objects.filter(parr_type=2, parrent__in=pw_id_list).count()
+
+    obj_list = create_obj_list(kv_id)
+
+    form = find_Form_kv(initial={'kvar': kv_id})
+
+    return render(request, 'cable_main2.html', {'form': form,
+                                                'kv_list': kv_list,
+                                                'kv': kv,
+                                                'kv_id': int(kv_id),
+                                                'list1': obj_list[0],
+                                                'list2': obj_list[1],
+                                                })
+
+
+
+@login_required(login_url='/core/login/')
 def cable_main(request):
     
     upd_visit(request.user, 'cab_m')
@@ -115,7 +167,7 @@ def pw_add(request, kvar):
                                         )
             to_his([request.user, 10, n_PW.id, 1, 0, 'name: '+n_PW.name])
 
-            return HttpResponseRedirect('/cable/?kv='+str(kvar))
+            return HttpResponseRedirect('/cable/kv='+str(kvar))
     else:
         form = add_PW_Form()
 
@@ -152,7 +204,7 @@ def coup_add(request, kvar, p_t, p_id):
                                             )
             to_his([request.user, 8, n_coup.id, 1, 0, 'name: '+n_coup.name])
 
-            return HttpResponseRedirect('/cable?kv='+str(kvar))
+            return HttpResponseRedirect('/cable/kv='+str(kvar))
     else:
         form = add_Coup_Form()
 
@@ -499,7 +551,7 @@ def int_c(request, s_coup, s_port, stat, multi, dest_type=None):
         
         if dest_type == '0':
             if s_p.int_c_status != 0 or d_p.int_c_status != 0:      #проверка портов перед записью
-                return HttpResponseRedirect('../err304')
+                return HttpResponseRedirect('../err304')            #TODO убрать внутрь транзакции
             if str(s_port) == str(d_port):
                 return HttpResponseRedirect('../')
             with transaction.atomic():
@@ -523,7 +575,7 @@ def int_c(request, s_coup, s_port, stat, multi, dest_type=None):
         
         if dest_type == '1':
             if s_p.int_c_status != 0 or d_p.cab_p_id != 0:          #проверка портов перед записью
-                return HttpResponseRedirect('../err305')
+                return HttpResponseRedirect('../err305')            #TODO убрать внутрь транзакции
             with transaction.atomic():
                 s_p.int_c_id = d_port
                 d_p.cab_p_id = s_port
@@ -978,7 +1030,7 @@ def pw_edit(request, kvar, s_pw):
                 pw.save()
                 to_his([request.user, 10, pw.id, 2, 0, 'name: '+pw.name])
 
-            return HttpResponseRedirect('/cable/?kv='+str(kvar))
+            return HttpResponseRedirect('/cable/kv='+str(kvar))
 
     else:
         form = add_PW_Form(initial={'name': pw.name,
@@ -1011,7 +1063,7 @@ def pw_del(request, kvar, s_pw):
         to_his([request.user, 10, pw.id, 13, 0, 'name: '+pw.name])
         pw.delete()
 
-        return HttpResponseRedirect('/cable/?kv='+str(kvar))
+        return HttpResponseRedirect('/cable/kv='+str(kvar))
 
     return render(request, 'cable_del.html', {'pw': pw, 'del_ok': del_ok})
 

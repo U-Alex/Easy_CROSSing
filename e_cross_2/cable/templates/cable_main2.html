@@ -1,0 +1,105 @@
+{% extends 'main.html' %}
+
+{% block cable %}
+<link rel="stylesheet" type="text/css" href="/static/cable.css">
+
+<div class="base_w c_header t_header4">
+    <div class="c_header_nav">
+        <form method="post" action="/cable/kv=0/">
+            {% csrf_token %}
+            {{ form.kvar }}
+            <input type="submit" id="kv_but" value="▼▼▼">&nbsp;
+        </form>
+        <h3 class="link_in_out">
+        {% if kv_id %}<p>Квартал:&nbsp;&nbsp;{{ kv.name }}</p>{% endif %}
+        </h3>
+    </div>
+    <div class="c_kv_card">
+        <a href="/statist/coup_changed" target="_blank">запланированные изменения</a>
+        {% if kv_id %}
+        <a href="" target="_blank">
+            <img class="link_oper" src="/static/images/input_card1.png" alt="фото" title="фотоотчет"></a>
+        <a href="" target="_blank">
+            <img class="link_oper" src="/static/images/input_card2.png" alt="докум." title="документация"></a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="base_w cab_main">
+    <div class="cab_left">
+
+        {% if kv_id %}
+        <div class="cab_left_active">
+            <div class="cab_card active">
+                <div class="cab_card_l"></div>
+                <div class="cab_card_c tone2">
+                    <div class="card_title">
+                        <div class="card_logo">
+                            <img class="kv_img" src="/static/images/_cross3.png">
+                        </div>
+                        <div class="kv_name">
+                            <a href="/cable/kv={{ kv.id }}/"><h2>{{ kv.name }}</h2></a>
+                        </div>
+                        <div class="card_item">
+                            <label title="здания"><img src="/static/images/sks1.png">{{ kv.obj1 }}</label>
+                            <label title="УД"><img src="/static/images/lo2.png">{{ kv.obj2 }}</label>
+                            <label title="муфты в зданиях"><img src="/static/images/mufta.png">{{ kv.obj3 }}</label>
+                            <label title="объекты"><img src="/static/images/obj_1.png">{{ kv.obj4 }}</label>
+                            <label title="муфты вне зданий"><img src="/static/images/mufta2_1.png">{{ kv.obj5 }}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="cab_card_r"></div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="cab_left_kv">
+            {% for ob in kv_list %}
+            <div class="cab_card {% if kv_id %}no_active{% endif %}">
+                <div class="cab_card_l"></div>
+                <div class="cab_card_c tone2">
+                    <!-- <div class="card_title"> -->
+                        <div class="kv_name">
+                            <a href="/cable/kv={{ ob.id }}/"><h2>{{ ob.name }}</h2></a>
+                        </div>
+                        <div class="card_item">
+                            <label title="здания"><img src="/static/images/sks1.png">{{ ob.obj1 }}</label>
+                            <label title="УД"><img src="/static/images/lo2.png">{{ ob.obj2 }}</label>
+                            <label title="муфты в зданиях"><img src="/static/images/mufta.png">{{ ob.obj3 }}</label>
+                            <label title="объекты"><img src="/static/images/obj_1.png">{{ ob.obj4 }}</label>
+                            <label title="муфты вне зданий"><img src="/static/images/mufta2_1.png">{{ ob.obj5 }}</label>
+                        </div>
+                    <!-- </div> -->
+                </div>
+                <div class="cab_card_r"></div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <div class="cab_right">
+        {% include "cable_main_kv_obj.html" %}
+    </div>
+
+</div>
+
+<div class="base_w c_footer t_footer4">
+    <div></div>
+    <div>
+        {% if kv_id %}
+        <input type="button" value="закрыть" onClick='location.href="/cable/kv=0"'>
+        {% else %}
+        <input type="button" value="закрыть" onClick='location.href="/"'>
+        {% endif %}
+    </div>
+</div>
+
+<script type="text/javascript">
+    id_kvar.addEventListener('change', function(){
+        document.getElementById("kv_but").click();
+    }, false);
+</script>
+
+{% endblock %}
