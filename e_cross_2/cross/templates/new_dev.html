@@ -2,62 +2,58 @@
 
 {% block cross %}
 
-    <table class="t_header1">
-        <tr>
-            <td width="1000px" align="left"><h3>&nbsp{{ lo.parrent.name }} {{ lo.parrent.house_num }},&nbsp&nbspУД: {{ lo.name }}</h3></td>
-            <td width="280px" align="right">&nbsp</td>
-        </tr>
-    </table>
-    <br>
-<form method="post">
-    {% csrf_token %}
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <h3>{{ lo.parrent.name }} {{ lo.parrent.house_num }},&nbsp;&nbsp;УД: {{ lo.name }}</h3>
+    </div>
+</div>
+<br>
 
-    <table class="t_header1" border="1">
-        <tr>
-            <td width="200px" align="right">&nbsp{{ form.dev_name.label }}&nbsp</td>
-            <td width="400px" align="left">&nbsp&nbsp{{ form.dev_name }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="center">Тип устройства</td>
-            <td align="center">Шаблон&nbsp&nbsp(кол-во портов)</td>
-            <!--<td width="120px" align="center">кол-во портов</td>-->
-        </tr>
-        {% for ob in t_list %}
-        {% if ob.next_type %}
-            </td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ ob.next_type }}&nbsp</td>
-            <td align="left">
-        {% endif %}
-                &nbsp
-                <input type="radio" name="dev_name_type2" id="{{ ob.id }}" value="{{ ob.id }}">
-                <label for="{{ ob.id }}" style="color:black"><b>{{ ob.name }}</b>&nbsp&nbsp({{ ob.ports }})</label>
-                <br>
-            <!--<td align="center">&nbsp{{ ob.ports }}&nbsp</td>-->
-        {% endfor %}
-            </td>
-        </tr>
-<!--        <tr>
-            <td width="200px" align="right">&nbsp{{ form.vlantz.label }}&nbsp</td>
-            <td width="400px" align="left">&nbsp&nbsp{{ form.vlantz }}&nbsp</td>
-        </tr>-->
+<div class="c_base_w">
+    <div align="center">
+        <form method="post">
+            {% csrf_token %}
 
-    </table>
-    
-    <br>
-    <table class="t_footer">
-        <tr>
-            <td width="640px" align="right">
-                <input type="submit" value="     OK     ">&nbsp
-            </td>
-            <td width="640px" align="left">
-                <input type="button" value="отмена" onClick='location.href="../"'>
-            </td>
-        </tr>
-    </table>
-    
-</form>
+            <table class="tone2">
+                <tr style="border: 1px solid #66827c;">
+                    <td width="200px" align="right">{{ form.dev_name.label }}</td>
+                    <td width="400px" align="left">{{ form.dev_name }}</td>
+                </tr>
+                <tr class="tone1" style="border: 1px solid #66827c;">
+                    <td align="center">Тип устройства</td>
+                    <td align="center">Шаблон&nbsp;&nbsp;(кол-во портов)</td>
+                </tr>
+                {% for ob in t_list %}
+                {% if ob.next_type %}
+                    </td>
+                </tr>
+                <tr style="border: 1px solid #66827c;">
+                    <td align="right">{{ ob.next_type }}</td>
+                    <td align="left">
+                {% endif %}
+                        &nbsp;
+                        <input type="radio" name="dev_name_type2" id="{{ ob.id }}" value="{{ ob.id }}">
+                        <label for="{{ ob.id }}" style="color:black"><b>{{ ob.name }}</b>&nbsp;&nbsp;({{ ob.ports }})</label>
+                        <br>
+                {% endfor %}
+                    </td>
+                </tr>
+               <!-- <tr>
+                    <td width="200px" align="right">{{ form.vlantz.label }}</td>
+                    <td width="400px" align="left">{{ form.vlantz }}</td>
+                </tr> -->
+            </table>
+            <br>
 
+            <div class="c_base_w t_footer3">
+                <div align="center">
+                    <input type="submit" value="     OK     ">
+                    <input type="button" value="отмена" onClick='location.href="../"'>
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</div>
 
 {% endblock %}

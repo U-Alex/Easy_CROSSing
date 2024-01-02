@@ -2,24 +2,31 @@
 
 {% block core %}
 
-    <br><h3 style="color:red">{{ mess }}</h3>
+<div class="c_base_w tone1" align="center">
+    <br>
+    <h3 class="tone_error">{{ mess }}</h3>
     
     <br>
     <table class="t_footer">
         <tr>
-            <td width="1000px">&nbsp</td>
+            <td width="1000px">&nbsp;</td>
             <td width="280px" align="right">
             {% if back == 0 %}
-                <input type="button" value="назад" onClick='location.href="{{ next_url }}"'>&nbsp
+                <input type="button" value="назад" onClick='location.href="{{ next_url }}"'>
             {% elif back == 1 %}
-                <input type="button" value="назад" onClick='location.href="../"'>&nbsp
+                <input type="button" value="назад" onClick='location.href="../"'>
             {% elif back == 2 %}
-                <input type="button" value="назад" onClick='location.href="../../"'>&nbsp
+                <input type="button" value="назад" onClick='location.href="../../"'>
             {% elif back == 3 %}
-                <input type="button" value="назад" onClick='location.href="../../../"'>&nbsp
+                <input type="button" value="назад" onClick='location.href="../../../"'>
+            {% elif back == 4 %}
+                <input type="button" value="назад" onClick='location.href="../../../../"'>
+            {% else %}
+                <input type="button" value="назад" onClick='location.href="/"'>
             {% endif %}
             </td>
         </tr>
     </table>
+</div>
 
 {% endblock %}

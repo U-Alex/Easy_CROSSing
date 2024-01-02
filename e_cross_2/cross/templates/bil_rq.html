@@ -1,16 +1,13 @@
-    <table class="tone1">
-        <tr>
-            <td width="1602px" align="left">
-                &nbsp{% if bil_rq.0.sub %}<b>суб</b>договор: {% elif bil_rq.0.superCid %}<b>супер</b>договор: {% else %}договор: {% endif %}
-                <b>{{ bil_rq.0.title }}</b>&nbsp&nbsp
-                {% if bil_rq.0.personType %}(юр.лицо) {% else %}(физ.лицо)&nbsp&nbsp{% endif %}
-                {% if bil_rq.0.hidden %}скрытый &nbsp&nbsp{% endif %}
-                открыт: <b>{{ bil_rq.0.dateFrom }}</b>&nbsp&nbsp
-                {% if bil_rq.0.dateTo %}<label style="color:red">закрыт: <b>{{ bil_rq.0.dateTo }}</b></label>{% endif %}&nbsp&nbsp
-                {% if bil_rq.0.status == 'Закрыт' %}<label style="color:fuchsia">{% endif %}
-                статус: <b>{{ bil_rq.0.status }}</b>&nbsp&nbsp
-                смена статуса: <b>{{ bil_rq.0.statusTimeChange }}</label></b>&nbsp&nbsp
-                комментарий: <b>{{ bil_rq.0.comment }}</b>
-            </td>
-        </tr>
-    </table>
+    <span>
+        <i>данные билинга: </i>
+        &nbsp;{% if bil_rq.0.sub %}<b>суб</b>договор: {% elif bil_rq.0.superCid %}<b>супер</b>договор: {% else %}договор: {% endif %}
+        <b>{{ bil_rq.0.title }}</b>&nbsp;&nbsp;
+        {% if bil_rq.0.personType %}(юр.лицо) {% else %}(физ.лицо)&nbsp;&nbsp;{% endif %}
+        {% if bil_rq.0.hidden %}скрытый &nbsp;&nbsp;{% endif %}
+        открыт: <b>{{ bil_rq.0.dateFrom }}</b>&nbsp;&nbsp;
+        {% if bil_rq.0.dateTo %}<label style="color:red">закрыт: <b>{{ bil_rq.0.dateTo }}</b></label>{% endif %}&nbsp;&nbsp;
+        {% if bil_rq.0.status == 'Закрыт' %}<label style="color:fuchsia">{% endif %}
+        статус: <b>{{ bil_rq.0.status }}</b>&nbsp;&nbsp;
+        смена статуса: <b>{{ bil_rq.0.statusTimeChange }}</label></b>&nbsp;&nbsp;
+        комментарий: <b>{{ bil_rq.0.comment }}</b>
+    </span>

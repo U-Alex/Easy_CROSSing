@@ -1,28 +1,18 @@
 {% extends 'main.html' %}
 
 {% block service %}
+<link rel="stylesheet" type="text/css" href="/static/serv.css">
 
-    <table class="t_header1">
-        <tr>
-            <td width="1300px" align="left"><h3>&nbsp&nbspистория операций: <label style="color:blue"><strong>{{ cur_user.login }}</strong></label></h3></td>
-            <td width="300px" align="right">
-                <!--{% if his.has_previous %}
-                    <a href="?page={{ his.previous_page_number }}">предыдущая</a>
-                {% endif %}
-                <span class="current">страница {{ his.number }} из {{ his.paginator.num_pages }}.</span>-->
-            </td>
-            <!--<td width="100px" align="left">
-                {% if his.has_next %}
-                    <a href="?page={{ his.next_page_number }}">следующая&nbsp</a>
-                {% endif %}
-            </td>-->
-        </tr>
-    </table>
-    
-<div align="left" style="width:1604px;background-color:#D4DCC7">
-    <div align="left" style="width:100%;overflow-y:auto;background-color:#D4DCC7">
-        <table width="1580px" border="1">
-            <caption>&nbsp</caption>
+<div class="c_base_w tone2">
+    <div class="serv_header">
+        <h3>история операций: <label style="color:blue"><b>{{ cur_user.login }}</b></label></h3>
+    </div>
+</div>
+<br>
+
+<div class="c_base_w">
+    <div style="width:100%">
+        <table width="100%" border="1">
             <tr class="t_header1">
                 <td width="110px" align="center">юзер</td>
                 <td width="130px" align="center">дата/время</td>
@@ -34,34 +24,33 @@
         </tr>
         </table>
     </div>
-    <div align="left" style="width:100%;height:650px;overflow-y:auto;background-color:#D4DCC7">
-        <table width="1580px" border="1">
+    <div style="width:100%;height:650px;overflow-y:auto;">
+        <table width="100%" border="1">
         {% for ob in his %}
         <tr>
-            <td width="110px">&nbsp{{ ob.0 }}&nbsp</td>
-            <td width="130px">&nbsp{{ ob.1|date:"d.m.Y" }}&nbsp/&nbsp{{ ob.1|time:"H:i" }}&nbsp</td>
-            <td width="130px">&nbsp{{ ob.2 }}&nbsp</td>
-            <td width="60px">&nbsp{{ ob.3 }}&nbsp</td>
-            <td width="250px">&nbsp{{ ob.4 }}&nbsp{{ ob.5 }}&nbsp</td>
-            <td>&nbsp{{ ob.6 }}&nbsp</td>
+            <td width="110px">{{ ob.0 }}</td>
+            <td width="130px">{{ ob.1|date:"d.m.Y" }} / {{ ob.1|time:"H:i" }}</td>
+            <td width="130px">{{ ob.2 }}</td>
+            <td width="60px">{{ ob.3 }}</td>
+            <td width="250px">{{ ob.4 }}{{ ob.5 }}</td>
+            <td>{{ ob.6 }}</td>
         </tr>
         {% endfor %}
         </table>
     </div>
 </div>
+<br>
 
-    <br>
-    <table class="t_footer">
-        <tr>
-            <td width="1000px">&nbsp
-                <a href="../td=1/">1 день</a> |
-                <a href="../td=7/">неделя</a> |
-                <a href="../td=30/">месяц</a> |
-                <a href="../td=365/">год</a> |
-            </td>
-            <td width="600px" align="right"><input type="button" value="закрыть" onClick='location.href="/core/service"'>&nbsp</td>
-        </tr>
-    </table>
-
+<div class="c_base_w tone2 serv_footer">
+    <div class="serv_l">
+        <a href="../td=1/">1 день</a> |
+        <a href="../td=7/">неделя</a> |
+        <a href="../td=30/">месяц</a> |
+        <a href="../td=365/">год</a> |
+    </div>
+    <div class="serv_r">
+        <input type="button" value="закрыть" onClick='location.href="/core/service"'>
+    </div>
+</div>
     
 {% endblock %}

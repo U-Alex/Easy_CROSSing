@@ -1,57 +1,53 @@
 {% extends 'main.html' %}
 
 {% block cross %}
+<div class="c_base_w">
+    <div class="c_header_nav">
+        <h3>
+            <a href="/cross/build={{ s_p.parrent.parrent.parrent.id }}">{{ s_p.parrent.parrent.parrent.name }} {{ s_p.parrent.parrent.parrent.house_num }}</a>,&nbsp&nbsp<a href="/cross/build={{ s_p.parrent.parrent.parrent.id }}/locker={{ s_p.parrent.parrent.id }}">УД: {{ s_p.parrent.parrent.name }}</a>,&nbsp&nbsp<a href="/cross/build={{ s_p.parrent.parrent.parrent.id }}/locker={{ s_p.parrent.parrent.id }}/box={{ s_p.parrent.id }}/">крт: {{ s_p.parrent.name }}-{{ s_p.parrent.num }}-{{ s_p.p_alias }}</a>,&nbsp;&nbsp;
+        </h3>
+        <h4>
+            {% if d_p %} бр.: {{ d_p.parrent.name }} порт: {{ d_p.num }},&nbsp;&nbsp;{% endif %}
+            договор: {{ s_p.dogovor }}&nbsp;&nbsp; кв: {{ s_p.ab_kv }}
+        </h4>
+    </div>
+</div>
+<br>
 
-<form method="post">
-    {% csrf_token %}
-    
-    <table class="t_header1">
-        <tr>
-            <td width="1000px" align="left">
-                <h3>&nbsp<a href="/cross/build={{ s_p.parrent.parrent.parrent.id }}">{{ s_p.parrent.parrent.parrent.name }} {{ s_p.parrent.parrent.parrent.house_num }}</a>,&nbsp&nbsp<a href="/cross/build={{ s_p.parrent.parrent.parrent.id }}/locker={{ s_p.parrent.parrent.id }}">УД: {{ s_p.parrent.parrent.name }}</a>,&nbsp&nbsp<a href="/cross/build={{ s_p.parrent.parrent.parrent.id }}/locker={{ s_p.parrent.parrent.id }}/box={{ s_p.parrent.id }}/">крт: {{ s_p.parrent.name }}-{{ s_p.parrent.num }}-{{ s_p.p_alias }}</a>,&nbsp&nbsp
-                {% if d_p %}
-                бр.: {{ d_p.parrent.name }} порт: {{ d_p.num }},&nbsp&nbsp 
-                {% endif %}
-                договор: {{ s_p.dogovor }}&nbsp&nbsp кв: {{ s_p.ab_kv }}s</h3>
-            </td>
-            <td width="280px" align="right">&nbsp</td>
-        </tr>
-    </table>
-    <br>
-    <table>
-        <tr class="t_header1">
-            <td align="center"><br>&nbsp{{ form.pri.label }}:&nbsp</td>
-        </tr>
-        <tr>
-            <td class="tone2" align="left">
-                &nbsp&nbsp&nbsp&nbsp{{ form.pri.0 }}&nbsp&nbsp&nbsp&nbsp<br>
-                &nbsp&nbsp&nbsp&nbsp{{ form.pri.1 }}&nbsp&nbsp&nbsp&nbsp<br>
-                &nbsp&nbsp&nbsp&nbsp{{ form.pri.2 }}&nbsp&nbsp&nbsp&nbsp<br>&nbsp
-            </td>
-        </tr>
-    </table>
-    <h3 style="color:red">снять кроссировку?</h3>
-    {% if back_p %}
-    <h3 style="color:red">Внимание, при бронировании {{ d_p.num }} порта: <br> снималась кроссировка крт: {{ back_p }}</h3>
-    {% endif %}
-    
-    {% if no_kv %}
-    <h3 style="color:red">Внимание, не внесен номер квартиры: <br> необходимо будет внести для истории</h3>
-    {% endif %}
-    
-    <br>
-    <table class="t_footer">
-        <tr>
-            <td width="640px" align="right">
-                <input type="submit" value="     OK     ">&nbsp
-            </td>
-            <td width="640px" align="left">
+<div class="c_base_w">
+    <form method="post" align="center">
+        {% csrf_token %}
+        
+        <div class="form_flex_c_wr">
+            <div class="t_header1">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{{ form.pri.label }}:</i><br>
+                    &nbsp;&nbsp;{{ form.pri.0 }}&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;{{ form.pri.1 }}&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;{{ form.pri.2 }}&nbsp;&nbsp;<br>&nbsp;
+            </div>
+        </div>
+
+        <br>
+        <h3 align="center" style="color:red">снять кроссировку?</h3>
+        {% if back_p %}
+        <br>
+        <h3 align="center" style="color:red">Внимание, при бронировании {{ d_p.num }} порта: <br> снималась кроссировка крт: {{ back_p }}</h3>
+        {% endif %}
+        
+        {% if no_kv %}
+        <br>
+        <h3 align="center" style="color:red">Внимание, не внесен номер квартиры: <br> необходимо будет внести для истории</h3>
+        {% endif %}
+        
+        <br>
+        <div class="c_base_w t_footer3">
+            <div align="center">
+                <input type="submit" value="     OK     ">
                 <input type="button" value="отмена" onClick='location.href="../../"'>
-            </td>
-        </tr>
-    </table> 
+            </div>
+        </div>
 
-</form>
-
+    </form>
+</div>
 
 {% endblock %}

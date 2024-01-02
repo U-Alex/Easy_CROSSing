@@ -2,93 +2,94 @@
 
 {% block cross %}
 
-    <table class="t_header1">
-        <tr>
-            <td width="1000px" align="left"><h3>&nbsp&nbsp{{ lo.parrent.name }}&nbsp{{ lo.parrent.house_num }},&nbsp&nbspУД: {{ lo.name }},&nbsp&nbsp{{ su.name }}</h3></td>
-            <td width="280px" align="right">&nbsp</td>
-        </tr>
-    </table>
-    <br>
-<form method="post">
-    {% csrf_token %}
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <h3>
+            {{ lo.parrent.name }} {{ lo.parrent.house_num }},
+            &nbsp;&nbsp;УД: {{ lo.name }},&nbsp;&nbsp;{{ su.name }}
+        </h3>
+    </div>
+</div>
+<br>
 
-    <table class="t_header1">
-        <tr>
-            <td width="210px" align="right">&nbsp{{ form.name.label }}:&nbsp</td>
-            <td width="330px" align="left">&nbsp{{ form.name }}&nbsp</td>
-            </td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.object_owner.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.object_owner }}&nbsp&nbsp&nbsp<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp&nbsp&nbsp{{ form.object_owner_list }}&nbsp</td>
-        </tr>
-        <tr>
-            <td width="210px" align="right">&nbsp{{ form.name_type.label }}:&nbsp</td>
-            <td width="330px" align="left">&nbsp{{ form.name_type }}&nbsp</td>
-        </tr>
-        <tr>
-            <td width="210px" align="right">&nbsp{{ form.poe.label }}:&nbsp</td>
-            <td width="330px" align="left">&nbsp{{ form.poe }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.ip.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.ip }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.mac.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.mac }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.sn.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.sn }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.inv.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.inv }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.man_install.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.man_install }}&nbsp&nbsp&nbsp<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp&nbsp&nbsp{{ form.man_install_list }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.date_ent.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.date_ent }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.date_repl.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.date_repl }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.stairway.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.stairway }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.floor.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.floor }}&nbsp</td>
-        </tr>
-        <tr>
-            <td colspan="2" align="center">{{ form.prim.label }}:</td>
-        </tr>
-        <tr>
-            <td colspan="2" align="center">{{ form.prim }}</td>
-        </tr>
-        
-    </table>
-    <br>
-    <table class="t_footer">
-        <tr>
-            <td width="640px" align="right">
-                <input type="submit" value="     OK     ">&nbsp
-            </td>
-            <td width="640px" align="left">
-                <input type="button" value="отмена" onClick='location.href="../"'>
-            </td>
-        </tr>
-    </table>
-    
-</form>
+<div class="c_base_w">
+    <div align="center">
+        <form method="post">
+            {% csrf_token %}
 
-<script language="javascript">
+            <table class="t_header1">
+                <tr>
+                    <td width="210px" align="right">{{ form.name.label }}:</td>
+                    <td width="330px" align="left">{{ form.name }}</td>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.object_owner.label }}:</td>
+                    <td align="left">{{ form.object_owner }}&nbsp;&nbsp;<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp;&nbsp;{{ form.object_owner_list }}</td>
+                </tr>
+                <tr>
+                    <td width="210px" align="right">{{ form.name_type.label }}:</td>
+                    <td width="330px" align="left">{{ form.name_type }}</td>
+                </tr>
+                <tr>
+                    <td width="210px" align="right">{{ form.poe.label }}:</td>
+                    <td width="330px" align="left">{{ form.poe }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.ip.label }}:</td>
+                    <td align="left">{{ form.ip }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.mac.label }}:</td>
+                    <td align="left">{{ form.mac }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.sn.label }}:</td>
+                    <td align="left">{{ form.sn }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.inv.label }}:</td>
+                    <td align="left">{{ form.inv }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.man_install.label }}:</td>
+                    <td align="left">{{ form.man_install }}&nbsp;&nbsp;<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp;&nbsp;{{ form.man_install_list }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.date_ent.label }}:</td>
+                    <td align="left">{{ form.date_ent }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.date_repl.label }}:</td>
+                    <td align="left">{{ form.date_repl }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.stairway.label }}:</td>
+                    <td align="left">{{ form.stairway }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.floor.label }}:</td>
+                    <td align="left">{{ form.floor }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">{{ form.prim.label }}:</td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">{{ form.prim }}</td>
+                </tr>
+                
+            </table>
+            <br>
+            <div class="c_base_w t_footer3">
+                <div align="center">
+                    <input type="submit" value="     OK     ">
+                    <input type="button" value="отмена" onClick='location.href="../"'>
+                </div>
+            </div>
+            
+        </form>
+
+<script>
 
 id_man_install.addEventListener('change', function(){
     id_man_install_list.value = 0;
@@ -105,6 +106,5 @@ id_object_owner_list.addEventListener('change', function(){
 }, false);
 
 </script>
-
 
 {% endblock %}

@@ -1,0 +1,47 @@
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <h3><a href="/cross/build={{ bu.id }}">{{ bu.name }}&nbsp;{{ bu.house_num }}</a></h3>
+    {% if lo %}
+        <h3><a href="/cross/build={{ bu.id }}/locker={{ lo.id }}">УД:&nbsp;{{ lo.name }}</a></h3>
+    {% endif %}
+    {% if cr %}
+        <h3><label class="color_link2">{{ cr.name }}</label></h3>
+        <h5>(<i>{{ cr.name_type }}</i>)</h5>
+    {% endif %}
+    {% if dev %}
+        <h3><label class="color_link2">{{ dev.name }}</label>&nbsp;&nbsp;&#9658;&nbsp;</h3>
+        <h4>
+            <a {% if dev_nav == 1 %}class="color_link2"{% endif %} href="/cross/build={{ bu.id }}/locker={{ lo.id }}/dev={{ dev.id }}/">кроссировки</a>&nbsp;&nbsp;
+            <a {% if dev_nav == 2 %}class="color_link2"{% endif %} href="/cross/build={{ bu.id }}/locker={{ lo.id }}/dev={{ dev.id }}/l2=1/">конфигурация</a>&nbsp;&nbsp;
+            <a {% if dev_nav == 3 %}class="color_link2"{% endif %} href="/cross/build={{ bu.id }}/locker={{ lo.id }}/dev={{ dev.id }}/ips/">коммутация</a>
+        </h4>
+    {% endif %}
+    {% if box %}
+        <h3><label class="color_link2">{{ box.name }}-{{ box.num }}</label></h3>
+        <h5>({{ box.name_type }}, под: {{ box.stairway }}, эт: {{ box.floor }})</h5>
+    {% endif %}
+    {% if cur_box_p %}
+        <h5><a class="color_link2" href="/cross/build={{ lo.parrent.id }}/locker={{ lo.id }}/box={{ cur_box_p.parrent.id }}/">
+            крт: {{ cur_box_p.parrent.name }}-{{ cur_box_p.parrent.num }}-{{ cur_box_p.p_alias }}
+        </a></h5>
+        {% if cur_box_p.changed %}
+        <h5><label class="color_warn1">ВНИМАНИЕ ! запланировано снятие</label></h5>
+        {% endif %}
+    {% endif %}
+    </div>
+    <div class="c_kv_card">
+    {% if kv.id != 1 %}
+        {% if dev_nav == 2 %}
+        <a href="/core/dev_upd_config={{ dev.id }}"><img src="/static/images/refresh.png" alt="upd_conf" title="обновить конфиг"></a>&nbsp;
+        {% endif %}
+        {% if dev_nav == 1 %}
+        <a href="/statist/agr_to_abon={{ dev.id }}" target="_blank"><img src="/static/images/icon_team2.png" alt="i" title="абоненты, зависимые от устройства"></a>&nbsp;
+        {% endif %}
+        <p>квартал: <b>{{ kv.name }}</b>&nbsp;&nbsp;</p>
+        <a href="/statist/bu_doc={{ bu.id }}" target="_blank">
+            <img class="link_oper" src="/static/images/input_card1.png" alt="фото" title="фотоотчет"></a>
+        <a href="/statist/bu_doc={{ bu.id }}" target="_blank">
+            <img class="link_oper" src="/static/images/input_card2.png" alt="док." title="документация"></a>
+    {% endif %}
+    </div>
+</div>

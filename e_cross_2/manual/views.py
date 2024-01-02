@@ -12,7 +12,7 @@ def man(request, l1=0):
 
     upd_visit(request.user)
 
-    if int(l1) > 10:
+    if int(l1) > 9:
         l1 = 0
     html = str(l1)+'.html'
 

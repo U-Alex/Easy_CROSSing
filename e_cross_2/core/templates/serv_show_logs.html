@@ -1,86 +1,79 @@
 {% extends 'main.html' %}
 
 {% block service %}
+<link rel="stylesheet" type="text/css" href="/static/serv.css">
 
-    <table class="t_header1">
-        <tr>
-            <td width="1200px" align="left">
-                <h3>&nbsp&nbspистория операций:&nbsp&nbsp
-                {% if o_type == '1' %}
-                    <a href="/cross/build={{ obj.parrent.id }}">{{ obj.parrent.name }} {{ obj.parrent.house_num }}</a>,&nbsp&nbsp<a href="/cross/build={{ obj.parrent.id }}/locker={{ obj.id }}">УД: {{ obj.name }}</a></a>
-                {% elif o_type == '2' or o_type == '3' or o_type == '4' %}
-                    <a href="/cross/build={{ obj.parrent.parrent.id }}">{{ obj.parrent.parrent.name }} {{ obj.parrent.parrent.house_num }}</a>,&nbsp&nbsp<a href="/cross/build={{ obj.parrent.parrent.id }}/locker={{ obj.parrent.id }}">УД: {{ obj.parrent.name }}</a></a>
-                {% elif o_type == '5' %}
-                    <a href="/cross/build={{ obj.parrent.parrent.parrent.id }}">{{ obj.parrent.parrent.parrent.name }} {{ obj.parrent.parrent.parrent.house_num }}</a>,&nbsp&nbsp<a href="/cross/build={{ obj.parrent.parrent.parrent.id }}/locker={{ obj.parrent.parrent.id }}">УД: {{ obj.parrent.parrent.name }}</a>,&nbsp&nbsp<a href="/cross/build={{ obj.parrent.parrent.parrent.id }}/locker={{ obj.parrent.parrent.id }}/cr={{ obj.parrent.id }}">{{ obj.parrent.name }}</a>
-                {% elif o_type == '6' %}
-                    <a href="/cross/build={{ obj.parrent.parrent.parrent.id }}">{{ obj.parrent.parrent.parrent.name }} {{ obj.parrent.parrent.parrent.house_num }}</a>,&nbsp&nbsp<a href="/cross/build={{ obj.parrent.parrent.parrent.id }}/locker={{ obj.parrent.parrent.id }}">УД: {{ obj.parrent.parrent.name }}</a>,&nbsp&nbsp<a href="/cross/build={{ obj.parrent.parrent.parrent.id }}/locker={{ obj.parrent.parrent.id }}/dev={{ obj.parrent.id }}">{{ obj.parrent.name }}</a>
-                {% elif o_type == '7' %}
-                    <a href="/cross/build={{ obj.parrent.parrent.parrent.id }}">{{ obj.parrent.parrent.parrent.name }} {{ obj.parrent.parrent.parrent.house_num }}</a>,&nbsp&nbsp<a href="/cross/build={{ obj.parrent.parrent.parrent.id }}/locker={{ obj.parrent.parrent.id }}">УД: {{ obj.parrent.parrent.name }}</a>,&nbsp&nbsp<a href="/cross/build={{ obj.parrent.parrent.parrent.id }}/locker={{ obj.parrent.parrent.id }}/box={{ obj.parrent.id }}/">крт: {{ obj.parrent.name }}-{{ obj.parrent.num }}-{{ obj.p_alias }}</a>
-                {% endif %}
-                </h3>
-            </td>
-            <td width="300px" align="right">
-                {% if his.has_previous %}
-                    <a href="?page={{ his.previous_page_number }}">предыдущая</a>
-                {% endif %}
-                <span class="current">страница {{ his.number }} из {{ his.paginator.num_pages }}.</span>
-            </td>
-            <td width="100px" align="left">
-                {% if his.has_next %}
-                    <a href="?page={{ his.next_page_number }}">следующая&nbsp</a>
-                {% endif %}
-            </td>
-        </tr>
-    </table>
+<div class="c_base_w tone2">
+    <div class="serv_header">
+        <h3>история операций: 
+        {% if o_type == '1' %}
+            <a href="/cross/build={{ obj.parrent.id }}">{{ obj.parrent.name }} {{ obj.parrent.house_num }}</a>,&nbsp;&nbsp;<a href="/cross/build={{ obj.parrent.id }}/locker={{ obj.id }}">УД: {{ obj.name }}</a></a>
+        {% elif o_type == '2' or o_type == '3' or o_type == '4' %}
+            <a href="/cross/build={{ obj.parrent.parrent.id }}">{{ obj.parrent.parrent.name }} {{ obj.parrent.parrent.house_num }}</a>,&nbsp;&nbsp;<a href="/cross/build={{ obj.parrent.parrent.id }}/locker={{ obj.parrent.id }}">УД: {{ obj.parrent.name }}</a></a>
+        {% elif o_type == '5' %}
+            <a href="/cross/build={{ obj.parrent.parrent.parrent.id }}">{{ obj.parrent.parrent.parrent.name }} {{ obj.parrent.parrent.parrent.house_num }}</a>,&nbsp;&nbsp;<a href="/cross/build={{ obj.parrent.parrent.parrent.id }}/locker={{ obj.parrent.parrent.id }}">УД: {{ obj.parrent.parrent.name }}</a>,&nbsp&nbsp<a href="/cross/build={{ obj.parrent.parrent.parrent.id }}/locker={{ obj.parrent.parrent.id }}/cr={{ obj.parrent.id }}">{{ obj.parrent.name }}</a>
+        {% elif o_type == '6' %}
+            <a href="/cross/build={{ obj.parrent.parrent.parrent.id }}">{{ obj.parrent.parrent.parrent.name }} {{ obj.parrent.parrent.parrent.house_num }}</a>,&nbsp;&nbsp;<a href="/cross/build={{ obj.parrent.parrent.parrent.id }}/locker={{ obj.parrent.parrent.id }}">УД: {{ obj.parrent.parrent.name }}</a>,&nbsp&nbsp<a href="/cross/build={{ obj.parrent.parrent.parrent.id }}/locker={{ obj.parrent.parrent.id }}/dev={{ obj.parrent.id }}">{{ obj.parrent.name }}</a>
+        {% elif o_type == '7' %}
+            <a href="/cross/build={{ obj.parrent.parrent.parrent.id }}">{{ obj.parrent.parrent.parrent.name }} {{ obj.parrent.parrent.parrent.house_num }}</a>,&nbsp;&nbsp;<a href="/cross/build={{ obj.parrent.parrent.parrent.id }}/locker={{ obj.parrent.parrent.id }}">УД: {{ obj.parrent.parrent.name }}</a>,&nbsp&nbsp<a href="/cross/build={{ obj.parrent.parrent.parrent.id }}/locker={{ obj.parrent.parrent.id }}/box={{ obj.parrent.id }}/">крт: {{ obj.parrent.name }}-{{ obj.parrent.num }}-{{ obj.p_alias }}</a>
+        {% endif %}
+        </h3>
+        <div>
+        {% if his.has_previous %}
+            <a href="?page={{ his.previous_page_number }}">предыдущая</a>
+        {% endif %}
+            <span class="current">страница {{ his.number }} из {{ his.paginator.num_pages }}.</span>
+        {% if his.has_next %}
+            <a href="?page={{ his.next_page_number }}">следующая&nbsp;</a>
+        {% endif %}
+        </div>
+    </div>
+</div>
+<br>
     
-    <table width="1604px" border="1">
-    <caption>&nbsp</caption>
-        <tr class="t_header1">
-            <td width="100px" align="center">юзер</td>
-            <td width="120px" align="center">дата/время</td>
-            <td width="140px" align="center">объект</td>
-            <td width="50px" align="center">id</td>
-            <td width="220px" align="center">операция</td>
-            <td align="center">подробности</td>
-        </tr>
-        {% for ob in his %}
-        <tr>
-            <td>&nbsp{{ ob.0 }}&nbsp</td>
-            <td>&nbsp{{ ob.1|date:"d.m.Y" }}&nbsp/&nbsp{{ ob.1|time:"H:i" }}&nbsp</td>
-            <td>&nbsp{{ ob.2 }}&nbsp</td>
-            <td>&nbsp{{ ob.3 }}&nbsp</td>
-            <td>&nbsp{{ ob.4 }}&nbsp{{ ob.5 }}&nbsp</td>
-            <td>&nbsp{{ ob.6 }}&nbsp</td>
-        </tr>
-        {% endfor %}
+<table class="c_base_w" border="1">
+    <tr class="t_header1">
+        <td width="100px" align="center">юзер</td>
+        <td width="120px" align="center">дата/время</td>
+        <td width="140px" align="center">объект</td>
+        <td width="50px" align="center">id</td>
+        <td width="220px" align="center">операция</td>
+        <td align="center">подробности</td>
+    </tr>
+    {% for ob in his %}
+    <tr>
+        <td>{{ ob.0 }}</td>
+        <td>{{ ob.1|date:"d.m.Y" }} / {{ ob.1|time:"H:i" }}</td>
+        <td>{{ ob.2 }}</td>
+        <td>{{ ob.3 }}</td>
+        <td>{{ ob.4 }}&nbsp{{ ob.5 }}</td>
+        <td>{{ ob.6 }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
 
-    </table>
-
-    <br>
-    <table class="t_footer">
-        <tr>
-            <td width="1000px">&nbsp</td>
-            <td width="600px" align="right">
-                {% if o_type == '0' %}
-                    <input type="button" value="закрыть" onClick='location.href="/cross/build={{ obj.id }}"'>&nbsp
-                {% elif o_type == '1' %}
-                    <input type="button" value="закрыть" onClick='location.href="/cross/build={{ obj.parrent.id }}/locker={{ obj.id }}"'>&nbsp
-                {% elif o_type == '2' or o_type == '3' or o_type == '4' %}
-                    <input type="button" value="закрыть" onClick='location.href="/cross/build={{ obj.parrent.parrent.id }}/locker={{ obj.parrent.id }}"'>&nbsp
-                {% elif o_type == '5' %}
-                    <input type="button" value="закрыть" onClick='location.href="/cross/build={{ obj.parrent.parrent.parrent.id }}/locker={{ obj.parrent.parrent.id }}/cr={{ obj.parrent.id }}"'>&nbsp
-                {% elif o_type == '6' %}
-                    <input type="button" value="закрыть" onClick='location.href="/cross/build={{ obj.parrent.parrent.parrent.id }}/locker={{ obj.parrent.parrent.id }}/dev={{ obj.parrent.id }}"'>&nbsp
-                {% elif o_type == '7' %}
-                    <input type="button" value="закрыть" onClick='location.href="/cross/build={{ obj.parrent.parrent.parrent.id }}/locker={{ obj.parrent.parrent.id }}/box={{ obj.parrent.id }}"'>&nbsp
-                {% elif o_type == '8' %}
-                    <input type="button" value="закрыть" onClick='location.href="/cable/coup={{ obj.id }}"'>&nbsp
-                {% elif o_type == '9' %}
-                    <input type="button" value="закрыть" onClick='location.href="/cable/coup={{ obj.parrent.id }}"'>&nbsp
-                {% endif %}
-            </td>
-        </tr>
-    </table>
-
+<div class="c_base_w tone2 serv_footer">
+    <div class="serv_l"></div>
+    <div class="serv_r">
+    {% if o_type == '0' %}
+        <input type="button" value="закрыть" onClick='location.href="/cross/build={{ obj.id }}"'>
+    {% elif o_type == '1' %}
+        <input type="button" value="закрыть" onClick='location.href="/cross/build={{ obj.parrent.id }}/locker={{ obj.id }}"'>
+    {% elif o_type == '2' or o_type == '3' or o_type == '4' %}
+        <input type="button" value="закрыть" onClick='location.href="/cross/build={{ obj.parrent.parrent.id }}/locker={{ obj.parrent.id }}"'>
+    {% elif o_type == '5' %}
+        <input type="button" value="закрыть" onClick='location.href="/cross/build={{ obj.parrent.parrent.parrent.id }}/locker={{ obj.parrent.parrent.id }}/cr={{ obj.parrent.id }}"'>
+    {% elif o_type == '6' %}
+        <input type="button" value="закрыть" onClick='location.href="/cross/build={{ obj.parrent.parrent.parrent.id }}/locker={{ obj.parrent.parrent.id }}/dev={{ obj.parrent.id }}"'>
+    {% elif o_type == '7' %}
+        <input type="button" value="закрыть" onClick='location.href="/cross/build={{ obj.parrent.parrent.parrent.id }}/locker={{ obj.parrent.parrent.id }}/box={{ obj.parrent.id }}"'>
+    {% elif o_type == '8' %}
+        <input type="button" value="закрыть" onClick='location.href="/cable/coup={{ obj.id }}"'>
+    {% elif o_type == '9' %}
+        <input type="button" value="закрыть" onClick='location.href="/cable/coup={{ obj.parrent.id }}"'>
+    {% endif %}
+    </div>
+</div>
     
 {% endblock %}

@@ -157,6 +157,7 @@ def chain_trace(p_id, p_type, transit=False):
             res = ch_list.pop()
         elif res[0] == 8:
             return False
+
         return res
 #
     if len(ch_list) %2 > 0:

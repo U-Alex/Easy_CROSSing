@@ -1,146 +1,133 @@
 {% extends 'main.html' %}
 
 {% block cross %}
+<link rel="stylesheet" type="text/css" href="/static/colors.css">
+<link rel="stylesheet" type="text/css" href="/static/cross.css">
 
-{% if box_p_list %}
-    <table>
-        <tr class="t_header1">
-            <td width="1200px" align="left">
-                <h3>
-                    &nbsp<a href="/cross/build={{ lo.parrent_id }}">{{ lo.parrent.name }} {{ lo.parrent.house_num }}</a>,
-                    &nbsp&nbsp<a href="/cross/build={{ lo.parrent_id }}/locker={{ box.parrent_id }}">УД: {{ lo.name }}</a>,
-                    &nbsp&nbsp<label style="color:blue">крт: <b>{{ box.name }}-{{ box.num }}</label>
-                    &nbsp&nbsp({{ box.name_type }}, под: {{ box.stairway }}, эт: {{ box.floor }})</b>
-                </h3>
-            </td>
-            <td width="400px" align="right">
-                {% if kv.id != 1 %}
-                квартал: {{ kv.name }}&nbsp&nbsp
-                <a href="/statist/bu_doc={{ lo.parrent_id }}" target="_blank"><b>карточка ввода</b>&nbsp&nbsp</a>
-                {% endif %}
-            </td>
-        </tr>
-        <tr class="t_footer">
-            <td colspan="2" align="left">&nbsp
-            {% for nav in box_list %}
+{% include "show_build_header.html" %}
+
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav2">
+        {% for nav in box_list %}
             {% if nav.id == box.id %}
-                <label style="color:blue"><strong>{{ nav.name }}-{{ nav.num }}</strong></label>&nbsp&nbsp
+                <label class="color_link2"><b>{{ nav.name }}-{{ nav.num }}</b></label>
             {% else %}
-                <a href="/cross/build={{ lo.parrent_id }}/locker={{ box.parrent_id }}/box={{ nav.id }}">{{ nav.name }}-{{ nav.num }}</a>&nbsp&nbsp
+                <a href="/cross/build={{ bu.id }}/locker={{ lo.id }}/box={{ nav.id }}">{{ nav.name }}-{{ nav.num }}</a>
             {% endif %}
-            {% endfor %}
-            </td>
-        </tr>
-    </table>
-    
-    {% if bil_rq.0 %}
-        {% include "bil_rq.html" %}
-    {% else %}
-    <br>
-    {% endif %}
-
-    <table width="1604px" border="1">
-    <!--<caption>&nbsp</caption>-->
-        <tr class="t_header1">
-            <td colspan="3" align="center">кабельная связь</td>
-            <td colspan="2" align="center">порт КРТ</td>
-            <td colspan="5" align="center">абонентская связь / история</td>
-            <td colspan="3" align="center"></td>
-        </tr>
-        <tr class="t_footer">
-            <td width="180px" align="center">коммутатор</td>
-            <td width="30px" align="center">порт</td>
-            <td width="30px" align="center">+/x</td>
-            <td width="20px" align="center">№</td>
-            <td width="130px" align="center">крт/пл./(пары)</td>
-            <td width="80px" align="center">договор</td>
-            <td width="60px" align="center">кв</td>
-            <td width="280px" align="center">ФИО</td>
-            <td align="center">примечание</td>
-            <td width="30px" align="center">+/x</td>
-            <td width="20px" align="center">...</td>
-            <td width="20px" align="center">?</td>
-            <td width="20px" align="center"></td>
-        </tr>
-        {% for ob in box_p_list %}
-            <tr class="tr_hover" {% if ob.p_valid == False %} style="background-color:gray" {% endif %}>
-                {% if ob.c_up.0 != 'link_err' %}
-                    <td rowspan="2" style="background-color: {{ ob.up_color }}" align="center">
-                        <a href="{{ ob.l_up }}/?sel={{ ob.c_up.3 }}" title="{{ ob.c_up.2 }}" target="_blank"><b>{{ ob.c_up.0 }}</b></a>
-                    </td>
-                    <td rowspan="2" style="background-color: {% if ob.id == sel %} #FF0099 {% else %}{{ ob.up_color }}{% endif %}" align="center">
-                        {% if ob.c_up.1 %}
-                        <a href="{{ ob.l_up }}/?sel={{ ob.c_up.3 }}" {% if ob.id == sel %} style="color:white" {% endif %} target="_blank">
-                        <b>&nbsp{{ ob.c_up.1 }}&nbsp</b></a>
-                        {% endif %}
-                    </td>
-                    {% if ob.up_status != 0 %}
-                        <td rowspan="2" align="center"><a href="del={{ ob.id }}/s_type=3/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удаление кроссировки" width="20" height="20"></a></td>
-                    {% elif ob.p_valid == True %}
-                        <td rowspan="2" align="center"><a href="s_p={{ ob.id }}/s_type=3/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавление кроссировки" width="20" height="20"></a></td>
-                    {% else %}
-                        <td rowspan="2" style="background-color:white"></td>
-                    {% endif %}
-                {%  else  %}
-                    <td rowspan="2" colspan="3" style="background-color:red; color:white" align="center"><b>link error!!!</b></td>
-                {% endif %}
-                {% if ob.c_ports1 %}
-                    <td rowspan="{{ ob.c_ports1 }}" align="center" style="background-color:{{ ob.c_color }}">
-                        <label title="{{ ob.c_ports3 }}"><strong>{{ ob.c_ports2 }}</strong></label>
-                    </td>
-                {% endif %}
-                    <td rowspan="2" style="color: {{ ob.pl_color }}" align="center"><b>{{ box.name }}-{{ box.num }}-{{ ob.p_alias }}</b></td>
-                    <td align="center" style="background-color: {{ ob.int_color }}">
-                        {% if ob.int_c_status == 1 %} <a href="?sel={{ ob.id }}&bil_rq={{ ob.dogovor }}" style="color:black">{% endif %}
-                                                        {{ ob.dogovor }}</a>
-                    </td>
-                    <td align="center" style="background-color: {{ ob.int_color }}">{{ ob.ab_kv }}</td>
-                    <td style="background-color: {{ ob.int_color }}">{{ ob.ab_fio }}</td>
-                    <td style="background-color: {{ ob.int_color }}">&nbsp{{ ob.ab_prim }}</td>
-                    {% if ob.int_c_status != 0 and ob.c_up.0 != 'link_err' %}
-                        <td rowspan="2" align="center"><a href="s_p={{ ob.id }}/del_ab=1/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удаление абонентской кроссировки" width="20" height="20"></a></td>
-                    {% elif ob.p_valid == True and ob.c_up.0 != 'link_err' %}
-                        <td rowspan="2" align="center"><a href="s_p={{ ob.id }}/cr_ab/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавление абонентской кроссировки" width="20" height="20"></a></td>
-                    {% else %}
-                        <td rowspan="2"></td>
-                    {% endif %}
-                    <td rowspan="2" align="center">
-                        <a href="p_edit={{ ob.id }}/"><img src="/static/images/edit.png" alt="ред." title="редактирование порта" width="20" height="20"></a>
-                    </td>
-                    <td class="tone1" rowspan="2" align="center"><a href="/core/logs/t=7/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="?" title="история операций" height="16"></a></td>
-                {% if ob.id == sel %}
-                    <td rowspan="2" align="center" style="background-color:#FF0099">
-                {% else %}
-                    <td rowspan="2" align="center">
-                {% endif %}
-                    {% if ob.his_dogovor != '' %}
-                        <a href="/app/gen_pdf_2={{ ob.id }}" target="_blank"><img src="/static/images/icon_changelink.gif" alt="pdf" title="данные для снятия" width="14" height="14"></a>
-                    {% endif %}
-                    </td>
-
-            {% if ob.changed %}
-            <tr style="background-color:darkturquoise">
-            {% else %}
-            <tr class="tone1">
-            {% endif %}
-                <!--<td colspan="6">&nbsp</td>-->
-                <td align="center">{{ ob.his_dogovor }}</td>
-                <td align="center">{{ ob.his_ab_kv }}</td>
-                <td><font size="1">{{ ob.his_ab_fio }}</font></td>
-                <td><font size="1">&nbsp{{ ob.his_ab_prim }}</font></td>
-            </tr>
-        </tr>
         {% endfor %}
-    </table>
-    
+    </div>
+</div>
+<br>
+{% if bil_rq.0 %} 
+<div class="c_base_w bil_rq">{% include "bil_rq.html" %}</div>
 {% endif %}
-    <br>
-    <table class="t_footer">
-        <tr>
-            <td width="1200px">&nbspзона действия: {{ box.serv_area }}</td>
-            <td width="400px" align="right"><input type="button" value="назад" onClick='location.href="/cross/build={{ lo.parrent_id }}/locker={{ box.parrent_id }}"'>&nbsp</td>
-        </tr>
-    </table>
 
+<div class="c_base_w t_cross">
+    <div class="box_list">
+        <div class="cr_h_1 t_header1 _col_3">кабельная связь</div>
+        <div class="cr_h_1 t_header1 _col_3">порт КРТ</div>
+        <div class="cr_h_1 t_header1 _col_4">абонентская связь / история</div>
+        <div class="cr_h_1 t_header1 _col_3"></div>
+
+        <div class="cr_h_2 t_footer">коммутатор</div>
+        <div class="cr_h_2 t_footer">порт</div>
+        <div class="cr_h_2 t_footer">&#10010;&#10006;</div>
+
+        <div class="cr_h_2 t_footer">№</div>
+        <div class="cr_h_2 t_footer">крт/пл./(пары)</div>
+        <div class="cr_h_2 t_footer">&#10010;&#10006;</div>
+
+        <div class="cr_h_2 t_footer">договор</div>
+        <div class="cr_h_2 t_footer">кв</div>
+        <div class="cr_h_2 t_footer">ФИО</div>
+        <div class="cr_h_2 t_footer">примечание</div>
+        <div class="cr_h_2 t_footer">...</div>
+        <div class="cr_h_2 t_footer">i</div>
+        <div class="cr_h_2 t_footer"></div>
+
+    {% for ob in box_p_list %}
+        <div class="row_grid">
+        {% if ob.c_up.0 == 'link_err' %}
+            <div class="cr_p tone_error _col_3 _row_2">link error!!!</div>
+        {% else %}
+            <div class="cr_p _row_2 _cr_st_{{ ob.up_status }}">
+                <a href="../dev={{ ob.c_up.0.0 }}/?sel={{ ob.c_up.1.0 }}" title="{{ ob.c_up.0.2 }}" target="_blank">
+                    <b>{{ ob.c_up.0.1 }}</b>
+                </a>
+            </div>
+            <div class="cr_p _row_2 _cr_st_{{ ob.up_status }} {% if ob.id == sel %}sel_marker{% endif %}">
+            {% if ob.c_up.0.1 %}
+                <a href="../dev={{ ob.c_up.0.0 }}/?sel={{ ob.c_up.1.0 }}" target="_blank">
+                    <b>&nbsp;{{ ob.c_up.1.1 }}&nbsp;</b>
+                </a>
+            {% endif %}
+            </div>
+            <div class="cr_p _row_2">
+            {% if ob.up_status != 0 %}
+                <a href="del={{ ob.id }}/s_type=3/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удаление кроссировки"></a>
+            {% elif ob.p_valid == True %}
+                <a href="s_p={{ ob.id }}/s_type=3/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавление кроссировки"></a>
+            {% endif %}
+            </div>
+        {% endif %}
+        {% if ob.c_ports1 %}
+            <div class="cr_p _row_2" style="grid-row: span {{ ob.c_ports1 }}; 
+                                            background-color: {{ ob.c_color }};">
+                <label title="{{ ob.c_ports3 }}"><b>{{ ob.c_ports2 }}</b></label>
+            </div>
+            {% endif %}
+            <div class="cr_p _row_2 _plint_color_{{ ob.pl_num }} _ch_valid_{{ ob.p_valid }}">
+                <b>{{ box.name }}-{{ box.num }}-{{ ob.p_alias }}</b>
+            </div>
+            <div class="cr_p _row_2">
+            {% if ob.int_c_status != 0 and ob.c_up.0 != 'link_err' %}
+                <a href="s_p={{ ob.id }}/del_ab=1/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удаление абонентской кроссировки"></a>
+            {% elif ob.p_valid == True and ob.c_up.0 != 'link_err' %}
+                <a href="s_p={{ ob.id }}/cr_ab/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавление абонентской кроссировки"></a>
+            {% endif %}
+            </div>
+
+            <div class="cr_p _cr_st_{{ ob.int_c_status }}">
+                {% if ob.int_c_status == 1 %} <a href="?sel={{ ob.id }}&bil_rq={{ ob.dogovor }}"><b>{{ ob.dogovor }}</b></a>
+                {% else %}<b>{{ ob.dogovor }}</b>{% endif %}
+            </div>
+            <div class="cr_p _cr_st_{{ ob.int_c_status }}">{{ ob.ab_kv }}</div>
+            <div class="cr_p _cr_st_{{ ob.int_c_status }} _txt_l_2">{{ ob.ab_fio }}</div>
+            <div class="cr_p _cr_st_{{ ob.int_c_status }} _txt_l_2">&nbsp;{{ ob.ab_prim }}</div>
+
+            <div class="cr_p _row_2">
+                <a href="p_edit={{ ob.id }}/"><img src="/static/images/edit.png" alt="р" title="редактирование порта"></a>
+            </div>
+            <div class="cr_p _row_2">
+                <a href="/core/logs/t=7/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="i" title="история операций"></a>
+            </div>
+            <div class="cr_p {% if ob.id == sel %}sel_marker{% endif %} _row_2">
+            {% if ob.his_dogovor != '' %}
+                <a href="/app/gen_pdf_2={{ ob.id }}" target="_blank"><img src="/static/images/icon_changelink.gif" alt="pdf" title="данные для снятия"></a>
+            {% endif %}
+            </div>
+        </div>
+        <div class="row_grid_h">
+            <div class="cr_p ab_his {% if ob.changed %}ab_changed{% endif %}">{{ ob.his_dogovor }}</div>
+            <div class="cr_p ab_his">{{ ob.his_ab_kv }}</div>
+            <div class="cr_p ab_his _txt_l_2">{{ ob.his_ab_fio }}</div>
+            <div class="cr_p ab_his _txt_l_2">&nbsp;{{ ob.his_ab_prim }}</div>
+        </div>
+    {% endfor %}
+
+    </div>
+</div>
+
+<div class="c_base_w c_footer t_footer">
+    <div class="c_footer_nav c_footer_txt">
+        зона действия: {{ box.serv_area }}
+    </div>
+    <div class="c_footer_nav">
+        <input type="button" value="история" onClick='location.href="/core/logs/t=4/id={{ box.id }}"'>
+        <input type="button" value="редактирование" onClick='location.href="edit"'>
+        <input type="button" value="удалить КРТ" onClick='location.href="../del_box={{ box.id }}"'>
+        <input type="button" value="закрыть" onClick='location.href="/cross/build={{ bu.id }}/locker={{ lo.id }}"'>
+    </div>
+</div>
 
 {% endblock %}

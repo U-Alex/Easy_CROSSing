@@ -17,7 +17,7 @@
     {% for ob in lo_obj.2 %}
     <tr class="tr_hover">
         <td class="col_pic">
-            <img src="/static/images/{% if ob.name == '0' %}rj45_1.png{% else %}rj45_2.png{% endif %}" alt="" title="">
+            <img src="/static/images/{% if ob.name == '0' %}rj45_1_1.png{% else %}rj45_2_1.png{% endif %}" alt="" title="">
         </td>
         <td><b><a href="box={{ ob.id }}/" title="просмотр кроссировок">{{ ob.name }}-{{ ob.num }}</a></b></td>
         <td>{{ ob.name_type }}&nbsp;&nbsp;&nbsp;({{ ob.num_plints }})</td>
@@ -26,7 +26,7 @@
         <td>{{ ob.serv_area }}</td>
         <td>{{ ob.prim }}</td>
         <td class="col_oper2">
-            <a href="box={{ ob.id }}/edit"><img src="/static/images/edit.png" alt="р" title="редактирование">&nbsp;
+            <a href="box={{ ob.id }}/edit"><img src="/static/images/edit.png" alt="р" title="редактирование"></a>&nbsp;
             <a href="/core/logs/t=4/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="?" title="история операций"></a>&nbsp;
             <!-- <a href="del_box={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить"></a>&nbsp;&nbsp; -->
         </td>

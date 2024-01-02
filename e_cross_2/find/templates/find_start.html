@@ -3,7 +3,7 @@
 {% block find %}
 <link rel="stylesheet" type="text/css" href="/static/find.css">
 
-<section class="main_link_list">
+<div class="main_link_list">
     <div class="link_item_left"></div>
     <div class="link_item">
         <a href="/find/map/">
@@ -36,12 +36,12 @@
         </a>
     </div>
     <div class="link_item_right"></div>
-</section>
+</div>
 
-<section class="find_list">
+<div class="find_list">
     <form class="find_block t_header1" method="post" action="/find/find_bu/">
         {% csrf_token %}
-        <img src="/static/images/SKS2.png" alt="" title="здания">
+        <img src="/static/images/sks1.png" alt="" title="здания">
         <div class="find_item">{{ form1.street }}{{ form1.house_num }}</div>
         <input class="find_button" type="submit" value="&#9660;&#9660;&#9660;">
     </form>
@@ -73,11 +73,11 @@
         </div>
         <input class="find_button" type="submit" value="&#9660;&#9660;&#9660;">
     </form>
-</section> 
+</div> 
 
 {% block result %}{% endblock %}
 
-<script type="text/javascript">
+<script>
 
 id_dev_ip.addEventListener('focus', function(){
     document.getElementById("dev").action = "/find/find_dev=1/";
@@ -117,6 +117,4 @@ id_dev_vlan.addEventListener('focus', function(){
 
 </script>
 
-
 {% endblock %}
-

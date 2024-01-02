@@ -2,54 +2,46 @@
 
 {% block cross %}
 
-    <table class="t_header1">
-        <tr>
-            <td width="1000px" align="left">
-                {% if lo %}
-                <h3>&nbspУД: {{ lo.name }}</h3>
-                {% elif cr %}
-                <h3>&nbspкросс: {{ cr.name }}</h3>
-                {% elif dev %}
-                <h3>&nbspкоммутатор: {{ dev.name }}</h3>
-                {% elif box %}
-                <h3>&nbspКРТ: {{ box.name }}-{{ box.num }}</h3>
-                {% endif %}
-            </td>
-            <td width="280px" align="right">&nbsp</td>
-        </tr>
-    </table>
-    <br>
-    
+<div class="c_base_w">
+    <div class="c_header_nav">
+        <h3>
+            {% if lo %}   УД: {{ lo.name }}
+            {% elif cr %} кросс: {{ cr.name }}
+            {% elif dev %}коммутатор: {{ dev.name }}
+            {% elif box %}КРТ: {{ box.name }}-{{ box.num }}
+            {% endif %}
+        </h3>
+    </div>
+</div>
+<br>
+<div class="c_base_w">
     {% if del_ok %}
     <form method="post">
         {% csrf_token %}
-        <h3 style="color:red">удалить объект?</h3>
+
         <br>
-        <table class="t_footer">
-            <tr>
-                <td width="640px" align="right">
-                    <input type="submit" value="     OK     ">&nbsp
-                </td>
-                <td width="640px" align="left">
-                    <input type="button" value="отмена" onClick='location.href="../"'>
-                </td>
-            </tr>
-        </table>
+        <h3 align="center" style="color:red">удалить объект?</h3>
+        <br>
+
+        <div class="c_base_w t_footer3">
+            <div align="center">
+                <input type="submit" value="     OK     ">
+                <input type="button" value="отмена" onClick='location.href="../"'>
+            </div>
+        </div>
     </form>
 
     {% else %}
-        <h3 style="color:red">удаление невозможно</h3>
-        <h3>есть кроссировки или оборудование</h3>
+        <h3 align="center" style="color:red">удаление невозможно</h3>
+        <h3 align="center">есть кроссировки или оборудование</h3>
     <br>
-    <table class="t_footer">
-        <tr>
-            <td width="1280px" align="center">
-                <input type="button" value="назад" onClick='location.href="../"'>
-            </td>
-        </tr>
-    </table>
 
+    <div class="c_base_w t_footer3">
+        <div align="center">
+            <input type="button" value="назад" onClick='location.href="../"'>
+        </div>
+    </div>
     {% endif %}
-
+</div>
 
 {% endblock %}

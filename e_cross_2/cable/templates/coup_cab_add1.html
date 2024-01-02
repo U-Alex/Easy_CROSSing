@@ -2,9 +2,9 @@
 
 {% block cable %}
 
-    <table class="t_header1">
+    <table class="c_base_w t_header1">
         <tr>
-            <td width="1100px" align="left">
+            <td width="80%" align="left">
                 <form method="post">
                 {% csrf_token %}
                     &nbsp&nbspКвартал:&nbsp{{ form.kvar }}
@@ -17,7 +17,8 @@
     </table>
     <br>
 
-    <table class="tone1" width="1404px">
+<div class="c_base_w">
+    <table class="c_base_w tone1" width="100%">
         <tr valign="top">
             <td align="left">
                 <table width="880px" border="1">
@@ -69,12 +70,12 @@
             </td>
         </tr>
     </table>
-    
+</div>
     <br>
     
-    <table class="t_footer">
+    <table class="c_base_w t_footer">
         <tr>
-            <td width="1100px">&nbsp</td>
+            <td width="80%">&nbsp</td>
             <td width="300px" align="right"><input type="button" value="отмена" onClick='location.href="../"'>&nbsp</td>
         </tr>
     </table>

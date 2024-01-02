@@ -1,99 +1,95 @@
 {% extends 'main.html' %}
 
 {% block cross %}
-
 <link rel="stylesheet" type="text/css" href="/static/cssworld.ru-xcal.css" />
 <script type="text/javascript" src="/static/js/cssworld.ru-xcal-en.js"></script>
 <script>xCal.all("datepicker");</script>
+<link rel="stylesheet" type="text/css" href="/static/colors.css">
 
-    <table class="t_header1">
-        <tr>
-            <td width="1000px" align="left"><h3>&nbsp{{ lo.parrent.name }} {{ lo.parrent.house_num }},&nbsp&nbspУД: {{ lo.name }}</h3></td>
-            <td width="280px" align="right">&nbsp</td>
-        </tr>
-    </table>
-    <br>
-<form method="post">
-    {% csrf_token %}
-    
-    <table class="t_header1">
-        <tr>
-            <td align="right">&nbspимя УД:&nbsp</td>
-            <td colspan="2" align="left">&nbsp{{ form.lo_name }}&nbsp&nbsp&nbspтип:&nbsp{{ form.lo_name_type }}</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.object_owner.label }}:&nbsp</td>
-            <td colspan="2">&nbsp{{ form.object_owner }}&nbsp&nbsp&nbsp<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp&nbsp&nbsp{{ form.object_owner_list }}&nbsp</td>
-        </tr>
-        <tr>
-            <td rowspan="4" align="center">статус:</td>
-            <td colspan="2"><label style="color:brown">&nbsp{{ form.status.0 }}</label></td>
-        </tr>
-        <tr>
-            <td colspan="2"><label style="color:orange">&nbsp{{ form.status.1 }}</label></td>
-        </tr>
-        <tr>
-            <td><label style="color:green">&nbsp{{ form.status.2 }}&nbsp</label></td>
-            <td align="right">
-                <label style="color:green">&nbspдата&nbspприемки:&nbsp{#{{ form.date1 }}#}</label>
-                <input id="id_date2" name="date2" type="text" value="{{ date2 }}" size="12" onClick="xCal(this)" onKeyUp="xCal()">
-                <a href="" onClick="document.getElementById('id_date2').value=''; return false">X</a>&nbsp&nbsp
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2"><label style="color:gray">&nbsp{{ form.status.3 }}</label></td>
-        </tr>
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <h3>{{ lo.parrent.name }} {{ lo.parrent.house_num }},&nbsp;&nbsp;УД: {{ lo.name }}</h3>
+    </div>
+</div>
+<br>
 
-        <tr>
-            <td align="right">&nbspрасположение:&nbsp</td>
-            <td colspan="2">{{ form.rasp }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbspпримечание:&nbsp</td>
-            <td colspan="2">{{ form.prim }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.coord.label }}:&nbsp</td>
-            <td colspan="2" align="left">{{ form.coord }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.racks.label }}:&nbsp</td>
-            <td colspan="2">{{ form.racks }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.cab_door.label }}:&nbsp</td>
-            <td colspan="2" align="left">&nbsp{{ form.cab_door }}&nbsp{{ form.cab_key1 }}&nbsp{{ form.cab_key2 }}</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.co.label }}:&nbsp</td>
-            <td colspan="2" align="left">&nbsp{{ form.co }}&nbsp</td>
-        </tr>
-        <tr>
-            <td colspan="2" align="right">&nbspиндивидуальное подключение:&nbsp</td>
-            <td>&nbsp{{ form.detached }}&nbsp</td>
-        </tr>
+<div class="c_base_w">
+    <div align="center">
+        <form method="post">
+            {% csrf_token %}
+            
+            <table class="t_header1">
+                <tr>
+                    <td align="right">название УД:</td>
+                    <td colspan="2" align="left">{{ form.lo_name }}&nbsp;&nbsp;тип: {{ form.lo_name_type }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.object_owner.label }}:</td>
+                    <td colspan="2">{{ form.object_owner }}&nbsp;&nbsp;&nbsp;<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp;&nbsp;{{ form.object_owner_list }}</td>
+                </tr>
+                <tr>
+                    <td rowspan="4" align="center">статус:</td>
+                    <td colspan="2"><label class="_lo_st_txt_0">{{ form.status.0 }}</label></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><label class="_lo_st_txt_1">{{ form.status.1 }}</label></td>
+                </tr>
+                <tr>
+                    <td><label class="_lo_st_txt_2">{{ form.status.2 }}</label></td>
+                    <td align="right">
+                        <label class="_lo_st_txt_2">дата приемки: {#{{ form.date1 }}#}</label>
+                        <input id="id_date2" name="date2" type="text" value="{{ date2 }}" size="12" onClick="xCal(this)" onKeyUp="xCal()">
+                        <a href="" onClick="document.getElementById('id_date2').value=''; return false">X</a>&nbsp;&nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><label class="_lo_st_txt_3">{{ form.status.3 }}</label></td>
+                </tr>
 
-    </table>
-    <br>    
-    <table class="t_footer">
-        <tr>
-            <td width="640px" align="right">
-                <input type="submit" value="     OK     ">&nbsp
-            </td>
-            <td width="640px" align="left">
-                <input type="button" value="отмена" onClick='location.href="../../"'>
-            </td>
-        </tr>
-    </table>
-    
-</form>
+                <tr>
+                    <td align="right">расположение:</td>
+                    <td colspan="2">{{ form.rasp }}</td>
+                </tr>
+                <tr>
+                    <td align="right">примечание:</td>
+                    <td colspan="2">{{ form.prim }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.coord.label }}:</td>
+                    <td colspan="2" align="left">{{ form.coord }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.racks.label }}:</td>
+                    <td colspan="2">{{ form.racks }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.cab_door.label }}:</td>
+                    <td colspan="2" align="left">{{ form.cab_door }} {{ form.cab_key1 }} {{ form.cab_key2 }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.co.label }}:</td>
+                    <td colspan="2" align="left">{{ form.co }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="right">индивидуальное подключение:</td>
+                    <td>{{ form.detached }}</td>
+                </tr>
 
+            </table>
+            <br>    
 
-<script language="javascript">
+            <div class="c_base_w t_footer3">
+                <div align="center">
+                    <input type="submit" value="     OK     ">
+                    <input type="button" value="отмена" onClick='location.href="../"'>
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</div>
 
-//own.addEventListener('change', function(){
-//    id_object_owner_list.disabled = ! own.checked;
-//}, false);
+<script>
 
 id_object_owner.addEventListener('change', function(){
     id_object_owner_list.value = 0;
@@ -104,6 +100,5 @@ id_object_owner_list.addEventListener('change', function(){
 }, false);
 
 </script>
-
 
 {% endblock %}

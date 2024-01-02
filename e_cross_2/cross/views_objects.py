@@ -31,7 +31,7 @@ from core.e_config import conf
 def new_locker(request, bu_id):
 
     if not request.user.has_perm("core.can_new"):
-        return render(request, 'denied.html', {'mess': 'нет прав для создания УД', 'back': 1})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
     bu = Building.objects.get(pk=bu_id)
     if request.method == 'POST':
@@ -48,11 +48,11 @@ def new_locker(request, bu_id):
                                              co=form.cleaned_data['co']
                                              )
 
-            to_his([request.user, 1, n_locker.id, 1, 0, 'name: '+n_locker.name])
+            to_his([request.user, 1, n_locker.id, 1, 0, f"name: {n_locker.name}"])
 
             n_coup = Coupling.objects.create(parrent=n_locker.id,
                                              parr_type=0,
-                                             name=n_locker.name+'-Ш',
+                                             name=f"{n_locker.name}-Ш",
                                              name_type='кассета (УД)',
                                              )
 
@@ -89,8 +89,8 @@ def new_cr(request, bu_id, lo_id):
                     i = i + 1
                     Cross_ports.objects.create(parrent_id=n_cr.id,
                                                num=i,
-                                               port_t_x=cr.port_t_x,
-                                               prim='...'
+                                               port_t_x=cr.port_t_x
+                                               #prim='...'
                                                )
             to_his([request.user, 2, n_cr.id, 1, 0, 'name: '+n_cr.name+', УД: '+n_cr.parrent.name])
 
@@ -124,7 +124,7 @@ def new_dev(request, bu_id, lo_id):
                 n_dev = Device.objects.create(parrent_id=lo_id,
                                               name=form.cleaned_data['dev_name'],
                                               #name_type=dev.name,       ######## deprecated
-                                              con_type=dev.id,          ########
+                                              #con_type=dev.id,          ########
                                               obj_type=dev
                                               )
                 i = 0

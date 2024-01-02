@@ -10,7 +10,7 @@
         </tr>
         {% for ob in list1 %}
         <tr class="tr_hover">
-            <td class="col_addr{% if ob.0.double_id %} tone_off{% endif %}"">
+            <td class="col_addr{% if ob.0.double_id %} tone_off{% endif %}">
                 {{ ob.0.name }}&nbsp;&nbsp;{{ ob.0.house_num }}
             </td>
             <td class="col_lo_coup">
@@ -74,7 +74,9 @@
         <table class="cab_list2 tone2">
             <tr class="t_header1 row_title">
                 <th class="col_addr2">объект</th>
-                <th class="col_oper3"></th>
+                <th class="col_oper3">
+                    <a href="/cable/kv={{ kv_id }}/pw_add/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить объект"></a>
+                </th>
                 <th class="col_coup3">муфта</th>
                 <th class="col_oper1"></th>
             </tr>

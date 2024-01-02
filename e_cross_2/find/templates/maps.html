@@ -1,19 +1,20 @@
 {% extends 'main.html' %}
 
 {% block find %}
+<link rel="stylesheet" type="text/css" href="/static/colors.css">
 <link rel="stylesheet" type="text/css" href="/static/find.css">
 
 <script src="/static/js/openseadragon.min.js"></script>
 
-<section class="map">
+<div class="map">
     <div class="map_left">
         <div class="map_list t_header1">
             <p><i>карты:</i></p>
             {% for ob in map_list %}
             {% if m_num == forloop.counter %}
-            <label class="color_link2"><i>{{ forloop.counter }}:</i>&nbsp&nbsp<strong>{{ ob.2 }}</strong></label>
+            <label class="color_link2"><i>{{ forloop.counter }}:</i>&nbsp;&nbsp;<b>{{ ob.2 }}</b></label>
             {% else %}
-            <a href="/find/map{{ forloop.counter }}"><i>{{ forloop.counter }}:</i>&nbsp&nbsp{{ ob.2 }}</a>
+            <a href="/find/map{{ forloop.counter }}"><i>{{ forloop.counter }}:</i>&nbsp;&nbsp;{{ ob.2 }}</a>
             {% endif %}
             {% endfor %}
         </div>
@@ -28,7 +29,7 @@
                     <td align="right">№:</td>
                     <td>{{ form1.h_num }}</td>
                     <td align="right"><input type="button" id="go_bu" value=">>>" onClick='location.href=""'></td>
-                    <td align="center"><img src="/static/images/SKS2.png" alt="" title="здания"></td>
+                    <td align="center"><img src="/static/images/sks1.png" alt="" title="здания"></td>
                 </tr>
                 <tr>
                     <td align="right">УА:</td>
@@ -68,7 +69,7 @@
     <div><br><label style="color:red"><b>недостаточно прав</b></label></div>
     {% endif %}
 
-</section>
+</div>
 
 <script src="/static/js/map.js"></script>
 

@@ -2,71 +2,84 @@
 
 {% block cross %}
 
-    <table class="t_header1">
-        <tr>
-        {% if bu %}
-            <td width="1000px" align="left"><h3>&nbsp{{ bu.name }} {{ bu.house_num }}</h3></td>
-            <td width="280px" align="right">&nbsp</td>
-        {% else %}
-            <td width="1000px" align="left"><h3>&nbsp&nbsp{{ lo.parrent.name }} {{ lo.parrent.house_num }},&nbsp&nbspУД: {{ lo.name }}</h3></td>
-            <td width="280px" align="right">&nbsp</td>
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <h3>
+        {% if bu %} {{ bu.name }} {{ bu.house_num }}
+        {% else %}  {{ lo.parrent.name }} {{ lo.parrent.house_num }},&nbsp;&nbsp;УД: {{ lo.name }}
         {% endif %}
-        </tr>
-    </table>
-    <br>
-<form method="post">
-    {% csrf_token %}
-    
-    <table class="t_header1">
-        {% if form.box_name %}
-        <tr>
-            <td width="220px" align="right"><br>
-                &nbsp{{ form.box_name.label }}&nbsp&nbsp->&nbsp&nbsp{{ form.box_name }}&nbsp
-            </td>
-            <td align="center"><br>-</td>
-            <td width="220px" align="left"><br>
-                &nbsp{{ form.box_num }}&nbsp&nbsp<-&nbsp&nbsp{{ form.box_num.label }}&nbsp
-            </td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.box_name_type.label }}:&nbsp</td>
-            <td align="center"></td>
-            <td align="left">&nbsp{{ form.box_name_type }}&nbsp</td>
-        </tr>
-        {% else %}
-        <tr>
-            <td width="220px" align="right">&nbsp{{ form.lo_name.label }}{{ form.cr_name.label }}:&nbsp</td>
-            <td align="center"></td>
-            <td width="220px" align="left">&nbsp{{ form.lo_name }}{{ form.cr_name }}&nbsp</td>
-        </tr>
-        {% endif %}
-        <tr>
-            <td align="right">&nbsp{{ form.lo_name_type.label }}{{ form.cr_name_type.label }}{{ form.cable_name_type.label }}:&nbsp</td>
-            <td align="center"></td>
-            <td align="left">&nbsp{{ form.lo_name_type }}{{ form.cr_name_type }}{{ form.cable_name_type }}&nbsp</td>
-        </tr>
-        {% if form.lo_name %}
-        <tr>
-            <td align="right">&nbsp{{ form.co.label }}:&nbsp</td>
-            <td align="center"></td>
-            <td align="left">&nbsp{{ form.co }}&nbsp</td>
-        </tr>
-        {% endif %}
-    </table>
-    <br>
-    <table class="t_footer">
-        <tr>
-            <td width="640px" align="right">
-                <input type="submit" value="     OK     ">&nbsp
-            </td>
-            <td width="640px" align="left">
-                <input type="button" value="отмена" onClick='location.href="../"'>
-            </td>
-        </tr>
-    </table>
+        </h3>
+    </div>
+</div>
+<br>
 
-    
-</form>
+<div class="c_base_w">
+    <div align="center">
+        <form method="post">
+            {% csrf_token %}
+            
+            <table class="t_footer3">
+                {% if form.lo_name %}
+                <tr>
+                    <td width="220px" align="right">{{ form.lo_name.label }}:</td>
+                    <td align="center"></td>
+                    <td width="220px" align="left">{{ form.lo_name }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.lo_name_type.label }}:</td>
+                    <td align="center"></td>
+                    <td align="left">{{ form.lo_name_type }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.co.label }}:</td>
+                    <td align="center"></td>
+                    <td align="left">{{ form.co }}</td>
+                </tr>
+                {% elif form.cr_name %}
+                <tr>
+                    <td width="220px" align="right">{{ form.cr_name.label }}:</td>
+                    <td align="center"></td>
+                    <td width="220px" align="left">{{ form.cr_name }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.cr_name_type.label }}:</td>
+                    <td align="center"></td>
+                    <td align="left">{{ form.cr_name_type }}</td>
+                </tr>
+                {% elif form.box_name %}
+                <tr>
+                    <td width="220px" align="right"><br>
+                        {{ form.box_name.label }}&nbsp;&#9658;&nbsp;{{ form.box_name }}
+                    </td>
+                    <td align="center"><br>&#8722;</td>
+                    <td width="220px" align="left"><br>
+                        {{ form.box_num }}&nbsp;&#9668;&nbsp;{{ form.box_num.label }}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><br>{{ form.box_name_type.label }}:</td>
+                    <td align="center"></td>
+                    <td align="left"><br>{{ form.box_name_type }}</td>
+                </tr>
+                <tr>
+                    <td align="right"><br>{{ form.cable_name_type.label }}:</td>
+                    <td align="center"></td>
+                    <td align="left"><br>{{ form.cable_name_type }}</td>
+                </tr>
+                {% endif %}
 
+            </table>
+            <br>
+
+            <div class="c_base_w t_footer3">
+                <div align="center">
+                    <input type="submit" value="     OK     ">
+                    <input type="button" value="отмена" onClick='location.href="../"'>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
 
 {% endblock %}

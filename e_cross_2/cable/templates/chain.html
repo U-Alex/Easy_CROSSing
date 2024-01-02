@@ -1,26 +1,24 @@
 {% extends 'main.html' %}
 
 {% block cable %}
+<link rel="stylesheet" type="text/css" href="/static/colors.css">
 
-    <table class="t_header1">
-        <tr>
-            <td width="980px" align="left">
-                <h3>&nbspЦепочка по кабелю</h3>
-            </td>
-            <td width="300px" align="right">&nbsp</td>
-        </tr>
-    </table>
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <h3>маршрут волокна</h3>
+    </div>
+</div>
     
-    {% for ob in ch_list %}
-        
+{% for ob in ch_list %}
+<div class="c_base_w " align="center">
         <table width="1100px">
             <tr class="tone1">
-                <td colspan="3">&nbsp</td>
+                <td colspan="3">&nbsp;</td>
                 <td align="left">
                 {% if ob.0.3 %}
                     <b>}--</b>
                     {% if ob.0.3.0 != 0 %} {{ ob.0.3.0 }} / {{ ob.0.3.1 }}
-                    {% else %}             <label style="color:red">{{ ob.0.3.0 }} / {{ ob.0.3.1 }}</label>
+                    {% else %}             <label class="color_warn1">{{ ob.0.3.0 }} / {{ ob.0.3.1 }}</label>
                     {% endif %}
                 {% endif %}
                 </td>
@@ -30,18 +28,18 @@
                 
                 {% if   ob.0.0 == 1 and ob.1.0 == 1 or ob.0.0 == 1 and ob.1.0 == 2 %}
                 
-                    {% if   ob.0.1.parrent.parr_type == 0 %}
-                        <div style="background-color:palegreen">
+                    {% if ob.0.1.parrent.parr_type == 0 %}
+                        <div class="_coup_parr_{{ ob.0.1.parrent.parr_type }}">
                             <a href="/cross/build={{ ob.0.2.parrent_id }}/locker={{ ob.0.2.id }}" target="_blank">
                                 УД: <b>{{ ob.0.2.name }}</b>, ул: <b>{{ ob.0.2.parrent.name }} {{ ob.0.2.parrent.house_num }}</b></a>
                         </div>
                     {% elif ob.0.1.parrent.parr_type == 1 %}
-                        <div style="background-color:khaki">
+                        <div class="_coup_parr_{{ ob.0.1.parrent.parr_type }}">
                             <a href="/cable/coup={{ ob.0.1.parrent_id }}" target="_blank">
                                 муфта: <b>{{ ob.0.1.parrent.name }}</b>, ул: <b>{{ ob.0.2.name }} {{ ob.0.2.house_num }}</b></a>
                         </div>
                     {% elif ob.0.1.parrent.parr_type == 2 %}
-                        <div style="background-color:lightsteelblue">
+                        <div class="_coup_parr_{{ ob.0.1.parrent.parr_type }}">
                             <a href="/cable/coup={{ ob.0.1.parrent_id }}" target="_blank">
                                 муфта: <b>{{ ob.0.1.parrent.name }}</b>, объект: <b>{{ ob.0.2.name }}</b>, квартал: <b>{{ ob.0.2.parrent.name }}</b></a>
                         </div>
@@ -49,18 +47,18 @@
                     
                 {% elif ob.0.0 == 2 and ob.1.0 == 1 or ob.0.0 == 0 and ob.1.0 == 1 %}
                     
-                    {% if   ob.1.1.parrent.parr_type == 0 %}
-                        <div style="background-color:palegreen">
+                    {% if ob.1.1.parrent.parr_type == 0 %}
+                        <div class="_coup_parr_{{ ob.1.1.parrent.parr_type }}">
                             <a href="/cross/build={{ ob.1.2.parrent_id }}/locker={{ ob.1.2.id }}" target="_blank">
                                 УД: <b>{{ ob.1.2.name }}</b>, ул: <b>{{ ob.1.2.parrent.name }} {{ ob.1.2.parrent.house_num }}</b></a>
                         </div>
                     {% elif ob.1.1.parrent.parr_type == 1 %}
-                        <div style="background-color:khaki">
+                        <div class="_coup_parr_{{ ob.1.1.parrent.parr_type }}">
                             <a href="/cable/coup={{ ob.1.1.parrent_id }}" target="_blank">
                                 муфта: <b>{{ ob.1.1.parrent.name }}</b>, ул: <b>{{ ob.1.2.name }} {{ ob.1.2.house_num }}</b></a>
                         </div>
                     {% elif ob.1.1.parrent.parr_type == 2 %}
-                        <div style="background-color:lightsteelblue">
+                        <div class="_coup_parr_{{ ob.1.1.parrent.parr_type }}">
                             <a href="/cable/coup={{ ob.1.1.parrent_id }}" target="_blank">
                                 муфта: <b>{{ ob.1.1.parrent.name }}</b>, объект: <b>{{ ob.1.2.name }}</b>, квартал: <b>{{ ob.1.2.parrent.name }}</b></a>
                         </div>
@@ -70,25 +68,25 @@
                 
                     {% if  ob.0.2 %}
                         
-                        {% if   ob.0.1.parrent.parr_type == 0 %}
-                            <div style="background-color:palegreen">
+                        {% if ob.0.1.parrent.parr_type == 0 %}
+                            <div class="_coup_parr_{{ ob.0.1.parrent.parr_type }}">
                                 <a href="/cross/build={{ ob.0.2.parrent_id }}/locker={{ ob.0.2.id }}" target="_blank">
                                     УД: <b>{{ ob.0.2.name }}</b>, ул: <b>{{ ob.0.2.parrent.name }} {{ ob.0.2.parrent.house_num }}</b></a>
                             </div>
                         {% elif ob.0.1.parrent.parr_type == 1 %}
-                            <div style="background-color:khaki">
+                            <div class="_coup_parr_{{ ob.0.1.parrent.parr_type }}">
                                 <a href="/cable/coup={{ ob.0.1.parrent_id }}" target="_blank">
                                     муфта: <b>{{ ob.0.1.parrent.name }}</b>, ул: <b>{{ ob.0.2.name }} {{ ob.0.2.house_num }}</b></a>
                             </div>
                         {% elif ob.0.1.parrent.parr_type == 2 %}
-                            <div style="background-color:lightsteelblue">
+                            <div class="_coup_parr_{{ ob.0.1.parrent.parr_type }}">
                                 <a href="/cable/coup={{ ob.0.1.parrent_id }}" target="_blank">
                                     муфта: <b>{{ ob.0.1.parrent.name }}</b>, объект: <b>{{ ob.0.2.name }}</b>, квартал: <b>{{ ob.0.2.parrent.name }}</b></a>
                             </div>
                         {% endif %}
                         
                     {% else %}
-                        <div style="background-color:palegreen">
+                        <div class="_coup_parr_0">
                             <a href="/cross/build={{ ob.0.1.parrent.parrent.parrent_id }}/locker={{ ob.0.1.parrent.parrent.id }}" target="_blank">
                                 УД: <b>{{ ob.0.1.parrent.parrent.name }}</b>, ул: <b>{{ ob.0.1.parrent.parrent.parrent.name }} {{ ob.0.1.parrent.parrent.parrent.house_num }}</b></a>
                         </div>
@@ -195,22 +193,21 @@
                         </tr>
                     </table>
                 {% elif ob.1.0 == 8 %}
-                    <div style="background-color:red">
+                    <div class="color_warn1">
                         <label style="color:white"><b><br>{{ ob.1.1 }}<br></b></label>
                     </div>
                 {% endif %}
                 </td>
             </tr>
         </table>
-    {% endfor %}
-    
-    <br>
-    <table class="t_footer">
-        <tr>
-            <td width="1000px">&nbsp</td>
-            <td width="280px" align="right"><input type="button" value="закрыть" onClick='location.href="../../"'>&nbsp</td>
-        </tr>
-    </table>
+{% endfor %}
+</div>
+<br>
 
+<div class="c_base_w t_footer3">
+    <div align="center">
+        <input type="button" value="закрыть" onClick='location.href="../../"'>
+    </div>
+</div>
 
 {% endblock %}

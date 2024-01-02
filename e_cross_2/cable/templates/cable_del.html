@@ -2,14 +2,14 @@
 
 {% block cable %}
     
-    <table class="t_header1">
+    <table class="c_base_w t_header1">
         <tr>
-            <td width="1000px" align="left"><h3>&nbspмуфта: {{ pw.name }}</h3></td>
-            <td width="280px" align="right">&nbsp</td>
+            <td width="100%" align="left"><h3>&nbspмуфта: {{ pw.name }}</h3></td>
+            <td width="280px" align="right"></td>
         </tr>
     </table>
     <br>
-    
+<div class="c_base_w " align="center">
     {% if del_ok %}
     <form method="post">
         {% csrf_token %}
@@ -30,10 +30,11 @@
     {% else %}
         <h3 style="color:red">удаление невозможно</h3>
         <h3>есть муфты</h3>
+</div>
     <br>
-    <table class="t_footer">
+    <table class="c_base_w t_footer">
         <tr>
-            <td width="1280px" align="center">
+            <td >
                 <input type="button" value="назад" onClick='location.href="/cable/?kv={{ pw.parrent_id }}"'>
             </td>
         </tr>

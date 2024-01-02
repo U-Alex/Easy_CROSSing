@@ -1,0 +1,61 @@
+ /* colors  */
+
+._lo_status_0 { background: radial-gradient(orange, var(--tone2-color)); }
+._lo_status_1 { background: radial-gradient(yellow, var(--tone2-color)); }
+._lo_status_2 { background: radial-gradient(lawngreen, var(--tone2-color)); }
+._lo_status_3 { background: radial-gradient(gray, var(--tone2-color)); }
+
+._lo_st_txt_0 { text-shadow: orange 0 0 6px; }
+._lo_st_txt_1 { text-shadow: yellow 0 0 6px; }
+._lo_st_txt_2 { text-shadow: lawngreen 0 0 6px; }
+._lo_st_txt_3 { text-shadow: gray 0 0 6px; }
+._lo_st_txt_0, ._lo_st_txt_1, ._lo_st_txt_2, ._lo_st_txt_3 {
+    color: #222;
+}
+
+/* ._cr_st_0 { background: none; } */
+._cr_st_1 { background: linear-gradient(white, lawngreen, white); }
+._cr_st_2 { background: linear-gradient(white, yellow, white); }
+._cr_st_3 { background: linear-gradient(white, pink, white); }
+._cr_st_4 { background: linear-gradient(white, aqua, white); }
+
+._cr_st_txt_1 { text-shadow: lawngreen 0 0 6px; }
+._cr_st_txt_2 { text-shadow: yellow 0 0 6px; }
+._cr_st_txt_3 { text-shadow: violet 0 0 6px; }
+._cr_st_txt_4 { text-shadow: aqua 0 0 6px; }
+._cr_st_txt_1, ._cr_st_txt_2, ._cr_st_txt_3, ._cr_st_txt_4 {
+    color: #222;
+}
+
+
+
+
+._coup_cr_st_0 { background: none; }
+._coup_cr_st_1 { background: lawngreen; }
+._coup_cr_st_2 { background: yellow; }
+._coup_cr_st_3 { background: pink; }
+._coup_cr_st_4 { background: aqua; }
+
+._coup_parr_0 { background: palegreen; }
+._coup_parr_1 { background: khaki; }
+._coup_parr_2 { background: lightsteelblue; }
+
+._plint_color_0 { color: violet; }
+._plint_color_1 { color: brown; }
+._plint_color_2 { color: blue; }
+._plint_color_3 { color: green; }
+._plint_color_4 { color: orange; }
+._plint_color_5 { color: teal; }
+._plint_color_6 { color: black; }
+._plint_color_7 { color: lightcoral; }
+._plint_color_8 { color: gray; }
+._plint_color_9 { color: black; }
+ 
+.crab_color_txt_0 { color: black; }
+.crab_color_txt_1 { color: green; }
+.crab_color_txt_2 { color: orange; }
+.crab_color_txt_3 { color: violet; }
+.crab_color_txt_4 { color: olive; }
+.crab_color_txt_5 { color: red; }
+
+

@@ -28,7 +28,7 @@ from core.e_config import conf
 @login_required(login_url='/core/login/')
 def find_0(request, str_id=0):
 
-    return render(request, 'find_0.html', {
+    return render(request, 'find_start.html', {
                                             'form1': find_Form_bu(initial={'street': str_id}),
                                             'form2': app_find_Form(),
                                             'form3': find_Form_dev(),

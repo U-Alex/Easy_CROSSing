@@ -1,59 +1,63 @@
 {% extends 'main.html' %}
 
 {% block service %}
+<link rel="stylesheet" type="text/css" href="/static/serv.css">
 
-    <table class="t_header1">
-        <tr>
-            <td width="880px" align="left"><h3>&nbsp Кросс:&nbsp&nbsp{% if cr %}{{ cr.name }}{% else %}(новый шаблон){% endif %}</h3></td>
-            <td width="400px" align="right"></td>
-        </tr>
-    </table>
-    <br>
+<div class="c_base_w tone2">
+    <div class="serv_header">
+        <h3>Кросс:&nbsp;&nbsp;{% if cr %}{{ cr.name }}{% else %}(новый шаблон){% endif %}</h3>
+    </div>
+</div>
+<br>
 
-<form method="post">
-    {% csrf_token %}
-    <table class="t_header1">
-        <tr>
-            <td align="right">&nbsp{{ form.name.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.name }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.ports.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.ports }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.v_col.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.v_col }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.v_row.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.v_row }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.units.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.units }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.v_forw_l_r.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.v_forw_l_r }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.ext_p.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.ext_p }}&nbsp</td>
-        </tr>
-    </table>
-    <br>
-    <table class="t_footer">
-        <tr>
-            <td width="640px" align="right"><input type="submit" id="id_ok" value="     OK     ">&nbsp</td>
-            <td width="640px" align="left"><input type="button" value="отмена" onClick='location.href="/core/templ/"'></td>
-        </tr>
-    </table>
-</form>
+<div class="c_base_w" align="center">
+    <form method="post">
+        {% csrf_token %}
+        <table class="t_header1">
+            <tr>
+                <td align="right">{{ form.name.label }}:</td>
+                <td align="left">{{ form.name }}</td>
+            </tr>
+            <tr>
+                <td align="right">{{ form.ports.label }}:</td>
+                <td align="left">{{ form.ports }}</td>
+            </tr>
+            <tr>
+                <td align="right">{{ form.v_col.label }}:</td>
+                <td align="left">{{ form.v_col }}</td>
+            </tr>
+            <tr>
+                <td align="right">{{ form.v_row.label }}:</td>
+                <td align="left">{{ form.v_row }}</td>
+            </tr>
+            <tr>
+                <td align="right">{{ form.units.label }}:</td>
+                <td align="left">{{ form.units }}</td>
+            </tr>
+            <tr>
+                <td align="right">{{ form.v_forw_l_r.label }}:</td>
+                <td align="left">{{ form.v_forw_l_r }}</td>
+            </tr>
+            <tr>
+                <td align="right">{{ form.ext_p.label }}:</td>
+                <td align="left">{{ form.ext_p }}</td>
+            </tr>
+        </table>
+        <br>
+
+        <div class="tone2">
+            <div class="serv_c">
+                <input type="submit" id="id_ok" value="     OK     ">
+                <input type="button" value="отмена" onClick='location.href="/core/templ/"'>
+            </div>
+        </div>
+
+    </form>
+</div>
 
 <input type="hidden" id="id_cr_p" value="{{ cr.ports }}">
 
-<script language="javascript">
+<script>
 
 window.onload = function init() {
     valid();
@@ -93,6 +97,5 @@ function valid() {
 }
 
 </script>
-
 
 {% endblock %}

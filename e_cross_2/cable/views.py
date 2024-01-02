@@ -148,7 +148,7 @@ def create_obj_list(kvar):
 def pw_add(request, kvar):
 
     if not request.user.has_perm("core.can_cable_edit"):
-        return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     if request.method == 'POST':
         form = add_PW_Form(request.POST)
@@ -306,7 +306,7 @@ def coup_view(request, s_coup):
             cr_int_port = ''
             cr_cab_color = 'white'
 
-        p_list.append({'f':[ob.id,
+        p_list.append({'f':(ob.id,
                             ob.fiber_num,
                             [ob.fiber_color, conf.RU_COLOR_LIST[ob.fiber_color] if ob.fiber_color in conf.RU_COLOR_LIST else ob.fiber_color],
                             cab_title,                 #3-new_cab
@@ -317,21 +317,21 @@ def coup_view(request, s_coup):
                             ob.prim,
                             ob.p_valid,
                             owner_f,
-                            ],
-                       'cr':[ob.int_c_status,
+                            ),
+                       'cr':(ob.int_c_status,
                              ob.int_c_dest,
                              #coup_p_list.get(pk=ob.int_c_id) if ob.int_c_status != 0 and ob.int_c_dest == 0 else '',
                              cr_int_port,
                              Cross_ports.objects.get(pk=ob.int_c_id) if ob.int_c_status != 0 and ob.int_c_dest == 1 else '',
                              #conf.N_CAB_COLORS[coup_p_list.get(pk=ob.int_c_id).cable_num] if ob.int_c_status != 0 and ob.int_c_dest == 0 else 'white',
                              cr_cab_color,
-                            ],
-                       'up':[obj_ty,
+                            ),
+                       'up':(obj_ty,
                              obj_cr,
                              parr3,
                              fin_id,
                              hop,
-                            ]
+                            )
                        })
 
     if coup.parr_type == 0:
@@ -345,14 +345,11 @@ def coup_view(request, s_coup):
         kvar_id = PW_cont.objects.get(pk=coup.parrent).parrent.id
     kvar = Kvartal.objects.get(pk=kvar_id) if kvar_id else False
 
-    try:
-        sel = int(request.GET['sel'])        #маркер
-    except:
-        sel = 0
-    try:
-        to_print = int(request.GET['to_print'])
-    except:
-        to_print = False
+    try:    sel = int(request.GET['sel'])
+    except: sel = 0
+
+    try:    to_print = int(request.GET['to_print'])
+    except: to_print = False
 
     return render(request, 'coup_view.html', {
                                             'kvar': kvar,

@@ -1,53 +1,43 @@
 {% extends 'main.html' %}
 
 {% block service %}
+<link rel="stylesheet" type="text/css" href="/static/serv.css">
 
-    <table class="t_header1">
-        <tr>
-            <td width="1000px" align="left">
-                {% if upr %}
-                <h3>&nbspэлемент справочника: {{ upr.name }}</h3>
-                {% endif %}
-            </td>
-            <td width="280px" align="right">&nbsp</td>
-        </tr>
-    </table>
-    <br>
+<div class="c_base_w tone2">
+    <div class="serv_header">
+        <h3>элемент справочника: {{ upr.name }}</h3>
+    </div>
+</div>
+<br>
     
-    {% if del_ok %}
-    <form method="post">
-        {% csrf_token %}
-        <h3 style="color:red">удалить запись?</h3>
-        <br>
-        <table class="t_footer">
-            <tr>
-                <td width="640px" align="right">
-                    <input type="submit" value="     OK     ">&nbsp
-                </td>
-                <td width="640px" align="left">
-                    <input type="button" value="отмена" onClick='location.href="/core/sprav/"'>
-                </td>
-            </tr>
-        </table>
-    </form>
-
-    {% else %}
-        <h3 style="color:red">удаление невозможно</h3>
-        <h3>есть зависимые объекты:</h3>
-        {% for ob in obj_list %}
-            <a href="/cross/build={{ ob.id }}/" target="_blank">{{ ob.name }}&nbsp{{ ob.house_num }}</a><br>
-        {% endfor %}
-
+{% if del_ok %}
+<form method="post">
+    {% csrf_token %}
+    <h3 class="c_base_w serv_c" style="color:red">удалить запись?</h3>
     <br>
-    <table class="t_footer">
-        <tr>
-            <td width="1280px" align="center">
-                <input type="button" value="назад" onClick='location.href="/core/sprav/"'>
-            </td>
-        </tr>
-    </table>
+    <div class="c_base_w tone2">
+        <div class="serv_c">
+            <input type="submit" value="     OK     ">
+            <input type="button" value="отмена" onClick='location.href="/core/sprav/"'>
+        </div>
+    </div>
+</form>
 
-    {% endif %}
+{% else %}
+<div class="c_base_w serv_c">
+    <h3 style="color:red">удаление невозможно</h3><br>
+    <h3>есть зависимые объекты:</h3>
+    {% for ob in obj_list %}
+        <a href="/cross/build={{ ob.id }}/" target="_blank">{{ ob.name }}&nbsp{{ ob.house_num }}</a><br>
+    {% endfor %}
+</div>
+<br>
+<div class="c_base_w tone2">
+    <div class="serv_c">
+        <input type="button" value="назад" onClick='location.href="/core/sprav/"'>
+    </div>
+</div>
 
+{% endif %}
 
 {% endblock %}

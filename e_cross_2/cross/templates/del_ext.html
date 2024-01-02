@@ -2,34 +2,31 @@
 
 {% block cross %}
 
-<form method="post">
-    {% csrf_token %}
-    
-    <table class="t_header1">
-        <tr>
-            <td width="1200px" align="left">
-                <h3>&nbsp<a href="/cross/build={{ s_p.parrent.parrent.parrent.id }}">{{ s_p.parrent.parrent.parrent.name }} {{ s_p.parrent.parrent.parrent.house_num }}</a>,&nbsp&nbsp<a href="/cross/build={{ s_p.parrent.parrent.parrent.id }}/locker={{ s_p.parrent.parrent.id }}">УД: {{ s_p.parrent.parrent.name }}</a>,&nbsp&nbsp<a href="/cross/build={{ s_p.parrent.parrent.parrent.id }}/locker={{ s_p.parrent.parrent.id }}/cr={{ s_p.parrent.id }}/">кросс: {{ s_p.parrent.name }}, порт: {{ s_p.num }}</a>&nbsp&nbsp
-                --->
-                &nbsp&nbsp<a href="/cross/build={{ d_p.parrent.parrent.parrent.id }}">{{ d_p.parrent.parrent.parrent.name }} {{ d_p.parrent.parrent.parrent.house_num }}</a>,&nbsp&nbsp<a href="/cross/build={{ d_p.parrent.parrent.parrent.id }}/locker={{ d_p.parrent.parrent.id }}">УД: {{ d_p.parrent.parrent.name }}</a>,&nbsp&nbsp<a href="/cross/build={{ d_p.parrent.parrent.parrent.id }}/locker={{ d_p.parrent.parrent.id }}/cr={{ d_p.parrent.id }}/">кросс: {{ d_p.parrent.name }}, порт: {{ d_p.num }}</a></h3>
-            </td>
-            <td width="80px" align="right">&nbsp</td>
-        </tr>
-    </table>
-    <br>
-    <h3 style="color:red">удалить кабельную связь?</h3>
-    <br>
-    <table class="t_footer">
-        <tr>
-            <td width="640px" align="right">
-                <input type="submit" value="     OK     ">&nbsp
-            </td>
-            <td width="640px" align="left">
-                <input type="button" value="отмена" onClick='location.href="../../"'>
-            </td>
-        </tr>
-    </table>
-    
-</form>
+<div class="c_base_w">
+    <div class="c_header_nav">
+        <h3>
+            <a href="/cross/build={{ s_p.parrent.parrent.parrent.id }}">{{ s_p.parrent.parrent.parrent.name }} {{ s_p.parrent.parrent.parrent.house_num }}</a>,&nbsp&nbsp<a href="/cross/build={{ s_p.parrent.parrent.parrent.id }}/locker={{ s_p.parrent.parrent.id }}">УД: {{ s_p.parrent.parrent.name }}</a>,&nbsp&nbsp<a href="/cross/build={{ s_p.parrent.parrent.parrent.id }}/locker={{ s_p.parrent.parrent.id }}/cr={{ s_p.parrent.id }}/">кросс: {{ s_p.parrent.name }}, порт: {{ s_p.num }}</a>
+            &nbsp;&#9658;&#9658;&#9658;&nbsp;<a href="/cross/build={{ d_p.parrent.parrent.parrent.id }}">{{ d_p.parrent.parrent.parrent.name }} {{ d_p.parrent.parrent.parrent.house_num }}</a>,&nbsp&nbsp<a href="/cross/build={{ d_p.parrent.parrent.parrent.id }}/locker={{ d_p.parrent.parrent.id }}">УД: {{ d_p.parrent.parrent.name }}</a>,&nbsp&nbsp<a href="/cross/build={{ d_p.parrent.parrent.parrent.id }}/locker={{ d_p.parrent.parrent.id }}/cr={{ d_p.parrent.id }}/">кросс: {{ d_p.parrent.name }}, порт: {{ d_p.num }}</a>
+        </h3>
+    </div>
+</div>
 
+<div class="c_base_w">
+    <form method="post">
+        {% csrf_token %}
+        
+        <br>
+        <h3 align="center" style="color:red">удалить кабельную связь?</h3>
+        <br>
+
+        <div class="c_base_w t_footer3">
+            <div align="center">
+                <input type="submit" value="     OK     ">
+                <input type="button" value="отмена" onClick='location.href="../../"'>
+            </div>
+        </div>
+        
+    </form>
+</div>
 
 {% endblock %}

@@ -1,34 +1,34 @@
     <br>
     {% if lo_list %}
-        <label>&nbsp&nbsp&nbsp<i>узлы доступа:</i></label>
+        <label>&emsp;<i>узлы доступа:</i></label>
         <br>
         {% for ob in lo_list %}
-            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-            <a href="/cross/build={{ ob.parrent.id }}/locker={{ ob.id }}/" target="_blank"><strong>{{ ob.name }}</strong></a>
-            {% if ob.status == 0 %}&nbsp&nbsp<label style="color:#FF707E">в проекте</label>
-            {% elif ob.status == 1 %}&nbsp&nbsp<label style="color:yellow">монтаж</label>
-            {% elif ob.status == 3 %}&nbsp&nbsp<label style="color:gray">отключен</label>
+            &emsp;&emsp;
+            <a href="/cross/build={{ ob.parrent.id }}/locker={{ ob.id }}/" target="_blank"><b>{{ ob.name }}</b></a>
+            {% if ob.status == 0 %}&nbsp;&nbsp;<label class="_lo_st_txt_0">в проекте</label>
+            {% elif ob.status == 1 %}&nbsp;&nbsp;<label class="_lo_st_txt_1">монтаж</label>
+            {% elif ob.status == 3 %}&nbsp;&nbsp;<label class="_lo_st_txt_3">отключен</label>
             {% endif %}
             <br>
         {% endfor %}
         <br>
     {% endif %}
     {% if co_list %}
-        <label>&nbsp&nbsp&nbsp<i>муфты:</i></label>
+        <label>&emsp;<i>муфты:</i></label>
         <br>
         {% for ob in co_list %}
-            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-            <a href="/cable/coup={{ ob.id }}/" target="_blank"><strong>{{ ob.name }}</strong></a>&nbsp
+            &emsp;&emsp;
+            <a href="/cable/coup={{ ob.id }}/" target="_blank"><b>{{ ob.name }}</b></a>
             <br>
         {% endfor %}
         <br>
     {% endif %}
     {% if pw_list %}
-        <label>&nbsp&nbsp&nbsp<i>опоры, колодцы:</i></label>
+        <label>&emsp;<i>опоры, колодцы:</i></label>
         <br>
         {% for ob in pw_list %}
-            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-            <a href="/cable/?kv={{ ob.parrent.id }}" target="_blank"><strong>{{ ob.name }}</strong></a>
+            &emsp;&emsp;
+            <a href="/cable/?kv={{ ob.parrent.id }}" target="_blank"><b>{{ ob.name }}</b></a>
             <br>
         {% endfor %}
     {% endif %}

@@ -1,19 +1,19 @@
 {% extends 'main.html' %}
 
 {% block service %}
+<link rel="stylesheet" type="text/css" href="/static/serv.css">
 
-    <table class="t_header1">
-        <tr>
-            <td width="1000px" align="left"><h3>&nbsp&nbspменеджер схем ВОЛС</h3></td>
-            <td width="280px" align="right">&nbsp</td>
-        </tr>
-    </table>
-{% if not ok %}
-    <label style="color:red;">&nbsp&nbspВыполняется фоновая задача, некоторые операции недоступны</label>
-{% endif %}
-        <br>
+<div class="c_base_w tone2">
+    <div class="serv_header">
+        <h3>менеджер схем ВОЛС</h3>
+    {% if not ok %}
+        <label style="color:red;"><b>Выполняется фоновая задача, некоторые операции недоступны</b></label>    
+    {% endif %}
+    </div>
+</div>
+<br>
 
-<table class="tone1" width="1284px"><tr valign="top">
+<table class="c_base_w tone1" width="1284px"><tr valign="top">
     <td width="250px" align="left">
         <table class="tone2" width="100%">
         {% for ob in map_list %}
@@ -84,27 +84,29 @@
     <td width="250px" align="right"></td>
 </tr></table>
     
-    <br>
-    <table class="t_footer">
-        <tr>
-            <td width="1000px">
-                <form enctype="multipart/form-data" method="post" action="">
-                    {% csrf_token %}
-                    {{ form.file }}
-                    <input type="submit" value="добавить" style="width:100px">&nbsp
-                {% if f_exist %}
-                    <label style="color:red;">&nbsp&nbsp<strong>файл с таким именем существует на сервере</strong></label>
-                {% else %}
-                    <label>&nbsp&nbspобработка изображения займет насколько секунд</label>
-                {% endif %}
-                </form>
-            </td>
-            <td width="280px" align="right">
-                <input type="button" value="закрыть" onClick='location.href="/core/service/"'>&nbsp
-            </td>
-        </tr>
-    </table>
 <br>
+<table class="c_base_w tone2">
+    <tr class="serv_footer">
+        <td width="100%">
+            <form enctype="multipart/form-data" method="post" action="">
+                {% csrf_token %}
+                {{ form.file }}
+                <input type="submit" value="добавить" style="width:100px">&nbsp;
+            {% if f_exist %}
+                <label style="color:red;"><b>файл с таким именем существует на сервере</b></label>
+            {% else %}
+                <label>обработка изображения займет насколько секунд</label>
+            {% endif %}
+            </form>
+        </td>
+        <td width="280px" align="right">
+            <input type="button" value="закрыть" onClick='location.href="/core/service/"'>&nbsp
+        </td>
+    </tr>
+</table>
+<br><br>
+
+<div class="c_base_w tone2">
 debug:
 <br>
 {{ ok }}
@@ -112,5 +114,6 @@ debug:
 {% for ob in deb %}
 {{ ob }}<br>
 {% endfor %}
+</div>
 
 {% endblock %}

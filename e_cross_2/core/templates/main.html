@@ -2,17 +2,16 @@
 
 {% load static %}
 
-<html>
+<html lang="ru">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta charset="utf-8"> 
         <meta name="robots" content="NONE,NOARCHIVE">
         <title>
         {% if title %}  {{ title }}
-        {% elif bu %}   {{ bu.name }} {{ bu.house_num }}
-        {% elif lo %}   {{ lo.parrent.name }} {{ lo.parrent.house_num }}
-        {% elif port %} {{ port.parrent.parrent.parrent.name }} {{ port.parrent.parrent.parrent.house_num }}
-        {% elif coup %} м: {{ coup.name }}
         {% elif map %}  Схема сети
+        {% elif lo %}   уд: {{ lo.name }}
+        {% elif coup %} м: {{ coup.name }}
+        {% elif bu %}   {{ bu.name }} {{ bu.house_num }}
         {% elif his %}  История операций
         {% else %}      Easy CROSSing
         {% endif %}
@@ -30,15 +29,12 @@
                 <a href="/">Easy&nbsp;CROSSing</a>
             </div>
             <nav class="header_menu link_in_out">
-                {% if bu %}  <a href="/find/str={{ bu.parrent_id }}">Поиск</a>
-                {% elif lo %}<a href="/find/str={{ lo.parrent.parrent_id }}">Поиск</a>
-                {% else %}   <a href="/find/">Поиск</a>
-                {% endif %}
+                <a href="/find/{% if bu %}str={{ bu.parrent_id }}{% endif %}">Поиск</a>
                 <a href="/find/map">Схема&nbsp;сети</a>
                 <a href="/app/status=0">Заявки</a>
                 <a href="/cable">Волс</a>
-                    <!--|&nbsp<a href="">Аренда</a>-->
-                    <!--|&nbsp<a href="">Сообщения</a>-->
+                    <!--|&nbsp<a href="/rent">Аренда</a>-->
+                    <!--|&nbsp<a href="/mess">Сообщения</a>-->
                     <!--|&nbsp<a href="/plan">Строительство</a>-->
                 <a href="/core/service">Сервис</a>
                 {% if perms.core.can_adm %}<a href="/admin" target="_blank">Админка</a>{% endif %}
@@ -55,9 +51,8 @@
         </div>
     </header>
 
-    <div class="content" align="center">
-    <!-- <div class="content"> -->
-    {% block index %}{% endblock %}
+    <div class="content">
+    <!-- {% block index %}{% endblock %} -->
     {% block core %}{% endblock %}
     {% block cross %}{% endblock %}
     {% block find %}{% endblock %}
@@ -65,15 +60,15 @@
     {% block cable %}{% endblock %}
     {% block statist %}{% endblock %}
     {% block service %}{% endblock %}
-    {% block plan %}{% endblock %}
-    {% block manual %}{% endblock %}
     {% block equip %}{% endblock %}
-    {% block hard %}{% endblock %}
     {% block mess %}{% endblock %}
+    <!-- {% block hard %}{% endblock %} -->
+    <!-- {% block plan %}{% endblock %} -->
+    {% block manual %}{% endblock %}
     </div>
 
     <div class="fixed-bottom t_footer2">
-        &nbsp;<!--<a href="/statist/talkback/" target="_blank">сообщить разработчику&nbsp</a>-->
+        &nbsp;<!--<a href="/statist/talkback/" target="_blank">сообщить разработчику</a>-->
     </div>
 
 </body>

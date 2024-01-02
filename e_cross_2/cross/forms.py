@@ -237,27 +237,27 @@ class edit_cr_p_Form(forms.Form):
     status1 = forms.ChoiceField(label='статус (внешняя связь)', required=False, widget=forms.RadioSelect, choices=conf.STATUS_LIST)
     status2 = forms.ChoiceField(label='статус (внутренняя связь)', required=False, widget=forms.RadioSelect, choices=conf.STATUS_LIST)
     valid = forms.BooleanField(required=False)
-    prim = forms.CharField(label='примечание', max_length=190, required=False, widget=forms.TextInput(attrs={'size': 51}))
+    prim = forms.CharField(label='примечание', max_length=50, required=False, widget=forms.TextInput(attrs={'size': 51}))
     opt_len = forms.IntegerField(label='оптическая длина', min_value=0, max_value=9999)
 
 class edit_dev_p_Form(forms.Form):
     status = forms.ChoiceField(label='статус (внешняя связь)', required=False, widget=forms.RadioSelect, choices=conf.STATUS_LIST)
     valid = forms.BooleanField(required=False)
     #alias = forms.CharField(label='алиас', max_length=190, required=False, widget=forms.TextInput(attrs={'size': 51}))
-    alias = forms.CharField(label='алиас', max_length=190, widget=forms.TextInput(attrs={'size': 51}))
-    desc = forms.CharField(label='description', max_length=190, required=False, widget=forms.TextInput(attrs={'size': 51}))
-    prim = forms.CharField(label='примечание', max_length=190, required=False, widget=forms.TextInput(attrs={'size': 51}))
+    alias = forms.CharField(label='алиас', max_length=50, widget=forms.TextInput(attrs={'size': 51}))
+    desc = forms.CharField(label='description', max_length=50, required=False, widget=forms.TextInput(attrs={'size': 51}))
+    prim = forms.CharField(label='примечание', max_length=50, required=False, widget=forms.TextInput(attrs={'size': 51}))
     uplink = forms.BooleanField(required=False)
 
 class new_dev_p_v_Form(forms.Form):
     parrent_p = forms.IntegerField(label='родительский порт', min_value=0, max_value=128, required=False)
     p_alias = forms.CharField(label='алиас', max_length=30, widget=forms.TextInput(attrs={'size': 51}))
-    prim = forms.CharField(label='примечание', max_length=190, required=False, widget=forms.TextInput(attrs={'size': 51}))
+    prim = forms.CharField(label='примечание', max_length=50, required=False, widget=forms.TextInput(attrs={'size': 51}))
     vlan_untag = forms.CharField(label='vlan_untag', max_length=32, required=False, widget=forms.TextInput(attrs={'size': 51}))
     ip = forms.CharField(label='ip-addr', max_length=32, required=False, widget=forms.TextInput(attrs={'size': 51}))
 
 class edit_dev_p_v_Form(new_dev_p_v_Form):
-    desc = forms.CharField(label='description', max_length=190, required=False, widget=forms.TextInput(attrs={'size': 51}))
+    desc = forms.CharField(label='description', max_length=50, required=False, widget=forms.TextInput(attrs={'size': 51}))
     vlan_tag_list = forms.CharField(label='vlan_tag_list', max_length=2048, required=False, widget=forms.TextInput(attrs={'size': 51}))
     shut = forms.BooleanField(required=False)
     mvr = forms.ChoiceField(label='mvr type', widget=forms.Select, choices=[['', '---'], ['s', 'source'], ['r', 'receiver']], required=False)

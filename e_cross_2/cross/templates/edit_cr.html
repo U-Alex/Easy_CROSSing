@@ -2,65 +2,65 @@
 
 {% block cross %}
 
-    <table class="t_header1">
-        <tr>
-                <td width="1000px" align="left"><h3>&nbsp{{ cr.parrent.parrent.name }} {{ cr.parrent.parrent.house_num }},&nbsp&nbspУД: {{ cr.parrent.name }},&nbsp&nbsp{{ cr.name }}</h3></td>
-                <td width="280px" align="right">&nbsp</td>
-        </tr>
-    </table>
-    <br>
-<form method="post">
-    {% csrf_token %}
-    
-    <table class="t_header1">
-        <tr>
-            <td width="250px" align="right">&nbsp{{ form.cr_name.label }}:&nbsp</td>
-            <td width="330px" align="left">&nbsp{{ form.cr_name }}&nbsp</td>
-            </td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.object_owner.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.object_owner }}&nbsp&nbsp&nbsp<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp&nbsp&nbsp{{ form.object_owner_list }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right"><label>&nbsp{{ form.ch_type }} изменить тип (только&nbspдля&nbspкассет)&nbsp</label></td>
-            <td align="left">&nbsp{{ form.cr_name_type }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.rack_num.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.rack_num }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.rack_pos.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.rack_pos }}&nbsp</td>
-        </tr>
-        <tr>
-            <td colspan="2" align="center"><br>{{ form.prim.label }}:</td>
-        </tr>
-        <tr>
-            <td colspan="2" align="center">{{ form.prim }}</td>
-        </tr>
-        
-    </table>
-    <br>
-    <table class="t_footer">
-        <tr>
-            <td width="640px" align="right">
-                <input type="submit" value="     OK     ">&nbsp
-            </td>
-            <td width="640px" align="left">
-                <input type="button" value="отмена" onClick='location.href="../../"'>
-            </td>
-        </tr>
-    </table>
-    
-</form>
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <h3>
+            {{ cr.parrent.parrent.name }} {{ cr.parrent.parrent.house_num }},
+            &nbsp;&nbsp;УД: {{ cr.parrent.name }},&nbsp;&nbsp;{{ cr.name }}
+        </h3>
+    </div>
+</div>
+<br>
 
-<script language="javascript">
+<div class="c_base_w">
+    <div align="center">
+        <form method="post">
+            {% csrf_token %}
+            
+            <table class="t_header1">
+                <tr>
+                    <td width="250px" align="right">{{ form.cr_name.label }}:</td>
+                    <td width="330px" align="left">{{ form.cr_name }}</td>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.object_owner.label }}:</td>
+                    <td align="left">{{ form.object_owner }}&nbsp;&nbsp;<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp&nbsp&nbsp{{ form.object_owner_list }}</td>
+                </tr>
+                <tr>
+                    <td align="right"><label>{{ form.ch_type }} изменить тип (только для кассет):</label></td>
+                    <td align="left">{{ form.cr_name_type }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.rack_num.label }}:</td>
+                    <td align="left">{{ form.rack_num }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.rack_pos.label }}:</td>
+                    <td align="left">{{ form.rack_pos }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center"><br>{{ form.prim.label }}:</td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">{{ form.prim }}</td>
+                </tr>
+                
+            </table>
+            <br>
 
-//own.addEventListener('change', function(){
-//    id_object_owner_list.disabled = ! own.checked;
-//}, false);
+            <div class="c_base_w t_footer3">
+                <div align="center">
+                    <input type="submit" value="     OK     ">
+                    <input type="button" value="отмена" onClick='location.href="../../"'>
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</div>
+
+<script>
 
 id_object_owner.addEventListener('change', function(){
     id_object_owner_list.value = 0;
@@ -71,6 +71,5 @@ id_object_owner_list.addEventListener('change', function(){
 }, false);
 
 </script>
-
 
 {% endblock %}

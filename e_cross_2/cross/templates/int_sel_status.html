@@ -1,57 +1,55 @@
 {% extends 'main.html' %}
 
 {% block cross %}
+<link rel="stylesheet" type="text/css" href="/static/colors.css">
 
-    <table class="t_header1">
-        <tr>
-            <td width="1200px" align="left">
-                <h3>&nbsp
-                {% if s_type != '3' %}
-                    {{ s_p.parrent.parrent.parrent.name }} {{ s_p.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ s_p.parrent.parrent.name }}, {{ s_p.parrent.name }}, порт: {{ s_p.num }}&nbsp&nbsp▶&nbsp▶&nbsp▶
-                {% else %}
-                    {{ s_p.parrent.parrent.parrent.name }} {{ s_p.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ s_p.parrent.parrent.name }}, КРТ: {{ s_p.parrent.name }}-{{ s_p.parrent.num }}-{{ s_p.p_alias }}&nbsp&nbsp▶&nbsp▶&nbsp▶ 
-                {% endif %}
-                {% if d_type != '3' %}
-                    {{ d_p.parrent.name }}, порт: {{ d_p.num }}
-                {% else %}
-                    КРТ: {{ d_p.parrent.name }}-{{ d_p.parrent.num }}-{{ d_p.p_alias }}
-                {% endif %}
-                </h3>
-            </td>
-            <td width="80px" align="right">&nbsp</td>
-        </tr>
-    </table>
-    <br>
-<form method="post">
-    {% csrf_token %}
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <h3>
+        {% if s_type != '3' %}
+            {{ s_p.parrent.parrent.parrent.name }} {{ s_p.parrent.parrent.parrent.house_num }},
+            &nbsp;&nbsp;УД: {{ s_p.parrent.parrent.name }}, {{ s_p.parrent.name }}, порт: {{ s_p.num }}
+            &nbsp;&#9658;&#9658;&#9658;&nbsp;
+        {% else %}
+            {{ s_p.parrent.parrent.parrent.name }} {{ s_p.parrent.parrent.parrent.house_num }},
+            &nbsp;&nbsp;УД: {{ s_p.parrent.parrent.name }}, КРТ: {{ s_p.parrent.name }}-{{ s_p.parrent.num }}-{{ s_p.p_alias }}
+            &nbsp;&#9658;&#9658;&#9658;&nbsp;
+        {% endif %}
+        {% if d_type != '3' %} {{ d_p.parrent.name }}, порт: {{ d_p.num }}
+        {% else %}        КРТ: {{ d_p.parrent.name }}-{{ d_p.parrent.num }}-{{ d_p.p_alias }}
+        {% endif %}
+        </h3>
+    </div>
+</div>
+<br>
 
-    <table class="tone2">
-        <tr>
-            <td align="right">&nbsp&nbsp&nbsp{{ form.status.label }}:&nbsp&nbsp&nbsp</td>
-            <td align="left">
-                <label style="color:green">&nbsp{{ form.status.1 }}&nbsp&nbsp&nbsp<br></label>
-                <label style="color:orange">&nbsp{{ form.status.2 }}&nbsp&nbsp&nbsp<br></label>
-                <label style="color:violet">&nbsp{{ form.status.3 }}&nbsp&nbsp&nbsp<br></label>
+<div class="c_base_w" align="center">
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form_flex_c_wr">
+            <div align="left">
+                &emsp;&emsp;&emsp;<i>{{ form.status.label }}:&emsp;&emsp;&emsp;</i><br>
+                &emsp;&emsp;&emsp;&emsp;<label class="_cr_st_txt_1">{{ form.status.1 }}</label><br>
+                &emsp;&emsp;&emsp;&emsp;<label class="_cr_st_txt_2">{{ form.status.2 }}</label><br>
+                &emsp;&emsp;&emsp;&emsp;<label class="_cr_st_txt_3">{{ form.status.3 }}</label><br>
                 {% if s_type != '3' and d_type != '3' %}
-                <label style="color:aqua">&nbsp{{ form.status.4 }}&nbsp&nbsp&nbsp<br></label>
+                &emsp;&emsp;&emsp;&emsp;<label class="_cr_st_txt_4">{{ form.status.4 }}</label><br>
                 {% endif %}
-            </td>
-        </tr>
-    </table>
-    <br>
-    
-    <table class="t_footer">
-        <tr>
-            <td width="800px">&nbsp</td>
-            <td width="480px" align="right">
+            </div>
+        </div>
+        <br>
+        
+        <div class="c_base_w c_footer t_footer">
+            <div class="c_footer_nav"></div>
+            <div class="c_footer_nav">
                 <input type="submit" value="     OK     ">
                 <input type="button" value="другой порт" onClick='location.href="../../"'>
-                <input type="button" value="отмена" onClick='location.href="../../../../"'>&nbsp
-            </td>
-        </tr>
-    </table>
-    
-</form>
-
+                <input type="button" value="отмена" onClick='location.href="../../../../"'>
+            </div>
+        </div>
+        
+    </form>
+</div>
 
 {% endblock %}

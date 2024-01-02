@@ -72,9 +72,9 @@ class conf:
     #
     COLOR_APP = ('white', 'yellow', 'lawngreen', 'gray', 'pink', 'lightcoral')
     #
-    COLOR_CROSS = ('white', 'lawngreen', 'yellow', 'pink', 'aqua', 'gray')
+    #COLOR_CROSS = ('white', 'lawngreen', 'yellow', 'pink', 'aqua', 'gray')
     #
-    COLOR_PLINT = ('violet', 'brown', 'blue', 'green', 'orange', 'teal', 'black', 'black', 'black', 'black')
+    #COLOR_PLINT = ('violet', 'brown', 'blue', 'green', 'orange', 'teal', 'black', 'black', 'black', 'black') ######
     #
     APP_REJECT_LIST = ('----', 'некорректная заявка', 'отказ заявителя', 'дом не подключен', 'подъезд не подключен')
     APP_REJECT_LIST2 = ('----', 'некорректная заявка', 'отказ заявителя', '', '', 'ресурсы были сняты ранее')
@@ -89,7 +89,7 @@ class conf:
     #
     STATUS_LIST_LO = ((0, 'в проекте'), (1, 'монтаж'), (2, 'в работе'), (3, 'отключен'))
     #
-    COLOR_LIST_LO = ('orange', 'yellow', 'lawngreen', 'gray')
+    COLOR_LIST_LO = ('orange', 'yellow', 'lawngreen', 'gray') ######
     #
     PRI_LIST_F = ((1, 'закрытие договора (отмена брони)'), (2, 'переезд'), (3, 'смена ресурсов'))
 #
@@ -100,13 +100,13 @@ class conf:
     #
     DEV_FIND_PARAM = ('ip', 'mac', 'sn', 'vlan')
     #
-    COLOR_CROSS = ('white', 'lawngreen', 'yellow', 'pink', 'aqua', 'gray')
+    COLOR_CROSS = ('white', 'lawngreen', 'yellow', 'pink', 'aqua', 'gray') ######
     #
-    COLOR_PLINT = ('violet', 'brown', 'blue', 'green', 'orange', 'teal', 'black', 'lightcoral', 'gray', 'black')
+    COLOR_PLINT = ('violet', 'brown', 'blue', 'green', 'orange', 'teal', 'black', 'lightcoral', 'gray', 'black') ######
     #
     PRI_LIST = ('', '', ' (переезд)', ' (смена ресурсов)')
     #
-    COLOR_CRAB = ('black', 'green', 'orange', 'violet', 'olive', 'red')
+    COLOR_CRAB = ('black', 'green', 'orange', 'violet', 'olive', 'red')######
     #
     #COLOR_CABLE = ['white', '#BFFFBB', '#FFD39B', '#BCD2EE', 'white', 'white', 'white', 'white', 'white', 'white']
     #

@@ -3,19 +3,20 @@
 {% block cable %}
 <link rel="stylesheet" type="text/css" href="/static/cable.css">
 
-<div class="base_w c_header t_header4">
+<div class="c_base_w c_header tone1">
     <div class="c_header_nav">
         <form method="post" action="/cable/kv=0/">
             {% csrf_token %}
             {{ form.kvar }}
-            <input type="submit" id="kv_but" value="▼▼▼">&nbsp;
+            <input type="submit" id="kv_but" value="▼▼▼">
         </form>
         <h3 class="link_in_out">
-        {% if kv_id %}<p>Квартал:&nbsp;&nbsp;{{ kv.name }}</p>{% endif %}
+        {% if kv_id %}Квартал:&nbsp;&nbsp;{{ kv.name }}{% endif %}
         </h3>
     </div>
     <div class="c_kv_card">
-        <a href="/statist/coup_changed" target="_blank">запланированные изменения</a>
+        <a href="/statist/coup_changed" target="_blank">
+            <img src="/static/images/mufta4.png" alt="" title="запланированные изменения"></a>
         {% if kv_id %}
         <a href="" target="_blank">
             <img class="link_oper" src="/static/images/input_card1.png" alt="фото" title="фотоотчет"></a>
@@ -25,7 +26,7 @@
     </div>
 </div>
 
-<div class="base_w cab_main">
+<div class="c_base_w cab_main">
     <div class="cab_left">
 
         {% if kv_id %}
@@ -35,17 +36,17 @@
                 <div class="cab_card_c tone2">
                     <div class="card_title">
                         <div class="card_logo">
-                            <img class="kv_img" src="/static/images/_cross3.png">
+                            <img class="kv_img" src="/static/images/_cross3.png" alt="">
                         </div>
                         <div class="kv_name">
                             <a href="/cable/kv={{ kv.id }}/"><h2>{{ kv.name }}</h2></a>
                         </div>
                         <div class="card_item">
-                            <label title="здания"><img src="/static/images/sks1.png">{{ kv.obj1 }}</label>
-                            <label title="УД"><img src="/static/images/lo2.png">{{ kv.obj2 }}</label>
-                            <label title="муфты в зданиях"><img src="/static/images/mufta.png">{{ kv.obj3 }}</label>
-                            <label title="объекты"><img src="/static/images/obj_1.png">{{ kv.obj4 }}</label>
-                            <label title="муфты вне зданий"><img src="/static/images/mufta2_1.png">{{ kv.obj5 }}</label>
+                            <label title="здания"><img src="/static/images/sks1.png" alt="&#9636;">{{ kv.obj1 }}</label>
+                            <label title="УД"><img src="/static/images/lo2.png" alt="&#9635;">{{ kv.obj2 }}</label>
+                            <label title="муфты в зданиях"><img src="/static/images/mufta.png" alt="&#9673;">{{ kv.obj3 }}</label>
+                            <label title="объекты"><img src="/static/images/obj_1.png" alt="&#9677;">{{ kv.obj4 }}</label>
+                            <label title="муфты вне зданий"><img src="/static/images/mufta2_1.png" alt="&#9678;">{{ kv.obj5 }}</label>
                         </div>
                     </div>
                 </div>
@@ -64,11 +65,11 @@
                             <a href="/cable/kv={{ ob.id }}/"><h2>{{ ob.name }}</h2></a>
                         </div>
                         <div class="card_item">
-                            <label title="здания"><img src="/static/images/sks1.png">{{ ob.obj1 }}</label>
-                            <label title="УД"><img src="/static/images/lo2.png">{{ ob.obj2 }}</label>
-                            <label title="муфты в зданиях"><img src="/static/images/mufta.png">{{ ob.obj3 }}</label>
-                            <label title="объекты"><img src="/static/images/obj_1.png">{{ ob.obj4 }}</label>
-                            <label title="муфты вне зданий"><img src="/static/images/mufta2_1.png">{{ ob.obj5 }}</label>
+                            <label title="здания"><img src="/static/images/sks1.png" alt="&#9636;">{{ ob.obj1 }}</label>
+                            <label title="УД"><img src="/static/images/lo2.png" alt="&#9635;">{{ ob.obj2 }}</label>
+                            <label title="муфты в зданиях"><img src="/static/images/mufta.png" alt="&#9673;">{{ ob.obj3 }}</label>
+                            <label title="объекты"><img src="/static/images/obj_1.png" alt="&#9677;">{{ ob.obj4 }}</label>
+                            <label title="муфты вне зданий"><img src="/static/images/mufta2_1.png" alt="&#9678;">{{ ob.obj5 }}</label>
                         </div>
                     <!-- </div> -->
                 </div>
@@ -85,7 +86,7 @@
 
 </div>
 
-<div class="base_w c_footer t_footer4">
+<div class="c_base_w c_footer t_footer4">
     <div></div>
     <div>
         {% if kv_id %}
@@ -96,7 +97,7 @@
     </div>
 </div>
 
-<script type="text/javascript">
+<script>
     id_kvar.addEventListener('change', function(){
         document.getElementById("kv_but").click();
     }, false);

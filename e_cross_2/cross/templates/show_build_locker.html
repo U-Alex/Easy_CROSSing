@@ -1,35 +1,12 @@
 {% extends 'main.html' %}
 
 {% block cross %}
+<link rel="stylesheet" type="text/css" href="/static/colors.css">
 <link rel="stylesheet" type="text/css" href="/static/build.css">
 
-<div class="base_w c_header t_header4">
-    <div class="c_header_nav">
-        <!-- <div> -->
-            <h3 class="link_in_out">
-                <a href="/cross/build={{ bu.id }}">{{ bu.name }}&nbsp;{{ bu.house_num }}</a>
-            </h3>
-        <!-- </div> -->
-        {% if lo_id %}
-        <div>
-            <h3 class="link_in_out">
-                <a href="/cross/build={{ bu.id }}/locker={{ lo.id }}">УД:&nbsp;{{ lo.name }}</a>
-            </h3>
-        </div>
-        {% endif %}
-    </div>
-    <div class="c_kv_card">
-        {% if kv.id != 1 %}
-        <p>квартал: <b>{{ kv.name }}</b>&nbsp;&nbsp;</p>
-        <a href="/statist/bu_doc={{ bu.id }}" target="_blank">
-            <img class="link_oper" src="/static/images/input_card1.png" alt="фото" title="фотоотчет"></a>
-        <a href="/statist/bu_doc={{ bu.id }}" target="_blank">
-            <img class="link_oper" src="/static/images/input_card2.png" alt="докум." title="документация"></a>
-        {% endif %}
-    </div>
-</div>
+{% include "show_build_header.html" %}
 
-<div class="base_w bu_main">
+<div class="c_base_w bu_main">
     <div class="bu_left">
 
         {% if lo_id %}
@@ -81,23 +58,24 @@
     </div>
 </div>
 
-<div class="base_w c_footer t_footer4">
-    <div>
+<div class="c_base_w c_footer t_footer">
+    <div class="c_footer_nav">
         {% if not lo_id and not bu_double %}
         <input type="button" value="блокировка портов" onClick='location.href="/core/block_ports={{ bu.id }}"'>
         <input type="button" value="рассылка о приёме в работу" onClick='location.href="/core/send_mail={{ bu.id }}"'>
         {% endif %}
     </div>
-    <div>
+    <div class="c_footer_nav">
         {% if not lo_id and not bu_double %}
         <input type="button" value="история" onClick='location.href="/core/logs/t=0/id={{ bu.id }}"'>
         {% endif %}
         {% if not lo_id %}
         <input type="button" value="редактирование" onClick='location.href="edit"'>
+        <input type="button" value="закрыть" onClick='location.href="/find/str={{ bu.parrent_id }}"'>
         {% else %}
         <input type="button" value="удалить УД" onClick='location.href="../del_locker={{ lo.id }}/"'>
+        <input type="button" value="закрыть" onClick='location.href="/cross/build={{ bu.id }}/"'>
         {% endif %}
-        <input type="button" value="закрыть" onClick='location.href="/find/str={{ bu.parrent_id }}"'>
     </div>
 </div>
 

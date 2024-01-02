@@ -1,34 +1,30 @@
 {% extends 'main.html' %}
 
 {% block service %}
-
 <link rel="stylesheet" type="text/css" href="/static/serv.css">
 
-    <table class="t_header1">
-        <tr>
-            <td width="620px">
-                <h3>&nbspдобавление / удаление объектов</h3>
-            </td>
-            <td width="400px" align="right">&nbsp</td>
-        </tr>
-    </table>
-    <br>
+<div class="c_base_w tone2">
+    <div class="serv_header">
+        <h3>добавление / удаление объектов</h3>
+    </div>
+</div>
+<br>
 
-<div style="width:480px">
+<div class="c_base_w" style="width:480px">
     <div class="serv_cat tone2">
         <div><img src="/static/images/icon_addlink.gif" alt="+"></div>
         <div class="serv_obj">
-            <form class="serv_obj_oper" method="post" action="/kpp/o_manager/">
+            <form class="serv_obj_oper" method="post" action="/core/o_manager/">
                 <div>{% csrf_token %}</div>
                 <div>{{ forms_add.0.kv.label }}: {{ forms_add.0.kv }}</div>
                 <div><input type="submit" name="form1" value="добавить"></div>
             </form>
-            <form class="serv_obj_oper" method="post" action="/kpp/o_manager/">
+            <form class="serv_obj_oper" method="post" action="/core/o_manager/">
                 <div>{% csrf_token %}</div>
                 <div>{{ forms_add.1.st.label }}: {{ forms_add.1.st }}</div>
                 <div><input type="submit" name="form2" value="добавить"></div>
             </form>
-            <form class="serv_obj_oper" method="post" action="/kpp/o_manager/">
+            <form class="serv_obj_oper" method="post" action="/core/o_manager/">
                 <div>{% csrf_token %}</div>
                 <div align="right">
                     {{ forms_add.2.street.label }}: {{ forms_add.2.street }}&emsp;
@@ -44,17 +40,17 @@
         <div class="serv_cat tone2">
         <div><img src="/static/img/icon_deletelink.gif" alt="-"></div>
         <div class="serv_obj">
-            <form class="serv_obj_oper" method="post" action="/kpp/o_manager/">
+            <form class="serv_obj_oper" method="post" action="/core/o_manager/">
                 <div>{% csrf_token %}</div>
                 <div>{{ forms_del.0.kv.label }}: {{ forms_del.0.kv }}</div>
                 <div><input type="submit" name="form4" value="удалить"></div>
             </form>
-            <form class="serv_obj_oper" method="post" action="/kpp/o_manager/">
+            <form class="serv_obj_oper" method="post" action="/core/o_manager/">
                 <div>{% csrf_token %}</div>
                 <div>{{ forms_del.1.st.label }}: {{ forms_del.1.st }}</div>
                 <div><input type="submit" name="form5" value="удалить"></div>
             </form>
-            <form class="serv_obj_oper" method="post" action="/kpp/o_manager/">
+            <form class="serv_obj_oper" method="post" action="/core/o_manager/">
                 <div>{% csrf_token %}</div>
                 <div>{{ forms_del.2.bu.label }}: {{ forms_del.2.bu }}</div>
                 <div><input type="submit" name="form6" value="удалить"></div>
@@ -63,11 +59,13 @@
     </div>
 </div>
 
-    <br>
-    <div class="tone2" style="width:480px">{% if mess  %}<br><h4>{{ mess }}</h4><br>{% endif %}</div>
-    <br>
+<br>
+<div class="c_base_w tone2" style="width:480px" align="center">
+    {% if mess  %}<br><h4>{{ mess }}</h4><br>{% endif %}
+</div>
+<br>
 
-<div>
+<div class="c_base_w" style="width:480px">
     <details>
         <summary>здания - дубликаты</summary>
         <table border="1">
@@ -84,17 +82,12 @@
         </table>
     </details>
 </div>
-        
-    <br>
-    <table class="t_footer">
-        <tr>
-            <td width="620px" align="left">&nbsp</td>
-            <td width="400px" align="right">
-                <input type="button" value="закрыть" onClick='location.href="/core/service/"'>&nbsp
-            </td>
-        </tr>
-    </table>
-        
+<br>
+
+<div class="c_base_w tone2">
+    <div class="serv_r">
+        <input type="button" value="закрыть" onClick='location.href="/core/service/"'>
+    </div>
+</div>
 
 {% endblock %}
-

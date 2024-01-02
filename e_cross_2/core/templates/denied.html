@@ -2,20 +2,22 @@
 
 {% block core %}
 
-    <br><h3 style="color:red">{{ mess }}</h3>
+<div class="c_base_w tone1" align="center">
+    <br>
+    <h3 style="color:red">{{ mess }}</h3>
     
     <form action="/core/login/" method="post">
     {% csrf_token %}
     
         <p>зайти другим пользователем</p>
-        <table border="0">
+        <table>
             <tr>
                 <td align="center">login</td>
                 <td align="center">password</td>
             </tr>
             <tr>
-                <td align="right">&nbsp<input type="text" name="username" id="username"></td>
-                <td align="left"><input type="password" name="password" id="password">&nbsp</td>
+                <td align="right">&nbsp;<input type="text" name="username" id="username"></td>
+                <td align="left"><input type="password" name="password" id="password">&nbsp;</td>
                 <input type="hidden" name="next_url" id="next_url" value="{{ next_url }}">
             </tr>
             <tr>
@@ -30,17 +32,17 @@
                 <td align="left"><input type="button" value="отмена" onClick='location.href="../../../"'></td>
             {% elif back == 4 %}
                 <td align="left"><input type="button" value="отмена" onClick='location.href="../../../../"'></td>
+            {% else %}
+                <td align="left"><input type="button" value="отмена" onClick='location.href="/"'></td>    
             {% endif %}
             </tr>
         {% if login_error %}
             <tr>
-                <td colspan="2" align="center" style="background-color:red; color:white"><b>{{ login_error }}</b></td>
+                <td colspan="2" align="center" class="tone_error"><b>{{ login_error }}</b></td>
             </tr>
         {% endif %}
         </table>        
-    
     </form>
-
-
+</div>
 
 {% endblock %}

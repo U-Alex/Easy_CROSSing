@@ -2,21 +2,19 @@
 
 {% block cross %}
 
-    <table class="t_header1">
-        <tr>
-            <td width="1300px" align="left">
-                <h3>&nbsp{{ s_p_id.parrent.parrent.parrent.name }} {{ s_p_id.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ s_p_id.parrent.parrent.name }}, кросс: {{ s_p_id.parrent.name }}, порт: {{ s_p_id.num }}&nbsp&nbsp▶&nbsp▶&nbsp▶&nbsp&nbsp{{ bu2.name }} {{ bu2.house_num }}</h3>
-            </td>
-            <td width="300px" align="right">
-                <input type="button" value="новый поиск" onClick='location.href="../ext_cr1/"'>
-                <input type="button" value="отмена" onClick='location.href="../../"'>&nbsp
-            </td>
-        </tr>
-    </table>
-    <br>
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <h3>
+            {{ s_p_id.parrent.parrent.parrent.name }} {{ s_p_id.parrent.parrent.parrent.house_num }},
+            &nbsp;&nbsp;УД: {{ s_p_id.parrent.parrent.name }}, кросс: {{ s_p_id.parrent.name }}, порт: {{ s_p_id.num }}
+            &nbsp;&#9658;&#9658;&#9658;&nbsp;{{ bu2.name }} {{ bu2.house_num }}
+        </h3>
+    </div>
+</div>
+<br>
 
 {% for ob in lo %}
-<table>
+<table class="c_base_w">
     <caption>{{ ob.name }}</caption>
     <tr>
         <td class="tone2" width="1604px" align="center">
@@ -59,16 +57,12 @@
 <br>
 {% endfor %}
 
-    <br>
-    <table class="t_footer">
-        <tr>
-            <td width="1300px">&nbsp</td>
-            <td width="300px" align="right">
-                <input type="button" value="новый поиск" onClick='location.href="../ext_cr1/"'>
-                <input type="button" value="отмена" onClick='location.href="../../"'>&nbsp
-            </td>
-        </tr>
-    </table>
-    
+<div class="c_base_w c_footer t_footer">
+    <div class="c_footer_nav"></div>
+    <div class="c_footer_nav">
+        <input type="button" value="новый поиск" onClick='location.href="../ext_cr1/"'>
+        <input type="button" value="отмена" onClick='location.href="../../"'>
+    </div>
+</div>
 
 {% endblock %}

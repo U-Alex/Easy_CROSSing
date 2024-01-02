@@ -2,25 +2,24 @@
 
 {% block cross %}
 
-    <table class="t_header1">
-        <tr>
-            <td width="1300px" align="left">
-                <h3>&nbsp
-                {% if s_type != '3' %}
-                    {{ s_p_id.parrent.parrent.parrent.name }} {{ s_p_id.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ s_p_id.parrent.parrent.name }}, {{ s_p_id.parrent.name }}, порт: {{ s_p_id.num }}&nbsp&nbsp▶&nbsp▶&nbsp▶
-                {% else %}
-                    {{ s_p_id.parrent.parrent.parrent.name }} {{ s_p_id.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ s_p_id.parrent.parrent.name }}, КРТ: {{ s_p_id.parrent.name }}-{{ s_p_id.parrent.num }}-{{ s_p_id.p_alias }}&nbsp&nbsp▶&nbsp▶&nbsp▶
-                {% endif %}
-                </h3>
-            </td>
-            <td width="300px" align="right">
-                <input type="button" value="отмена" onClick='location.href="../../"'>&nbsp
-            </td>
-        </tr>
-    </table>
-    <br>
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <h3>
+        {% if s_type != '3' %}
+            {{ s_p_id.parrent.parrent.parrent.name }} {{ s_p_id.parrent.parrent.parrent.house_num }},
+            &nbsp;&nbsp;УД: {{ s_p_id.parrent.parrent.name }}, {{ s_p_id.parrent.name }}, порт: {{ s_p_id.num }}
+            &nbsp;&#9658;&#9658;&#9658;&nbsp;
+        {% else %}
+            {{ s_p_id.parrent.parrent.parrent.name }} {{ s_p_id.parrent.parrent.parrent.house_num }},
+            &nbsp;&nbsp;УД: {{ s_p_id.parrent.parrent.name }}, КРТ: {{ s_p_id.parrent.name }}-{{ s_p_id.parrent.num }}-{{ s_p_id.p_alias }}
+            &nbsp;&#9658;&#9658;&#9658;&nbsp;
+        {% endif %}
+        </h3>
+    </div>
+</div>
+<br>
 
-<table>
+<table class="c_base_w">
     <tr>
         <td class="tone2" width="1604px" align="center">
         
@@ -35,7 +34,7 @@
                 {% if ob3.3 == False %}
                     <input type="button" style="background:none; border-color:black; background-color:gray; color:white; border-radius:20px; width:30px; height:30px" value="{{ ob3.1 }}" title="{{ ob3.5 }} (неисправен)">
                 {% elif ob3.2 == 0 %}
-                    <input type="button" style="background:none; border-color:black; background-color:{{ ob3.4 }}; color:black; border-radius:20px; width:30px; height:30px" value="{{ ob3.1 }}" onClick='location.href="d_p={{ ob3.0 }}/d_type=1"' title="{{ ob3.5 }}">
+                    <input type="button" style="background:none; border-color:black; background-color: {{ ob3.4 }}; color:black; border-radius:20px; width:30px; height:30px" value="{{ ob3.1 }}" onClick='location.href="d_p={{ ob3.0 }}/d_type=1"' title="{{ ob3.5 }}">
                 {% comment %} {% elif ob3.2 == 1 %}
                     <input type="button" style="background:none; border-color:black; background-color:{{ ob3.4 }}; border-radius:20px; width:30px; height:30px" value="{{ ob3.1 }}" title="{{ ob3.5 }}">
                 {% elif ob3.2 == 2 %}
@@ -45,7 +44,7 @@
                 {% elif ob3.2 == 4 %}
                     <input type="button" style="background:none; border-color:black; background-color:{{ ob3.4 }}; border-radius:20px; width:30px; height:30px" value="{{ ob3.1 }}" title="{{ ob3.5 }}"> {% endcomment %}
                 {% else %}
-                    <input type="button" style="background:none; border-color:black; background-color:{{ ob3.4 }}; border-radius:20px; width:30px; height:30px" value="{{ ob3.1 }}" title="{{ ob3.5 }}">
+                    <input type="button" style="background:none; border-color:black; background-color: {{ ob3.4 }}; border-radius:20px; width:30px; height:30px" value="{{ ob3.1 }}" title="{{ ob3.5 }}">
                 {% endif %}
             </td>
         {% endfor %}   
@@ -57,16 +56,15 @@
         </td>
     </tr>
 </table>
-
 <br>
 
-<table border="0">
+<table class="c_base_w">
     <tr>
         <td class="tone2" width="1604px" align="center">
 
 {% for ob1 in dev %}
     <br>
-    <table border="0">
+    <table>
     <caption>
         <b><img src="{{ ob1.pic }}" alt=" " title="" width="22">&nbsp&nbsp{{ ob1.name }}</b>&nbsp&nbsp({{ ob1.ip_addr }})
     </caption>
@@ -86,7 +84,7 @@
                 {% elif ob2.int_c_status == 4 %}
                     <input type="button" style="background:none; border-color:black; background-color:{{ ob2.color }}; border-radius:8px; width:30px; height:30px" value="{{ ob2.num }}" title="{{ ob2.p_alias }} ▲ {{ ob2.prim }}"> {% endcomment %}
                 {% else%}
-                    <input type="button" style="background:none; border-color:black; background-color:{{ ob2.color }}; border-radius:8px; width:30px; height:30px" value="{{ ob2.num }}" title="{{ ob2.p_alias }} ▲ {{ ob2.prim }}">
+                    <input type="button" style="background:none; border-color:black; background-color: {{ ob2.color }}; border-radius:8px; width:30px; height:30px" value="{{ ob2.num }}" title="{{ ob2.p_alias }} ▲ {{ ob2.prim }}">
                 {% endif %}
             </td>
         {% endfor %}
@@ -97,15 +95,14 @@
         </td>
     </tr>
 </table>
-
 <br>
 
-<table border="0">
+<table class="c_base_w">
     <tr>
         <td class="tone2" width="1604px" align="left">
 
 {% for ob1 in box %}
-    <table border="0">
+    <table>
         <tr class="tone2">
             <td align="right" width="60px">
                 <b>{{ ob1.name }}-{{ ob1.num }}&nbsp>&nbsp</b>
@@ -113,9 +110,9 @@
         {% for ob2 in ob1.box_p %}
             <td>
                 {% if ob2.p_valid == False %}
-                    <input type="button" style="background:none; border-color:{{ ob2.COLOR_PLINT }}; background-color:gray; color:white; border-radius:4px; width:42px; height:24px" value="{{ ob2.pair }}" title="(неисправен)">
+                    <input type="button" style="background:none; border-color: {{ ob2.COLOR_PLINT }}; background-color:gray; color:white; border-radius:4px; width:42px; height:24px" value="{{ ob2.pair }}" title="(неисправен)">
                 {% elif ob2.up_status == 0 %}
-                    <input type="button" style="background:none; border-color:{{ ob2.COLOR_PLINT }}; color:black; border-radius:4px; width:42px; height:24px" value="{{ ob2.pair }}" onClick='location.href="d_p={{ ob2.id }}/d_type=3"'>
+                    <input type="button" style="background:none; border-color: {{ ob2.COLOR_PLINT }}; color:black; border-radius:4px; width:42px; height:24px" value="{{ ob2.pair }}" onClick='location.href="d_p={{ ob2.id }}/d_type=3"'>
                 {% comment %} {% elif ob2.up_status == 1 %}
                     <input type="button" style="background:none; border-color:{{ ob2.COLOR_PLINT }}; background-color:{{ ob2.COLOR_CROSS }}; border-radius:4px; width:42px; height:24px" value="{{ ob2.pair }}">
                 {% elif ob2.up_status == 2 %}
@@ -123,7 +120,7 @@
                 {% elif ob2.up_status == 3 %}
                     <input type="button" style="background:none; border-color:{{ ob2.COLOR_PLINT }}; background-color:{{ ob2.COLOR_CROSS }}; border-radius:4px; width:42px; height:24px" value="{{ ob2.pair }}"> {% endcomment %}
                 {% else %}
-                    <input type="button" style="background:none; border-color:{{ ob2.COLOR_PLINT }}; background-color:{{ ob2.COLOR_CROSS }}; border-radius:4px; width:42px; height:24px" value="{{ ob2.pair }}">
+                    <input type="button" style="background:none; border-color: {{ ob2.COLOR_PLINT }}; background-color:{{ ob2.COLOR_CROSS }}; border-radius:4px; width:42px; height:24px" value="{{ ob2.pair }}">
                 {% endif %}
             </td>
         {% endfor %}
@@ -134,16 +131,13 @@
         </td>
     </tr>
 </table>
+<br>
 
-    <br>
-    <table class="t_footer">
-        <tr>
-            <td width="1300px">&nbsp</td>
-            <td width="300px" align="right">
-                <input type="button" value="отмена" onClick='location.href="../../"'>&nbsp
-            </td>
-        </tr>
-    </table>
-
+<div class="c_base_w c_footer t_footer">
+    <div class="c_footer_nav"></div>
+    <div class="c_footer_nav">
+        <input type="button" value="отмена" onClick='location.href="../../"'>
+    </div>
+</div>
 
 {% endblock %}

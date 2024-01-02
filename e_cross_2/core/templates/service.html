@@ -1,150 +1,136 @@
 {% extends 'main.html' %}
 
 {% block service %}
+<link rel="stylesheet" type="text/css" href="/static/serv.css">
 
-    <table class="t_header1">
-        <tr>
-            <td width="870px" align="left"><h3>&nbspСервисные функции</h3></td>
-            <td width="400px" align="right"><div id="clock"></div></td>
-            <td width="8px" align="right"></td>
-        </tr>
-    </table>
-    <br>
+<div class="c_base_w tone2">
+    <div class="serv_header">
+        <h3>Сервисные функции</h3>
+    </div>
+</div>
+<br>
     
-    <table class="tone1" width="1280px">
-        <tr valign="top">
-            <td align="center">
-<!--                <table width="300px" border="1">
-                    <tr align="center" class="t_header2">
-                        <td colspan="3">добавление объектов</td>
-                    </tr>
-                    <tr align="center">
-                        <td><a href="/core/new_kvar/">квартал</a></td>
-                        <td><a href="/core/new_str/">улица</a></td>
-                        <td><a href="/core/new_bu/">здание</a></td>
-                    </tr>
-                </table>
-                <br>-->
-                <table width="300px" border="1">
-                    <tr align="center" class="t_header2">
-                        <td>сервисные операции</td>
-                    </tr>
-                    <tr align="center">
-                        <td><a href="/core/o_manager/">добавление / удаление объектов</a></td>
-                    </tr>
-                    <tr align="center">
-                        <td><a href="/core/sprav/">справочник УК</a></td>
-                    </tr>
-                    <tr align="center">
-                        <td><a href="/core/templ/">шаблоны оборудования</a></td>
-                    </tr>
-                    <tr align="center">
-                        <td><a href="/core/m_manager1/">менеджер схем ВОЛС</a></td>
-                    </tr>
-                    <tr align="center">
-                        <td><a href="/core/switch_agr/">уст./снятие свойства "агрегация" для УД</a></td>
-                    </tr>
-                    <tr align="center">
-                        <td><a href="/statist/check_link/">поиск "плохих" связей</a></td>
-                    </tr>
-                    <tr align="center">
-                        <td><a href="/statist/sync_co_lo/">поиск УД без муфты, <br>поиск шкафных муфт без УД</a></td>
-                    </tr>
-                    <tr align="center">
-                        <td><a href="/statist/obj_no_coord/">объекты без координат</a></td>
-                    </tr>
-                    <tr align="center">
-                        <td><a href="/statist/dev_no_sn_mac/">оборудование без ip, sn, mac</a></td>
-                    </tr>
-                    <tr align="center">
-                        <td><a href="/statist/duple_dog/">повторяющиеся договоры</a></td>
-                    </tr>
-                    <tr align="center">
-                        <td><!--<a href="/statist/check_dog/">-->соответствие договоров биллинг-техучет</a></td>
-                    </tr>
-                    <tr align="center">
-                        <td><a href="/statist/null_len/">кабели с нулевой длиной</a></td>
-                    </tr>
-                </table>
-                <br>
-                <table width="300px" border="1">
-                    <tr align="center" class="t_header2">
-                        <td>отчёты</td>
-                    </tr>
-                    <tr align="center">
-                        <td><!--<a href="/statist/">-->общая статистика по оборудованию</a></td>
-                    </tr>
-                    <tr align="center">
-                        <td><!--<a href="/statist/stat4">-->абоненты</a></td>
-                    </tr>
-                    <tr align="center">
-                        <td><!--<a href="/statist/stat2/">-->задействованная ёмкость</a></td>
-                    </tr>
-                    <tr align="center">
-                        <td><!--<a href="/statist/stat3/">-->Загрузка УД</a></td>
-                    </tr>
-                    <tr align="center">
-                        <td><!--<a href="/statist/stat_energy/">-->показания эл.счетчиков</a></td>
-                    </tr>
-                    <tr align="center">
-                        <td><a href="/statist/stat_subunit/">служебные устройства</a></td>
-                    </tr>
-                    <tr align="center">
-                        <td><!--<a href="/statist/stat_block_ports/">-->статистика по блокировке портов</a></td>
-                    </tr>
-                </table>
-            </td>
-            <td align="center">
-                <table width="180px" border="1">
-                    <tr align="center" class="t_header2">
-                        <td>история операций</td>
-                    </tr>
-                    <tr align="center">
-                        <td><a href="/core/logs/u=0/td=1/"><b>все пользователи</b></a></td>
-                    </tr>
-                {% for ob in user_list %}
-                    <tr align="center">
-                        <td>
-                            <a href="/core/logs/u={{ ob.0.id }}/td=1/" {% if perms.core.can_adm %}title="{{ ob.0.date_l_v|date:"d.m.Y..H:i" }}"{% endif %}>
-                            {% if ob.1 %}<b>{% endif %}{{ ob.0.fullname }}</b></a>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </table>
-            </td>
+<table class="c_base_w tone1" width="1280px">
+    <tr valign="top">
+        <td align="center">
+            <table width="300px" border="1">
+                <tr align="center" class="t_header2">
+                    <td>сервисные операции</td>
+                </tr>
+                <tr align="center">
+                    <td><a href="/core/o_manager/">добавление / удаление объектов</a></td>
+                </tr>
+                <tr align="center">
+                    <td><a href="/core/sprav/">справочник УК</a></td>
+                </tr>
+                <tr align="center">
+                    <td><a href="/core/templ/">шаблоны оборудования</a></td>
+                </tr>
+                <tr align="center">
+                    <td><a href="/core/m_manager1/">менеджер схем ВОЛС</a></td>
+                </tr>
+                <tr align="center">
+                    <td><a href="/core/switch_agr/">уст./снятие свойства "агрегация" для УД</a></td>
+                </tr>
+                <tr align="center">
+                    <td><a href="/statist/check_link/">поиск "плохих" связей</a></td>
+                </tr>
+                <tr align="center">
+                    <td><a href="/statist/sync_co_lo/">поиск УД без муфты, <br>поиск шкафных муфт без УД</a></td>
+                </tr>
+                <tr align="center">
+                    <td><a href="/statist/obj_no_coord/">объекты без координат</a></td>
+                </tr>
+                <tr align="center">
+                    <td><a href="/statist/dev_no_sn_mac/">оборудование без ip, sn, mac</a></td>
+                </tr>
+                <tr align="center">
+                    <td><a href="/statist/duple_dog/">повторяющиеся договоры</a></td>
+                </tr>
+                <tr align="center">
+                    <td><!--<a href="/statist/check_dog/">-->соответствие договоров биллинг-техучет</a></td>
+                </tr>
+                <tr align="center">
+                    <td><a href="/statist/null_len/">кабели с нулевой длиной</a></td>
+                </tr>
+            </table>
+            <br>
+            <table width="300px" border="1">
+                <tr align="center" class="t_header2">
+                    <td>отчёты</td>
+                </tr>
+                <tr align="center">
+                    <td><!--<a href="/statist/">-->общая статистика по оборудованию</a></td>
+                </tr>
+                <tr align="center">
+                    <td><!--<a href="/statist/stat4">-->абоненты</a></td>
+                </tr>
+                <tr align="center">
+                    <td><!--<a href="/statist/stat2/">-->задействованная ёмкость</a></td>
+                </tr>
+                <tr align="center">
+                    <td><!--<a href="/statist/stat3/">-->Загрузка УД</a></td>
+                </tr>
+                <tr align="center">
+                    <td><!--<a href="/statist/stat_energy/">-->показания эл.счетчиков</a></td>
+                </tr>
+                <tr align="center">
+                    <td><a href="/statist/stat_subunit/">служебные устройства</a></td>
+                </tr>
+                <tr align="center">
+                    <td><!--<a href="/statist/stat_block_ports/">-->статистика по блокировке портов</a></td>
+                </tr>
+            </table>
+        </td>
+        <td align="center">
+            <table width="180px" border="1">
+                <tr align="center" class="t_header2">
+                    <td>история операций</td>
+                </tr>
+                <tr align="center">
+                    <td><a href="/core/logs/u=0/td=1/"><b>все пользователи</b></a></td>
+                </tr>
+            {% for ob in user_list %}
+                <tr align="center">
+                    <td>
+                        <a href="/core/logs/u={{ ob.0.id }}/td=1/" {% if perms.core.can_adm %}title="{{ ob.0.date_l_v|date:"d.m.Y..H:i" }}"{% endif %}>
+                        {% if ob.1 %}<b>{% endif %}{{ ob.0.fullname }}</b></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+        </td>
 
-            {% if perms.core.can_adm %}
-            <td align="center">
-                <table width="600px" border="1">
-                    <tr align="center" class="t_header2">
-                        <td>
-                            last click <a href="/core/service/clean_his/">[X]</a>
-                        </td>
-                    </tr>
-                    <tr align="center">
-                        <td>&nbsp</td>
-                    </tr>
-                {% for ob in user_list %}
-                    <tr align="left">
-                        <td>
-                            &nbsp{{ ob.0.prim }}
-                        </td>
-                    </tr>
-                {% endfor %}
-                </table>
-            </td>
-            {% endif %}
+        {% if perms.core.can_adm %}
+        <td align="center">
+            <table width="600px" border="1">
+                <tr align="center" class="t_header2">
+                    <td>
+                        last click <a href="/core/service/clean_his/">[X]</a>
+                    </td>
+                </tr>
+                <tr align="center">
+                    <td>&nbsp;</td>
+                </tr>
+            {% for ob in user_list %}
+                <tr align="left">
+                    <td>
+                        &nbsp;{{ ob.0.prim }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+        </td>
+        {% endif %}
 
-        </tr>
-    </table>
-    <br>
-    
-    <table class="t_footer">
-        <tr>
-            <td width="1000px">&nbsp</td>
-            <td width="280px" align="right"><input type="button" value="закрыть" onClick='location.href="../../"'>&nbsp</td>
-        </tr>
-    </table>
+    </tr>
+</table>
+<br>
 
-    
+<div class="c_base_w tone2">
+    <div class="serv_r">
+        <input type="button" value="закрыть" onClick='location.href="../../"'>
+    </div>
+</div>
+
 {% endblock %}

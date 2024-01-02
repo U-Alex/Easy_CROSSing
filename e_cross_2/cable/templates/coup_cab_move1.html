@@ -4,9 +4,9 @@
 
 {% if del_ok1 %}
 
-    <table class="t_header1">
+    <table class="c_base_w t_header1">
         <tr>
-            <td width="1100px" align="left">
+            <td width="100%" align="left">
                 <form method="post">
                 {% csrf_token %}
                     &nbsp&nbspКвартал:&nbsp{{ form.kvar }}
@@ -19,6 +19,7 @@
     </table>
     <br>
 
+<div class="c_base_w ">
     <table class="tone1" width="1404px">
         <tr class="t_header1" align="center">
             <td>здания</td>
@@ -73,10 +74,10 @@
             <td width="300px" align="right"><input type="button" value="отмена" onClick='location.href="../../"'>&nbsp</td>
         </tr>
     </table>
-
+</div>
 {% else %}
-
-    <table class="t_header1">
+<div class="c_base_w " align="center">
+    <table class="c_base_w t_header1">
         <tr>
             <td width="1100px" align="left"><h3>&nbspмуфта: {{ coup.name }}</h3></td>
             <td width="300px" align="right"></td>
@@ -88,12 +89,12 @@
     <br>
     <table class="t_footer">
         <tr>
-            <td width="1400px" align="center">
+            <td width="100%" align="center">
                 <input type="button" value="назад" onClick='location.href="../../"'>
             </td>
         </tr>
     </table>
-
+</div>
 {% endif %}
 
 

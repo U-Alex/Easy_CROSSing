@@ -1,0 +1,41 @@
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <h3><a href="/cable/kv={{ kvar.id }}/">квартал: {{ kvar.name }}</a></h3>
+        <h5>&nbsp;муфта: <b>{{ coup.name }}</b>&nbsp;({{ coup.name_type }})</h5>
+        <h5>
+        {% if coup.parr_type == 0 %}
+            {% if parr1 %}
+                &nbsp;УД: <a href="/cross/build={{ parr1.parrent.id }}/locker={{ parr1.id }}/" target="_blank">{{ parr1.name }}</a>
+                &nbsp;ул: {{ parr1.parrent.name }} {{ parr1.parrent.house_num }}
+            {% else %}
+                <p class="tone_error">УД не найден!!!</p>
+            {% endif %}
+        {% elif coup.parr_type == 1 %}
+            ул: {{ parr1.name }} {{ parr1.house_num }}
+        {% elif coup.parr_type == 2 %}
+            {% if parr1.obj_type == 1 %}   опора: {{ parr1.name }}
+            {% elif parr1.obj_type == 2 %} колодец: {{ parr1.name }}
+            {% endif %}
+        {% endif %}
+        </h5>
+    </div>
+    <div class="c_kv_card">
+    {% if coup.coord_x > 30 and coup.coord_y > 30 %}
+    <a href="/find/map/?coord={{ coup.coord_x }},{{ coup.coord_y }}" target="_blank">
+        <img src="/static/images/selector-search.gif" alt="map" title="показать на карте">
+    </a>
+    {% else %}
+    <a href="/find/map/" target="_blank">
+        <img src="/static/images/selector-search.gif" alt="map" title="не внесены координаты">
+    </a>
+    {% endif %}
+        <a href="/statist/coup_changed" target="_blank">
+            <img src="/static/images/mufta4.png" alt="" title="запланированные изменения"></a>
+    {% if kvar %}
+        <a href="" target="_blank">
+            <img class="link_oper" src="/static/images/input_card1.png" alt="фото" title="фотоотчет"></a>
+        <a href="" target="_blank">
+            <img class="link_oper" src="/static/images/input_card2.png" alt="док." title="документация"></a>
+    {% endif %}
+    </div>
+</div>

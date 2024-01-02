@@ -1,4 +1,27 @@
 
+.serv_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+}
+.serv_footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.serv_l {
+    padding: 0 8px;
+    text-align: left;
+}
+.serv_c {
+    text-align: center;
+}
+.serv_r {
+    padding: 0 8px;
+    text-align: right;
+}
+
 .serv_cat {
     display: flex;
     align-items: center;

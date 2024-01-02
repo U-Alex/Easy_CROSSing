@@ -1,0 +1,141 @@
+{% extends 'main.html' %}
+
+{% block cross %}
+<link rel="stylesheet" type="text/css" href="/static/colors.css">
+<link rel="stylesheet" type="text/css" href="/static/cross.css">
+
+{% include "show_build_header.html" %}
+
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav2">
+        {% for nav in cr_list %}
+            {% if nav.id == cr.id %}
+                <label class="color_link2"><strong>{{ nav.name }}</strong></label>
+            {% else %}
+                <a href="/cross/build={{ bu.id }}/locker={{ lo.id }}/cr={{ nav.id }}">{{ nav.name }}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+<br>
+<div class="c_base_w {% if not to_print %}t_cross{% endif %}">
+    <div class="cr_list">
+        <div class="cr_h_1 t_header1 _col_2">порт</div>
+        <div class="cr_h_1 t_header1 _col_5">внешняя связь</div>
+        <div class="cr_h_1 t_header1 _col_4">внутренняя связь</div>
+        <div class="cr_h_1 t_header1 _col_4"></div>
+
+        <div class="cr_h_2 t_footer">№</div>
+        <div class="cr_h_2 t_footer"><img src="/static/images/chain1_1.png" alt="ch" title="цепочка по кабелю"></div>
+        <div class="cr_h_2 t_footer">адрес</div>
+        <div class="cr_h_2 t_footer">УД</div>
+        <div class="cr_h_2 t_footer">кросс</div>
+        <div class="cr_h_2 t_footer">порт</div>
+        <div class="cr_h_2 t_footer">&#10010;&#10006;</div>
+        <div class="cr_h_2 t_footer">тип</div>
+        <div class="cr_h_2 t_footer">кросс/устр.</div>
+        <div class="cr_h_2 t_footer">порт</div>
+        <div class="cr_h_2 t_footer">&#10010;&#10006;</div>
+        <div class="cr_h_2 t_footer">примечание</div>
+        <div class="cr_h_2 t_footer">опт.изм.</div>
+        <div class="cr_h_2 t_footer">...</div>
+        <div class="cr_h_2 t_footer">i</div>
+
+    {% for ob in cr_p_list %}
+        <div class="row_grid">
+            <div class="cr_p _ch_valid_{{ ob.p_valid }} {% if ob.id == sel %}sel_marker{% endif %}">
+                <label title="id-{{ ob.id }}">&nbsp;{{ ob.num }}&nbsp;</label>
+            </div>
+            <div class="cr_p _ch_valid_{{ ob.p_valid }}">
+            {% if ob.cab_p_id %}
+                <a href="/cable/chain={{ ob.id }}/p_type=1/" target="_blank"><img src="/static/images/chain2_3.png" alt="ch" title="цепочка по кабелю"></a>
+            {% endif %}
+            </div>
+        {% if ob.c_up.0 == 'link_err' %}
+            <div class="cr_p tone_error _col_5">link error!!!</div>
+        {% else %}
+            {% if ob.c_up.0 == 'ext_coup' %}
+                <div class="cr_p _txt_l _col_2 _txt_coup">
+                    &#9669;&nbsp;&nbsp;<i>{{ ob.c_up.1 }}</i>
+                </div>
+                <div class="cr_p"></div>
+                <div class="cr_p"></div>
+            {% else %}
+                <div class="cr_p _cr_st_{{ ob.up_status }}">
+                    {{ ob.c_up.0 }} {{ ob.c_up.1 }}
+                </div>
+                <div class="cr_p _cr_st_{{ ob.up_status }}">
+                    <a href="{{ ob.c_up_l }}/../" target="_blank"><b>{{ ob.c_up.2 }}</b></a>
+                </div>
+                <div class="cr_p _cr_st_{{ ob.up_status }}">
+                    <a href="{{ ob.c_up_l }}/?sel={{ ob.c_up.5 }}" target="_blank"><b>{{ ob.c_up.3 }}</b></a>
+                </div>
+                <div class="cr_p _cr_st_{{ ob.up_status }}">
+                {% if ob.c_up.4 %}
+                    <a href="{{ ob.c_up_l }}/?sel={{ ob.c_up.5 }}" target="_blank"><b>&nbsp;{{ ob.c_up.4 }}&nbsp;</b></a>
+                {% endif %}
+                </div>
+            {% endif %}
+            <div class="cr_p">
+                {% if ob.up_status != 0 %}
+                <a href="s_p={{ ob.id }}/del_cr/">&nbsp;<img src="/static/images/icon_deletelink.gif" alt="X" title="удаление кабельной связи">&nbsp;</a>
+                {% elif ob.p_valid == True %}
+                <a href="s_p={{ ob.id }}/ext_cr1/">&nbsp;<img src="/static/images/icon_addlink.gif" alt="+" title="добавление кабельной связи">&nbsp;</a>
+                {% endif %}
+            </div>
+        {% endif %}
+
+            <div class="cr_p">
+                <img src="/static/images/obj_dev/{{ ob.c_down.0 }}" alt=" " title="">
+            </div>
+        {% if ob.c_down.1 == 'link_err' %}
+            <div class="cr_p tone_error _col_3">link error!!!</div>
+        {% else %}
+            <div class="cr_p _cr_st_{{ ob.int_c_status }}">
+                <a href="{{ ob.c_down.3 }}/?sel={{ ob.c_down.4 }}" target="_blank"><b>{{ ob.c_down.1 }}</b></a>
+            </div>
+            <div class="cr_p _cr_st_{{ ob.int_c_status }}">
+            {% if ob.c_down.2 %}
+                <a href="{{ ob.c_down.3 }}/?sel={{ ob.c_down.4 }}" target="_blank"><b>&nbsp;{{ ob.c_down.2 }}&nbsp;</b></a>
+            {% endif %}
+            </div>
+            <div class="cr_p">
+                {% if ob.int_c_status != 0 %}
+                <a href="del={{ ob.id }}/s_type=1/">&nbsp;<img src="/static/images/icon_deletelink.gif" alt="X" title="удаление кроссировки">&nbsp;</a>
+                {% elif ob.p_valid == True %}
+                <a href="s_p={{ ob.id }}/s_type=1/">&nbsp;<img src="/static/images/icon_addlink.gif" alt="+" title="добавление кроссировки">&nbsp;</a>
+                {% endif %}
+            </div>
+        {% endif %}
+            <div class="cr_p _txt_l _prim">{{ ob.prim }}</div>
+            <div class="cr_p">
+                {% if ob.opt_len != 0 %}{{ ob.opt_len }}{% endif %}
+            </div>
+            <div class="cr_p">
+                <a href="p_edit={{ ob.id }}/">&nbsp;<img src="/static/images/edit.png" alt="р" title="редактирование">&nbsp;</a>
+            </div>
+            <div class="cr_p">
+                <a href="/core/logs/t=5/id={{ ob.id }}">&nbsp;<img src="/static/images/icon_info.png" alt="i" title="история операций">&nbsp;</a>
+            </div>
+        </div>
+    {% endfor %}
+
+    </div>
+</div>
+
+<div class="c_base_w c_footer t_footer">
+    <div class="c_footer_nav"></div>
+    <div class="c_footer_nav">
+    {% if to_print %}
+        <input type="button" value="компактный вид" onClick='location.href="/cross/build={{ bu.id }}/locker={{ lo.id }}/cr={{ cr.id }}"'>
+    {% else %}
+        <input type="button" value="версия для печати" onClick='location.href="?to_print=1"'>
+    {% endif %}
+        <input type="button" value="история" onClick='location.href="/core/logs/t=2/id={{ cr.id }}"'>
+        <input type="button" value="редактирование" onClick='location.href="edit"'>
+        <input type="button" value="удалить кросс" onClick='location.href="../del_cross={{ cr.id }}"'>
+        <input type="button" value="закрыть" onClick='location.href="../"'>
+    </div>
+</div>
+
+{% endblock %}

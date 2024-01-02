@@ -1,200 +1,181 @@
 {% extends 'main.html' %}
 
 {% block cross %}
+<link rel="stylesheet" type="text/css" href="/static/colors.css">
+<link rel="stylesheet" type="text/css" href="/static/cross.css">
 
-{% if dev_p_list %}
-    <table>
-        <tr class="t_header1">
-            <td width="1300px" align="left">
-                <h3>
-                    &nbsp<a href="/cross/build={{ lo.parrent_id }}">{{ lo.parrent.name }} {{ lo.parrent.house_num }}</a>,
-                    &nbsp&nbsp<a href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}">УД: {{ lo.name }}</a>,
-                    &nbsp&nbsp<label style="color:blue">{{ dev.name }}</label>
-                    &nbsp&nbsp<a href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}/dev={{ dev.id }}/">кроссировки</a> / 
-                    <a href="" style="color:blue">конфигурация</a> /
-                    <a href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}/dev={{ dev.id }}/ips/">коммутация</a>
-                </h3>
-            </td>
-            <!--<td width="200px" style="background-color:#B5E8FF" align="right"><input type="button" value="в шкаф" onClick='location.href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}"'>&nbsp</td>-->
-            <td width="300px" align="right">
-                {% if kv.id != 1 %}
-                квартал: {{ kv.name }}&nbsp&nbsp
-                <a href="/statist/bu_doc={{ lo.parrent_id }}" target="_blank"><b>карточка ввода</b>&nbsp</a>
-                {% endif %}
-            </td>
-        </tr>
-        <tr class="t_footer">
-            <td colspan="2" align="left">&nbsp
-            {% for nav in dev_list %}
+{% include "show_build_header.html" %}
+
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav2">
+        {% for nav in dev_list %}
             {% if nav.id == dev.id %}
-                <label style="color:blue"><strong>{{ nav.name }}</strong></label>&nbsp&nbsp
+                <label class="color_link2"><strong>{{ nav.name }}</strong></label>
             {% else %}
-                <a href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}/dev={{ nav.id }}/l2=1">{{ nav.name }}</a>&nbsp&nbsp
+                <a href="/cross/build={{ bu.id }}/locker={{ lo.id }}/dev={{ nav.id }}/l2=1">{{ nav.name }}</a>
             {% endif %}
-            {% endfor %}
-            </td>
-        </tr>
-    </table>
-
-    <table class="t_header3" width="1604px" border="1">
-    <caption>&nbsp</caption>
-        <tr>
-            <td colspan="2" align="center">порт</td>
-            <td colspan="4" align="center">кабельная связь</td>
-            <td colspan="10" align="center">
-                конфигурация портов &nbsp&nbsp&nbsp
-                {% if dev.date_upd %}последнее обновление: <b>{{ dev.date_upd|date:"d.m.Y" }}</b>{% endif %}
-                {% if upd_td %} (<b>{{ upd_td.0 }}</b> д. <b>{{ upd_td.1 }}</b> ч.м.с. назад){% endif %}
-            </td>
-            <td rowspan="2" align="center" width="30px"><a href="/core/dev_upd_config={{ dev.id }}"><img src="/static/images/refresh.png" alt="upd" title="get config" width="16" height="16"></a></td>
-            <td rowspan="2" align="center" width="20px">?</td>
-        </tr>
-        <tr>
-            <td width="36px" align="center">№</td>
-            <td width="38px" align="center">тип</td>
-            
-            <td width="38px" align="center">тип</td>
-            <td width="120px" align="center">устр./КРТ</td>
-            <td width="100px" align="center">порт/пл.(пары)</td>
-            <td width="120px" align="center">внешняя связь</td>
-            
-            <td width="90px" align="center">alias</td>
-            <td width="70px" align="center">vlan ТЗ</td>
-            <td width="50px" align="center">untag</td>
-            <td width="120px" align="center">ip / mask</td>
-            <td width="130px" align="center">description</td>
-            <td width="360px" align="center">vlan_tag_list</td>
-            <td align="center">примечание</td>
-            <td width="20px" align="center"><label title="mvr type">&#10065;</label></td>
-            <td width="20px" align="center"><img src="/static/images/trunk.png" alt="tr" title="trunk" width="12" height="12"></td>
-            <td width="20px" align="center"><img src="/static/images/shut_3.png" alt="sh" title="shutdown" width="12" height="12"></td>
-            <!--<td width="30px" align="center"><label title="port_channel">p_c</label></td>-->
-        </tr>
-        {% for ob in dev_p_list %}
-            <tr class="tr_hover" {%if ob.p_valid == False %} style="background-color:gray" {% endif %}>
-                <td align="center" {% if ob.id == sel %} style="background-color:#FF0099"{% endif %}>
-                    <label title="id-{{ ob.id }}">&nbsp{{ ob.num }}&nbsp</label>
-                </td>
-                <td align="center">
-                    <div {% if ob.uplink %}style="background-color:cyan"{% endif %}>
-                    {% if ob.port_t_x != 2 %}<img src="/static/images/laser2.png" alt="" title="оптический порт" width="14" height="14">{% endif %}
-                    {% if ob.port_t_x != 1 %}<img src="/static/images/rj45_1.png" alt="" title="медный порт" width="12" height="12">{% endif %}
-                    </div>
-                </td>
-            <!--<td><input type="button" style="border-color:olive; border-radius:4px; width:46px; height:16px" value="..." onClick='location.href="p_edit={{ ob.id }}/"'></td>-->
-                {% if ob.c_down.1 != 'link_err' %}
-                    <td align="center">
-                        <img src="/static/images/obj_dev/{{ ob.c_down.0 }}" alt="" title="" height="12">
-                    </td>
-                    <td style="background-color:{{ ob.c_down.5 }}" align="center">
-                        <a href="../{{ ob.c_down.7 }}/?sel={{ ob.c_down.10 }}" target="_blank"><b>{{ ob.c_down.1 }}</b></a>
-                    </td>
-                    <td style="background-color:{{ ob.c_down.5 }}" align="center">
-                    {% if ob.c_down.1 == "0-1" or ob.c_down.1 == "0-2" or ob.c_down.1 == "0-3" or ob.c_down.1 == "0-4" or ob.c_down.1 == "0-5" %}
-                        <a href="../{{ ob.c_down.7 }}/?sel={{ ob.c_down.10 }}" target="_blank"><b>напрямую</b></a>
-                    {% elif ob.c_down.2 %}
-                        <a href="../{{ ob.c_down.7 }}/?sel={{ ob.c_down.10 }}" target="_blank"><b>&nbsp{{ ob.c_down.2 }}&nbsp</b></a>
-                    {% endif %}
-                    </td>
-                    <td style="background-color:{{ ob.c_down.9 }}" align="center">
-                        <a href="/cross/build={{ ob.c_down.8.parrent.parrent.parrent_id }}/locker={{ ob.c_down.8.parrent.parrent_id }}/cr={{ ob.c_down.8.parrent_id }}/?sel={{ ob.c_down.8.id }}" 
-                        title="{{ ob.c_down.8.parrent.parrent.parrent.name }} {{ ob.c_down.8.parrent.parrent.parrent.house_num }}, УД: {{ ob.c_down.8.parrent.parrent.name }}, {{ ob.c_down.8.parrent.name }}, {{ ob.c_down.8.num }}" 
-                        target="_blank"><b>{{ ob.c_down.8.parrent.parrent.name }}</b></a>
-                    </td>
-                {% else %}
-                    <!--<td></td>-->
-                    <td style="background-color:{{ ob.c_down.2 }}" align="center">{{ ob.c_down.0 }}</td>
-                    <td colspan="3" style="background-color:red; color:white" align="center"><b>link error!!!</b></td>
-                {% endif %}
-                
-                <td align="center">&nbsp{{ ob.p_alias }}&nbsp</td>
-                <td align="center">&nbsp{{ ob.vlantz }}&nbsp</td>
-                <td align="center">&nbsp{% if ob.vlan_untag != '0' %}{{ ob.vlan_untag }}{% endif %}&nbsp</td>
-                <td align="center">&nbsp{{ ob.ip }}&nbsp</td>
-                <td align="center">{{ ob.desc }}</td>
-                <td>{{ ob.vlan_tag_list }}</td>
-                <td><font size="1">&nbsp{{ ob.prim }}&nbsp</font></td>
-                <td align="center">
-                {% if ob.mvr == 's' %}
-                    <img src="/static/images/mvr_1.jpg" alt="tr" title="source" width="15" height="15">
-                {% elif ob.mvr == 'r' %}
-                    <img src="/static/images/mvr_2.jpg" alt="tr" title="recieve" width="14" height="14">
-                {% else %}
-                    &nbsp
-                {% endif %}
-                </td>
-                <td align="center">{% if ob.trunk %}<img src="/static/images/trunk.png" alt="tr" title="trunk" width="14" height="14">{% endif %}</td>
-                <td align="center">{% if ob.shut %}<img src="/static/images/shut_1.png" alt="sh" title="shutdown" width="14" height="14">{% endif %}</td>
-                <!--<td align="center">&nbsp{% if ob.p_chan %}<label title="port_channel">{{ ob.p_chan }}</label>{% endif %}&nbsp</td>-->
-                <td align="center"><a href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}/dev={{ dev.id }}/edit_f_port={{ ob.id }}/"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="16" height="16"></a></td>
-                <td class="tone2" align="center"><a href="/core/logs/t=6/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="?" title="история операций" height="14"></a></td>
-        </tr>
         {% endfor %}
-    </table>
+    </div>
+</div>
+<br>
 
-    <table width="1604px" border="1">
-    <caption><i>virtial interfaces</i></caption>
-        <tr class="t_header1">
-            <td width="344px" align="center">&nbsp</td>
-            <td width="120px" align="center">physics port</td>
-            <td width="90px" align="center">alias</td>
-            <td width="50px" align="center">untag</td>
-            <td width="120px" align="center">ip / mask</td>
-            <td width="130px" align="center">description</td>
-            <td align="center">примечание</td>
-            <td width="20px" align="center"><img src="/static/images/shut_3.png" alt="sh" title="shutdown" width="12" height="12"></td>
-            <td width="30px" align="center">X</td>
-            <td width="30px" align="center">ред.</td>
-            <td width="20px" align="center">?</td>
-        </tr>
-        {% for ob in dev_p_v_list %}
-        <tr>
-            <td></td>
-            <td align="center">{% if ob.parrent_p %}{{ ob.parrent_p }}{% endif %}</td>
-            <td align="center">{{ ob.p_alias }}</td>
-            <!--<td align="center">{{ ob.vlan_tag_list }}</td>-->
-            <td align="center">&nbsp{% if ob.vlan_untag %}{{ ob.vlan_untag }}{% endif %}&nbsp</td>
-            <td align="center">&nbsp{{ ob.ip }}&nbsp</td>
-            <!--<td align="center">{{ ob.p_channel }}</td>-->
-            <td align="center">{{ ob.desc }}</td>
-            <td><font size="1">&nbsp{{ ob.prim }}&nbsp</font></td>
-            <td align="center">{% if ob.shut %}<img src="/static/images/shut_1.png" alt="sh" title="shutdown" width="14" height="14">{% endif %}</td>
-            <td align="center"><a href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}/dev={{ dev.id }}/del_v_port={{ ob.id }}"><img src="/static/images/icon_deletelink.gif" alt="X" title="удаление порта" width="12" height="12"></a></td>
-            <td align="center"><a href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}/dev={{ dev.id }}/edit_v_port={{ ob.id }}"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="16" height="16"></a></td>
-            <td class="tone2" align="center"><a href="/core/logs/t=11/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="?" title="история операций" height="14"></a></td>
-        </tr>
-        {% endfor %}
-        <tr class="t_footer">
-            <td colspan="8" align="center">&nbsp</td>
-            <td colspan="2" align="center" style="background-color:white"><a href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}/dev={{ dev.id }}/add_v_port"><img src="/static/images/icon_addlink.gif" alt="+" title="добавление порта" width="12" height="12"></a></td>
-            <td>&nbsp</td>
-        </tr>
-    </table>
+<div class="c_base_w">
+    <div class="dev_list_f">
+        <div class="cr_h_1 t_header1 _col_2">порт</div>
+        <div class="cr_h_1 t_header1 _col_4">внутренняя связь</div>
+        <div class="cr_h_1 t_header1 _col_9">
+            конфигурация портов&emsp;&emsp;<strong>
+            {% if dev.date_upd %}последнее обновление: <b>{{ dev.date_upd|date:"d.m.Y" }}</b>{% endif %}
+            {% if upd_td %} (<b>{{ upd_td.0 }}</b> д. <b>{{ upd_td.1 }}</b> ч.м.с. назад){% endif %}
+            </strong>
+        </div>
+        <div class="cr_h_1 t_header1 _col_3"></div>
 
-{% endif %}
-    <br>
-    <table class="t_footer">
-        <tr>
-            <td width="1400px">&nbsp
-                {{ dev.obj_type.parrent.name }}: <b>{{ dev.obj_type.name }}</b>
-            {% if dev.ip_addr %}, IP: <b>{{ dev.ip_addr }}{% if dev.ip_mask %} / {{ dev.ip_mask }}{% endif %}</b>{% endif %}
-            {% if dev.mac_addr != "" %}, MAC: <b>{{ dev.mac_addr }}</b>{% endif %}
-            {% if dev.sn != "" %}, SN: <b>{{ dev.sn }}</b>{% endif %}
-            {% if dev.ip_gateway %}, gateway: <b>{{ dev.ip_gateway }}</b>{% endif %}
-            {% if dev.vlan %}, vlan: <b>{{ dev.vlan }}</b>{% endif %}
-            {#{% if dev.vers_po != "" %}, версия ПО: <b>{{ dev.vers_po }}</b>{% endif %}#}
-            {#{% if dev.man_conf != "" %}, прошил: <b>{{ dev.man_conf }}</b>{% endif %}#}
-            {#{% if dev.man_install != "" %}, монтаж: <b>{{ dev.man_install }}</b>{% endif %}#}
-            {#{% if dev.date_ent|date:"d.m.Y" != "" %}, дата ввода: <b>{{ dev.date_ent|date:"d.m.Y" }}</b>{% endif %}#}
-            {#{% if dev.date_repl|date:"d.m.Y" != "" %}, дата замены: <b>{{ dev.date_repl|date:"d.m.Y" }}</b>{% endif %}#}
-            </td>
-            <td width="200px" align="right">
-                <input type="button" value="история" onClick='location.href="/core/logs/t=3/id={{ dev.id }}"'>&nbsp
-                <input type="button" value="назад" onClick='location.href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}"'>&nbsp
-            </td>
-        </tr>
-    </table>
+        <div class="cr_h_2 t_footer">№</div>
+        <div class="cr_h_2 t_footer">тип</div>
+        <div class="cr_h_2 t_footer">тип</div>
+        <div class="cr_h_2 t_footer">устр./КРТ</div>
+        <div class="cr_h_2 t_footer">порт/пл.(пары)</div>
+        <div class="cr_h_2 t_footer">внешняя связь</div>
+        
+        <div class="cr_h_2 t_footer">alias</div>
+        <div class="cr_h_2 t_footer">vlan ТЗ</div>
+        <div class="cr_h_2 t_footer">untag</div>
+        <div class="cr_h_2 t_footer">ip / mask</div>
+        <div class="cr_h_2 t_footer">description</div>
+        <div class="cr_h_2 t_footer">vlan_tag_list</div>
+        <div class="cr_h_2 t_footer"><img src="/static/images/mvr_3_1.png" alt="mvr" title="mvr type"></div>
+        <div class="cr_h_2 t_footer"><img src="/static/images/trunk_1.png" alt="tr" title="trunk"></div>
+        <div class="cr_h_2 t_footer"><img src="/static/images/shut_3.png" alt="sh" title="shutdown"></div>
+        <div class="cr_h_2 t_footer">примечание</div>
+        <div class="cr_h_2 t_footer">...</div>
+        <div class="cr_h_2 t_footer">i</div>
 
+    {% for ob in dev_p_list %}
+        <div class="row_grid">
+            <div class="cr_p _ch_valid_{{ ob.p_valid }} {% if ob.id == sel %}sel_marker{% endif %}">
+                <label title="id-{{ ob.id }}">&nbsp;{{ ob.num }}&nbsp;</label>
+            </div>
+            <div class="cr_p _ch_valid_{{ ob.p_valid }}">
+            {% if ob.port_t_x != 2 %}<img src="/static/images/laser2_1.png" alt=" " title="оптический порт">{% endif %}
+            {% if ob.port_t_x != 1 %}<img src="/static/images/rj45_1_1.png" alt=" " title="медный порт">{% endif %}
+            </div>
+            <div class="cr_p">
+                <img src="/static/images/obj_dev/{{ ob.c_down.0 }}" alt=" " title="">
+            </div>
+
+        {% if ob.c_down.1 == 'link_err' %}
+            <div class="cr_p tone_error _col_3">link error!!!</div>
+        {% else %}
+            <div class="cr_p _cr_st_{{ ob.int_c_status }}">
+                <a href="../{{ ob.c_down.7 }}/?sel={{ ob.c_down.10 }}" target="_blank"><b>{{ ob.c_down.1 }}</b></a>
+            </div>
+            <div class="cr_p _cr_st_{{ ob.int_c_status }}">
+            {% if ob.c_down.1|slice:":1" == "0" %}
+                <a href="../{{ ob.c_down.7 }}/?sel={{ ob.c_down.10 }}" target="_blank"><b>напрямую</b></a>
+            {% elif ob.c_down.2 %}
+                <a href="../{{ ob.c_down.7 }}/?sel={{ ob.c_down.10 }}" target="_blank"><b>&nbsp;{{ ob.c_down.2 }}&nbsp;</b></a>
+            {% endif %}
+            </div>
+            <div class="cr_p _cr_st_{{ ob.c_down.9 }}">
+                <a href="/cross/build={{ ob.c_down.8.0.0 }}/locker={{ ob.c_down.8.1.0 }}/cr={{ ob.c_down.8.2.0 }}/?sel={{ ob.c_down.8.3.0 }}" 
+                title="{{ ob.c_down.8.0.1 }} {{ ob.c_down.8.0.2 }}, УД: {{ ob.c_down.8.1.1 }}, {{ ob.c_down.8.2.1 }}, {{ ob.c_down.8.3.1 }}" 
+                target="_blank"><b>{{ ob.c_down.8.1.1 }}</b></a>
+            </div>
+        {% endif %}
+            <div class="cr_p _txt_l {% if ob.uplink %}_dev_p_uplink{% endif %}">{{ ob.p_alias }}</div>
+            <div class="cr_p _txt_l">{#{{ ob.vlantz }}#}</div>
+            <div class="cr_p _txt_l">{% if ob.vlan_untag != '0' %}{{ ob.vlan_untag }}{% endif %}</div>
+            <div class="cr_p _txt_l">{{ ob.ip }}</div>
+            <div class="cr_p _txt_l">{{ ob.desc }}</div>
+            <div class="cr_p _txt_l">{{ ob.vlan_tag_list }}</div>
+            <div class="cr_p">
+            {% if ob.mvr == 's' %}
+                <img src="/static/images/mvr_1_1.png" alt="mvr_s" title="source">
+            {% elif ob.mvr == 'r' %}
+                <img src="/static/images/mvr_2_1.png" alt="mvr_r" title="recieve">
+            {% else %}
+                &nbsp
+            {% endif %}
+            </div>
+            <div class="cr_p">
+                {% if ob.trunk %}<img src="/static/images/trunk_1.png" alt="tr" title="trunk">{% endif %}
+            </div>
+            <div class="cr_p">
+                {% if ob.shut %}<img src="/static/images/shut_1.png" alt="sh" title="shutdown">{% endif %}
+            </div>
+            <div class="cr_p _txt_l">{{ ob.prim }}</div>
+            <div class="cr_p">
+                <a href="../edit_f_port={{ ob.id }}/">&nbsp;<img src="/static/images/edit.png" alt="р" title="редактирование">&nbsp;</a>
+            </div>
+            <div class="cr_p">
+                <a href="/core/logs/t=6/id={{ ob.id }}">&nbsp;<img src="/static/images/icon_info.png" alt="i" title="история операций">&nbsp;</a>
+            </div>
+        </div>
+    {% endfor %}
+
+    </div>
+</div>
+
+<div class="c_base_w">
+    <div class="dev_list_v">
+        <div class="cr_h_2 _none">virtial interfaces &#9658;&#9658;&#9658;</div>
+        <div class="cr_h_1 t_header1">physics port</div>
+        <div class="cr_h_1 t_header1">alias</div>
+        <div class="cr_h_1 t_header1">untag</div>
+        <div class="cr_h_1 t_header1">ip / mask</div>
+        <div class="cr_h_1 t_header1">description</div>
+        <div class="cr_h_1 t_header1">примечание</div>
+        <div class="cr_h_1 t_header1"><img src="/static/images/shut_3.png" alt="sh" title="shutdown"></div>
+        <div class="cr_h_1 t_header1">
+            <a href="/cross/build={{ bu.id }}/locker={{ lo.id }}/dev={{ dev.id }}/add_v_port"><img src="/static/images/icon_addlink.gif" alt="+" title="добавление порта"></a>
+        </div>
+        <div class="cr_h_1 t_header1">...</div>
+        <div class="cr_h_1 t_header1">i</div>
+    
+    {% for ob in dev_p_v_list %}        
+        <div class="row_grid">
+            <div class="cr_p _none"></div>
+            <div class="cr_p">{% if ob.parrent_p %}{{ ob.parrent_p }}{% endif %}</div>
+            <div class="cr_p _txt_l">{{ ob.p_alias }}</div>
+            <div class="cr_p _txt_l">{% if ob.vlan_untag %}{{ ob.vlan_untag }}{% endif %}</div>
+            <div class="cr_p _txt_l">{{ ob.ip }}</div>
+            <div class="cr_p _txt_l">{{ ob.desc }}</div>
+            <div class="cr_p _txt_l">{{ ob.prim }}</div>
+            <div class="cr_p">
+                {% if ob.shut %}<img src="/static/images/shut_1.png" alt="sh" title="shutdown">{% endif %}
+            </div>
+            <div class="cr_p">
+                <a href="/cross/build={{ bu.id }}/locker={{ lo.id }}/dev={{ dev.id }}/del_v_port={{ ob.id }}"><img src="/static/images/icon_deletelink.gif" alt="X" title="удаление порта"></a>
+            </div>
+            <div class="cr_p">
+                <a href="/cross/build={{ bu.id }}/locker={{ lo.id }}/dev={{ dev.id }}/edit_v_port={{ ob.id }}"><img src="/static/images/edit.png" alt="р" title="редактирование"></a>
+            </div>
+            <div class="cr_p">
+                <a href="/core/logs/t=11/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="i" title="история операций"></a>
+            </div>
+
+
+        </div>
+    {% endfor %}
+
+    </div>
+</div>
+
+<div class="c_base_w c_footer t_footer">
+    <div class="c_footer_nav c_footer_txt">
+        {{ dev.obj_type.parrent.name }}: <b>{{ dev.obj_type.name }}</b>
+        {% if dev.ip_addr %} IP:<b>{{ dev.ip_addr }}{% if dev.ip_mask %} / {{ dev.ip_mask }}{% endif %}</b>{% endif %}
+        {% if dev.mac_addr != "" %} MAC:<b>{{ dev.mac_addr }}</b>{% endif %}
+        {% if dev.sn != "" %} SN:<b>{{ dev.sn }}</b>{% endif %}
+        {% if dev.ip_gateway %} gateway:<b>{{ dev.ip_gateway }}</b>{% endif %}
+        {% if dev.vlan %} vlan:<b>{{ dev.vlan }}</b>{% endif %}
+    </div>
+    <div class="c_footer_nav">
+        <input type="button" value="история" onClick='location.href="/core/logs/t=3/id={{ dev.id }}"'>
+        <input type="button" value="редактирование" onClick='location.href="../edit"'>
+        <input type="button" value="закрыть" onClick='location.href="/cross/build={{ bu.id }}/locker={{ lo.id }}"'>
+    </div>
+</div>
 
 {% endblock %}
-

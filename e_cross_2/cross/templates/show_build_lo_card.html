@@ -2,9 +2,9 @@
     <div class="bu_card_c tone2">
         <div class="card_title">
             <div class="card_logo">
-            {% if lo.agr %}<img class="lo_img" src="/static/images/lo1.png">
-            {% elif lo.detached %}<img class="lo_img" src="/static/images/lo2.png">
-            {% else %}<img class="lo_img" src="/static/images/lo3.png">
+            {% if lo.agr %}<img class="lo_img" src="/static/images/lo1.png" alt="УД">
+            {% elif lo.detached %}<img class="lo_img" src="/static/images/lo2.png" alt="УД">
+            {% else %}<img class="lo_img" src="/static/images/lo3.png" alt="УД">
             {% endif %}
             </div>
             <div class="lo_name">
@@ -16,7 +16,7 @@
         </div>
         <div class="card_item">
             <div></div>
-            <div class="_lo_status_{{ lo.status2.0 }}">
+            <div class="_lo_status_{{ lo.status2.0 }} card_txt_c">
                 <label>{{ lo.status2.1 }}</label>
             </div>
             <div>
@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="card_item">
-            <div class="card_agr"><img src="/static/images/stat3.png"></div>
+            <div class="card_agr"><img src="/static/images/stat3.png" alt="A"></div>
             <div class="card_txt_l">{{ lo.co }}</div>
             <div class="card_oper link_oper">
             {% if lo.coord_x > 30 and lo.coord_y > 30 %}
@@ -57,7 +57,7 @@
         <div class="card_item">
             <div>{% if lo.rasp %}&#9654;{% endif %}</div>
             <div class="card_txt_l">{% if lo.rasp %}{{ lo.rasp }}{% endif %}&nbsp;</div>
-            <div>{% if lo.cab_door %}&#128275; {{ lo.cab_door }}<br>{{ lo.cab_key }}{% endif %}</div>
+            <div class="card_txt_c">{% if lo.cab_door %}&#128273; {{ lo.cab_door }}<br>{{ lo.cab_key }}{% endif %}</div>
         </div>
         <div class="card_item">
             <div>{% if lo.prim %}&#9655;{% endif %}</div>

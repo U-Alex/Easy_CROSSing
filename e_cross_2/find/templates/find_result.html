@@ -1,7 +1,6 @@
-{% extends 'find_0.html' %}
+{% extends 'find_start.html' %}
 
 {% block result %}
-
 {% if str_list %}
 
     <div class="res_header">
@@ -13,10 +12,10 @@
         <div class="res_header_right"></div>
     </div>
 
-        <table class="tone1">
+        <table class="c_base_w tone1">
             <tr>
                 <td width="140px" align="center">
-                    <img src="/static/images/sks3.png" alt="" title="" width="100">
+                    <img src="/static/images/sks2.png" alt="" title="" width="100">
                 </td>
                 <td width="1000px" align="center">
 
@@ -54,7 +53,6 @@
             </tr>
         </table>
 
-
 {% elif agr %}
 
     <div class="res_header">
@@ -65,11 +63,11 @@
         <div class="res_header_right"></div>
     </div>
         
-        <table class="tone1">
+        <table class="c_base_w tone1">
             <caption>&nbsp;</caption>
             <tr>
                 <td width="100px" align="center">
-                    <img src="/static/images/stat3.png" alt="" title="" width="60" height="60">
+                    <img src="/static/images/stat3.png" alt="" title="" height="60">
                 </td>
                 <td width="1150px" align="center">
                 {% for ob in agr %}
@@ -97,7 +95,7 @@
         
     {% if dev_list %}
     <br>
-        <table border="1">
+        <table class="c_base_w" border="1">
             <caption><i>devices</i></caption>
         {% for ob in dev_list %}
             <tr>
@@ -113,7 +111,7 @@
     
     {% if dev_list_f %}
     <br>
-        <table border="1">
+        <table class="c_base_w" border="1">
             <caption><i>physics interfaces</i></caption>
         {% for ob in dev_list_f %}
             <tr>
@@ -122,7 +120,7 @@
                     <a href="/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/dev={{ ob.parrent.id }}/l2=1/" target="_blank">&nbsp&nbsp<b>{{ ob.parrent.name }}&nbsp&nbsp{{ ob.p_alias }}</b>&nbsp&nbsp</a>
                 </td>
                 <td width="30px" align="center">
-                    {% if ob.shut %}<img src="/static/images/shut_1.png" alt="sh" title="shutdown" width="12" height="12">{% endif %}
+                    {% if ob.shut %}<img src="/static/images/shut_1.png" alt="sh" title="shutdown" height="12">{% endif %}
                 </td>
             </tr>
         {% endfor %}
@@ -131,7 +129,7 @@
     
     {% if dev_list_v %}
     <br>
-        <table border="1">
+        <table class="c_base_w" border="1">
             <caption><i>virtual interfaces</i></caption>
         {% for ob in dev_list_v %}
             <tr>
@@ -140,7 +138,7 @@
                     <a href="/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/dev={{ ob.parrent.id }}/l2=1/" target="_blank">&nbsp&nbsp<b>{{ ob.parrent.name }}&nbsp&nbsp{{ ob.p_alias }}</b>&nbsp&nbsp</a>
                 </td>
                 <td width="30px" align="center">
-                    {% if ob.shut %}<img src="/static/images/shut_1.png" alt="sh" title="shutdown" width="12" height="12">{% endif %}
+                    {% if ob.shut %}<img src="/static/images/shut_1.png" alt="sh" title="shutdown" height="12">{% endif %}
                 </td>
             </tr>
         {% endfor %}
@@ -149,7 +147,7 @@
 
     {% if dev_list_tag %}
     <br>
-        <table border="1">
+        <table class="c_base_w" border="1">
             <caption><i>physics interfaces <b>tagged vlan</b></i></caption>
         {% for ob in dev_list_tag %}
             <tr>
@@ -158,7 +156,7 @@
                     <a href="/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/dev={{ ob.parrent.id }}/l2=1/" target="_blank">&nbsp&nbsp<b>{{ ob.parrent.name }}&nbsp&nbsp{{ ob.p_alias }}</b>&nbsp;&nbsp;</a>
                 </td>
                 <td width="30px" align="center">
-                    {% if ob.shut %}<img src="/static/images/shut_1.png" alt="sh" title="shutdown" width="12" height="12">{% endif %}
+                    {% if ob.shut %}<img src="/static/images/shut_1.png" alt="sh" title="shutdown" height="12">{% endif %}
                 </td>
             </tr>
         {% endfor %}
@@ -167,7 +165,7 @@
     
     {% if su_list %}
     <br>
-        <table border="1">
+        <table class="c_base_w" border="1">
             <caption><i>subunit devices </b></i></caption>
         {% for ob in su_list %}
             <tr>

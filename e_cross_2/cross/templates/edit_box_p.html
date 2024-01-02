@@ -1,98 +1,102 @@
 {% extends 'main.html' %}
 
 {% block cross %}
+<link rel="stylesheet" type="text/css" href="/static/colors.css">
 
-    <table class="t_header1">
-        <tr>
-                <td width="1000px" align="left"><h3>&nbsp{{ port.parrent.parrent.parrent.name }} {{ port.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ port.parrent.parrent.name }}, КРТ: {{ port.parrent.name }}-{{ port.parrent.num }}-{{ port.p_alias }}</h3></td>
-                <td width="280px" align="right"></td>
-        </tr>
-    </table>
-    <br>
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <h3>
+            {{ port.parrent.parrent.parrent.name }} {{ port.parrent.parrent.parrent.house_num }},
+            &nbsp;&nbsp;УД: {{ port.parrent.parrent.name }},&nbsp;&nbsp;КРТ: {{ port.parrent.name }}-{{ port.parrent.num }}-{{ port.p_alias }}
+        </h3>
+    </div>
+</div>
+<br>
 
-<form method="post" action='' name='send'>
-    {% csrf_token %}
-    
-    <table>
-        <tr class="t_header1">
-            <td colspan="4">&nbsp<label style="color:brown">порт исправен: {{ form.valid }}</label>&nbsp</td>
-        </tr>
-        <tr class="tone2">
-            <td colspan="4" align="center">&nbspстатус кроссировок:&nbsp</td>
-        </tr>
-        <tr class="tone2">
-            <td width="1px"></td>
-            <td>&nbspкабельная связь&nbsp</td>
-            <td width="80px"></td>
-            <td>&nbspабонентская связь&nbsp</td>
-        </tr>
-        <tr class="tone2">
-            <td></td>
-            <td>
-            {% if port.up_status == 0 %}
-                &nbspне скроссировано
-            {% else %}
-                &nbsp&nbsp&nbsp<label style="color:green">{{ form.status1.1 }}</label><br>
-                &nbsp&nbsp&nbsp<label style="color:orange">{{ form.status1.2 }}</label><br>
-                &nbsp&nbsp&nbsp<label style="color:violet">{{ form.status1.3 }}</label><br>
-            {% endif %}
-            </td>
-            <td></td>
-            <td>
-            {% if port.int_c_status == 0 %}
-                &nbspне скроссировано
-            {% else %}
-                &nbsp&nbsp&nbsp<label style="color:green">{{ form.status2.1 }}</label><br>
-                &nbsp&nbsp&nbsp<label style="color:orange">{{ form.status2.2 }}</label><br>
-                &nbsp&nbsp&nbsp<label style="color:violet">{{ form.status2.3 }}</label><br>
-            {% endif %}
-            </td>
-        </tr>
-        <tr class="t_footer">
-            <td colspan="4">&nbsp<label style="color:brown">запланированы изменения: {{ form.changed }}</label>&nbsp</td>
-        </tr>
-    </table>
-    <br>
-    <table class="tone2">
-    <caption>абонентская связь</caption>
-        <tr>
-            <td colspan="3" align="right">
-                &nbsp<label style="color:teal">договор: </label>{{ form.dog }}
-                &nbspкв: {{ form.kv }}
-                &nbspФИО: {{ form.fio }}&nbsp
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3" align="right">примечание: {{ form.prim }}&nbsp</td>
-        </tr>
-    </table>
-    <br>
-    <table class="tone3">
-    <caption>история</caption>
-        <tr>
-            <td colspan="3" align="right">
-                &nbsp<label style="color:black">договор: </label>{{ form.h_dog }}
-                &nbspкв: {{ form.h_kv }}
-                &nbspФИО: {{ form.h_fio }}&nbsp
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3" align="right">&nbspпримечание: {{ form.h_prim }}&nbsp</td>
-        </tr>
-    </table>
-    <br>
-    <table class="t_footer">
-        <tr>
-            <td width="640px" align="right">
-                <input type="submit" value="     OK     ">&nbsp
-            </td>
-            <td width="640px" align="left">
-                <input type="button" value="отмена" onClick='location.href="../"'>
-            </td>
-        </tr>
-    </table>
+<div class="c_base_w">
+    <div align="center">
+        <form method="post" action='' name='send'>
+            {% csrf_token %}
+            
+            <table class="t_footer3">
+                <tr class="t_header1">
+                    <td colspan="4">&nbsp;&nbsp;<label">порт исправен: {{ form.valid }}</label></td>
+                </tr>
+                <tr class="tone2">
+                    <td colspan="4" align="center">статус кроссировок:</td>
+                </tr>
+                <tr class="tone2">
+                    <td width="1px"></td>
+                    <td>&nbsp;кабельная связь</td>
+                    <td width="80px"></td>
+                    <td>абонентская связь&nbsp;&nbsp;</td>
+                </tr>
+                <tr class="tone2">
+                    <td></td>
+                    <td>
+                    {% if port.up_status == 0 %}
+                        &nbsp;не скроссировано
+                    {% else %}
+                        &nbsp;&nbsp;<label class="_cr_st_txt_1">{{ form.status1.1 }}</label><br>
+                        &nbsp;&nbsp;<label class="_cr_st_txt_2">{{ form.status1.2 }}</label><br>
+                        &nbsp;&nbsp;<label class="_cr_st_txt_3">{{ form.status1.3 }}</label><br>
+                    {% endif %}
+                    </td>
+                    <td></td>
+                    <td>
+                    {% if port.int_c_status == 0 %}
+                        &nbsp;не скроссировано
+                    {% else %}
+                        &nbsp;&nbsp;<label class="_cr_st_txt_1">{{ form.status2.1 }}</label><br>
+                        &nbsp;&nbsp;<label class="_cr_st_txt_2">{{ form.status2.2 }}</label><br>
+                        &nbsp;&nbsp;<label class="_cr_st_txt_3">{{ form.status2.3 }}</label><br>
+                    {% endif %}
+                    </td>
+                </tr>
+                <tr class="tone2"><td colspan="4">&nbsp;</td></tr>
+                <tr class="t_footer">
+                    <td colspan="4">&nbsp;&nbsp;<label>запланированы изменения: {{ form.changed }}</label></td>
+                </tr>
+            </table>
+            <br>
+            <table class="tone2">
+            <caption>абонентская связь</caption>
+                <tr>
+                    <td colspan="3" align="right">
+                        &nbsp;<label style="color:navy">договор: </label>{{ form.dog }}
+                        &nbsp;кв: {{ form.kv }}
+                        &nbsp;ФИО: {{ form.fio }}&nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="right">примечание: {{ form.prim }}&nbsp;</td>
+                </tr>
+            </table>
+            <br>
+            <table class="tone3">
+            <caption>история</caption>
+                <tr>
+                    <td colspan="3" align="right">
+                        &nbsp;<label style="color:black">договор: </label>{{ form.h_dog }}
+                        &nbsp;кв: {{ form.h_kv }}
+                        &nbsp;ФИО: {{ form.h_fio }}&nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="right">примечание: {{ form.h_prim }}&nbsp;</td>
+                </tr>
+            </table>
+            <br>
 
-</form>
+            <div class="c_base_w t_footer3">
+                <div align="center">
+                    <input type="submit" value="     OK     ">
+                    <input type="button" value="отмена" onClick='location.href="../"'>
+                </div>
+            </div>
 
+        </form>
+    </div>
+</div>
 
 {% endblock %}

@@ -1,168 +1,156 @@
 {% extends 'main.html' %}
 
 {% block cross %}
+<link rel="stylesheet" type="text/css" href="/static/colors.css">
+<link rel="stylesheet" type="text/css" href="/static/cross.css">
 
-{% if dev_p_list %}
-    <table>
-        <tr class="t_header1">
-            <td width="1300px" align="left">
-                <h3>
-                    &nbsp<a href="/cross/build={{ lo.parrent_id }}">{{ lo.parrent.name }} {{ lo.parrent.house_num }}</a>,
-                    &nbsp&nbsp<a href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}">УД: {{ lo.name }}</a>,
-                    &nbsp&nbsp<label style="color:blue">{{ dev.name }}</label>
-                    &nbsp&nbsp<a href="" style="color:blue">кроссировки</a> / 
-                    <a href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}/dev={{ dev.id }}/l2=1/">конфигурация</a> /
-                    <a href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}/dev={{ dev.id }}/ips/">коммутация</a>
-                </h3>
-            </td>
-            <td width="300px" align="right">
-                {% if kv.id != 1 %}
-                квартал: {{ kv.name }}&nbsp&nbsp
-                <a href="/statist/bu_doc={{ lo.parrent_id }}" target="_blank"><b>карточка ввода</b>&nbsp</a>
-                {% endif %}
-            </td>
-        </tr>
-        <tr class="t_footer">
-            <td colspan="2" align="left">&nbsp
-            {% for nav in dev_list %}
+{% include "show_build_header.html" %}
+
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav2">
+        {% for nav in dev_list %}
             {% if nav.id == dev.id %}
-                <label style="color:blue"><strong>{{ nav.name }}</strong></label>&nbsp&nbsp
+                <label class="color_link2"><strong>{{ nav.name }}</strong></label>
             {% else %}
-                <a href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}/dev={{ nav.id }}">{{ nav.name }}</a>&nbsp&nbsp
+                <a href="/cross/build={{ bu.id }}/locker={{ lo.id }}/dev={{ nav.id }}">{{ nav.name }}</a>
             {% endif %}
-            {% endfor %}
-            </td>
-        </tr>
-    </table>
-
-    {% if bil_rq.0 %}
-        {% include "bil_rq.html" %}
-    {% else %}
-    <br>
-    {% endif %}
-    
-    <table class="t_header3" width="1604px" border="1">
-    <!--<caption>&nbsp</caption>-->
-        <tr>
-            <td colspan="2" align="center">порт</td>
-            <td colspan="6" align="center">кабельная связь</td>
-            <td colspan="4" align="center">внешняя связь</td>
-            <td rowspan="2" align="center" width="90px">алиас</td>
-            <td rowspan="2" align="center">примечание</td>
-            <td rowspan="2" align="center" width="30px">ред.</td>
-            <td rowspan="2" align="center" width="20px">?</td>
-        </tr>
-        <tr>
-            <td width="38px" align="center">№</td>
-            <td width="38px" align="center">тип</td>
-            <td width="38px" align="center">тип</td>
-            <td width="140px" align="center">устр./КРТ</td>
-            <td width="110px" align="center">порт/пл.(пары)</td>
-            <td width="30px" align="center">+/X</td>
-            <td width="80px" align="center">договор</td>
-            <td width="50px" align="center">кв</td>
-            <td width="230px" align="center">адрес / история пары</td>
-            <td width="180px" align="center">УД</td>
-            <td width="140px" align="center">кросс</td>
-            <td width="40px" align="center">порт</td>
-        </tr>
-        {% for ob in dev_p_list %}
-            <tr class="tr_hover" {%if ob.p_valid == False %} style="background-color:gray" {% endif %}>
-                <td align="center" {% if ob.id == sel %} style="background-color:#FF0099"{% endif %}>
-                    <label title="id-{{ ob.id }}" {% if ob.id == sel %} style="color:white" {% endif %}>&nbsp{{ ob.num }}&nbsp</label>
-                </td>
-                <td align="center">
-                    <div {% if ob.uplink %}style="background-color:cyan"{% endif %}>
-                    {% if ob.port_t_x != 2 %}<img src="/static/images/laser2.png" alt=" " title="оптический порт" width="14" height="14">{% endif %}
-                    {% if ob.port_t_x != 1 %}<img src="/static/images/rj45_1.png" alt=" " title="медный порт" width="12" height="12">{% endif %}
-                    </div>
-                </td>
-                {% if ob.c_down.1 != 'link_err' %}
-                    <td align="center">
-                        <img src="/static/images/obj_dev/{{ ob.c_down.0 }}" alt=" " title="" height="12">
-                    </td>
-                    <td style="background-color:{{ ob.c_down.5 }}" align="center">
-                        <a href="{{ ob.c_down.7 }}/?sel={{ ob.c_down.10 }}" target="_blank"><b>{{ ob.c_down.1 }}</b></a>
-                    </td>
-                    <td style="background-color:{{ ob.c_down.5 }}" align="center">
-                        {% if ob.c_down.1|slice:":1" == "0" %}
-                        <a href="{{ ob.c_down.7 }}/?sel={{ ob.c_down.10 }}" target="_blank"><b>напрямую</b></a>
-                        {% elif ob.c_down.2 %}
-                        <a href="{{ ob.c_down.7 }}/?sel={{ ob.c_down.10 }}" target="_blank"><b>&nbsp{{ ob.c_down.2 }}&nbsp</b></a>
-                        {% endif %}
-                    </td>
-                    {% if ob.int_c_status != 0 %}
-                        <td align="center"><a href="del={{ ob.id }}/s_type=2/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удаление кроссировки" width="12" height="12"></a></td>
-                    {% elif ob.p_valid == False %}
-                        <td></td>
-                    {% else %}
-                        <td align="center"><a href="s_p={{ ob.id }}/s_type=2/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавление кроссировки" width="12" height="12"></a></td>
-                    {% endif %}
-                    <td style="background-color:{{ ob.c_down.6 }}" align="center">
-                    {% if ob.c_down.8 == 'billing' %}
-                        <a href="?sel={{ ob.id }}&bil_rq={{ ob.c_down.3.0 }}" title="{{ ob.c_down.4 }}" style="color:black">{{ ob.c_down.3.0 }}</a>
-                    {% else %}
-                        <label title="{{ ob.c_down.4 }}">{{ ob.c_down.3.0 }}</label>
-                    {% endif %}
-                    </td>
-                    <td style="background-color:{{ ob.c_down.6 }}" align="center">{{ ob.c_down.3.1 }}</td>
-                    {% if ob.c_down.0 != 'rj45_2.png' %}
-                        <td style="background-color:{{ ob.c_down.9 }}" align="center">{{ ob.c_down.8.parrent.parrent.parrent.name }}&nbsp{{ ob.c_down.8.parrent.parrent.parrent.house_num }}</td>
-                    {% else %}
-                        <td style="background-color:{{ ob.c_down.9 }}">&nbsp{{ ob.c_down.11 }}</td>
-                    {% endif %}
-                        <td style="background-color:{{ ob.c_down.9 }}" align="center">
-                            <a href="/cross/build={{ ob.c_down.8.parrent.parrent.parrent_id }}/locker={{ ob.c_down.8.parrent.parrent_id }}" target="_blank"><b>{{ ob.c_down.8.parrent.parrent.name }}</b></a>
-                        </td>
-                        <td style="background-color:{{ ob.c_down.9 }}" align="center">
-                            <a href="/cross/build={{ ob.c_down.8.parrent.parrent.parrent_id }}/locker={{ ob.c_down.8.parrent.parrent_id }}/cr={{ ob.c_down.8.parrent_id }}/?sel={{ ob.c_down.8.id }}" target="_blank"><b>{{ ob.c_down.8.parrent.name }}</b></a>
-                        </td>
-                        <td style="background-color:{{ ob.c_down.9 }}" align="center">
-                            {% if ob.c_down.8.num %}
-                            <a href="/cross/build={{ ob.c_down.8.parrent.parrent.parrent_id }}/locker={{ ob.c_down.8.parrent.parrent_id }}/cr={{ ob.c_down.8.parrent_id }}/?sel={{ ob.c_down.8.id }}" target="_blank"><b>&nbsp{{ ob.c_down.8.num }}&nbsp</b></a>
-                            {% endif %}
-                        </td>
-                {% else %}
-                    <td style="background-color:{{ ob.c_down.2 }}" align="center">{{ ob.c_down.0 }}</td>
-                    <td colspan="9" style="background-color:red; color:white" align="center"><b>link error!!!</b></td>
-                {% endif %}
-                <td>&nbsp{{ ob.p_alias }}&nbsp</td>
-                <td><font size="1">&nbsp{{ ob.prim }}&nbsp</font></td>
-                <td align="center">
-                    <a href="p_edit={{ ob.id }}/"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="16" height="16"></a>
-                </td>
-                <td class="tone2" align="center">
-                    <a href="/core/logs/t=6/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="?" title="история операций" height="14"></a>
-                </td>
-        </tr>
         {% endfor %}
-    </table>
-
+    </div>
+</div>
+<br>
+{% if bil_rq.0 %} 
+<div class="c_base_w bil_rq">{% include "bil_rq.html" %}</div>
 {% endif %}
-    <br>
-    <table class="t_footer">
-        <tr>
-            <td width="1380px">&nbsp
-                {{ dev.obj_type.parrent.name }}: <b>{{ dev.obj_type.name }}</b>
-            {% if dev.ip_addr %}, IP: <b>{{ dev.ip_addr }}{% if dev.ip_mask %} / {{ dev.ip_mask }}{% endif %}</b>{% endif %}
-            {% if dev.mac_addr != "" %}, MAC: <b>{{ dev.mac_addr }}</b>{% endif %}
-            {% if dev.sn != "" %}, SN: <b>{{ dev.sn }}</b>{% endif %}
-            {% if dev.ip_gateway %}, gateway: <b>{{ dev.ip_gateway }}</b>{% endif %}
-            {% if dev.vlan %}, vlan: <b>{{ dev.vlan }}</b>{% endif %}
-            {#{% if dev.vers_po != "" %}, версия ПО: <b>{{ dev.vers_po }}</b>{% endif %}#}
-            {#{% if dev.man_conf != "" %}, прошил: <b>{{ dev.man_conf }}</b>{% endif %}#}
-            {#{% if dev.man_install != "" %}, монтаж: <b>{{ dev.man_install }}</b>{% endif %}#}
-            {#{% if dev.date_ent|date:"d.m.Y" != "" %}, дата ввода: <b>{{ dev.date_ent|date:"d.m.Y" }}</b>{% endif %}#}
-            {#{% if dev.date_repl|date:"d.m.Y" != "" %}, дата замены: <b>{{ dev.date_repl|date:"d.m.Y" }}</b>{% endif %}#}
-            </td>
-            <td width="220px" align="right">
-                <input type="button" value="абоненты" onClick='window.open("/statist/agr_to_abon={{ dev.id }}")'>&nbsp
-                <input type="button" value="история" onClick='location.href="/core/logs/t=3/id={{ dev.id }}"'>&nbsp
-                <input type="button" value="назад" onClick='location.href="/cross/build={{ lo.parrent_id }}/locker={{ dev.parrent_id }}"'>&nbsp
-            </td>
-        </tr>
-    </table>
 
+<div class="c_base_w">
+    <div class="dev_list">
+        <div class="cr_h_1 t_header1 _col_3">порт</div>
+        <div class="cr_h_1 t_header1 _col_6">внутренняя связь</div>
+        <div class="cr_h_1 t_header1 _col_4">внешняя связь</div>
+        <div class="cr_h_1 t_header1 _col_3"></div>
+
+        <div class="cr_h_2 t_footer">№</div>
+        <div class="cr_h_2 t_footer">тип</div>
+        <div class="cr_h_2 t_footer">алиас</div>
+        <div class="cr_h_2 t_footer">тип</div>
+        <div class="cr_h_2 t_footer">устр./КРТ</div>
+        <div class="cr_h_2 t_footer">порт/пл.(пары)</div>
+        <div class="cr_h_2 t_footer">&#10010;&#10006;</div>
+        <div class="cr_h_2 t_footer">договор</div>
+        <div class="cr_h_2 t_footer">кв</div>
+
+        <div class="cr_h_2 t_footer">внешний адрес</div>
+        <div class="cr_h_2 t_footer">УД</div>
+        <div class="cr_h_2 t_footer">кросс</div>
+        <div class="cr_h_2 t_footer">порт</div>
+        <div class="cr_h_2 t_footer">примечание</div>
+        <div class="cr_h_2 t_footer">...</div>
+        <div class="cr_h_2 t_footer">i</div>
+
+    {% for ob in dev_p_list %}
+        <div class="row_grid">
+            <div class="cr_p _ch_valid_{{ ob.p_valid }} {% if ob.id == sel %}sel_marker{% endif %}">
+                <label title="id-{{ ob.id }}">&nbsp;{{ ob.num }}&nbsp;</label>
+            </div>
+            <div class="cr_p _ch_valid_{{ ob.p_valid }}">
+            {% if ob.port_t_x != 2 %}<img src="/static/images/laser2_1.png" alt=" " title="оптический порт">{% endif %}
+            {% if ob.port_t_x != 1 %}<img src="/static/images/rj45_1_1.png" alt=" " title="медный порт">{% endif %}
+            </div>
+            <div class="cr_p _txt_l {% if ob.uplink %}_dev_p_uplink{% endif %}">{{ ob.p_alias }}</div>
+            <div class="cr_p">
+                <img src="/static/images/obj_dev/{{ ob.c_down.0 }}" alt=" " title="">
+            </div>
+            
+        {% if ob.c_down.1 == 'link_err' %}
+            <div class="cr_p tone_error _col_9">link error!!!</div>
+        {% else %}
+            <div class="cr_p _cr_st_{{ ob.int_c_status }}">
+                <a href="{{ ob.c_down.7 }}/?sel={{ ob.c_down.10 }}" target="_blank"><b>{{ ob.c_down.1 }}</b></a>
+            </div>
+            <div class="cr_p _cr_st_{{ ob.int_c_status }}">
+            {% if ob.c_down.1|slice:":1" == "0" %}
+                <a href="{{ ob.c_down.7 }}/?sel={{ ob.c_down.10 }}" target="_blank"><b>напрямую</b></a>
+            {% elif ob.c_down.2 %}
+                <a href="{{ ob.c_down.7 }}/?sel={{ ob.c_down.10 }}" target="_blank"><b>&nbsp;{{ ob.c_down.2 }}&nbsp;</b></a>
+            {% endif %}
+            </div>
+            <div class="cr_p">
+                {% if ob.int_c_status != 0 %}
+                <a href="del={{ ob.id }}/s_type=2/">&nbsp;<img src="/static/images/icon_deletelink.gif" alt="X" title="удаление кроссировки">&nbsp;</a>
+                {% elif ob.p_valid == True %}
+                <a href="s_p={{ ob.id }}/s_type=2/">&nbsp;<img src="/static/images/icon_addlink.gif" alt="+" title="добавление кроссировки">&nbsp;</a>
+                {% endif %}
+            </div>
+            <div class="cr_p _cr_st_{{ ob.c_down.6 }}">
+            {% if ob.c_down.4 %}
+                <a href="?sel={{ ob.id }}&bil_rq={{ ob.c_down.3.0 }}" title="{{ ob.c_down.3.2 }}" style="color:black">{{ ob.c_down.3.0 }}</a>
+            {% else %}
+                <label title="{{ ob.c_down.3.2 }}">{{ ob.c_down.3.0 }}</label>
+            {% endif %}
+            </div>
+            <div class="cr_p _cr_st_{{ ob.c_down.6 }}">
+                <label title="{{ ob.c_down.5 }}">{{ ob.c_down.3.1 }}</label>
+            </div>
+
+            {% if ob.c_down.8 %}
+            <div class="cr_p _cr_st_{{ ob.c_down.9 }}">
+                {{ ob.c_down.8.0.1 }}&nbsp;{{ ob.c_down.8.0.2 }}
+            </div>
+            <div class="cr_p _cr_st_{{ ob.c_down.9 }}">
+                <a href="/cross/build={{ ob.c_down.8.0.0 }}/locker={{ ob.c_down.8.1.0 }}" target="_blank">
+                    <b>{{ ob.c_down.8.1.1 }}</b>
+                </a>
+            </div>
+            <div class="cr_p _cr_st_{{ ob.c_down.9 }}">
+                <a href="/cross/build={{ ob.c_down.8.0.0 }}/locker={{ ob.c_down.8.1.0 }}/cr={{ ob.c_down.8.2.0 }}/?sel={{ ob.c_down.8.3.0 }}" target="_blank">
+                    <b>{{ ob.c_down.8.2.1 }}</b>
+                </a>
+            </div>
+            <div class="cr_p _cr_st_{{ ob.c_down.9 }}">
+                <a href="/cross/build={{ ob.c_down.8.0.0 }}/locker={{ ob.c_down.8.1.0 }}/cr={{ ob.c_down.8.2.0 }}/?sel={{ ob.c_down.8.3.0 }}" target="_blank">
+                    <b>&nbsp;{{ ob.c_down.8.3.1 }}&nbsp;</b>
+                </a>
+            </div>
+            {% else %}
+            <div class="cr_p _cr_st_{{ ob.c_down.9 }} _col_4"></div>
+            {% endif %}
+
+        {% endif %}
+            <div class="cr_p _txt_l _prim">{{ ob.prim }}</div>
+            <div class="cr_p">
+                <a href="p_edit={{ ob.id }}/">&nbsp;<img src="/static/images/edit.png" alt="р" title="редактирование">&nbsp;</a>
+            </div>
+            <div class="cr_p">
+                <a href="/core/logs/t=6/id={{ ob.id }}">&nbsp;<img src="/static/images/icon_info.png" alt="i" title="история операций">&nbsp;</a>
+            </div>
+
+        </div>
+    {% endfor %}
+    
+    </div>
+</div>
+
+<div class="c_base_w c_footer t_footer">
+    <div class="c_footer_nav c_footer_txt">
+        {{ dev.obj_type.parrent.name }}: <b>{{ dev.obj_type.name }}</b>
+        {% if dev.ip_addr %} IP:<b>{{ dev.ip_addr }}{% if dev.ip_mask %} / {{ dev.ip_mask }}{% endif %}</b>{% endif %}
+        {% if dev.mac_addr != "" %} MAC:<b>{{ dev.mac_addr }}</b>{% endif %}
+        {% if dev.sn != "" %} SN:<b>{{ dev.sn }}</b>{% endif %}
+        {% if dev.ip_gateway %} gateway:<b>{{ dev.ip_gateway }}</b>{% endif %}
+        {% if dev.vlan %} vlan:<b>{{ dev.vlan }}</b>{% endif %}
+        {#{% if dev.vers_po != "" %} версия ПО: <b>{{ dev.vers_po }}</b>{% endif %}#}
+        {#{% if dev.man_conf != "" %} прошил: <b>{{ dev.man_conf }}</b>{% endif %}#}
+        {#{% if dev.man_install != "" %} монтаж: <b>{{ dev.man_install }}</b>{% endif %}#}
+        {#{% if dev.date_ent|date:"d.m.Y" != "" %} дата ввода: <b>{{ dev.date_ent|date:"d.m.Y" }}</b>{% endif %}#}
+        {#{% if dev.date_repl|date:"d.m.Y" != "" %} дата замены: <b>{{ dev.date_repl|date:"d.m.Y" }}</b>{% endif %}#}
+    </div>
+    <div class="c_footer_nav">
+        <!-- <input type="button" value="абоненты" onClick='window.open("/statist/agr_to_abon={{ dev.id }}")'> -->
+        <input type="button" value="история" onClick='location.href="/core/logs/t=3/id={{ dev.id }}"'>
+        <input type="button" value="редактирование" onClick='location.href="edit"'>
+        <input type="button" value="удалить" onClick='location.href="../del_dev={{ dev.id }}"'>
+        <input type="button" value="закрыть" onClick='location.href="/cross/build={{ bu.id }}/locker={{ lo.id }}"'>
+    </div>
+</div>
 
 {% endblock %}
-

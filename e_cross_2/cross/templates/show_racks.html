@@ -2,96 +2,83 @@
 
 {% block cross %}
 
-    <table class="t_header1">
-        <tr>
-            <td width="1100px" align="left">
-                <h3>
-                    &nbsp<a href="/cross/build={{ lo.parrent.id }}">{{ lo.parrent.name }}&nbsp{{ lo.parrent.house_num }}</a>,
-                    &nbsp&nbsp<label style="color:blue">УД:&nbsp{{ lo.name }}</label>
-                </h3>
-            </td>
-            <td width="300px" align="right">
-                {% if kv.id != 1 %}
-                квартал: {{ kv.name }}&nbsp&nbsp
-                <a href="/statist/bu_doc={{ lo.parrent.id }}" target="_blank"><b>карточка ввода</b>&nbsp&nbsp</a>
-                {% endif %}
-            </td>
-        </tr>
-    </table>
-    <br>
+{% include "show_build_header.html" %}
 
-    <table class="tone1">
-        <tr valign="bottom">
-        {% for ob1 in rack_list %}
-            <td>
-                <table border="2">
-                    <caption>
-                        <i>{% if ob1.0 != '0' %}{{ ob1.0 }} ({{ ob1.1 }}){% else %}not standing{% endif %}</i>
-                    </caption>
-                {% for ob2 in ob1.2 %}
-                    <tr valign="top">
-                        <td width="20px" height="20px" align="center" style="border-style: dashed;">
-                            {{ ob2.0 }}
-                        </td>
-                    {% if ob2.1 != False %}
-                        <td rowspan="{{ ob2.2 }}" width="200px" style="border-style: dashed;">
-                            <img src="/static/images/{{ ob2.3 }}" alt="" title="" height="14">
-                            <a href="../{{ ob2.4 }}" target="_blank"><b>&nbsp{{ ob2.1.name }}&nbsp</b></a>
-                    {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-                </table>
-            </td>
-        {% endfor %}
-        </tr>
-    </table>
+<br>
+<div class="c_base_w">
+    <div align="center">
+        <table class="tone1">
+            <tr valign="bottom">
+            {% for ob1 in rack_list %}
+                <td>
+                    <table border="2">
+                        <caption>
+                            <i>{% if ob1.0 != '0' %}{{ ob1.0 }} ({{ ob1.1 }}){% else %}not standing{% endif %}</i>
+                        </caption>
+                    {% for ob2 in ob1.2 %}
+                        <tr valign="top">
+                            <td width="20px" height="20px" align="center" style="border-style: dashed;">
+                                {{ ob2.0 }}
+                            </td>
+                        {% if ob2.1 != False %}
+                            <td rowspan="{{ ob2.2 }}" width="200px" style="border-style: dashed;">
+                                <img src="/static/images/{{ ob2.3 }}" alt="" title="" height="14">
+                                <a href="../{{ ob2.4 }}" target="_blank"><b>&nbsp{{ ob2.1.name }}&nbsp;</b></a>
+                        {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+                </td>
+            {% endfor %}
+            </tr>
+        </table>
+    <br>
+        <table class="tone1" width="1000px">
+            <tr valign="top">
+                <td width="130px" align="center">
+                    <input type="checkbox" id="id_edit" name="edit" value=""{% if not adm %} disabled="1"{% endif %}>
+                    <label for="id_edit">редактирование</label>
+                </td>
+                <td>
+                    <div id="div_0" hidden="1">
+                        <table class="t_footer3" width="100%">
+                            <form method="post">
+                            {% csrf_token %}
+                                <tr>
+                                    <td align="center">
+                                        {{ form.racks }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center">
+                                        <input type="number" id="id_number" min="0" max="30" value="">&nbsp;
+                                        <input type="button" id="id_to_const" value=" &#9660;&#9660;&#9660; " onClick='javascript:to_const();'>&nbsp;
+                                        
+                                        <input type="button" id="id_to_form" value=" &#9650;&#9650;&#9650; " onClick='javascript:to_form();'>&nbsp;&nbsp;
+                                        <input type="submit" value="     OK     ">&nbsp;
+                                        <div id="div_1"></div>
+                                    </td>
+                                </tr>
+                            </form>
+                        </table>
+                    </div>
+                </td>
+                <td width="130px" align="center"></td>
+            </tr>
+        </table>
+    </div>
+</div>
 <br>
 
-<table class="tone2" width="1400px">
-    <tr valign="top">
-        <td width="130px" align="center">
-            <input type="checkbox" id="id_edit" name="edit" value=""{% if not adm %} disabled="1"{% endif %}>
-            <label for="id_edit">редактирование</label>
-        </td>
-        <td>
-            <div id="div_0" hidden="1">
-                <table class="tone2" width="100%">
-                    <form method="post">
-                    {% csrf_token %}
-                        <tr>
-                            <td align="center">
-                                {{ form.racks }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="center">
-                                <input type="number" id="id_number" min="0" max="30" value="">&nbsp
-                                <input type="button" id="id_to_const" value=" &#9660;&#9660;&#9660; " onClick='javascript:to_const();'>&nbsp
-                                
-                                <input type="button" id="id_to_form" value=" &#9650;&#9650;&#9650; " onClick='javascript:to_form();'>&nbsp&nbsp
-                                <input type="submit" value="     OK     ">&nbsp
-                                <div id="div_1"></div>
-                            </td>
-                        </tr>
-                    </form>
-                </table>
-            </div>
-        </td>
-        <td width="130px" align="center"></td>
-    </tr>
-</table>
+<div class="c_base_w c_footer t_footer">
+    <div class="c_footer_nav"></div>
+    <div class="c_footer_nav">
+        <input type="button" value="закрыть" onClick='location.href="../"'>
+    </div>
+</div>
 
-    <br>
-    <table class="t_footer">
-        <tr>
-            <td width="1100px">&nbsp</td>
-            <td width="300px" align="right"><input type="button" value="закрыть" onClick='location.href="../"'>&nbsp</td>
-        </tr>
-    </table>
-
-
-<script language="javascript">
+<script>
 
 window.onload = function init() {
     document.getElementById('id_number').value = Math.floor(document.getElementById('id_racks').value.split(',').length / 2);
@@ -156,6 +143,5 @@ id_edit.addEventListener('change', function(){
 }, false);
 
 </script>
-
 
 {% endblock %}

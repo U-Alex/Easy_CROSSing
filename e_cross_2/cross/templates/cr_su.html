@@ -2,60 +2,47 @@
 
 {% block cross %}
 
-    <table class="t_header1">
-        <tr>
-            <td width="1000px" align="left">
-                <h3>&nbsp
-                    <a href="/cross/build={{ lo.parrent.id }}">{{ lo.parrent.name }} {{ lo.parrent.house_num }}</a>,&nbsp&nbsp<a href="/cross/build={{ lo.parrent.id }}/locker={{ lo.id }}">УД: {{ lo.name }}</a>,&nbsp&nbsp<a href="/cross/build={{ lo.parrent.id }}/locker={{ lo.id }}/box={{ box_p.parrent.id }}/">крт: {{ box_p.parrent.name }}-{{ box_p.parrent.num }}-{{ box_p.p_alias }}</a>
-                {% if box_p.changed %}
-                    &nbsp&nbsp<label style="color:fuchsia">ВНИМАНИЕ !  запланировано снятие </label>
-                {% endif %}
-                </h3>
-            </td>
-            <td width="280px" align="right">
-                {% if kv.id != 1 %}
-                квартал: {{ kv.name }}&nbsp&nbsp
-                <a href="/statist/bu_doc={{ lo.parrent.id }}" target="_blank"><b>карточка ввода</b>&nbsp&nbsp</a>
-                {% endif %}
-            </td>
-        </tr>
-    </table>
-    <br>
-    
-<table border="1"><tr><td>
-    <table>
-    {% for ob in su_list %}
-        <tr>
-            <td width="160px" align="center">
-            {% if ob.box_p_id == 0 %}
-                <a href="/cross/build={{ lo.parrent.id }}/locker={{ lo.id }}/box={{ box_p.parrent.id }}/s_p={{ box_p.id }}/cr_su={{ ob.id }}"><b>{{ ob.name }}</b>
-            {% else %}
-                <i>{{ ob.name }}</i>
-            {% endif %}
-                </a>
-            </td>
-            <td width="160px" align="center">{{ ob.name_type.name }}</td>
-            <td width="360px" align="center" align="center">{{ ob.prim }}</td>
-        </tr>
-    {% endfor %}
-        <tr>
-            <td colspan="2" align="center"><a href="../cr_ab">&nbsp&nbspподключение абонентов&nbsp&nbsp</td>
-            <td align="right"><input type="button" value="отмена" onClick='location.href="../../"'>&nbsp</td>
-        </tr>
-    </table>
-</td></tr></table>
+{% include "show_build_header.html" %}
+
 <br>
-    <table>
-    <caption><i>история пары</i></caption>
-        <tr>
-            <td class="tone2" colspan="3" align="center">
-                &nbspдоговор: <b>{{ box_p.his_dogovor }}</b>
-                &nbspкв: <b>{{ box_p.his_ab_kv }}</b>
-                &nbspФИО: <b>{{ box_p.his_ab_fio }}</b>
-                &nbspпримечание: <b>{{ box_p.his_ab_prim }}</b>&nbsp
-            </td>
-        </tr>
-    </table>
-    
+
+<div class="c_base_w">
+    <div align="center">
+        <table border="1"><tr><td>
+            <table>
+            {% for ob in su_list %}
+                <tr>
+                    <td width="160px" align="center">
+                    {% if ob.box_p_id == 0 %}
+                        <a href="/cross/build={{ bu.id }}/locker={{ lo.id }}/box={{ cur_box_p.parrent.id }}/s_p={{ cur_box_p.id }}/cr_su={{ ob.id }}"><b>{{ ob.name }}</b>
+                    {% else %}
+                        <i>{{ ob.name }}</i>
+                    {% endif %}
+                        </a>
+                    </td>
+                    <td width="160px" align="center">{{ ob.name_type.name }}</td>
+                    <td width="360px" align="center" align="center">{{ ob.prim }}</td>
+                </tr>
+            {% endfor %}
+                <tr>
+                    <td colspan="2" align="center"><a href="../cr_ab">&emsp;подключение абонентов&emsp;</td>
+                    <td align="right"><input type="button" value="отмена" onClick='location.href="../../"'></td>
+                </tr>
+            </table>
+        </td></tr></table>
+        <br>
+        <table>
+        <caption><i>история пары</i></caption>
+            <tr>
+                <td class="tone2" colspan="3" align="center">
+                    &nbsp;договор: <b>{{ cur_box_p.his_dogovor }}</b>
+                    &nbsp;кв: <b>{{ cur_box_p.his_ab_kv }}</b>
+                    &nbsp;ФИО: <b>{{ cur_box_p.his_ab_fio }}</b>
+                    &nbsp;примечание: <b>{{ cur_box_p.his_ab_prim }}</b>&nbsp;
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 
 {% endblock %}

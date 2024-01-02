@@ -1,3 +1,4 @@
+/* find */
 
 /* find icon */
 .main_link_list {
@@ -126,6 +127,11 @@
     background: linear-gradient(to right, var(--tone2-color), var(--tone1-color));
 }
 
-
+/*  */
+@media screen and (max-width: 1023px) {
+    .main_link_list img {
+        width: 100px;
+    }
+}
 
 

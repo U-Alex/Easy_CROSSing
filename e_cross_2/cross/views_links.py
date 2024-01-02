@@ -30,7 +30,7 @@ from core.e_config import conf
 def ext_cr1(request, bu_id, lo_id, cr_id, s_port_id):
 
     if not request.user.has_perm("core.can_ext"):
-        return render(request, 'denied.html', {'mess': 'нет прав для создания кабельной связи', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     agr = Locker.objects.filter(agr=True).order_by('co')
     s_p_id = Cross_ports.objects.get(pk=s_port_id)
@@ -69,7 +69,7 @@ def ext_cr1(request, bu_id, lo_id, cr_id, s_port_id):
 def ext_cr2(request, bu_id, lo_id, cr_id, s_port_id, d_bu_id):
 
     if not request.user.has_perm("core.can_ext"):
-        return render(request, 'denied.html', {'mess': 'нет прав для создания кабельной связи', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     lo_list = Locker.objects.filter(parrent_id=d_bu_id).order_by('-agr', 'id').values()
     if lo_list.count() == 0:
@@ -146,7 +146,7 @@ def cr_tr_matrix(v_col, v_row, cr_p_h):
 def ext_ok(request, bu_id, lo_id, cr_id, s_port_id, d_bu_id, d_port_id):
 
     if not request.user.has_perm("core.can_ext"):
-        return render(request, 'denied.html', {'mess': 'нет прав для создания кабельной связи', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     s_p_id = Cross_ports.objects.get(pk=s_port_id)
     d_p_id = Cross_ports.objects.get(pk=d_port_id)
@@ -189,7 +189,7 @@ def ext_ok(request, bu_id, lo_id, cr_id, s_port_id, d_bu_id, d_port_id):
 def del_cr(request, bu_id, lo_id, cr_id, s_port_id):
 
     if not request.user.has_perm("core.can_ext"):
-        return render(request, 'denied.html', {'mess': 'нет прав для удаления кабельной связи', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     s_p = Cross_ports.objects.get(pk=s_port_id)
     d_p = Cross_ports.objects.get(pk=s_p.up_cross_id)
@@ -204,7 +204,8 @@ def del_cr(request, bu_id, lo_id, cr_id, s_port_id):
             s_p.up_status = 0
             d_p.up_cross_id = 0
             d_p.up_status = 0
-            t_opt = str(s_p.opt_len)+'/'+str(d_p.opt_len)
+            #t_opt = str(s_p.opt_len)+'/'+str(d_p.opt_len)
+            t_opt = f"{s_p.opt_len}/{d_p.opt_len}"
             s_p.opt_len = 0
             d_p.opt_len = 0
             s_p.save()
@@ -228,11 +229,9 @@ def del_cr(request, bu_id, lo_id, cr_id, s_port_id):
 def int_c(request, bu_id, lo_id, s_id, s_port_id, s_type):
 
     if not request.user.has_perm("core.can_int"):
-        return render(request, 'denied.html', {'mess': 'нет прав для создания кроссировки', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
-    cr = []
-    dev = []
-    box = []
+    cr, dev, box = [], [], []
 
     if s_type in ('1', '2'):
         cr = Cross.objects.filter(parrent_id=lo_id).order_by('name').values('id', 'name', 'v_forw_l_r', 'v_row', 'v_col')
@@ -383,7 +382,7 @@ def int_ok(request, bu_id, lo_id, s_id, s_port_id, s_type, d_port_id, d_type):
 def del_int_c(request, bu_id, lo_id, s_id, s_port_id, s_type):
 
     if not request.user.has_perm("core.can_int"):
-        return render(request, 'denied.html', {'mess': 'нет прав для удаления кроссировки', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     if request.method == 'POST':
         int_type_list = conf.MODELS_LIST[1:5]
@@ -459,10 +458,11 @@ def del_int_c(request, bu_id, lo_id, s_id, s_port_id, s_type):
 def cr_ab(request, bu_id, lo_id, box_id, port_id):
 
     if not request.user.has_perm("core.can_ab"):
-        return render(request, 'denied.html', {'mess': 'нет прав для создания кроссировки', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
+    bu = Building.objects.get(pk=bu_id)
+    kv = Kvartal.objects.get(pk=bu.kvar)
     lo = Locker.objects.get(pk=lo_id)
-    kv = Kvartal.objects.get(pk=lo.parrent.kvar)
     cl_val = False
     n_port_id = 0
     cur_dev_p = 0                               #по умолчанию свободных портов нет
@@ -521,7 +521,8 @@ def cr_ab(request, bu_id, lo_id, box_id, port_id):
                                   'p_valid': ob.p_valid,
                                   'dis': dis,
                                   'cr_text': cr_text,
-                                  'col': conf.COLOR_CRAB[ind_col]
+                                  #'col': conf.COLOR_CRAB[ind_col],#######
+                                  'col2': str(ind_col)
                                   })
             dev_p_cl.append(dev_p_cl2)
 
@@ -566,8 +567,7 @@ def cr_ab(request, bu_id, lo_id, box_id, port_id):
                                 del_p.save()
                                 cur_box_p.save()
                                 to_his([request.user, 7, cur_box_p.id, 7, 0,
-                                        f"cr_ab (скроссирован другой порт -> снимаем \
-                                          {str(del_p.parrent.name)} p-{str(del_p.num)}) ВНИМАНИЕ !!!"])
+                                        f"cr_ab (скроссирован другой порт -> снимаем {del_p.parrent.name} p-{del_p.num}) ВНИМАНИЕ !!!"])
                                 to_his([request.user, 6, del_p.id, 7, 0, 'cr_ab (скроссирован другой порт -> снять) ВНИМАНИЕ !!!'])
                             if cur_box_p.up_status != 0:
                                 return render(request, 'error.html', {'mess': 'crab2 -> cur_box_p.up_status != 0', 'back': 2})
@@ -681,8 +681,9 @@ def cr_ab(request, bu_id, lo_id, box_id, port_id):
             else:
                 txt_l = ' л:'+cur_box_p.his_dogovor
 
-    return render(request, 'cr_ab.html', {'lo': lo,
+    return render(request, 'cr_ab.html', {'bu': bu,
                                           'kv': kv,
+                                          'lo': lo,
                                           'cur_box_p': cur_box_p,
                                           'form': form,
                                           'txt_p': txt_p,
@@ -698,7 +699,7 @@ def cr_ab(request, bu_id, lo_id, box_id, port_id):
 def del_ab(request, bu_id, lo_id, box_id, port_id, pri):
 
     if not request.user.has_perm("core.can_ab"):
-        return render(request, 'denied.html', {'mess': 'нет прав для удаления кроссировки', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     back_p = None
     back_p_id = ''
@@ -789,10 +790,11 @@ def del_ab(request, bu_id, lo_id, box_id, port_id, pri):
 def cr_su(request, bu_id, lo_id, box_id, port_id, su_id):
 
     if not request.user.has_perm("core.can_ab"):
-        return render(request, 'denied.html', {'mess': 'нет прав для создания кроссировки', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
     
+    bu = Building.objects.get(pk=bu_id)
+    kv = Kvartal.objects.get(pk=bu.kvar)
     lo = Locker.objects.get(pk=lo_id)
-    kv = Kvartal.objects.get(pk=lo.parrent.kvar)
     box_p = Box_ports.objects.get(pk=port_id)
 
     if su_id != '0':
@@ -824,9 +826,10 @@ def cr_su(request, bu_id, lo_id, box_id, port_id, su_id):
         for ob in su_list:
             ob['name_type'] = Templ_subunit.objects.get(pk=ob['con_type'])#conf.SUBUNIT_TYPE[ob['con_type']][1]
 
-    return render(request, 'cr_su.html', {'lo': lo,
+    return render(request, 'cr_su.html', {'bu': bu,
                                           'kv': kv,
-                                          'box_p': box_p,
+                                          'lo': lo,
+                                          'cur_box_p': box_p,
                                           'su_list': su_list,
                                           })
 

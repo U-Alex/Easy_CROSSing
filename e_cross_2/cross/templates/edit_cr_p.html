@@ -1,77 +1,79 @@
 {% extends 'main.html' %}
 
 {% block cross %}
+<link rel="stylesheet" type="text/css" href="/static/colors.css">
 
-    <table class="t_header1">
-        <tr>
-                <td width="1000px" align="left"><h3>&nbsp{{ port.parrent.parrent.parrent.name }} {{ port.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ port.parrent.parrent.name }}, кросс: {{ port.parrent.name }}, порт: {{ port.num }}</h3></td>
-                <td width="280px" align="right">&nbsp</td>
-        </tr>
-    </table>
-    <br>
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <h3>
+            {{ port.parrent.parrent.parrent.name }} {{ port.parrent.parrent.parrent.house_num }},
+            &nbsp;&nbsp;УД: {{ port.parrent.parrent.name }},&nbsp;&nbsp;кросс: {{ port.parrent.name }}, порт: {{ port.num }}
+        </h3>
+    </div>
+</div>
+<br>
 
-<form method="post">
-    {% csrf_token %}
-    
-    <table>
-        <tr class="t_header1">
-            <td colspan="4">&nbsp<label style="color:brown">порт исправен: {{ form.valid }}</label></td>
-        </tr>
-        <tr class="tone2">
-            <td colspan="4" align="center">статус кроссировок:</td>
-        </tr>
-        <tr class="tone2">
-            <td width="30px"></td>
-            <td>&nbspвнешняя&nbspсвязь&nbsp</td>
-            <td width="120px"></td>
-            <td>&nbspвнутренняя&nbspсвязь&nbsp</td>
-        </tr>
-        <tr class="tone2">
-            <td></td>
-            <td>
-            {% if port.up_status == 0 %}
-                &nbspне скроссировано
-            {% else %}
-                &nbsp&nbsp&nbsp<label style="color:green">{{ form.status1.1 }}</label><br>
-                &nbsp&nbsp&nbsp<label style="color:orange">{{ form.status1.2 }}</label><br>
-                &nbsp&nbsp&nbsp<label style="color:violet">{{ form.status1.3 }}</label><br>
-                &nbsp&nbsp&nbsp<label style="color:aqua">{{ form.status1.4 }}</label>
-            {% endif %}
-            </td>
-            <td></td>
-            <td>
-            {% if port.int_c_status == 0 %}
-                &nbspне скроссировано
-            {% else %}
-                &nbsp&nbsp&nbsp<label style="color:green">{{ form.status2.1 }}</label><br>
-                &nbsp&nbsp&nbsp<label style="color:orange">{{ form.status2.2 }}</label><br>
-                &nbsp&nbsp&nbsp<label style="color:violet">{{ form.status2.3 }}</label><br>
-                &nbsp&nbsp&nbsp<label style="color:aqua">{{ form.status2.4 }}</label>
+<div class="c_base_w">
+    <div align="center">
+        <form method="post">
+            {% csrf_token %}
+            
+            <table>
+                <tr class="t_header1">
+                    <td colspan="4">&nbsp;&nbsp;<label>порт исправен: {{ form.valid }}</label></td>
+                </tr>
+                <tr class="tone2">
+                    <td colspan="4" align="center">статус кроссировок:</td>
+                </tr>
+                <tr class="tone2">
+                    <td width="30px"></td>
+                    <td>внешняя связь</td>
+                    <td width="120px"></td>
+                    <td>внутренняя связь</td>
+                </tr>
+                <tr class="tone2">
+                    <td></td>
+                    <td>
+                    {% if port.up_status == 0 %}
+                        не скроссировано
+                    {% else %}
+                        <label class="_cr_st_txt_1">{{ form.status1.1 }}</label><br>
+                        <label class="_cr_st_txt_2">{{ form.status1.2 }}</label><br>
+                        <label class="_cr_st_txt_3">{{ form.status1.3 }}</label><br>
+                        <label class="_cr_st_txt_4">{{ form.status1.4 }}</label>
+                    {% endif %}
+                    </td>
+                    <td></td>
+                    <td>
+                    {% if port.int_c_status == 0 %}
+                        не скроссировано
+                    {% else %}
+                        <label class="_cr_st_txt_1">{{ form.status2.1 }}</label><br>
+                        <label class="_cr_st_txt_2">{{ form.status2.2 }}</label><br>
+                        <label class="_cr_st_txt_3">{{ form.status2.3 }}</label><br>
+                        <label class="_cr_st_txt_4">{{ form.status2.4 }}</label>
+                    {% endif %}
+                    </td>
+                </tr>
+                <tr class="tone2">
+                    <td colspan="4"><label>{{ form.prim.label }}: {{ form.prim }}</label></td>
+                </tr>
+                <tr class="t_footer">
+                    <td colspan="4"><label>{{ form.opt_len.label }}: {{ form.opt_len }}</label></td>
+                </tr>
+                
+            </table>
+            <br>    
 
-            {% endif %}
-            </td>
-        </tr>
-        <tr class="tone2">
-            <td colspan="4">&nbsp<label>{{ form.prim.label }}: {{ form.prim }}</label>&nbsp</td>
-        </tr>
-        <tr class="t_footer">
-            <td colspan="4">&nbsp<label>{{ form.opt_len.label }}: {{ form.opt_len }}</label>&nbsp</td>
-        </tr>
-        
-    </table>
-    <br>    
-    <table class="t_footer">
-        <tr>
-            <td width="640px" align="right">
-                <input type="submit" value="     OK     ">&nbsp
-            </td>
-            <td width="640px" align="left">
-                <input type="button" value="отмена" onClick='location.href="../"'>
-            </td>
-        </tr>
-    </table>
-    
-</form>
-
+            <div class="c_base_w t_footer3">
+                <div align="center">
+                    <input type="submit" value="     OK     ">
+                    <input type="button" value="отмена" onClick='location.href="../"'>
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</div>
 
 {% endblock %}

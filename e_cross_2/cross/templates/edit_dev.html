@@ -2,113 +2,113 @@
 
 {% block cross %}
 
-    <table class="t_header1">
-        <tr>
-            <td width="1000px" align="left"><h3>&nbsp{{ dev.parrent.parrent.name }}&nbsp{{ dev.parrent.parrent.house_num }},&nbsp&nbspУД: {{ dev.parrent.name }},&nbsp&nbsp{{ dev.name }}</h3></td>
-            <td width="280px" align="right">&nbsp</td>
-        </tr>
-    </table>
-    <br>
-<form method="post">
-    {% csrf_token %}
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <h3>
+            {{ dev.parrent.parrent.name }} {{ dev.parrent.parrent.house_num }},
+            &nbsp;&nbsp;УД: {{ dev.parrent.name }},&nbsp;&nbsp;{{ dev.name }}
+        </h3>
+    </div>
+</div>
+<br>
 
-    <table class="t_header1">
-        <tr>
-            <td width="240px" align="right">{{ dev.obj_type.parrent.name }}:</td>
-            <td width="390px" align="left">{{ form.dev_name }}</td>
-            </td>
-        </tr>
-        <tr>
-            <td align="right">{{ form.object_owner.label }}:</td>
-            <td align="left">{{ form.object_owner }}&nbsp&nbsp<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp&nbsp{{ form.object_owner_list }}</td>
-        </tr>
-        <tr>
-            <td align="right"><label>модель:</label></td>
-            <td align="left"><input type="text" size="20" name="type_name" value="{{ dev.obj_type.name }}" disabled="1" style="color:teal"></td>
-        </tr>
-        <tr>
-            <td align="right">{{ form.ip.label }}:</td>
-            <td align="left">{{ form.ip }}</td>
-        </tr>
-<!--        <tr>
-            <td align="right">{{ form.ip_mask.label }}:</td>
-            <td align="left">{{ form.ip_mask }}</td>
-        </tr>
-        <tr>
-            <td align="right">{{ form.ip_gateway.label }}:</td>
-            <td align="left">{{ form.ip_gateway }}</td>
-        </tr>
-        <tr>
-            <td align="right">{{ form.vlan.label }}:</td>
-            <td align="left">{{ form.vlan }}</td>
-        </tr>-->
-        <tr>
-            <td align="right">{{ form.mac.label }}:</td>
-            <td align="left">{{ form.mac }}</td>
-        </tr>
-        <tr>
-            <td align="right">{{ form.sn.label }}:</td>
-            <td align="left">{{ form.sn }}</td>
-        </tr>
-        <tr>
-            <td align="right">{{ form.vers_po.label }}:</td>
-            <td align="left">{{ form.vers_po }}</td>
-        </tr>
-        <tr>
-            <td align="right">{{ form.man_conf.label }}:</td>
-            <td align="left">{{ form.man_conf }}&nbsp&nbsp<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp&nbsp{{ form.man_conf_list }}</td>
-        </tr>
-        <tr>
-            <td align="right">{{ form.man_install.label }}:</td>
-            <td align="left">{{ form.man_install }}&nbsp&nbsp<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp&nbsp{{ form.man_install_list }}</td>
-        </tr>
-        <tr>
-            <td align="right">{{ form.date_ent.label }}:</td>
-            <td align="left">{{ form.date_ent }}</td>
-        </tr>
-        <tr>
-            <td align="right">{{ form.date_repl.label }}:</td>
-            <td align="left">{{ form.date_repl }}</td>
-        </tr>
-        <tr>
-            <td align="right">{{ form.rack_num.label }}:</td>
-            <td align="left">{{ form.rack_num }}</td>
-        </tr>
-        <tr>
-            <td align="right">{{ form.rack_pos.label }}:</td>
-            <td align="left">{{ form.rack_pos }}</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp</td>
-            <td align="left">&nbsp</td>
-        </tr>
-        <tr>
-            <td colspan="2" align="center">{{ form.prim.label }}:</td>
-        </tr>
-        <tr>
-            <td colspan="2" align="center">{{ form.prim }}</td>
-        </tr>
+<div class="c_base_w">
+    <div align="center">
+        <form method="post">
+            {% csrf_token %}
 
-    </table>
-    <br>
-    <table class="t_footer">
-        <tr>
-            <td width="640px" align="right">
-                <input type="submit" value="     OK     ">&nbsp
-            </td>
-            <td width="640px" align="left">
-                <input type="button" value="отмена" onClick='location.href="../../"'>
-            </td>
-        </tr>
-    </table>
+            <table class="t_header1">
+                <tr>
+                    <td width="240px" align="right">{{ dev.obj_type.parrent.name }}:</td>
+                    <td width="390px" align="left">{{ form.dev_name }}</td>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.object_owner.label }}:</td>
+                    <td align="left">{{ form.object_owner }}&nbsp;&nbsp;<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp;&nbsp;{{ form.object_owner_list }}</td>
+                </tr>
+                <tr>
+                    <td align="right"><label>модель:</label></td>
+                    <td align="left"><input type="text" size="20" name="type_name" value="{{ dev.obj_type.name }}" disabled="1" style="color:teal"></td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.ip.label }}:</td>
+                    <td align="left">{{ form.ip }}</td>
+                </tr>
+        <!--        <tr>
+                    <td align="right">{{ form.ip_mask.label }}:</td>
+                    <td align="left">{{ form.ip_mask }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.ip_gateway.label }}:</td>
+                    <td align="left">{{ form.ip_gateway }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.vlan.label }}:</td>
+                    <td align="left">{{ form.vlan }}</td>
+                </tr>-->
+                <tr>
+                    <td align="right">{{ form.mac.label }}:</td>
+                    <td align="left">{{ form.mac }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.sn.label }}:</td>
+                    <td align="left">{{ form.sn }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.vers_po.label }}:</td>
+                    <td align="left">{{ form.vers_po }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.man_conf.label }}:</td>
+                    <td align="left">{{ form.man_conf }}&nbsp;&nbsp;<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp;&nbsp;{{ form.man_conf_list }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.man_install.label }}:</td>
+                    <td align="left">{{ form.man_install }}&nbsp;&nbsp;<img src="/static/images/go-back.png" alt="" title="" width="16" height="10">&nbsp;&nbsp;{{ form.man_install_list }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.date_ent.label }}:</td>
+                    <td align="left">{{ form.date_ent }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.date_repl.label }}:</td>
+                    <td align="left">{{ form.date_repl }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.rack_num.label }}:</td>
+                    <td align="left">{{ form.rack_num }}</td>
+                </tr>
+                <tr>
+                    <td align="right">{{ form.rack_pos.label }}:</td>
+                    <td align="left">{{ form.rack_pos }}</td>
+                </tr>
+                <tr>
+                    <td align="right">&nbsp;</td>
+                    <td align="left">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">{{ form.prim.label }}:</td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">{{ form.prim }}</td>
+                </tr>
 
-</form>
+            </table>
+            <br>
 
-<script language="javascript">
+            <div class="c_base_w t_footer3">
+                <div align="center">
+                    <input type="submit" value="     OK     ">
+                    <input type="button" value="отмена" onClick='location.href="../../"'>
+                </div>
+            </div>
 
-//own.addEventListener('change', function(){
-//    id_object_owner_list.disabled = ! own.checked;
-//}, false);
+        </form>
+    </div>
+</div>
+
+<script>
 
 id_man_conf.addEventListener('change', function(){
     id_man_conf_list.value = 0;
@@ -132,6 +132,5 @@ id_object_owner_list.addEventListener('change', function(){
 }, false);
 
 </script>
-
 
 {% endblock %}

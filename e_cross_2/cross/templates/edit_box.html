@@ -2,91 +2,93 @@
 
 {% block cross %}
 
-    <table class="t_header1">
-        <tr>
-                <td width="1000px" align="left"><h3>&nbsp{{ box.parrent.parrent.name }} {{ box.parrent.parrent.house_num }},&nbsp&nbspУД: {{ box.parrent.name }}, КРТ: {{ box.name }}-{{ box.num }}</h3></td>
-                <td width="280px" align="right">&nbsp</td>
-        </tr>
-    </table>
-    <br>
-<form method="post">
-    {% csrf_token %}
-    
-    <table>
-        <tr class="t_header1">
-            <td width="360px" align="right">
-                &nbsp{{ form.box_name.label }}&nbsp&nbsp->&nbsp&nbsp{{ form.box_name }}&nbsp
-            </td>
-            <td align="center"></td>
-            <td width="360px" align="left">
-                &nbsp{{ form.box_num }}&nbsp&nbsp<-&nbsp&nbsp{{ form.box_num.label }}&nbsp
-            </td>
-        </tr>
-        <tr class="tone2">
-            <td align="right">
-                &nbsp{{ form.box_stairway.label }}&nbsp&nbsp->&nbsp&nbsp{{ form.box_stairway }}&nbsp
-            </td>
-            <td align="center"></td>
-            <td align="left">
-                &nbsp{{ form.floor }}&nbsp&nbsp<-&nbsp&nbsp{{ form.floor.label }}&nbsp
-            </td>
-        </tr>
-        <tr class="t_footer">
-            <td align="right">
-                &nbsp{{ form.rack_num.label }}&nbsp&nbsp->&nbsp&nbsp{{ form.rack_num }}&nbsp
-            </td>
-            <td align="center"></td>
-            <td align="left">
-                &nbsp{{ form.rack_pos }}&nbsp&nbsp<-&nbsp&nbsp{{ form.rack_pos.label }}&nbsp
-            </td>
-        </tr>
-        
-        <tr class="tone1">
-            <td align="right">&nbsp{{ form.box_name_type.label }}:&nbsp</td>
-            <td align="center"></td>
-            <td align="left">&nbsp{{ form.box_name_type }}&nbsp</td>
-        </tr>
-        <tr class="t_header1">
-            <td colspan="3" align="center"><label>{{ form.add_cable }} добавить кабель</label></td>
-        </tr>
-        <tr class="tone2">
-            <td align="right">&nbsp{{ form.cable_name_type.label }}:&nbsp</td>
-            <td align="center"></td>
-            <td align="left">&nbsp{{ form.cable_name_type }}&nbsp</td>
-        </tr>
-        <tr class="t_footer">
-            <td colspan="3" align="center"><label>{{ form.del_cable }} удалить последний кабель</label></td>
-        </tr>
-        <tr class="tone1">
-            <td colspan="3">&nbsp</td>
-        </tr>
-        <tr class="tone1">
-            <td colspan="3" align="center">{{ form.serv_area.label }}:</td>
-        </tr>
-        <tr class="tone1">
-            <td colspan="3" align="center">{{ form.serv_area }}</td>
-        </tr>
-        <tr class="tone1">
-            <td colspan="3" align="center"><br>{{ form.prim.label }}:</td>
-        </tr>
-        <tr class="tone1">
-            <td colspan="3" align="center">{{ form.prim }}</td>
-        </tr>
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <h3>
+            {{ box.parrent.parrent.name }} {{ box.parrent.parrent.house_num }},
+            &nbsp;&nbsp;УД: {{ box.parrent.name }},&nbsp;&nbsp;КРТ: {{ box.name }}-{{ box.num }}
+        </h3>
+    </div>
+</div>
+<br>
 
-    </table>
-    <br>
-    <table class="t_footer">
-        <tr>
-            <td width="640px" align="right">
-                <input type="submit" value="     OK     ">&nbsp
-            </td>
-            <td width="640px" align="left">
-                <input type="button" value="отмена" onClick='location.href="../../"'>
-            </td>
-        </tr>
-    </table>
-    
-</form>
+<div class="c_base_w">
+    <div align="center">
+        <form method="post">
+            {% csrf_token %}
+            
+            <table>
+                <tr class="t_header1">
+                    <td width="360px" align="right">
+                        {{ form.box_name.label }}&nbsp;&#9658;&nbsp;{{ form.box_name }}
+                    </td>
+                    <td align="center"></td>
+                    <td width="360px" align="left">
+                        {{ form.box_num }}&nbsp;&#9668;&nbsp;{{ form.box_num.label }}
+                    </td>
+                </tr>
+                <tr class="tone2">
+                    <td align="right">
+                        {{ form.box_stairway.label }}&nbsp;&#9658;&nbsp;{{ form.box_stairway }}
+                    </td>
+                    <td align="center"></td>
+                    <td align="left">
+                        {{ form.floor }}&nbsp;&#9668;&nbsp;{{ form.floor.label }}
+                    </td>
+                </tr>
+                <tr class="t_footer">
+                    <td align="right">
+                        {{ form.rack_num.label }}&nbsp;&#9658;&nbsp;{{ form.rack_num }}
+                    </td>
+                    <td align="center"></td>
+                    <td align="left">
+                        {{ form.rack_pos }}&nbsp;&#9668;&nbsp;{{ form.rack_pos.label }}
+                    </td>
+                </tr>
+                <tr class="tone1"><td colspan="3">&nbsp;</td></tr>
+                <tr class="tone1">
+                    <td align="right">{{ form.box_name_type.label }}:</td>
+                    <td align="center"></td>
+                    <td align="left">{{ form.box_name_type }}</td>
+                </tr>
+                <tr class="tone1"><td colspan="3">&nbsp;</td></tr>
+                <tr class="t_header1">
+                    <td colspan="3" align="center"><label>{{ form.add_cable }} добавить кабель</label></td>
+                </tr>
+                <tr class="tone2">
+                    <td align="right">{{ form.cable_name_type.label }}:</td>
+                    <td align="center"></td>
+                    <td align="left">{{ form.cable_name_type }}</td>
+                </tr>
+                <tr class="t_footer">
+                    <td colspan="3" align="center"><label>{{ form.del_cable }} удалить последний кабель</label></td>
+                </tr>
+                <tr class="tone1"><td colspan="3">&nbsp;</td></tr>
+                <tr class="tone1">
+                    <td colspan="3" align="center">{{ form.serv_area.label }}:</td>
+                </tr>
+                <tr class="tone1">
+                    <td colspan="3" align="center">{{ form.serv_area }}</td>
+                </tr>
+                <tr class="tone1">
+                    <td colspan="3" align="center"><br>{{ form.prim.label }}:</td>
+                </tr>
+                <tr class="tone1">
+                    <td colspan="3" align="center">{{ form.prim }}</td>
+                </tr>
 
+            </table>
+            <br>
+ 
+            <div class="c_base_w t_footer3">
+                <div align="center">
+                    <input type="submit" value="     OK     ">
+                    <input type="button" value="отмена" onClick='location.href="../../"'>
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</div>
 
 {% endblock %}

@@ -1,83 +1,84 @@
 {% extends 'main.html' %}
 
 {% block service %}
+<link rel="stylesheet" type="text/css" href="/static/serv.css">
 
-    <table class="t_header1">
-        <tr>
-            <td width="880px" align="left"><h3>&nbsp Оборудование:&nbsp&nbsp{% if dev %}{{ dev.name }}{% else %}(новый шаблон){% endif %}</h3></td>
-            <td width="400px" align="right"></td>
-        </tr>
-    </table>
-    <br>
+<div class="c_base_w tone2">
+    <div class="serv_header">
+        <h3>Оборудование:&nbsp;&nbsp;{% if dev %}{{ dev.name }}{% else %}(новый шаблон){% endif %}</h3>
+    </div>
+</div>
+<br>
 
-<form method="post">
-    {% csrf_token %}
-    <table class="t_header1">
-        <tr>
-            <td colspan="2" align="center">
-                &nbsp{{ form.name.label }}:&nbsp{{ form.name }}&nbsp&nbsp&nbsp
-                &nbspтип оборудования:&nbsp{{ form.parrent }}&nbsp&nbsp&nbsp
-                &nbsp{{ form.ports.label }}:&nbsp{{ form.ports }}&nbsp&nbsp&nbsp
-                &nbsp{{ form.units.label }}:&nbsp{{ form.units }}&nbsp&nbsp&nbsp
-            </td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.port_alias_list.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.port_alias_list }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.port_t_x_list.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.port_t_x_list }}&nbsp</td>
-        </tr>
-        <tr>
-            <td align="right">&nbsp{{ form.port_speed_list.label }}:&nbsp</td>
-            <td align="left">&nbsp{{ form.port_speed_list }}&nbsp</td>
-        </tr>
-    </table>
-    <br>
-    <table class="t_footer">
-        <tr>
-            <td width="640px" align="right">
-                <input type="button" id="id_to_const" value=" &#9660;&#9660;&#9660; " onClick='javascript:to_const();'>&nbsp&nbsp
-                <input type="button" id="id_to_form" value=" &#9650;&#9650;&#9650; " onClick='javascript:to_form();'>&nbsp
-            </td>
-            <td width="640px" align="left">&nbsp
-                <input type="submit" id="id_ok" value="     OK     ">&nbsp&nbsp
+<div class="c_base_w" align="center">
+    <form method="post">
+        {% csrf_token %}
+        <table class="t_header1">
+            <tr>
+                <td colspan="2" align="center">
+                    {{ form.name.label }}: {{ form.name }}&nbsp;
+                    тип оборудования: {{ form.parrent }}&nbsp;
+                    {{ form.ports.label }}: {{ form.ports }}&nbsp;
+                    {{ form.units.label }}: {{ form.units }}&nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td align="right">{{ form.port_alias_list.label }}:</td>
+                <td align="left">{{ form.port_alias_list }}</td>
+            </tr>
+            <tr>
+                <td align="right">{{ form.port_t_x_list.label }}:</td>
+                <td align="left">{{ form.port_t_x_list }}</td>
+            </tr>
+            <tr>
+                <td align="right">{{ form.port_speed_list.label }}:</td>
+                <td align="left">{{ form.port_speed_list }}</td>
+            </tr>
+        </table>
+        <br>
+
+        <div class="tone2">
+            <div class="serv_c">
+                <input type="button" id="id_to_const" value=" &#9660;&#9660;&#9660; " onClick='javascript:to_const();'>
+                <input type="button" id="id_to_form" value=" &#9650;&#9650;&#9650; " onClick='javascript:to_form();'>
+                &nbsp;&nbsp;
+                <input type="submit" id="id_ok" value="     OK     ">
                 <input type="button" value="отмена" onClick='location.href="/core/templ/"'>
-            </td>
-        </tr>
-    </table>
-</form>
+            </div>
+        </div>
 
-<input type="hidden" id="id_dev_p" value="{{ dev.ports }}">
-<input type="hidden" id="id_const_p" value="0">
-<br>
-<div id="info"></div>
-<br>
-<div id="constructor" hidden="1">
-    <table border="1">
-        <tr>
-            <td><div align="center">alias</div></td>
-            <td><div align="center">X/T/Combo</div></td>
-            <td><div align="center">speed</div></td>
-        </tr>
-<!--    <tr style="background-color:silver">
-        <td>
-            <input type="text" id="txt1_multi">
-            <input type="button" id="but1_multi" value=" &#9660; " onClick='javascript:multi_1();'>
-        </td>
-        <td><div id="div_2_multi"></div></td>
-        <td><div id="div_3_multi"></div></td>
-    </tr>-->
-        <tr valign="top">
-            <td><div id="div_1"></div></td>
-            <td><div id="div_2"></div></td>
-            <td><div id="div_3"></div></td>
-        </tr>
-    </table>
+    </form>
+    
+    <input type="hidden" id="id_dev_p" value="{{ dev.ports }}">
+    <input type="hidden" id="id_const_p" value="0">
+    <br>
+    <div id="info"></div>
+    <br>
+    <div id="constructor" hidden="1">
+        <table border="1">
+            <tr>
+                <td><div align="center">alias</div></td>
+                <td><div align="center">X/T/Combo</div></td>
+                <td><div align="center">speed</div></td>
+            </tr>
+            <!--    <tr style="background-color:silver">
+                <td>
+                    <input type="text" id="txt1_multi">
+                    <input type="button" id="but1_multi" value=" &#9660; " onClick='javascript:multi_1();'>
+                </td>
+                <td><div id="div_2_multi"></div></td>
+                <td><div id="div_3_multi"></div></td>
+            </tr>-->
+            <tr valign="top">
+                <td><div id="div_1"></div></td>
+                <td><div id="div_2"></div></td>
+                <td><div id="div_3"></div></td>
+            </tr>
+        </table>
+    </div>
 </div>
 
-<script language="javascript">
+<script>
 
 window.onload = function init() {
     id_to_form.disabled = 1;
@@ -187,6 +188,5 @@ function valid() {
 }
 
 </script>
-
 
 {% endblock %}
