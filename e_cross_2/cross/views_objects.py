@@ -67,7 +67,7 @@ def new_locker(request, bu_id):
 def new_cr(request, bu_id, lo_id):
 
     if not request.user.has_perm("core.can_new"):
-        return render(request, 'denied.html', {'mess': 'нет прав для создания кросса', 'back': 1})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
     lo = Locker.objects.get(pk=lo_id)
     if request.method == 'POST':
@@ -105,7 +105,7 @@ def new_cr(request, bu_id, lo_id):
 def new_dev(request, bu_id, lo_id):
 
     if not request.user.has_perm("core.can_new"):
-        return render(request, 'denied.html', {'mess': 'нет прав для создания оборудования', 'back': 1})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
     lo = Locker.objects.get(pk=lo_id)
     if request.method == 'POST':
@@ -174,7 +174,7 @@ def add_v_port(request, bu_id, lo_id, dev_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 2})
 
     if not request.user.has_perm("kpp.can_edit"):
-        return render(request, 'denied.html', {'mess': 'нет прав для редактирования оборудования', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     if request.method == 'POST':
         form = new_dev_p_v_Form(request.POST)
@@ -208,7 +208,7 @@ def add_v_port(request, bu_id, lo_id, dev_id):
 def new_box(request, bu_id, lo_id):
 
     if not request.user.has_perm("core.can_new"):
-        return render(request, 'denied.html', {'mess': 'нет прав для создания крт', 'back': 1})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
     lo = Locker.objects.get(pk=lo_id)
     if request.method == 'POST':
@@ -251,7 +251,7 @@ def new_box(request, bu_id, lo_id):
 def new_su(request, bu_id, lo_id):
 
     if not request.user.has_perm("core.can_new"):
-        return render(request, 'denied.html', {'mess': 'нет прав для создания оборудования', 'back': 1})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
     lo = Locker.objects.get(pk=lo_id)
     if request.method == 'POST':
@@ -293,7 +293,7 @@ def new_su(request, bu_id, lo_id):
 def edit_build(request, bu_id):
 
     if not request.user.has_perm("core.can_edit_bu"):
-        return render(request, 'denied.html', {'mess': 'нет прав для редактирования здания', 'back': 1})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
     bu = Building.objects.get(pk=bu_id)
 
@@ -406,7 +406,7 @@ def edit_build(request, bu_id):
 def edit_locker(request, bu_id, lo_id):
 
     if not request.user.has_perm("core.can_edit"):
-        return render(request, 'denied.html', {'mess': 'нет прав для редактирования УД', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     lo = Locker.objects.get(pk=lo_id)
     try:
@@ -531,7 +531,7 @@ def edit_locker(request, bu_id, lo_id):
 def edit_cr(request, bu_id, lo_id, cr_id):
 
     if not request.user.has_perm("core.can_edit"):
-        return render(request, 'denied.html', {'mess': 'нет прав для редактирования кросса', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     cr = Cross.objects.get(pk=cr_id)
 
@@ -609,7 +609,7 @@ def edit_cr(request, bu_id, lo_id, cr_id):
 def edit_cr_p(request, bu_id, lo_id, cr_id, p_id):
 
     if not request.user.has_perm("core.can_edit"):
-        return render(request, 'denied.html', {'mess': 'нет прав для редактирования', 'back': 1})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
     s_p = Cross_ports.objects.get(pk=p_id)
     if request.method == 'POST':
@@ -675,7 +675,7 @@ def edit_cr_p(request, bu_id, lo_id, cr_id, p_id):
 def edit_dev(request, bu_id, lo_id, dev_id):
 
     if not request.user.has_perm("core.can_edit"):
-        return render(request, 'denied.html', {'mess': 'нет прав для редактирования оборудования', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     dev = Device.objects.get(pk=dev_id)
     #rack_pos = dev.rack_pos.split(',') if dev.rack_pos != '' else ['', '']
@@ -782,7 +782,7 @@ def edit_dev(request, bu_id, lo_id, dev_id):
 def edit_dev_p(request, bu_id, lo_id, dev_id, p_id):
 
     if not request.user.has_perm("core.can_edit"):
-        return render(request, 'denied.html', {'mess': 'нет прав для редактирования оборудования', 'back': 1})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
     try:
         s_p = Device_ports.objects.get(pk=p_id)
@@ -853,7 +853,7 @@ def edit_dev_p(request, bu_id, lo_id, dev_id, p_id):
 def edit_dev_p_v(request, bu_id, lo_id, dev_id, f_p_id=None, v_p_id=None):
 
     if not request.user.has_perm("core.can_edit"):
-        return render(request, 'denied.html', {'mess': 'нет прав для редактирования оборудования', 'back': 1})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
     if f_p_id:
         curr_id = f_p_id
@@ -939,7 +939,7 @@ def edit_dev_p_v(request, bu_id, lo_id, dev_id, f_p_id=None, v_p_id=None):
 def edit_box(request, bu_id, lo_id, box_id):
 
     if not request.user.has_perm("core.can_edit"):
-        return render(request, 'denied.html', {'mess': 'нет прав для редактирования крт', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     box = Box.objects.get(pk=box_id)
 
@@ -1118,7 +1118,7 @@ def edit_box(request, bu_id, lo_id, box_id):
 def edit_box_p(request, bu_id, lo_id, box_id, p_id):
 
     if not request.user.has_perm("core.can_edit"):
-        return render(request, 'denied.html', {'mess': 'нет прав для редактирования крт', 'back': 1})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
     s_p = Box_ports.objects.get(pk=p_id)
     if request.method == 'POST':
@@ -1209,7 +1209,7 @@ def edit_box_p(request, bu_id, lo_id, box_id, p_id):
 def edit_subunit(request, bu_id, lo_id, su_id):
 
     if not request.user.has_perm("core.can_edit"):
-        return render(request, 'denied.html', {'mess': 'нет прав для редактирования оборудования', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
     
     lo = Locker.objects.get(pk=lo_id)
     su = Subunit.objects.get(pk=int(su_id)) if (su_id != '0') else 0

@@ -148,7 +148,7 @@ def obj_no_coord(request):
 def duple_dog(request):
 
     if not request.user.has_perm("kpp.can_adm"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     dog_list = []
     box_p_list = list(Box_ports.objects.exclude(int_c_status=0).values_list('dogovor', flat=True))
@@ -174,7 +174,7 @@ def bu_doc(request, bu_id):
     #d_exist = True
     f_exist = False
 
-    url = 'doc/'+str(bu.id)+'/'
+    url = f"doc/{bu.id}/"
     try:
         f_list = default_storage.listdir(url)[1]
         f_list.sort()
@@ -183,7 +183,7 @@ def bu_doc(request, bu_id):
 
     if request.method == 'POST':
         if not request.user.has_perm("core.can_adm"):
-            return render(request, 'denied.html', {'mess': 'нет прав для редактирования', 'back': 0})
+            return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 0})
 
         form = upl_Form(request.POST, request.FILES)
         if form.is_valid():
@@ -211,7 +211,7 @@ def bu_doc(request, bu_id):
 def bu_doc_del(request, bu_id):
 
     if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'нет прав для редактирования', 'back': 1})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
     try:
         bu = Building.objects.get(pk=bu_id)
@@ -238,7 +238,7 @@ def bu_doc_del(request, bu_id):
 def sync_Coup_lo(request):
 
     if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     no_coup_lo = []
     no_lo_coup = []
@@ -267,7 +267,7 @@ def sync_Coup_lo(request):
 def check_link(request):
 
     if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     bad_d_b_p, bad_b_d_p, bad_d_d_p, bad_d_c_p, bad_c_d_p, bad_c_c_p = [], [], [], [], [], []
     space_d_b, space_b_d, space_d_d, space_d_c, space_c_d, space_c_c = [], [], [], [], [], []

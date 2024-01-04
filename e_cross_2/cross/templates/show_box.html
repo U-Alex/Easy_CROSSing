@@ -72,10 +72,10 @@
         {% endif %}
         {% if ob.c_ports1 %}
             <div class="cr_p _row_2" style="grid-row: span {{ ob.c_ports1 }}; 
-                                            background-color: {{ ob.c_color }};">
+                                            background: {{ ob.c_color }};">
                 <label title="{{ ob.c_ports3 }}"><b>{{ ob.c_ports2 }}</b></label>
             </div>
-            {% endif %}
+        {% endif %}
             <div class="cr_p _row_2 _plint_color_{{ ob.pl_num }} _ch_valid_{{ ob.p_valid }}">
                 <b>{{ box.name }}-{{ box.num }}-{{ ob.p_alias }}</b>
             </div>

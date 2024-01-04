@@ -1,23 +1,21 @@
 {% extends 'main.html' %}
 
 {% block cable %}
+<!-- <link rel="stylesheet" type="text/css" href="/static/cable.css"> -->
 
 {% if del_ok1 %}
 
-    <table class="c_base_w t_header1">
-        <tr>
-            <td width="100%" align="left">
-                <form method="post">
-                {% csrf_token %}
-                    &nbsp&nbspКвартал:&nbsp{{ form.kvar }}
-                    <input type="submit" value="поиск" style="width:80px">&nbsp
-                    &nbsp&nbsp<strong>Выбор конечной муфты для перемещения:</strong>
-                </form>
-            </td>
-            <td width="300px" align="right"></td>
-        </tr>
-    </table>
-    <br>
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <form method="post">
+        {% csrf_token %}
+            Квартал: {{ form.kvar }}
+            <input type="submit" value=" ▼▼▼ ">
+            &emsp;<b>Выбор конечной муфты для перемещения:</b>
+        </form>
+    </div>
+</div>
+<br>
 
 <div class="c_base_w ">
     <table class="tone1" width="1404px">
@@ -68,34 +66,37 @@
         </tr>
     </table>
     <br>
-    <table class="t_footer">
-        <tr>
-            <td width="1100px">&nbsp</td>
-            <td width="300px" align="right"><input type="button" value="отмена" onClick='location.href="../../"'>&nbsp</td>
-        </tr>
-    </table>
+
+    <div class="c_footer t_footer">
+        <div></div>
+        <div class="c_footer_nav">
+            <input type="button" value="отмена" onClick='location.href="../../"'>
+        </div>
+    </div>
+
 </div>
+
 {% else %}
-<div class="c_base_w " align="center">
-    <table class="c_base_w t_header1">
-        <tr>
-            <td width="1100px" align="left"><h3>&nbspмуфта: {{ coup.name }}</h3></td>
-            <td width="300px" align="right"></td>
-        </tr>
-    </table>
+
+<div class="c_base_w" align="center">
+    <div class="c_header tone1">
+        <div class="c_header_nav">
+            <h3>муфта: {{ coup.name }}</h3>
+        </div>
+    </div>
     <br>
-    <h3 style="color:red">перенос невозможен</h3>
+
+    <h3 class="color_warn1">перенос невозможен</h3>
     <h3>есть варки в муфте</h3>
     <br>
-    <table class="t_footer">
-        <tr>
-            <td width="100%" align="center">
-                <input type="button" value="назад" onClick='location.href="../../"'>
-            </td>
-        </tr>
-    </table>
-</div>
-{% endif %}
 
+    <div class="t_footer3">
+        <div class="_flex_c">
+            <input type="button" value="назад" onClick='location.href="../../"'>
+        </div>
+    </div>
+</div>
+
+{% endif %}
 
 {% endblock %}

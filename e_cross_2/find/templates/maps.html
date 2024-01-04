@@ -59,14 +59,14 @@
         </div>
         <div class="map_copyright tone1">
             <!--<span>условные обозначения</span>-->
-            <span><a href="https://openseadragon.github.io/" target="_blank">OpenSeadragon</a></span>
+            <a href="https://openseadragon.github.io/" target="_blank">OpenSeadragon</a>
         </div>
     </div>
 
     {% if map_perm %}
     <div id="maps"></div>
     {% else %}
-    <div><br><label style="color:red"><b>недостаточно прав</b></label></div>
+    <div><br><label class="color_warn1"><b>недостаточно прав</b></label></div>
     {% endif %}
 
 </div>

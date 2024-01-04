@@ -87,6 +87,8 @@
 .map_list p {
     align-self: center;
 }
+
+/* TODO */
 .map_form > table{
     width: 100%;
 }
@@ -97,6 +99,8 @@
 .map_form input[type=button] {
     width: 50px;
 }
+/* TODO */
+
 .map_obj {
     text-align: start;
     font-size: 13px;

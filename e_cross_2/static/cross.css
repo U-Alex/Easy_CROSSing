@@ -15,8 +15,11 @@
 /* ._dev_valid2_False > div:nth-child(1) { background: linear-gradient(white, gray, white) !important; } */
 /* ._dev_valid3_False > div:nth-child(5) { background: linear-gradient(white, gray, white) !important; } */
 /* ._dev_valid_True > div { background-color: white; } */
-._ch_valid_False { background: linear-gradient(white, gray, white) !important; }
-
+._ch_valid_False {
+    /* text-shadow: white 0 0 5px; */
+    background: linear-gradient(white, gray, white) !important;
+}
+/* ._txt_shd { text-shadow: white 0 0 2px; } */
 .t_cross {
     height: 83vh;
     overflow-y: auto;

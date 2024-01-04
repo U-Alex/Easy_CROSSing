@@ -46,21 +46,19 @@ def find_bu(request):
             street_id = form1.cleaned_data['street']
             h_num = form1.cleaned_data['house_num']
             bu = Building.objects.filter(parrent_id=street_id).order_by('house_num')
-            #context = {'str_list': bu, 'str_id': street_id}
-            context = {
-                        'str_list': ch_bu_lo(bu.values()),
+            context = { 'str_list': ch_bu_lo(bu.values()),
                         'form1': find_Form_bu(initial={'street': street_id}),
                         'form2': app_find_Form(),
                         'form3': find_Form_dev(),
                         'form4': find_Form_agr(),
                         }
             if (bu.count()) == 0:
-                return HttpResponseRedirect('/find/str='+str(street_id))
+                return HttpResponseRedirect(f"/find/str={street_id}")
             if h_num != '':
                 bu2 = bu.filter(house_num=h_num)
                 if (bu2.count()) == 1:
                     bu_id = bu2.values('id')[0]['id']
-                    return HttpResponseRedirect('/cross/build='+str(bu_id))    
+                    return HttpResponseRedirect(f"/cross/build={bu_id}")
                 
             return render(request, 'find_result.html', context)
 
@@ -74,14 +72,14 @@ def ch_bu_lo(bu):
         ob['lo'] = []
         for ob2 in lo:
             ob['lo'].append(
-                            [conf.COLOR_LIST_LO[ob2['status']],
+                            [conf.COLOR_LIST_LO[ob2['status']],###### del
                             #conf.STATUS_LIST_LO[ob2['status']],
                             ob2['agr'],
-                            ob2['detached']
+                            ob2['detached'],
+                            ob2['status']   # <-
                             ])
 
     return bu
-
 
 ####################################################################################################
 
@@ -94,9 +92,8 @@ def find_agr(request):
         if form4.is_valid():
             a_co = form4.cleaned_data['co']
             if a_co == 'all':
-                agr = Locker.objects.filter(agr=True).order_by('co')#.values()
-                return render(request, 'find_result.html', {
-                                                            'agr': agr,
+                agr = Locker.objects.filter(agr=True).values('parrent_id', 'id', 'co').order_by('co')
+                return render(request, 'find_result.html', {'agr': agr,
                                                             'form1': find_Form_bu(),
                                                             'form2': app_find_Form(),
                                                             'form3': find_Form_dev(),
@@ -105,27 +102,23 @@ def find_agr(request):
             else:
                 try:
                     agr = Locker.objects.get(agr=True, co=a_co)
-                    return HttpResponseRedirect('/cross/build='+str(agr.parrent_id)+'/locker='+str(agr.id))
+                    return HttpResponseRedirect(f"/cross/build={agr.parrent_id}/locker={agr.id}")
                 except ObjectDoesNotExist:
                     return HttpResponseRedirect('/find')
                 
     return HttpResponseRedirect('/find')
-
 
 ####################################################################################################
 
 @login_required(login_url='/core/login/')
 def find_dev(request, param_id):
 
-    upd_visit(request.user, 'f_dev')
+    upd_visit(request.user, f"f_dev_{param_id}")
 
     ok = False
     txt = ''
-    dev_list = []
-    dev_list_f = []
-    dev_list_v = []
-    dev_list_tag = []
-    su_list = []
+    dev_list, dev_list_f, dev_list_v, dev_list_tag, su_list = [], [], [], [], []
+
     if request.method == 'POST':# and param_id != '0':
         form3 = find_Form_dev(request.POST)
         if param_id == '1':
@@ -162,9 +155,11 @@ def find_dev(request, param_id):
                 dev_list_v = find_vlan(dev_v, 'ob.vlan_untag', txt)
                 dev = Device_ports.objects.exclude(vlan_tag_list='')
                 dev_list_tag = find_vlan(dev, 'ob.vlan_tag_list', txt)
+
+        if not ok:
+            txt = ''
         
-        return render(request, 'find_result.html', {
-                                                    'txt': txt,
+        return render(request, 'find_result.html', {'txt': txt,
                                                     'param': conf.DEV_FIND_PARAM[int(param_id)-1],
                                                     'dev_list': dev_list,
                                                     'dev_list_f': dev_list_f,
@@ -201,14 +196,12 @@ def find_vlan(qs_ports, type_p, txt):
 
     return list_ports
 
-
-####################################################################################################
 ####################################################################################################
 
 @login_required(login_url='/core/login/')
 def maps(request, m_num=1):
 
-    upd_visit(request.user, 'map'+str(m_num))
+    upd_visit(request.user, f"map{m_num}")
 
     form_init1 = {}
     form_init2 = {}
@@ -217,7 +210,8 @@ def maps(request, m_num=1):
         c_x = crd[0]
         c_y = crd[1]
         lo = Locker.objects.filter(coord_x=float(c_x), coord_y=float(c_y))
-        if lo.count() != 0:
+        #if lo.count() != 0:
+        if lo.exists():
             form_init1 = {'street': lo.first().parrent.parrent_id}
             form_init2 = {'kvar': lo.first().parrent.kvar}
         #не будет работать, пока поле locker.co не индекс
@@ -231,15 +225,13 @@ def maps(request, m_num=1):
     form2 = find_Form_kv(initial=form_init2)
     
     map_list = map_slot.objects.all().order_by('num').values_list()
-    #print(map_list)
-    #print(m_num)
+
     if int(m_num) == 1:
         map_perm = True
     else:
-        map_perm = True if (request.user.groups.filter(name='map_' + str(m_num) + '_view').exists()) else False
+        map_perm = True if (request.user.groups.filter(name=f"map_{m_num}_view").exists()) else False
     
-    return render(request, 'maps.html', {
-                                            'form1': form1,
+    return render(request, 'maps.html', {   'form1': form1,
                                             'form2': form2,
                                             'c_x': c_x,
                                             'c_y': c_y,
@@ -249,7 +241,6 @@ def maps(request, m_num=1):
                                             'map_perm': map_perm,  #права на просмотр карты
                                             #'agr_list': agr_list,
                                             })
-
 
 ####################################################################################################
 
@@ -261,11 +252,16 @@ def get_obj(request):
     #offset = -0     #смещение вправо, вниз
     try:
         coord = request.GET['coord'].split(',')
-        c_x = float(coord[0])
-        c_y = float(coord[1])
-        lo_list = Locker.objects.filter(coord_x__range=(c_x-blur, c_x+blur), coord_y__range=(c_y-blur, c_y+blur)).order_by('-agr', 'name')
-        co_list = Coupling.objects.filter(coord_x__range=(c_x-blur, c_x+blur), coord_y__range=(c_y-blur, c_y+blur)).order_by('name')
-        pw_list = PW_cont.objects.filter(coord_x__range=(c_x-blur, c_x+blur), coord_y__range=(c_y-blur, c_y+blur)).order_by('name')
+        #c_x = float(coord[0])
+        #c_y = float(coord[1])
+        c_x, c_y, = map(float, coord)
+        x_range, y_range = (c_x - blur, c_x + blur), (c_y - blur, c_y + blur)
+        #lo_list = Locker.objects.filter(coord_x__range=(c_x-blur, c_x+blur), coord_y__range=(c_y-blur, c_y+blur)).order_by('-agr', 'name')
+        lo_list = Locker.objects.filter(coord_x__range=x_range, coord_y__range=y_range).order_by('-agr', 'name')
+        #co_list = Coupling.objects.filter(coord_x__range=(c_x-blur, c_x+blur), coord_y__range=(c_y-blur, c_y+blur)).order_by('name')
+        co_list = Coupling.objects.filter(coord_x__range=x_range, coord_y__range=y_range).order_by('name')
+        #pw_list = PW_cont.objects.filter(coord_x__range=(c_x-blur, c_x+blur), coord_y__range=(c_y-blur, c_y+blur)).order_by('name')
+        pw_list = PW_cont.objects.filter(coord_x__range=x_range, coord_y__range=y_range).order_by('name')
     except:
         pass
         #print('1')
@@ -288,8 +284,7 @@ def get_obj(request):
         pass
         #print('3')
 
-    return render(request, 'get_obj.html', {
-                                            'lo_list': lo_list,
+    return render(request, 'get_obj.html', {'lo_list': lo_list,
                                             'co_list': co_list,
                                             'pw_list': pw_list,
                                             })
@@ -317,7 +312,8 @@ def js_request(request):
         bu_x = int(lo_list.aggregate(average_x=Avg('coord_x'))['average_x']) if lo_list.count() != 0 else 0
         bu_y = int(lo_list.aggregate(average_y=Avg('coord_y'))['average_y']) if lo_list.count() != 0 else 0
         #print(get)
-        return HttpResponse(str(bu_x)+','+str(bu_y)+','+str(bu.id))
+        #return HttpResponse(str(bu_x)+','+str(bu_y)+','+str(bu.id))
+        return HttpResponse(f"{bu_x},{bu_y},{bu.id}")
     except:
         pass
 
@@ -329,7 +325,8 @@ def js_request(request):
         co_x = agr.coord_x
         co_y = agr.coord_y
 
-        return HttpResponse(str(co_x)+','+str(co_y)+','+str(agr.id)+','+str(agr.parrent_id))
+        #return HttpResponse(str(co_x)+','+str(co_y)+','+str(agr.id)+','+str(agr.parrent_id))
+        return HttpResponse(f"{co_x},{co_y},{agr.id},{agr.parrent_id}")
     except:
         pass
 
@@ -349,7 +346,8 @@ def js_request(request):
         crd_x = int((c_x+p_x)/2) if (c_x != 0 and p_x != 0) else c_x+p_x
         crd_y = int((c_y+p_y)/2) if (c_y != 0 and p_y != 0) else c_y+p_y
 
-        return HttpResponse(str(crd_x)+','+str(crd_y)+','+str(kv_id))
+        #return HttpResponse(str(crd_x)+','+str(crd_y)+','+str(kv_id))
+        return HttpResponse(f"{crd_x},{crd_y},{kv_id}")
     except:
         pass
 

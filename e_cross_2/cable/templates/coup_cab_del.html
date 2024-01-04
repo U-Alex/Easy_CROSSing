@@ -2,52 +2,40 @@
 
 {% block cable %}
 
-<table class="c_base_w t_header1">
-    <tr>
-        <td width="100%" align="left">
-            <h3>
-                &nbspмуфта: {{ coup.name }},
-                &nbspкабель №: {{ cab }} --- 
-                &nbspмуфта: {{ rem_p.parrent.name }},
-                &nbspкабель №: {{ rem_p.cable_num }}
-            </h3>
-        </td>
-        <td width="280px" align="right">&nbsp</td>
-    </tr>
-</table>
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <h3>
+            муфта: {{ coup.name }}, кабель №: {{ cab }} --- 
+            муфта: {{ rem_p.parrent.name }}, кабель №: {{ rem_p.cable_num }}
+        </h3>
+    </div>
+</div>
 <br>
 
 <div class="c_base_w" align="center">
     {% if del_ok1 and del_ok2 %}
     <form method="post">
         {% csrf_token %}
-        <h3 style="color:red">удалить кабель?</h3>
+        <h3 class="color_warn1">удалить кабель?</h3>
         <br>
-        <table class="t_footer">
-            <tr>
-                <td width="640px" align="right">
-                    <input type="submit" value="     OK     ">&nbsp
-                </td>
-                <td width="640px" align="left">
-                    <input type="button" value="отмена" onClick='location.href="../"'>
-                </td>
-            </tr>
-        </table>
+        <div class="t_footer3">
+            <div class="_flex_c">
+                <input type="submit" value="     OK     ">
+                <input type="button" value="отмена" onClick='location.href="../"'>
+            </div>
+        </div>
     </form>
-    
-    {% else %}
-    <h3 style="color:red">удаление невозможно</h3>
-    <h3>есть варки в муфтах</h3>
 </div>
+    {% else %}
+    <h3 class="color_warn1">удаление невозможно</h3>
+    <h3>есть варки в муфтах</h3>
     <br>
-    <table class="c_base_w t_footer">
-        <tr>
-            <td width="1280px" align="center">
-                <input type="button" value="назад" onClick='location.href="../"'>
-            </td>
-        </tr>
-    </table>
-
+    <div class="t_footer3">
+        <div class="_flex_c">
+            <input type="button" value="назад" onClick='location.href="../"'>
+        </div>
+    </div>
+</div>
     {% endif %}
 
 {% endblock %}

@@ -2,55 +2,47 @@
 
 {% block cable %}
 
-    <table class="c_base_w t_header1">
-        <tr>
-            <td width="90%" align="left">
-                <h3>&nbspсвязь муфт: {{ s_coup.name }} --- {{ d_coup.name }}</h3>
-            </td>
-            <td width="300px" align="right">&nbsp</td>
-        </tr>
-    </table>
-    <br>
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <h3>связь муфт: {{ s_coup.name }} --- {{ d_coup.name }}</h3>
+    </div>
+</div>
+<br>
 
 <div class="c_base_w" align="center">
-<form method="post">
-    {% csrf_token %}
-    
-    <table class="t_header1">
-        <tr>
-            <td align="left">
-                &nbsp&nbsp&nbsp
-                {{ form.sel_cable.label }}:<br>
-                {{ form.sel_cable }}
-            </td>
-            <td>&nbsp&nbsp&nbsp</td>
-            <td class="tone1">&nbsp&nbsp&nbsp</td>
-            <td align="center">&nbsp
-                {{ form.phys_len.label }}:&nbsp<br>
-                {{ form.phys_len }}<br><br>
-                {{ form.res_len.label }}:&nbsp<br>
-                {{ form.res_len }}<br><br>
-                {{ form.date_ent.label }}:<br>
-                {{ form.date_ent }}<br><br>
-                {{ form.owner.label }}:<br>
-                {{ form.owner }}
-            </td>
-        </tr>
-    </table>
-    <br>
-
-    <table class="c_base_w t_footer">
-        <tr>
-            <td width="1100px">&nbsp</td>
-            <td width="90%" align="right">
+    <form method="post">
+        {% csrf_token %}
+        
+        <table class="t_header1">
+            <tr>
+                <td align="left">
+                    &emsp;{{ form.sel_cable.label }}:<br>{{ form.sel_cable }}
+                </td>
+                <td>&emsp;</td>
+                <td class="tone1">&emsp;</td>
+                <td align="center">&nbsp;
+                    {{ form.phys_len.label }}:&nbsp;<br>
+                    {{ form.phys_len }}<br><br>
+                    {{ form.res_len.label }}:&nbsp;<br>
+                    {{ form.res_len }}<br><br>
+                    {{ form.date_ent.label }}:<br>
+                    {{ form.date_ent }}<br><br>
+                    {{ form.owner.label }}:<br>
+                    {{ form.owner }}
+                </td>
+            </tr>
+        </table>
+        <br>
+        
+        <div class="t_footer3">
+            <div class="_flex_c">
                 <input type="submit" value="     OK     ">
                 <input type="button" value="выбрать другую муфту" onClick='location.href="../"'>
-                <input type="button" value="отмена" onClick='location.href="../../"'>&nbsp
-            </td>
-        </tr>
-    </table>
+                <input type="button" value="отмена" onClick='location.href="../../"'>
+            </div>
+        </div>
 
-</form>
+    </form>
 </div>
 
 {% endblock %}

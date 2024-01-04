@@ -28,20 +28,24 @@
         </div>
 
         <br>
-        <h3 align="center" style="color:red">снять кроссировку?</h3>
+        <h3 align="center" class="color_warn1">снять кроссировку?</h3>
         {% if back_p %}
         <br>
-        <h3 align="center" style="color:red">Внимание, при бронировании {{ d_p.num }} порта: <br> снималась кроссировка крт: {{ back_p }}</h3>
+        <h3 align="center" class="color_warn1">
+            Внимание, при бронировании {{ d_p.num }} порта: <br> снималась кроссировка крт: {{ back_p }}
+        </h3>
         {% endif %}
         
         {% if no_kv %}
         <br>
-        <h3 align="center" style="color:red">Внимание, не внесен номер квартиры: <br> необходимо будет внести для истории</h3>
+        <h3 align="center" class="color_warn1">
+            Внимание, не внесен номер квартиры: <br> необходимо будет внести для истории
+        </h3>
         {% endif %}
         
         <br>
-        <div class="c_base_w t_footer3">
-            <div align="center">
+        <div class="t_footer3">
+            <div class="_flex_c">
                 <input type="submit" value="     OK     ">
                 <input type="button" value="отмена" onClick='location.href="../../"'>
             </div>

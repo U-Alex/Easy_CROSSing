@@ -8,7 +8,7 @@
         <form method="post" action="/cable/kv=0/">
             {% csrf_token %}
             {{ form.kvar }}
-            <input type="submit" id="kv_but" value="▼▼▼">
+            <input class="_hidden" type="submit" id="kv_but" value="▼▼▼">
         </form>
         <h3 class="link_in_out">
         {% if kv_id %}Квартал:&nbsp;&nbsp;{{ kv.name }}{% endif %}
@@ -88,7 +88,7 @@
 
 <div class="c_base_w c_footer t_footer4">
     <div></div>
-    <div>
+    <div class="c_footer_nav">
         {% if kv_id %}
         <input type="button" value="закрыть" onClick='location.href="/cable/kv=0"'>
         {% else %}

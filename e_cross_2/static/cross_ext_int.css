@@ -1,0 +1,76 @@
+/* cross_ext_int */
+
+body { background: var(--tone1-color); }
+
+.cr_ext summary, .cr_int summary, .dev_int summary, .box_int summary {
+    display: block;
+    text-align: left;
+    /* font-size: 12px; */
+    color: var(--link1-color);
+    padding-top: 8px;
+    padding-left: 20px;
+}
+.cr_ext summary::before { content: "►►►"; }
+.cr_ext details[open] > summary::before { content: "▼▼▼"; }
+.cr_int summary::before { content: "►►►"; }
+.cr_int details[open] > summary::before { content: "▼▼▼"; }
+.dev_int summary::before { content: "►►►"; }
+.dev_int details[open] > summary::before { content: "▼▼▼"; }
+.box_int summary::before { content: "►►►"; }
+.box_int details[open] > summary::before { content: "▼▼▼"; }
+
+.cr_ext .ob_cross, .cr_int .ob_cross, .dev_int .ob_cross, .box_int .ob_cross {
+    margin: 6px 0;
+    display: grid;
+    grid-template-columns: minmax(150px, 250px) auto minmax(10px, 200px);
+    grid-template-rows: auto;
+    overflow-x: auto;
+}
+.cr_ext img, .cr_int img, .dev_int img, .box_int img { height: 24px; }
+.cr_ext .ob_name, .cr_int .ob_name, .dev_int .ob_name, .box_int .ob_name {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 9px;
+    padding-left: 20px;
+    padding-right: 10px;
+    background: linear-gradient(to right, var(--tone1-color), var(--tone2-color));
+}
+.box_int .ob_name { justify-content: space-between; }
+.cr_ext .ob_ports, .cr_int .ob_ports, .dev_int .ob_ports, .box_int .ob_ports {
+    padding: 2px 0;
+}
+.cr_ext .ob_ports_line, .cr_int .ob_ports_line,
+.dev_int .ob_ports_line, .box_int .ob_ports_line {
+    display: flex;
+    gap: 0 1px;
+}
+.cr_ext .ob_r, .cr_int .ob_r, .dev_int .ob_r, .box_int .ob_r {
+    background: linear-gradient(to right, var(--tone2-color), var(--tone1-color));
+}
+
+.cr_ext input[type=button],
+.cr_int input[type=button] {
+    background: none;
+    border: 2px solid var(--tone4-color);
+    border-radius: 14px;
+    width: 28px;
+    height: 28px;
+    
+}
+.cr_ext .not_valid, .cr_int .not_valid, .dev_int .not_valid, .box_int .not_valid {
+    /* border: 2px solid var(--tone2-color) !important; */
+    opacity: .5;
+}
+.dev_int input[type=button] {
+    border: 1px solid var(--tone4-color);
+    border-radius: 4px;
+    width: 30px;
+    height: 26px;
+}
+.box_int input[type=button] {
+    border-radius: 2px;
+    width: 40px;
+    height: 24px;
+}
+

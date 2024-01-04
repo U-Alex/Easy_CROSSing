@@ -2,21 +2,23 @@
 
 {% block cross %}
 
-{% if str_list %}
-
 <div class="c_base_w c_header tone1">
     <div class="c_header_nav">
         <h3>
-            {{ s_p_id.parrent.parrent.parrent.name }} {{ s_p_id.parrent.parrent.parrent.house_num }},&nbsp;&nbsp;УД: {{ s_p_id.parrent.parrent.name }}, кросс: {{ s_p_id.parrent.name }}, порт: {{ s_p_id.num }}
+            {{ s_p_title.0 }} {{ s_p_title.1 }},
+            &nbsp;&nbsp;УД: {{ s_p_title.2 }}, кросс: {{ s_p_title.3 }}, порт: {{ s_p_title.4 }}
             &nbsp;&#9658;&#9658;&#9658;&nbsp;{{ str_list.0.name }}
         </h3>
     </div>
 </div>
+<br>
+
+{% if str_list %}
 
 <table class="c_base_w t_footer3" width="100%">
-    <caption><i>найденные дома:</i></caption>
+    <caption><i>найденные здания:</i></caption>
     <tr>
-        <td align="center">
+        <td class="_flex_c">
         {% for ob in str_list %}
             <input type="button" enabled="1" value="{{ ob.house_num }}" onClick='location.href="../ext_cr2={{ ob.id }}/"' style="width:50px">
             {% endfor %}
@@ -26,7 +28,7 @@
 <br>
 
 <div class="c_base_w t_footer3">
-    <div align="center">
+    <div class="_flex_c">
         <input type="button" value="новый поиск" onClick='location.href="../ext_cr1/"'>
         <input type="button" value="отмена" onClick='location.href="../../"'>
     </div>
@@ -34,18 +36,10 @@
     
 {% else %}
 
-<div class="c_base_w c_header tone1">
-    <div class="c_header_nav">
-        <h3>
-            {{ s_p_id.parrent.parrent.parrent.name }} {{ s_p_id.parrent.parrent.parrent.house_num }},&nbsp&nbspУД: {{ s_p_id.parrent.parrent.name }}, кросс: {{ s_p_id.parrent.name }}, порт: {{ s_p_id.num }}
-            &nbsp;&#9658;&#9658;&#9658;&nbsp;{{ str_list.0.name }}
-        </h3>
-    </div>
-</div>
 <br>
 
 <div class="c_base_w t_footer3">
-    <div align="center">
+    <div class="_flex_c">
         <form method="post">
             {% csrf_token %}
             {{ form }}&nbsp;
@@ -57,10 +51,22 @@
 <br>
 
 <div class="c_base_w t_footer3">
-    <div align="center">
+    <div class="_flex_c">
+        <img src="/static/images/stat.png" alt="" title="агрегации">&emsp;
     {% for ob in agr %}
         <input type="button" value="{{ ob.co }}" onClick='location.href="../ext_cr2={{ ob.parrent.id }}"'>
     {% endfor %}
+        &emsp;<img src="/static/images/stat.png" alt="" title="агрегации">
+    </div>
+</div>
+<br>
+<div class="c_base_w t_footer3">
+    <div class="_flex_c">
+        <img src="/static/images/lo2.png" alt="" title="УД в процессе сдачи">&emsp;
+    {% for ob in lo %}
+        <input type="button" value="{{ ob.name }}" onClick='location.href="../ext_cr2={{ ob.parrent.id }}"'>
+    {% endfor %}
+        &emsp;<img src="/static/images/lo2.png" alt="" title="УД в процессе сдачи">
     </div>
 </div>
 

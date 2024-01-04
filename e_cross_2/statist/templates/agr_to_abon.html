@@ -2,11 +2,10 @@
 
 {% block statist %}
 
-
-    <table class="t_header1">
+    <table class="c_base_w t_header1">
         <tr>
             <td width="900px" align="left">
-                <h3>&nbsp&nbspНайдено {{count}} договоров</h3>
+                <h3>&nbsp;&nbsp;Найдено {{count}} договоров</h3>
             </td>
             <td width="500px" align="right">
                 <input type="button" value="закрыть" onClick='location.href="/core/service"'>&nbsp
@@ -16,7 +15,7 @@
 
 <br>
 
-    <table border="1">
+    <table class="c_base_w" border="1">
         <tr class="t_header1" align="center">
             <td width="120px">договор</td>
             <td width="500px">ФИО / название</td>
@@ -28,13 +27,13 @@
         <tr>
             <td align="center">
                 <a href="/cross/build={{ ob.parrent.parrent.parrent_id }}/locker={{ ob.parrent.parrent_id }}/box={{ ob.parrent_id }}/?sel={{ ob.id }}" target="_blank">
-                    &nbsp{{ ob.dogovor }}&nbsp
+                    {{ ob.dogovor }}
                 </a>
             </td>
-            <td align="left">&nbsp{{ ob.ab_fio }}&nbsp</td>
-            <td align="left">&nbsp{{ ob.parrent.parrent.name }}&nbsp</td>
-            <td align="left">&nbsp{{ ob.parrent.parrent.parrent.name }}&nbsp{{ ob.parrent.parrent.parrent.house_num }}&nbsp</td>
-            <td align="left">&nbsp{{ ob.parrent.parrent.co }}&nbsp</td>
+            <td align="left">&nbsp;{{ ob.ab_fio }}&nbsp;</td>
+            <td align="left">&nbsp;{{ ob.parrent.parrent.name }}&nbsp;</td>
+            <td align="left">&nbsp;{{ ob.parrent.parrent.parrent.name }}&nbsp;{{ ob.parrent.parrent.parrent.house_num }}&nbsp;</td>
+            <td align="left">&nbsp;{{ ob.parrent.parrent.co }}&nbsp;</td>
             
         </tr>
     {% endfor %}
@@ -42,11 +41,11 @@
 
     <br>
     
-    <table class="t_footer">
+    <table class="c_base_w t_footer">
         <tr>
-            <td width="900px">&nbsp</td>
+            <td width="900px">&nbsp;</td>
             <td width="500px" align="right">
-                <input type="button" value="закрыть" onClick='location.href="/core/service"'>&nbsp
+                <input type="button" value="закрыть" onClick='location.href="/core/service"'>&nbsp;
             </td>
         </tr>
     </table>

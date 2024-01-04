@@ -17,9 +17,10 @@ class find_Form_map(forms.Form):
         super(find_Form_map, self).__init__(*args, **kwargs)
         self.fields['street'].choices = Street.objects.values_list('id', 'name').order_by('name')
         co_list2 = list(COffice.objects.values_list('name', flat=True).order_by('name'))
-        for ob in co_list2:
-            co_list2[co_list2.index(ob)] = [ob, ob]
-        self.fields['agr_list'].choices = co_list2
+        #for ob in co_list2:
+        #    co_list2[co_list2.index(ob)] = [ob, ob]
+        #self.fields['agr_list'].choices = co_list2
+        self.fields['agr_list'].choices = [(i, i) for i in co_list2]
 
 class find_Form_kv(forms.Form):
     kvar = forms.ChoiceField(label='квартал', widget=forms.Select, choices=[])
@@ -43,11 +44,11 @@ class find_Form_agr(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(find_Form_agr, self).__init__(*args, **kwargs)
-        co_list2 = list(COffice.objects.values_list('name', flat=True).order_by('name'))
-        for ob in co_list2:
-            co_list2[co_list2.index(ob)] = [ob, ob]
-        co_list2[co_list2.index(['---', '---'])] = ['all', 'все']
-        self.fields['co'].choices = co_list2
+        co_list2 = list(COffice.objects.exclude(pk=1).values_list('name', flat=True).order_by('name'))
+        #for ob in co_list2:
+        #    co_list2[co_list2.index(ob)] = [ob, ob]
+        # co_list2[co_list2.index(['---', '---'])] = ['all', 'все']
+        self.fields['co'].choices = [['all', 'все']] + [(i, i) for i in co_list2]
 
 class find_Form_dev(forms.Form):
     dev_ip = forms.CharField(label='ip', max_length=20, required=False, widget=forms.TextInput(attrs={'size': 14}))

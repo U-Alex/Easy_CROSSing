@@ -1,0 +1,107 @@
+{% extends 'main.html' %}
+
+{% block cross %}
+<link rel="stylesheet" type="text/css" href="/static/colors.css">
+<link rel="stylesheet" type="text/css" href="/static/cross_ext_int.css">
+
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <h3>
+            {{ s_p_title.0 }} {{ s_p_title.1 }}, &nbsp;&nbsp;УД: {{ s_p_title.2 }},
+        {% if s_type != '3' %}{{ s_p_title.3 }}, порт: {{ s_p_title.4 }}
+        {% else %}       КРТ: {{ s_p_title.3 }}-{{ s_p_title.4 }}-{{ s_p_title.5 }}
+        {% endif %}
+            &nbsp;&#9658;&#9658;&#9658;&nbsp;
+        </h3>
+    </div>
+</div>
+<br>
+
+{% if cr %}
+<div class="c_base_w cr_int">
+    <details open="open">
+        <summary><b>&emsp;&emsp;кроссы</b></summary>
+        {% for ob1 in cr %}
+            <div class="ob_cross">
+                <div class="ob_name">
+                    <img src="/static/images/cr2.png" alt=" " title="">
+                    <b>{{ ob1.name }}</b>
+                </div>
+                <div class="ob_ports tone2">
+                {% for ob2 in ob1.cr_p %}
+                    <div class="ob_ports_line">
+                    {% for ob3 in ob2 %}
+                    <input type="button" value="{{ ob3.1 }}" title="{{ ob3.4 }}" 
+                           class="_cr_ext_int_st_{{ ob3.2 }} {% if not ob3.3 %} not_valid {% endif %}"
+                           {% if not ob3.2 %} onClick='location.href="d_p={{ ob3.0 }}/d_type=1"' {% endif %}>
+                    {% endfor %}     
+                    </div>
+                {% endfor %}
+                </div>
+                <div class="ob_r"></div>
+            </div>
+        {% endfor %}
+    </details>
+</div>
+{% endif %}
+
+{% if dev %}
+<div class="c_base_w dev_int">
+    <details open="open">
+        <summary><b>&emsp;&emsp;акт.обор.</b></summary>
+        {% for ob1 in dev %}
+            <div class="ob_cross">
+                <div class="ob_name">
+                    <img src="/static/images/obj_dev/dev_{{ ob1.obj_type__parrent_id }}.png" alt=" " title="{{ ob1.ip_addr }}">
+                    <b>{{ ob1.name }}</b>
+                </div>
+                <div class="ob_ports tone2">
+                    <div class="ob_ports_line">
+                    {% for ob2 in ob1.dev_p %}
+                    <input type="button" value="{{ ob2.num }}" title="{{ ob2.p_alias }} ▲ {{ ob2.prim }}" 
+                           class="_cr_ext_int_st_{{ ob2.int_c_status }} {% if not ob2.p_valid %} not_valid {% endif %}"
+                           {% if not ob2.int_c_status %} onClick='location.href="d_p={{ ob2.id }}/d_type=2"' {% endif %}>
+                    {% endfor %}     
+                    </div>
+                </div>
+                <div class="ob_r"></div>
+            </div>
+        {% endfor %}
+    </details>
+</div>
+{% endif %}
+
+{% if box %}
+<div class="c_base_w box_int">
+    <details open="open">
+        <summary><b>&emsp;&emsp;КРТ</b></summary>
+        {% for ob1 in box %}
+            <div class="ob_cross">
+                <div class="ob_name">
+                    <img src="/static/images/rj45_2_1.png" alt=" " title="">
+                    <b>{{ ob1.name }}-{{ ob1.num }}</b>
+                </div>
+                <div class="ob_ports tone2">
+                    <div class="ob_ports_line">
+                    {% for ob2 in ob1.box_p %}
+                    <input type="button" value="{{ ob2.pair }}" title="{{ ob2.p_alias }} ▲ {{ ob2.prim }}" 
+                           class="_cr_ext_int_st_{{ ob2.up_status }} {% if not ob2.p_valid %} not_valid {% endif %}
+                                  _plint_color_cr_ext_int_{{ ob2.plint }}"
+                           {% if not ob2.up_status %} onClick='location.href="d_p={{ ob2.id }}/d_type=3"' {% endif %}>
+                    {% endfor %}     
+                    </div>
+                </div>
+                <div class="ob_r"></div>
+            </div>
+        {% endfor %}
+    </details>
+</div>
+{% endif %}
+
+<div class="c_base_w t_footer3">
+    <div class="_flex_c">
+        <input type="button" value="отмена" onClick='location.href="../../"'>
+    </div>
+</div>
+
+{% endblock %}

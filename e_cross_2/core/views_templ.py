@@ -25,14 +25,13 @@ from .forms import templ_box_cable_Form, templ_cab_Form, templ_coup_Form
 #from core.shared_def import to_his
 from core.e_config import conf
 
-
 ####################################################################################################
 
 @login_required(login_url='/core/login/')
 def templ(request):
 
     if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
     
     return render(request, 'templ.html', {'lo_list': Templ_locker.objects.all().order_by('id'),
                                           'cr_list': Templ_cross.objects.all().order_by('id'),
@@ -51,7 +50,7 @@ def templ(request):
 def templ_lo(request, lo_id):
 
     if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
     try:
         lo = Templ_locker.objects.get(pk=lo_id) if (lo_id != '0') else 0
     except ObjectDoesNotExist:
@@ -76,7 +75,7 @@ def templ_lo(request, lo_id):
 def templ_lo_del(request, lo_id):
 
     if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
     try:
         lo = Templ_locker.objects.get(pk=lo_id)
     except ObjectDoesNotExist:
@@ -131,7 +130,7 @@ def templ_cr(request, cr_id):
 def templ_cr_del(request, cr_id):
 
     if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
     try:
         cr = Templ_cross.objects.get(pk=cr_id)
     except ObjectDoesNotExist:
@@ -153,7 +152,7 @@ def templ_cr_del(request, cr_id):
 def templ_dev(request, dev_id):
 
     if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
     try:
         dev = Templ_device.objects.get(pk=dev_id) if (dev_id != '0') else 0
     except ObjectDoesNotExist:
@@ -191,7 +190,7 @@ def templ_dev(request, dev_id):
 def templ_dev_del(request, dev_id):
 
     if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
     try:
         dev = Templ_device.objects.get(pk=dev_id)
     except ObjectDoesNotExist:
@@ -213,7 +212,7 @@ def templ_dev_del(request, dev_id):
 def templ_box(request, box_id):
 
     if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
     try:
         box = Templ_box.objects.get(pk=box_id) if (box_id != '0') else 0
     except ObjectDoesNotExist:
@@ -240,7 +239,7 @@ def templ_box(request, box_id):
 def templ_box_del(request, box_id):
 
     if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
     try:
         box = Templ_box.objects.get(pk=box_id)
     except ObjectDoesNotExist:
@@ -262,7 +261,7 @@ def templ_box_del(request, box_id):
 def templ_box_cable(request, b_cab_id):
 
     if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
     try:
         box_cab = Templ_box_cable.objects.get(pk=b_cab_id) if (b_cab_id != '0') else 0
     except ObjectDoesNotExist:
@@ -293,7 +292,7 @@ def templ_box_cable(request, b_cab_id):
 def templ_box_cable_del(request, b_cab_id):
 
     if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
     try:
         box_cab = Templ_box_cable.objects.get(pk=b_cab_id)
     except ObjectDoesNotExist:
@@ -315,7 +314,7 @@ def templ_box_cable_del(request, b_cab_id):
 def templ_su(request, su_id):
 
     if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
     try:
         su = Templ_subunit.objects.get(pk=su_id) if (su_id != '0') else 0
     except ObjectDoesNotExist:
@@ -340,7 +339,7 @@ def templ_su(request, su_id):
 def templ_su_del(request, su_id):
 
     if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
     try:
         su = Templ_subunit.objects.get(pk=su_id)
     except ObjectDoesNotExist:
@@ -362,7 +361,7 @@ def templ_su_del(request, su_id):
 def templ_cab(request, cab_id):
 
     if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
     try:
         cab = Templ_cable.objects.get(pk=cab_id) if (cab_id != '0') else 0
     except ObjectDoesNotExist:
@@ -399,7 +398,7 @@ def templ_cab(request, cab_id):
 def templ_cab_del(request, cab_id):
 
     if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
     try:
         cab = Templ_cable.objects.get(pk=cab_id)
     except ObjectDoesNotExist:
@@ -422,7 +421,7 @@ def templ_cab_del(request, cab_id):
 def templ_coup(request, coup_id):
 
     if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
     try:
         coup = Templ_coupling.objects.get(pk=coup_id) if (coup_id != '0') else 0
     except ObjectDoesNotExist:
@@ -447,7 +446,7 @@ def templ_coup(request, coup_id):
 def templ_coup_del(request, coup_id):
 
     if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
     try:
         coup = Templ_coupling.objects.get(pk=coup_id)
     except ObjectDoesNotExist:

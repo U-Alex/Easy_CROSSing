@@ -101,7 +101,7 @@ def service(request):
 def service_clean_his(request):
 
     if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     last_visit.objects.all().update(prim='')
 
@@ -113,7 +113,7 @@ def service_clean_his(request):
 def sprav(request):
 
     if not request.user.has_perm("core.can_edit_bu"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 1})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
     return render(request, 'sprav.html', {'comp_list': manage_comp.objects.all().order_by('name')})
 
@@ -122,7 +122,7 @@ def sprav(request):
 def sprav_upr(request, upr_id):
 
     if not request.user.has_perm("core.can_edit_bu"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 1})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
     try:
         upr = manage_comp.objects.get(pk=upr_id) if (upr_id != '0') else 0
     except ObjectDoesNotExist:
@@ -146,7 +146,7 @@ def sprav_upr(request, upr_id):
 def sprav_upr_del(request, upr_id):
 
     if not request.user.has_perm("core.can_edit_bu"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 1})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
     try:
         upr = manage_comp.objects.get(pk=upr_id)
     except ObjectDoesNotExist:
@@ -168,7 +168,7 @@ def sprav_upr_del(request, upr_id):
 def switch_agr(request):
 
     if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
     ok = False
     err = False
     if request.method == 'POST':
@@ -196,7 +196,7 @@ def switch_agr(request):
 def show_all_logs(request, u, td):
 
     if not request.user.has_perm("core.can_adm"):
-        return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 3})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 3})
 
     cur_user = {'login': 'Все пользователи'}
     date_30 = datetime.date.today() - datetime.timedelta(int(td))

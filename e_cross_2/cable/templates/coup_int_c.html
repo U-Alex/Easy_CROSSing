@@ -1,21 +1,17 @@
 {% extends 'main.html' %}
 
 {% block cable %}
+<link rel="stylesheet" type="text/css" href="/static/colors.css">
 
-    <table class="c_base_w t_header1">
-        <tr>
-            <td width="100%" align="left">
-                <h3>
-                    &nbspисходная муфта: {{ s_p.parrent.name }},
-                    &nbspкабель №: {{ s_p.cable_num }},
-                    &nbspволокно №: {{ s_p.fiber_num }}
-                </h3>
-            </td>
-            <td width="300px" align="right">&nbsp</td>
-        </tr>
-    </table>
-    <br>
-    
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <h3>
+            исходная муфта: {{ s_p.parrent.name }}, кабель №: {{ s_p.cable_num }}, волокно №: {{ s_p.fiber_num }}
+        </h3>
+    </div>
+</div>
+<br>
+
 <form method="post" action="dest=0/">
     {% csrf_token %}
     
@@ -24,7 +20,7 @@
             <td align="center">№ кабеля -> </td>
         {% for ob in cab_list %}
             <td align="center">
-                <label title="удаленная муфта: {{ ob.1.parrent.name }}">&nbsp&nbsp&nbsp{{ ob.0 }}&nbsp&nbsp&nbsp</label>
+                <label title="удаленная муфта: {{ ob.1.parrent.name }}">&nbsp;{{ ob.0 }}&nbsp;</label>
             </td>
         {% endfor %}
         </tr>
@@ -33,17 +29,17 @@
         {% for ob in p_list %}
             <td style="vertical-align: top">
             {% for ob2 in ob %}
-                &nbsp
+                &nbsp;
                 <input type="radio" name="f_port" id="{{ ob2.id }}" value="{{ ob2.id }}"
                     {% if ob2.int_c_status != 0 or ob2.id == s_p.id %} disabled="1"{% endif %}>
                 <label for="{{ ob2.id }}"
-                {% if ob2.id == s_p.id %} style="color:red"
-                {% elif ob2.changed %} style="color:orange"
-                {% elif ob2.int_c_status == 0 %} style="color:black"
-                {% else %} style="color:green"
+                {% if ob2.id == s_p.id %} class="crab_color_txt_5"
+                {% elif ob2.changed %} class="crab_color_txt_2"
+                {% elif ob2.int_c_status == 0 %} class="crab_color_txt_0"
+                {% else %} class="crab_color_txt_1"
                 {% endif %}>
-                <b>{{ ob2.fiber_num }}</b>&nbsp</label>
-                &nbsp<br>
+                <b>{{ ob2.fiber_num }}</b>&nbsp;</label>
+                &nbsp;<br>
             {% endfor %}
             </td>
         {% endfor %}
@@ -53,22 +49,18 @@
     
     {% if e_p.1 == "1" %}
     <table class="c_base_w t_header1" border="1"> 
-        <tr><td align="center">&nbsp&nbspконечное волокно в исходном кабеле:&nbsp&nbsp</td></tr>
+        <tr><td align="center">&nbsp;конечное волокно в исходном кабеле:&nbsp;</td></tr>
         <tr><td align="center"><input type="number" name="end_p0" min="1" max="{{ e_p.0 }}" value="{{ e_p.0 }}" size="5"></td></tr>
     </table>
     <br>
     {% endif %}
     
-    <table class="c_base_w t_footer">
-        <tr>
-            <td width="700px" align="right">
-                <input type="submit" value="     OK     ">&nbsp
-            </td>
-            <td width="700px" align="left">
-                <input type="button" value="отмена" onClick='location.href="../../../"'>&nbsp
-            </td>
-        </tr>
-    </table>
+    <div class="c_base_w t_footer3">
+        <div class="_flex_c">
+            <input type="submit" value="     OK     ">
+            <input type="button" value="отмена" onClick='location.href="../../../"'>
+        </div>
+    </div>
 
 </form>
 
@@ -90,15 +82,15 @@
         {% for ob in cr_p_list %}
             <td style="vertical-align: top">
             {% for ob2 in ob %}
-                &nbsp
+                &nbsp;
                 <input type="radio" name="cr_port" id="{{ ob2.id }}" value="{{ ob2.id }}" 
                     {% if ob2.cab_p_id != 0 %} disabled="1" {% endif %}>
                 <label for="{{ ob2.id }}"
-                {% if ob2.cab_p_id == 0 %} style="color:black"
-                {% else %} style="color:green"
+                {% if ob2.cab_p_id == 0 %} class="crab_color_txt_0"
+                {% else %} class="crab_color_txt_1"
                 {% endif %}>
-                <b>{{ ob2.num }}</b>&nbsp</label>
-                &nbsp<br>
+                <b>{{ ob2.num }}</b>&nbsp;</label>
+                &nbsp;<br>
             {% endfor %}
             </td>
         {% endfor %}
@@ -108,26 +100,21 @@
     
     {% if e_p.1 == "1" %}
     <table class="c_base_w t_header1" border="1"> 
-        <tr><td align="center">&nbsp&nbspконечное волокно в исходном кабеле:&nbsp&nbsp</td></tr>
+        <tr><td align="center">&nbsp;конечное волокно в исходном кабеле:&nbsp;</td></tr>
         <tr><td align="center"><input type="number" name="end_p1" min="1" max="{{ e_p.0 }}" value="{{ e_p.0 }}" size="5"></td></tr>
     </table>
     <br>
     {% endif %}
     
-    <table class="c_base_w t_footer">
-        <tr>
-            <td width="700px" align="right">
-                <input type="submit" value="     OK     ">&nbsp
-            </td>
-            <td width="700px" align="left">
-                <input type="button" value="отмена" onClick='location.href="../../../"'>&nbsp
-            </td>
-        </tr>
-    </table>
+    <div class="c_base_w t_footer3">
+        <div class="_flex_c">
+            <input type="submit" value="     OK     ">
+            <input type="button" value="отмена" onClick='location.href="../../../"'>
+        </div>
+    </div>
 
 </form>
 
 {% endif %}
-
 
 {% endblock %}

@@ -35,6 +35,11 @@ def show_bu_lo(request, bu_id, lo_id=0):
     except ObjectDoesNotExist as error:
         return render(request, 'error.html', {'mess': f'объект не найден ({error})', 'back': 8})
 
+    if lo and lo['agr'] and not request.user.has_perm("core.can_sh_agr"):
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1,
+                                               'next_url': f"/cross/build={bu_id}/locker={lo_id}/"
+                                               })
+
     jyr_info = check_deadline(bu) if not lo_id else False
     bu_double = False
     try:
@@ -147,8 +152,7 @@ def show_cr(request, bu_id, lo_id, cr_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3})
 
     if lo.agr and not request.user.has_perm("core.can_sh_agr"):
-        return render(request, 'denied.html', {'mess': 'insufficient access rights',
-                                               'back': 1,
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1,
                                                'next_url': f"/cross/build={bu_id}/locker={lo_id}/cr={cr_id}/"
                                                })
 
@@ -248,8 +252,7 @@ def show_dev(request, bu_id, lo_id, dev_id, l2=0):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3+int(l2)})
 
     if lo.agr and not request.user.has_perm("core.can_sh_agr"):
-        return render(request, 'denied.html', {'mess': 'insufficient access rights',
-                                               'back': 1+int(l2),
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1+int(l2),
                                                'next_url': f"/cross/build={bu_id}/locker={lo_id}/dev={dev_id}/"
                                                })
 
@@ -389,8 +392,7 @@ def show_dev_ips(request, bu_id, lo_id, dev_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 4})
 
     if lo.agr and not request.user.has_perm("core.can_sh_agr"):
-        return render(request, 'denied.html', {'mess': 'insufficient access rights',
-                                               'back': 2,
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2,
                                                'next_url': f"/cross/build={bu_id}/locker={lo_id}/dev={dev_id}/"
                                                })
 
@@ -514,8 +516,7 @@ def show_box(request, bu_id, lo_id, box_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 3})
 
     if lo.agr and not request.user.has_perm("core.can_sh_agr"):
-        return render(request, 'denied.html', {'mess': 'insufficient access rights',
-                                               'back': 1,
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1,
                                                'next_url': f"/cross/build={bu_id}/locker={lo_id}/box={box_id}/"
                                                })
     try:    select = int(request.GET['sel'])
@@ -679,8 +680,7 @@ def show_racks(request, bu_id, lo_id):
     if lo.parrent_id != int(bu_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 2})
     if lo.agr and not request.user.has_perm("core.can_sh_agr"):
-        return render(request, 'denied.html', {'mess': 'insufficient access rights',
-                                               'back': 1,
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1,
                                                'next_url': f"/cross/build={bu_id}/locker={lo_id}/"
                                                })
     if request.method == 'POST':
@@ -717,7 +717,7 @@ def show_racks(request, bu_id, lo_id):
             #r_dev = device_list.filter(rack_num=ind).exclude(rack_pos=0).values('id', 'name', 'rack_pos', 'con_type')
             r_dev = device_list.filter(rack_num=ind).exclude(rack_pos=0)\
                 .values('id', 'name', 'rack_pos', 'obj_type__parrent_id', 'obj_type__units')
-            print(r_dev)
+            # print(r_dev)
             r_box = box_list.filter(rack_num=ind).exclude(rack_pos=0).values('id', 'name', 'rack_pos', 'con_type')
             cur_rack = []
             #i = 1
@@ -727,7 +727,7 @@ def show_racks(request, bu_id, lo_id):
                     cur_cr = r_cr.filter(rack_pos=i).first()
                     cur_units = Templ_cross.objects.get(pk=cur_cr['con_type']).units
                     #ports...
-                    cur_rack.append([i, cur_cr, cur_units, 'laser2.png', 'cr='+str(cur_cr['id'])])
+                    cur_rack.append([i, cur_cr, cur_units, 'laser2_1.png', 'cr='+str(cur_cr['id'])])
                     while cur_units > 1:
                         i -= 1
                         cur_rack.append([i, False, False, False, False])
@@ -748,7 +748,7 @@ def show_racks(request, bu_id, lo_id):
                     cur_box = r_box.filter(rack_pos=i).first()
                     cur_units = Templ_box.objects.get(pk=cur_box['con_type']).units
                     #ports...
-                    cur_rack.append([i, cur_box, cur_units, 'rj45_2.png', 'box='+str(cur_box['id'])])
+                    cur_rack.append([i, cur_box, cur_units, 'rj45_2_1.png', 'box='+str(cur_box['id'])])
                     while cur_units > 1:
                         i -= 1
                         cur_rack.append([i, False, False])
@@ -764,7 +764,7 @@ def show_racks(request, bu_id, lo_id):
             cur_rack = []
             i = 1
             for cur_cr in r_cr:
-                cur_rack.append([i, cur_cr, 1, 'laser2.png', 'cr='+str(cur_cr['id'])])
+                cur_rack.append([i, cur_cr, 1, 'laser2_1.png', 'cr='+str(cur_cr['id'])])
                 i += 1
             for cur_dev in r_dev:
                 #cur_type = Templ_device.objects.get(pk=cur_dev['con_type']).parrent_id
@@ -782,5 +782,5 @@ def show_racks(request, bu_id, lo_id):
                                                'lo': lo,
                                                'form': form,
                                                'rack_list': rack_list,
-                                               'adm': request.user.has_perm("kpp.can_adm"),
+                                               'adm': request.user.has_perm("core.can_adm"),
                                                })

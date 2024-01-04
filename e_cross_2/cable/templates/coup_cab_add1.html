@@ -2,23 +2,21 @@
 
 {% block cable %}
 
-    <table class="c_base_w t_header1">
-        <tr>
-            <td width="80%" align="left">
-                <form method="post">
-                {% csrf_token %}
-                    &nbsp&nbspКвартал:&nbsp{{ form.kvar }}
-                    <input type="submit" value="поиск" style="width:80px">&nbsp
-                    &nbsp&nbsp<strong>Выбор конечной муфты для нового кабеля:</strong> 
-                </form>
-            </td>
-            <td width="300px" align="right"><input type="button" value="отмена" onClick='location.href="../"'>&nbsp</td>
-        </tr>
-    </table>
-    <br>
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <form method="post">
+        {% csrf_token %}
+            Квартал: {{ form.kvar }}
+            <input type="submit" value=" ▼▼▼ ">
+            &emsp;<b>Выбор конечной муфты для нового кабеля:</b>
+        </form>
+    </div>
+    <div class="c_kv_card"></div>
+</div>
+<br>
 
 <div class="c_base_w">
-    <table class="c_base_w tone1" width="100%">
+    <table class="tone1" width="100%">
         <tr valign="top">
             <td align="left">
                 <table width="880px" border="1">
@@ -33,14 +31,14 @@
                         <td>
                         {% for ob2 in ob.2 %}
                             &nbsp
-                            <a href="target={{ ob2.1.id }}/"><strong>{{ ob2.1.name }}</strong></a>
+                            <a href="target={{ ob2.1.id }}/"><b>{{ ob2.1.name }}</b></a>
                             <br>
                         {% endfor %}
                         </td>
                         <td>
                         {% for ob2 in ob.1 %}
                             &nbsp
-                            <a href="target={{ ob2.id }}/"><strong>{{ ob2.name }}</strong></a>
+                            <a href="target={{ ob2.id }}/"><b>{{ ob2.name }}</b></a>
                             <br>
                         {% endfor %}
                         </td>
@@ -60,7 +58,7 @@
                         <td>
                         {% for ob2 in ob.1 %}
                             &nbsp
-                            <a href="target={{ ob2.id }}/"><strong>{{ ob2.name }}</strong></a>
+                            <a href="target={{ ob2.id }}/"><b>{{ ob2.name }}</b></a>
                             <br>
                         {% endfor %}
                         </td>
@@ -71,14 +69,13 @@
         </tr>
     </table>
 </div>
-    <br>
-    
-    <table class="c_base_w t_footer">
-        <tr>
-            <td width="80%">&nbsp</td>
-            <td width="300px" align="right"><input type="button" value="отмена" onClick='location.href="../"'>&nbsp</td>
-        </tr>
-    </table>
+<br>
 
+<div class="c_base_w c_footer t_footer">
+    <div></div>
+    <div class="c_footer_nav">
+        <input type="button" value="отмена" onClick='location.href="../"'>
+    </div>
+</div>
 
 {% endblock %}

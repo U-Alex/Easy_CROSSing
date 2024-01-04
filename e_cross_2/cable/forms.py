@@ -22,9 +22,9 @@ class add_PW_Form(forms.Form):
     def __init__(self, *args, **kwargs):
         super(add_PW_Form, self).__init__(*args, **kwargs)
         own_list = list(firm.objects.filter(obj=True).values_list('name', flat=True).order_by('name'))
-        for ob in own_list:
-            own_list[own_list.index(ob)] = [ob, ob]
-        self.fields['object_owner_list'].choices = [['', '']] + own_list
+        #for ob in own_list:
+        #    own_list[own_list.index(ob)] = [ob, ob]
+        self.fields['object_owner_list'].choices = [['', '']] + [(i, i) for i in own_list]
         #self.fields['object_owner_list'].disabled = True
 
 class add_Coup_Form(forms.Form):

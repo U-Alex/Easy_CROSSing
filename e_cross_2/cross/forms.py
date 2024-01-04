@@ -69,9 +69,10 @@ class edit_lo_Form(new_locker_Form):#(forms.Form):
     def __init__(self, *args, **kwargs):
         super(edit_lo_Form, self).__init__(*args, **kwargs)
         self.fields['racks'].disabled = True                                                        ###########
-        key_type = []
-        for ob in conf.KEY_DOOR_TYPE:
-            key_type.append([ob, ob])
+        #key_type = []
+        #for ob in conf.KEY_DOOR_TYPE:
+        #    key_type.append([ob, ob])
+        key_type = [(i, i) for i in conf.KEY_DOOR_TYPE]
         self.fields['cab_door'].choices = key_type
         own_list = list(firm.objects.filter(lo=True).values_list('name', flat=True).order_by('name'))
         for ob in own_list:

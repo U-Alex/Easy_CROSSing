@@ -2,48 +2,38 @@
 
 {% block cable %}
 
-    <table class="c_base_w t_header1">
-        <tr>
-            <td width="100%" align="left">
-                <h3>&nbspмуфта: {{ coup.name }}</h3>
-            </td>
-            <td width="280px" align="right">&nbsp</td>
-        </tr>
-    </table>
-    <br>
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <h3>муфта: {{ coup.name }}</h3>
+    </div>
+</div>
+<br>
+
 <div class="c_base_w" align="center">
     {% if del_ok1 and del_ok2 %}
     <form method="post">
         {% csrf_token %}
-        <h3 style="color:red">удалить муфту?</h3>
+        <h3 class="color_warn1">удалить муфту?</h3>
         <br>
-        <table class="t_footer">
-            <tr>
-                <td width="640px" align="right">
-                    <input type="submit" value="     OK     ">&nbsp
-                </td>
-                <td width="640px" align="left">
-                    <input type="button" value="отмена" onClick='location.href="../"'>
-                </td>
-            </tr>
-        </table>
+        <div class="t_footer3">
+            <div class="_flex_c">
+                <input type="submit" value="     OK     ">
+                <input type="button" value="отмена" onClick='location.href="../"'>
+            </div>
+        </div>
     </form>
-
-    {% else %}
-        <h3 style="color:red">удаление невозможно</h3>
-        {% if not del_ok1 %}<h3>есть кабель в муфте</h3>{% endif %}
-        {% if not del_ok2 %}<h3>муфта принадлежит шкафу</h3>{% endif %}
 </div>
-        <br>
-    <table class="c_base_w t_footer">
-        <tr>
-            <td width="100%" align="center">
-                <input type="button" value="назад" onClick='location.href="../"'>
-            </td>
-        </tr>
-    </table>
-
+    {% else %}
+        <h3 class="color_warn1">удаление невозможно</h3>
+        {% if not del_ok1 %}<h3>есть кабель в муфте</h3>{% endif %}
+        {% if not del_ok2 %}<h3>муфта принадлежит УД</h3>{% endif %}
+    <br>
+    <div class="t_footer3">
+        <div class="_flex_c">
+            <input type="button" value="назад" onClick='location.href="../"'>
+        </div>
+    </div>
+</div>
     {% endif %}
-
 
 {% endblock %}

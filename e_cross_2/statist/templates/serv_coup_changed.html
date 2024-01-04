@@ -2,15 +2,15 @@
 
 {% block statist %}
 
-    <table class="t_header1">
+    <table class="c_base_w t_header1">
         <tr>
-            <td width="1000px" align="left"><h3>&nbsp&nbspCтатистика по волокнам</h3></td>
-            <td width="280px" align="right">&nbsp</td>
+            <td width="1000px" align="left"><h3>&nbsp;&nbsp;Cтатистика по волокнам</h3></td>
+            <td width="280px" align="right">&nbsp;</td>
         </tr>
     </table>
 
     <br>
-    <table class="tbl-main" border="1">
+    <table class="c_base_w" border="1">
     <caption>запланированные изменения в волокнах:</caption>
         <tr class="t_header1">
             <td width="260px" align="center">муфта</td>
@@ -22,17 +22,17 @@
                 {{ ob.parrent.name }}
             </td>
             <td align="center">
-                <a href="/cable/coup={{ ob.parrent.id }}/?sel={{ ob.id }}" target="_blank"><strong>каб.: {{ ob.cable_num }} вол.: {{ ob.fiber_num }}</strong></a>
+                <a href="/cable/coup={{ ob.parrent.id }}/?sel={{ ob.id }}" target="_blank"><b>каб.: {{ ob.cable_num }} вол.: {{ ob.fiber_num }}</b></a>
             </td>
         </tr>
         {% endfor %}
     </table>
 
     <br>
-    <table class="t_footer">
+    <table class="c_base_w t_footer">
         <tr>
-            <td width="1000px">&nbsp</td>
-            <td width="280px" align="right"><input type="button" value="назад" onClick='location.href="../"'>&nbsp</td>
+            <td width="1000px">&nbsp;</td>
+            <td width="280px" align="right"><input type="button" value="назад" onClick='location.href="../"'>&nbsp;</td>
         </tr>
     </table>
     

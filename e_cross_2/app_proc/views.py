@@ -35,7 +35,7 @@ from core.views import trans_his
 @login_required(login_url='/core/login/')
 def app(request, status=0):
 
-    if not request.user.has_perm("kpp.can_app_view"):
+    if not request.user.has_perm("core.can_app_view"):
         return render(request, 'denied.html', {'mess': 'нет прав просмотра заявок', 'back': 2})
 
     start_date_3 = datetime.date.today() - datetime.timedelta(3)
@@ -74,7 +74,7 @@ def app(request, status=0):
 @login_required(login_url='/core/login/')
 def app_sort(request, status=0):
 
-    if not request.user.has_perm("kpp.can_app_view"):
+    if not request.user.has_perm("core.can_app_view"):
         return render(request, 'denied.html', {'mess': 'нет прав просмотра заявок', 'back': 3})
 
     start_date_3 = datetime.date.today() - datetime.timedelta(3)
@@ -107,7 +107,7 @@ def app_find(request, status):
 
     upd_visit(request.user, 'a_find')
 
-    if not request.user.has_perm("kpp.can_app_view"):
+    if not request.user.has_perm("core.can_app_view"):
         return render(request, 'denied.html', {'mess': 'нет прав просмотра заявок', 'back': 3})
 
     if request.method == 'POST':
@@ -155,7 +155,7 @@ def add_app(request):
 
     upd_visit(request.user, 'a_add')
 
-    if not request.user.has_perm("kpp.can_app_edit"):
+    if not request.user.has_perm("core.can_app_edit"):
         return render(request, 'denied.html', {'mess': 'нет прав для доступа',
                                                'back': 2,
                                                'next_url': '/app/add_app/'
@@ -201,7 +201,7 @@ def edit(request, app_id):
 
     upd_visit(request.user, 'a_edit')
 
-    if not request.user.has_perm("kpp.can_app_edit"):
+    if not request.user.has_perm("core.can_app_edit"):
         return render(request, 'denied.html', {'mess': 'нет прав для доступа',
                                                'back': 2,
                                                'next_url': '/app/edit='+app_id+'/'
@@ -262,7 +262,7 @@ def app_install(request, app_id, box_p_id=0):
 
     upd_visit(request.user, 'a_inst')
 
-    if not request.user.has_perm("kpp.can_app_edit"):
+    if not request.user.has_perm("core.can_app_edit"):
         return render(request, 'denied.html', {'mess': 'нет прав для доступа',
                                                'back': 2,
                                                'next_url': '/app/install='+app_id+'/'
@@ -434,7 +434,7 @@ def res_for_bil(p_id):
 @login_required(login_url='/core/login/')
 def app_reject(request, app_id):
 
-    if not request.user.has_perm("kpp.can_app_edit"):
+    if not request.user.has_perm("core.can_app_edit"):
         return render(request, 'denied.html', {'mess': 'нет прав для доступа',
                                                'back': 1,
                                                'next_url': '/app/status%3D0/'
@@ -471,7 +471,7 @@ def app_reject(request, app_id):
 @login_required(login_url='/core/login/')
 def app_delay(request, app_id):
 
-    if not request.user.has_perm("kpp.can_app_edit"):
+    if not request.user.has_perm("core.can_app_edit"):
         return render(request, 'denied.html', {'mess': 'нет прав для доступа',
                                                'back': 1,
                                                'next_url': '/app/status%3D0/'
@@ -511,7 +511,7 @@ def app_delay(request, app_id):
 @login_required(login_url='/core/login/')
 def to_inbox(request, app_id):
 
-    if not request.user.has_perm("kpp.can_app_edit"):
+    if not request.user.has_perm("core.can_app_edit"):
         return render(request, 'denied.html', {'mess': 'нет прав для доступа',
                                                'back': 1,
                                                'next_url': '/app/status%3D0/'
@@ -538,7 +538,7 @@ def to_inbox(request, app_id):
 @login_required(login_url='/core/login/')
 def app_complete(request, app_id):
 
-    if not request.user.has_perm("kpp.can_app_edit"):
+    if not request.user.has_perm("core.can_app_edit"):
         return render(request, 'denied.html', {'mess': 'нет прав для доступа',
                                                'back': 1,
                                                'next_url': '/app/status%3D0/'
@@ -594,7 +594,7 @@ def app_complete(request, app_id):
 @login_required(login_url='/core/login/')
 def app_check(request, app_id, check):
 
-    if not request.user.has_perm("kpp.can_app_edit"):
+    if not request.user.has_perm("core.can_app_edit"):
         return render(request, 'denied.html', {'mess': 'нет прав для доступа',
                                                'back': 1,
                                                'next_url': '/app/status%3D0/'
@@ -619,7 +619,7 @@ def app_remove(request, app_id):
 
     upd_visit(request.user, 'a_rem')
 
-    if not request.user.has_perm("kpp.can_app_edit"):
+    if not request.user.has_perm("core.can_app_edit"):
         return render(request, 'denied.html', {'mess': 'нет прав для доступа',
                                                'back': 1,
                                                'next_url': '/app/status%3D0/'
@@ -661,7 +661,7 @@ def app_remove(request, app_id):
 @login_required(login_url='/core/login/')
 def app_reject2(request, app_id):
 
-    if not request.user.has_perm("kpp.can_app_edit"):
+    if not request.user.has_perm("core.can_app_edit"):
         return render(request, 'denied.html', {'mess': 'нет прав для доступа',
                                                'back': 1,
                                                'next_url': '/app/status%3D0/'
@@ -687,7 +687,7 @@ def app_reject2(request, app_id):
 @login_required(login_url='/core/login/')
 def app_complete2(request, app_id):
 
-    if not request.user.has_perm("kpp.can_app_edit"):
+    if not request.user.has_perm("core.can_app_edit"):
         return render(request, 'denied.html', {'mess': 'нет прав для доступа',
                                                'back': 1,
                                                'next_url': '/app/status%3D0/'
@@ -838,7 +838,7 @@ def gen_pdf_1(request, app_id):
 
 def gen_pdf_2(request, box_p_id):
 
-    if not request.user.has_perm("kpp.can_app_edit"):
+    if not request.user.has_perm("core.can_app_edit"):
         return render(request, 'denied.html', {'mess': 'нет прав для доступа',
                                                'back': 2,
                                                'next_url': '/app/gen_pdf_2='+box_p_id
@@ -878,7 +878,7 @@ def gen_pdf_2(request, box_p_id):
 @login_required(login_url='/core/login/')
 def show_logs_nsd(request, td):
 
-    if not request.user.has_perm("kpp.can_app_view"):
+    if not request.user.has_perm("core.can_app_view"):
         return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 3})
     
     t_date = datetime.date.today() - datetime.timedelta(int(td))

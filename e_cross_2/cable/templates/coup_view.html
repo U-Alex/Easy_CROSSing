@@ -3,7 +3,7 @@
 {% block cable %}
 <link rel="stylesheet" type="text/css" href="/static/colors.css">
 
-{% include "cable_header.html" %}
+{% include "coup_header.html" %}
 <br>
 
 <div class="c_base_w">
@@ -46,7 +46,7 @@
                     {% if ob.f.3.rem.1 %}
                         УД: <a href="/cross/build={{ ob.f.3.rem.1.parrent.id }}/locker={{ ob.f.3.rem.1.id }}/" target="_blank"><strong>{{ ob.f.3.rem.1.name }}</strong></a>
                     {% else %}
-                        <b style="color:red">шкаф не найден!!!</b>
+                        <label class="color_warn1">УД не найден!!!</label>
                     {% endif %}
                     </td><td width="220px">
                     ул: {{ ob.f.3.rem.1.parrent.name }} {{ ob.f.3.rem.1.parrent.house_num }}
@@ -68,7 +68,7 @@
                 <td width="60px" align="center">статус</td>
                 <td width="160px" align="center">кроссировка</td>
                 <td width="210px" align="center">примечание</td>
-                <td width="20px" align="center"><img src="/static/images/firm_{{ ob.f.3.cab.2.1 }}.png" alt="" title="" height="12"></td>
+                <td width="20px" align="center"><img src="/static/images/firms/firm_{{ ob.f.3.cab.2.1 }}.png" alt="" title="" height="12"></td>
                 <td colspan="2">&nbsp
                     <a href="cab_edit={{ ob.f.0 }}"><img src="/static/images/edit.png" alt="ред." title="редактирование" width="12" height="12"></a>&nbsp
                     <a href="cab_del={{ ob.f.3.cab.0 }}"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить кабель" width="12" height="12"></a>
@@ -93,7 +93,7 @@
                         {% if ob.up.2 %}
                             УД.: <a href="/cross/build={{ ob.up.2.parrent.id }}/locker={{ ob.up.2.id }}/" target="_blank"><strong>{{ ob.up.2.name }}</strong></a>
                         {% else %}
-                            <b style="color:red">УД не найден!!!</b>
+                            <label class="color_warn1">УД не найден!!!</label>
                         {% endif %}
                     </td><td>
                         ул: {{ ob.up.2.parrent.name }} {{ ob.up.2.parrent.house_num }}
@@ -129,7 +129,7 @@
                     </td>
                 {% elif ob.up.0 == 8 %}
                     <td>
-                        <label style="color:red">{{ ob.up.1 }}</label>
+                        <label class="color_warn1">{{ ob.up.1 }}</label>
                     </td>
                     <td></td><td></td>
                 {% endif %}
@@ -141,10 +141,10 @@
                 <td {% if ob.f.0 == sel %} style="background-color:#FF0099" {% endif %} align="center">
                     <label title="id-{{ ob.f.0 }}" {% if ob.f.0 == sel %} style="color:white" {% endif %}>&nbsp&nbsp&nbsp<strong>{{ ob.f.1 }}</strong>&nbsp&nbsp&nbsp</label>
                 </td>
-                <td {% if ob.f.7 %} style="background-color:orange"{% endif %} align="center">
+                <td {% if ob.f.7 %} class="_lo_status_0" {% endif %} align="center">
                 {% if ob.cr.0 == 1 %}транзит
                 {% elif ob.cr.0 == 2 %}варка
-                {% else %}&nbsp
+                {% else %}&nbsp;
                 {% endif %}
                 </td>
 
@@ -157,7 +157,7 @@
             {% endif %}
                 <td>{{ ob.f.8 }}</td>
                 <td align="center">
-                    <img src="/static/images/firm_{{ ob.f.10 }}.png" alt="" title="" height="12">
+                    <img src="/static/images/firms/firm_{{ ob.f.10 }}.png" alt="" title="" height="12">
                 </td>
                 <td width="100px">&nbsp
                     <a href="int_edit={{ ob.f.0 }}"><img src="/static/images/edit.png" alt="ред." title="<{{ ob.f.1 }}> редактирование" width="12" height="12"></a>&nbsp
@@ -170,7 +170,7 @@
                     <a href="int_del={{ ob.f.0 }}"><img src="/static/images/icon_deletelink.gif" alt="X" title="<{{ ob.f.1 }}> удаление кроссировки" width="12" height="12"></a>
                 {% endif %}
                 </td>
-                <td width="18px" style="background-color:#bbbbbb" align="center">
+                <td class="tone2" width="18px" align="center">
                     <a href="/core/logs/t=9/id={{ ob.f.0 }}"><img src="/static/images/icon_info.png" alt="?" title="<{{ ob.f.1 }}> история операций" height="11"></a>
                 </td>
             </tr>

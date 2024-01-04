@@ -78,35 +78,6 @@ def cable_main2(request, kv_id=0):
                                                 'list2': obj_list[1],
                                                 })
 
-
-
-@login_required(login_url='/core/login/')
-def cable_main(request):
-    
-    upd_visit(request.user, 'cab_m')
-
-    if request.method == 'POST':
-        form = find_Form_kv(request.POST)
-        if form.is_valid():
-            kvar = form.cleaned_data['kvar']
-        else:
-            kvar = 0
-    else:
-        try:
-            kvar = request.GET['kv']
-        except:
-            kvar = 0
-
-    obj_list = create_obj_list(kvar)
-    form = find_Form_kv(initial={'kvar': kvar})
-
-    return render(request, 'cable_main.html', {
-                                                'form': form,
-                                                'kvar': kvar,
-                                                'list1': obj_list[0],
-                                                'list2': obj_list[1],
-                                                })
-
 #___________________________________________________________________________
 
 
@@ -148,7 +119,7 @@ def create_obj_list(kvar):
 def pw_add(request, kvar):
 
     if not request.user.has_perm("core.can_cable_edit"):
-        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
     if request.method == 'POST':
         form = add_PW_Form(request.POST)
@@ -167,7 +138,7 @@ def pw_add(request, kvar):
                                         )
             to_his([request.user, 10, n_PW.id, 1, 0, 'name: '+n_PW.name])
 
-            return HttpResponseRedirect('/cable/kv='+str(kvar))
+            return HttpResponseRedirect(f"/cable/kv={kvar}")
     else:
         form = add_PW_Form()
 
@@ -182,7 +153,7 @@ def pw_add(request, kvar):
 def coup_add(request, kvar, p_t, p_id):
 
     if not request.user.has_perm("core.can_cable_edit"):
-        return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 4})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 3})
 
     if request.method == 'POST':
         form = add_Coup_Form(request.POST)
@@ -204,7 +175,7 @@ def coup_add(request, kvar, p_t, p_id):
                                             )
             to_his([request.user, 8, n_coup.id, 1, 0, 'name: '+n_coup.name])
 
-            return HttpResponseRedirect('/cable/kv='+str(kvar))
+            return HttpResponseRedirect(f"/cable/kv={kvar}")
     else:
         form = add_Coup_Form()
 
@@ -225,7 +196,7 @@ def coup_view(request, s_coup):
         return render(request, 'error.html', {'mess': 'объект не найден', 'back': 1})
 
     firms = firm.objects.filter(coup=True)
-    p_all = Coupling_ports.objects.all()
+    p_all = Coupling_ports.objects.all()    #danger, если данных будет много - переделать
     coup_p_list = p_all.filter(parrent_id=coup.id).order_by('cable_num','fiber_num')
     coup_clean = True if coup_p_list.count() == 0 else False
     parr1 = find_coup_parrent(coup)
@@ -301,7 +272,7 @@ def coup_view(request, s_coup):
             cab_num = cr_int_port.cable_num
             if cab_num > 14:
                 cab_num = 14
-            cr_cab_color = conf.N_CAB_COLORS[cab_num]
+            cr_cab_color = conf.N_CAB_COLORS[cab_num]   #TODO перенести в css
         else:
             cr_int_port = ''
             cr_cab_color = 'white'
@@ -368,7 +339,7 @@ def coup_view(request, s_coup):
 def cab_up(request, s_coup, cab_num):
 
     if not request.user.has_perm("core.can_cable_edit"):
-        return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 1})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
     
     c_num = int(cab_num)
     n_num = c_num-1
@@ -378,7 +349,7 @@ def cab_up(request, s_coup, cab_num):
     p_list = Coupling_ports.objects.filter(parrent_id=s_coup)
     
     if c_num <= 0 or p_list.filter(cable_num=0).exists():
-        return render(request, 'error.html', {'mess': 'err870', 'back': 1})
+        return render(request, 'error.html', {'mess': 'c_num <= 0 or p_list.filter(cable_num=0).exists()', 'back': 1})
     
     with transaction.atomic():
         
@@ -420,7 +391,7 @@ def chain(request, p_id, p_type):
 def cab_add1(request, s_coup, kvar):
 
     if not request.user.has_perm("core.can_cable_edit"):
-        return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 1})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
     #source_coup = Coupling.objects.get(pk=s_coup)
     if request.method == 'POST':
@@ -445,7 +416,7 @@ def cab_add1(request, s_coup, kvar):
 def cab_add2(request, s_coup, kvar, d_coup):
 
     if not request.user.has_perm("core.can_cable_edit"):
-        return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     s_c = Coupling.objects.get(pk=int(s_coup))
     d_c = Coupling.objects.get(pk=int(d_coup))
@@ -502,8 +473,10 @@ def cab_add2(request, s_coup, kvar, d_coup):
                     d_c_p.up_id = s_c_p.id
                     
                     if i == 1:
-                        s_c_p.up_info = '∿'+str(owner)+'∿'+str(phys_len)+'∿'+res_len+'∿'+str(date_ent)
-                        d_c_p.up_info = '∿'+str(owner)+'∿'+str(phys_len)+'∿'+res_len+'∿'+str(date_ent)
+                        #s_c_p.up_info = '∿'+str(owner)+'∿'+str(phys_len)+'∿'+res_len+'∿'+str(date_ent)
+                        s_c_p.up_info = f"∿{owner}∿{phys_len}∿{res_len}∿{date_ent}"
+                        #d_c_p.up_info = '∿'+str(owner)+'∿'+str(phys_len)+'∿'+res_len+'∿'+str(date_ent)
+                        d_c_p.up_info = f"∿{owner}∿{phys_len}∿{res_len}∿{date_ent}"
                     
                     s_c_p.save()
                     d_c_p.save()
@@ -517,11 +490,10 @@ def cab_add2(request, s_coup, kvar, d_coup):
         #form = coup_link_Form(initial={'date_ent': datetime.date.today()})
         form = coup_link_Form()
 
-    return render(request, 'coup_cab_add2.html', {
-                                                    'form': form,
-                                                    's_coup': s_c,
-                                                    'd_coup': d_c,
-                                                    })
+    return render(request, 'coup_cab_add2.html', {'form': form,
+                                                  's_coup': s_c,
+                                                  'd_coup': d_c,
+                                                  })
 
 #___________________________________________________________________________
 
@@ -530,7 +502,7 @@ def cab_add2(request, s_coup, kvar, d_coup):
 def int_c(request, s_coup, s_port, stat, multi, dest_type=None):
     
     if not request.user.has_perm("core.can_cable_edit"):
-        return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 3})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 3})
     
     coup = Coupling.objects.get(pk=s_coup)
     s_p = Coupling_ports.objects.get(pk=s_port)
@@ -547,11 +519,11 @@ def int_c(request, s_coup, s_port, stat, multi, dest_type=None):
             return HttpResponseRedirect('../')
         
         if dest_type == '0':
-            if s_p.int_c_status != 0 or d_p.int_c_status != 0:      #проверка портов перед записью
-                return HttpResponseRedirect('../err304')            #TODO убрать внутрь транзакции
-            if str(s_port) == str(d_port):
-                return HttpResponseRedirect('../')
             with transaction.atomic():
+                if s_p.int_c_status != 0 or d_p.int_c_status != 0:      #проверка портов перед записью
+                    return render(request, 'error.html', {'mess': 's_p.int_c_status != 0 or d_p.int_c_status != 0', 'back': 4})
+                if str(s_port) == str(d_port):
+                    return render(request, 'error.html', {'mess': 'str(s_port) == str(d_port)', 'back': 4})
                 s_p.int_c_id = d_port
                 d_p.int_c_id = s_port
                 s_p.int_c_status = int(stat)
@@ -571,9 +543,9 @@ def int_c(request, s_coup, s_port, stat, multi, dest_type=None):
                             int_c_multi(s_p, d_p, int(stat), e_p)
         
         if dest_type == '1':
-            if s_p.int_c_status != 0 or d_p.cab_p_id != 0:          #проверка портов перед записью
-                return HttpResponseRedirect('../err305')            #TODO убрать внутрь транзакции
             with transaction.atomic():
+                if s_p.int_c_status != 0 or d_p.cab_p_id != 0:          #проверка портов перед записью
+                    return render(request, 'error.html', {'mess': 's_p.int_c_status != 0 or d_p.cab_p_id != 0', 'back': 4})
                 s_p.int_c_id = d_port
                 d_p.cab_p_id = s_port
                 s_p.int_c_status = 2
@@ -695,19 +667,19 @@ def int_c_multi_cross(s_p, d_p, e_p):
 def int_del(request, s_coup, s_port):
 
     if not request.user.has_perm("core.can_cable_edit"):
-        return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 1})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
     s_p = Coupling_ports.objects.get(pk=s_port)
     if s_p.int_c_status == 0:
-        return render(request, 'error.html', {'mess': 'err307', 'back': 1})
+        return render(request, 'error.html', {'mess': 's_p.int_c_status == 0', 'back': 1})
     if s_p.int_c_dest == 0:
         d_p = Coupling_ports.objects.get(pk=s_p.int_c_id)
         if d_p.int_c_status == 0:
-            return render(request, 'error.html', {'mess': 'err308', 'back': 1})
+            return render(request, 'error.html', {'mess': 'd_p.int_c_status == 0', 'back': 1})
     elif s_p.int_c_dest == 1:
         d_p = Cross_ports.objects.get(pk=s_p.int_c_id)
         if d_p.cab_p_id == 0:
-            return render(request, 'error.html', {'mess': 'err309', 'back': 1})
+            return render(request, 'error.html', {'mess': 'd_p.cab_p_id == 0', 'back': 1})
 
     if request.method == 'POST':
         with transaction.atomic():
@@ -737,7 +709,7 @@ def int_del(request, s_coup, s_port):
 def int_edit(request, s_coup, p_id):
 
     if not request.user.has_perm("core.can_cable_edit"):
-        return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 1})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
     s_p = Coupling_ports.objects.get(pk=p_id)
     if request.method == 'POST':
@@ -796,7 +768,7 @@ def int_edit(request, s_coup, p_id):
 def cab_edit(request, s_coup, p_id):
 
     if not request.user.has_perm("core.can_cable_edit"):
-        return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 1})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
     s_p = Coupling_ports.objects.get(pk=p_id)
     d_p = Coupling_ports.objects.get(pk=s_p.up_id)
@@ -863,7 +835,7 @@ def cab_edit(request, s_coup, p_id):
 def cab_del(request, s_coup, cab):
 
     if not request.user.has_perm("core.can_cable_edit"):
-        return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 1})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
     coup = Coupling.objects.get(pk=s_coup)
     del_p_list1 = Coupling_ports.objects.filter(parrent_id=coup.id, cable_num=int(cab)).order_by('fiber_num')
@@ -900,7 +872,7 @@ def cab_del(request, s_coup, cab):
 def cab_move1(request, s_coup, kvar, cab):
 
     if not request.user.has_perm("core.can_cable_edit"):
-        return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     source_coup = Coupling.objects.get(pk=s_coup)
     del_p_list1 = Coupling_ports.objects.filter(parrent_id=source_coup.id, cable_num=int(cab)).order_by('fiber_num')
@@ -930,7 +902,7 @@ def cab_move1(request, s_coup, kvar, cab):
 def cab_move2(request, s_coup, kvar, cab, d_coup):
 
     if not request.user.has_perm("core.can_cable_edit"):
-        return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 3})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 3})
 
     if s_coup == d_coup:
         return HttpResponseRedirect('../')
@@ -953,7 +925,7 @@ def cab_move2(request, s_coup, kvar, cab, d_coup):
         cab_num3 += 1
 
     if not del_ok:
-        return render(request, 'error.html', {'mess': 'err311', 'back': 3})
+        return render(request, 'error.html', {'mess': 'not del_ok', 'back': 3})
     else:
         with transaction.atomic():
             i = 0
@@ -991,7 +963,7 @@ def cab_move2(request, s_coup, kvar, cab, d_coup):
 def pw_edit(request, kvar, s_pw):
 
     if not request.user.has_perm("core.can_cable_edit"):
-        return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     pw = PW_cont.objects.get(pk=s_pw)
     if request.method == 'POST':
@@ -1015,7 +987,8 @@ def pw_edit(request, kvar, s_pw):
                 change = True
                 pw.prim = form.cleaned_data['prim']
 
-            if form.cleaned_data['coord'] != str(round(pw.coord_x))+','+str(round(pw.coord_y)):
+            #if form.cleaned_data['coord'] != str(round(pw.coord_x))+','+str(round(pw.coord_y)):
+            if form.cleaned_data['coord'] != f"{round(pw.coord_x)},{round(pw.coord_y)}":
                 change = True
                 xy2 = coord_xy(form.cleaned_data['coord'].split(','))
                 pw.coord_x = xy2[0]
@@ -1027,7 +1000,7 @@ def pw_edit(request, kvar, s_pw):
                 pw.save()
                 to_his([request.user, 10, pw.id, 2, 0, 'name: '+pw.name])
 
-            return HttpResponseRedirect('/cable/kv='+str(kvar))
+            return HttpResponseRedirect(f"/cable/kv={kvar}")
 
     else:
         form = add_PW_Form(initial={'name': pw.name,
@@ -1035,7 +1008,7 @@ def pw_edit(request, kvar, s_pw):
                                     'object_owner': pw.object_owner,
                                     #'object_owner_list': pw.object_owner,
                                     'rasp': pw.rasp, 'prim': pw.prim,
-                                    'coord': str(round(pw.coord_x))+','+str(round(pw.coord_y))
+                                    'coord': f"{round(pw.coord_x)},{round(pw.coord_y)}"
                                     })
 
     return render(request, 'cable_new.html', {'kvar': kvar,
@@ -1050,7 +1023,7 @@ def pw_edit(request, kvar, s_pw):
 def pw_del(request, kvar, s_pw):
 
     if not request.user.has_perm("core.can_cable_edit"):
-        return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     pw = PW_cont.objects.get(pk=s_pw)
     del_ok = False if Coupling.objects.filter(parrent=pw.id, parr_type=2).count() != 0 else True
@@ -1060,7 +1033,7 @@ def pw_del(request, kvar, s_pw):
         to_his([request.user, 10, pw.id, 13, 0, 'name: '+pw.name])
         pw.delete()
 
-        return HttpResponseRedirect('/cable/kv='+str(kvar))
+        return HttpResponseRedirect(f"/cable/kv={kvar}")
 
     return render(request, 'cable_del.html', {'pw': pw, 'del_ok': del_ok})
 
@@ -1071,7 +1044,7 @@ def pw_del(request, kvar, s_pw):
 def coup_edit(request, s_coup):
 
     if not request.user.has_perm("core.can_cable_edit"):
-        return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 1})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
     move_pos = False
     coup = Coupling.objects.get(pk=s_coup)
@@ -1104,13 +1077,15 @@ def coup_edit(request, s_coup):
 
             #xy1 = [int(round(coup.coord_x)), int(round(coup.coord_y))]
             #if form.cleaned_data['coord'] != str(xy1[0])+','+str(xy1[1]):
-            if form.cleaned_data['coord'] != str(round(coup.coord_x))+','+str(round(coup.coord_y)):
+            #if form.cleaned_data['coord'] != str(round(coup.coord_x))+','+str(round(coup.coord_y)):
+            if form.cleaned_data['coord'] != f"{round(coup.coord_x)},{round(coup.coord_y)}":
                 change = True
                 xy1 = coord_xy([coup.coord_x, coup.coord_y])
                 xy2 = coord_xy(form.cleaned_data['coord'].split(','))
                 #xy2 = [int(round(float(c_xy[0]))), int(round(float(c_xy[1])))]
                 #move_pos = [xy1, xy2]
-                move_pos = [str(xy1[0])+','+str(xy1[1]), str(xy2[0])+','+str(xy2[1])]
+                #move_pos = [str(xy1[0])+','+str(xy1[1]), str(xy2[0])+','+str(xy2[1])]
+                move_pos = [f"{xy1[0]},{xy1[1]}", f"{xy2[0]},{xy2[1]}"]
                 coup.coord_x = xy2[0]
                 coup.coord_y = xy2[1]
                 try:
@@ -1139,7 +1114,7 @@ def coup_edit(request, s_coup):
                                       'date_ent': coup.date_ent,
                                       'rasp': coup.rasp,
                                       'prim': coup.prim,
-                                      'coord': str(round(coup.coord_x))+','+str(round(coup.coord_y))
+                                      'coord': f"{round(coup.coord_x)},{round(coup.coord_y)}"
                                       })
 
     return render(request, 'cable_new.html', {'coup': coup, 'form_c': form})
@@ -1151,12 +1126,12 @@ def coup_edit(request, s_coup):
 def coup_del(request, s_coup):
 
     if not request.user.has_perm("core.can_cable_edit"):
-        return render(request, 'denied.html', {'mess': 'недостаточно прав', 'back': 1})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
     coup = Coupling.objects.get(pk=s_coup)
     del_ok1 = False if Coupling_ports.objects.filter(parrent_id=coup.id).count() != 0 else True
-    ## сделать - удалять муфты без УД ###################################################
-    del_ok2 = False if coup.parr_type == 0 else True ####################################
+    ## TODO - удалять муфты без УД
+    del_ok2 = False if coup.parr_type == 0 else True
 
     if request.method == 'POST' and del_ok1 and del_ok2:
         to_his([request.user, 8, coup.id, 13, 0, 'name: '+coup.name])
@@ -1175,9 +1150,7 @@ def coup_del(request, s_coup):
 
 def coord_xy(coord_t):
     try:
-        #c_x = float(coord_t[0])
         c_x = int(round(float(coord_t[0])))
-        #c_y = float(coord_t[1])
         c_y = int(round(float(coord_t[1])))
     except:
         c_x = 30

@@ -33,7 +33,13 @@ def ext_cr1(request, bu_id, lo_id, cr_id, s_port_id):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     agr = Locker.objects.filter(agr=True).order_by('co')
+    lo = Locker.objects.filter(agr=False, status__in=(0, 1)).order_by('co')
     s_p_id = Cross_ports.objects.get(pk=s_port_id)
+    s_p_title = (s_p_id.parrent.parrent.parrent.name,
+                 s_p_id.parrent.parrent.parrent.house_num,
+                 s_p_id.parrent.parrent.name,
+                 s_p_id.parrent.name,
+                 s_p_id.num)
     if request.method == 'POST':
         form = find_Form_bu(request.POST)
         if form.is_valid():
@@ -41,10 +47,11 @@ def ext_cr1(request, bu_id, lo_id, cr_id, s_port_id):
             #street_name = Street.objects.get(pk=street_id).name
             h_num = form.cleaned_data['house_num']
             bu = Building.objects.filter(parrent_id=street_id).order_by('house_num')
-            context = {'s_p_id': s_p_id,
+            context = {#'s_p_id': s_p_id,
                        'str_list': bu,
                        'str_id': street_id,
                        'f_edit': True,
+                       's_p_title': s_p_title
                        }
             if (bu.count()) == 0:
                 return HttpResponseRedirect('../ext_cr1')
@@ -53,15 +60,17 @@ def ext_cr1(request, bu_id, lo_id, cr_id, s_port_id):
                 if (bu2.count()) != 1:
                     return render(request, 'ext_cr1.html', context)
                 build = bu2.values('id')[0]['id']
-                return HttpResponseRedirect('../ext_cr2='+str(build))
+                return HttpResponseRedirect(f"../ext_cr2={build}")
 
             return render(request, 'ext_cr1.html', context)
     else:
         form = find_Form_bu(initial={'street': 0})
 
-    return render(request, 'ext_cr1.html', {'s_p_id': s_p_id,
+    return render(request, 'ext_cr1.html', {#'s_p_id': s_p_id,
                                             'form': form,
                                             'agr': agr,
+                                            'lo': lo,
+                                            's_p_title': s_p_title
                                             })
 
 
@@ -72,46 +81,53 @@ def ext_cr2(request, bu_id, lo_id, cr_id, s_port_id, d_bu_id):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     lo_list = Locker.objects.filter(parrent_id=d_bu_id).order_by('-agr', 'id').values()
-    if lo_list.count() == 0:
+    if not lo_list.exists():
         return HttpResponseRedirect('../ext_cr1/')  #УД нет
     bu2 = Building.objects.get(pk=d_bu_id)
-    s_p_id = Cross_ports.objects.get(pk=s_port_id)
     #lo = []
     cr_val = False                                  #по-умолчанию кросса нет
     for lo_ob in lo_list:
-        cr = Cross.objects.filter(parrent_id=lo_ob['id']).order_by('id').values()
-        if (cr.count()) != 0:
+        cr = Cross.objects.filter(parrent_id=lo_ob['id']).order_by('name').values()
+        if cr.exists():
             cr_val = True
         for cr_ob in cr:
-            cr_ob_p = Cross_ports.objects.filter(parrent_id=cr_ob['id']).order_by('num')
+            cr_ob_p = Cross_ports.objects.filter(parrent_id=cr_ob['id'])#.order_by('num')
             cr_p_h = []                         #кол-во портов по ширине
+
+            v_row = cr_ob['v_col']
+            v_col = cr_ob['v_row']
             if cr_ob['v_forw_l_r']:
-                v_row = cr_ob['v_row']
-                v_col = cr_ob['v_col']
-            else:
-                v_row = cr_ob['v_col']
-                v_col = cr_ob['v_row']
-            row = 0
+                v_row, v_col = v_col, v_row
+            # if cr_ob['v_forw_l_r']:
+            #     v_row = cr_ob['v_row']
+            #     v_col = cr_ob['v_col']
+            # else:
+            #     v_row = cr_ob['v_col']
+            #     v_col = cr_ob['v_row']
             p_count = 0
-            while row < v_row:
-                row += 1
+            #row = 0
+            #while row < v_row:
+            #    row += 1
+            for _ in range(v_row):
                 cr_p_v = []                     #кол-во портов по высоте
-                col = 0
-                while col < v_col:
-                    col += 1
+                #col = 0
+                #while col < v_col:
+                #    col += 1
+                for _ in range(v_col):
                     p_count += 1
                     curr_p = cr_ob_p.get(num=p_count)
-                    cr_p_v.append([curr_p.id,                           #0
+                    cr_p_v.append((curr_p.id,                           #0
                                    curr_p.num,                          #1
                                    curr_p.up_status,                    #2
                                    curr_p.p_valid,                      #3
-                                   curr_p.prim,                         #4
-                                   conf.COLOR_CROSS[curr_p.up_status],  #5
-                                   ])
+                                   curr_p.prim                          #4
+                                   #conf.COLOR_CROSS[curr_p.up_status],  #5  ######
+                                   ))
                 cr_p_h.append(cr_p_v)
                 
             if not cr_ob['v_forw_l_r']:
-                cr_p_h = cr_tr_matrix(v_col, v_row, cr_p_h)
+                #cr_p_h = cr_tr_matrix(v_col, v_row, cr_p_h)
+                cr_p_h = zip(*cr_p_h)
             #cr_ob['parrent'] = lo_ob.name
             cr_ob['cr_p'] = cr_p_h
         
@@ -120,26 +136,34 @@ def ext_cr2(request, bu_id, lo_id, cr_id, s_port_id, d_bu_id):
     if not cr_val:
         return HttpResponseRedirect('../ext_cr1/')
 
-    return render(request, 'ext_cr2.html', {'s_p_id': s_p_id,
+    s_p_id = Cross_ports.objects.get(pk=s_port_id)
+    s_p_title = (s_p_id.parrent.parrent.parrent.name,
+                 s_p_id.parrent.parrent.parrent.house_num,
+                 s_p_id.parrent.parrent.name,
+                 s_p_id.parrent.name,
+                 s_p_id.num)
+
+    return render(request, 'ext_cr2.html', {#'s_p_id': s_p_id,
                                             'bu2': bu2,
                                             'lo': lo_list,
+                                            's_p_title': s_p_title
                                             })
 
 
-def cr_tr_matrix(v_col, v_row, cr_p_h):
-
-    cr_p_h2 = []
-    row = 0
-    while row < v_col:
-        row += 1
-        cr_p_v2 = []
-        col = 0
-        while col < v_row:
-            col += 1
-            cr_p_v2.append(cr_p_h[col-1][row-1])
-        cr_p_h2.append(cr_p_v2)
-
-    return cr_p_h2
+# def cr_tr_matrix(v_col, v_row, cr_p_h):
+#
+#     cr_p_h2 = []
+#     row = 0
+#     while row < v_col:
+#         row += 1
+#         cr_p_v2 = []
+#         col = 0
+#         while col < v_row:
+#             col += 1
+#             cr_p_v2.append(cr_p_h[col-1][row-1])
+#         cr_p_h2.append(cr_p_v2)
+#
+#     return cr_p_h2
 
 
 @login_required(login_url='/core/login/')
@@ -159,9 +183,9 @@ def ext_ok(request, bu_id, lo_id, cr_id, s_port_id, d_bu_id, d_port_id):
             sel_status = form.cleaned_data['status']
             with transaction.atomic():
                 if s_p_id.up_status != 0:
-                    return HttpResponseRedirect('../')  #('err131')
+                    return render(request, 'error.html', {'mess': 's_p_id.up_status != 0', 'back': 3})
                 if d_p_id.up_status != 0:
-                    return HttpResponseRedirect('../')  #('err132')
+                    return render(request, 'error.html', {'mess': 'd_p_id.up_status != 0', 'back': 3})
                 s_p_id.up_cross_id = d_port_id
                 s_p_id.up_status = sel_status
                 d_p_id.up_cross_id = s_port_id
@@ -175,7 +199,7 @@ def ext_ok(request, bu_id, lo_id, cr_id, s_port_id, d_bu_id, d_port_id):
                 to_his([request.user, 5, s_p_id.id, 3, 0, h_text])
                 to_his([request.user, 5, d_p_id.id, 3, 0, h_text])
 
-            return HttpResponseRedirect('../../../')
+            return HttpResponseRedirect(f"../../../?sel={s_port_id}")
     else:
         form = sel_up_status_Form(initial={'status': 1})
 
@@ -217,7 +241,7 @@ def del_cr(request, bu_id, lo_id, cr_id, s_port_id):
             to_his([request.user, 5, s_p.id, 6, 0, h_text])
             to_his([request.user, 5, d_p.id, 6, 0, h_text])
 
-        return HttpResponseRedirect('../../')
+        return HttpResponseRedirect(f"../../?sel={s_port_id}")
     else:
         pass
     return render(request, 'del_ext.html', {'s_p': s_p,
@@ -235,70 +259,79 @@ def int_c(request, bu_id, lo_id, s_id, s_port_id, s_type):
 
     if s_type in ('1', '2'):
         cr = Cross.objects.filter(parrent_id=lo_id).order_by('name').values('id', 'name', 'v_forw_l_r', 'v_row', 'v_col')
-        if (cr.count()) != 0:
+        if cr.exists():
             for cr_ob in cr:
-                cr_ob_p = Cross_ports.objects.filter(parrent_id=cr_ob['id']).order_by('num')
+                cr_ob_p = Cross_ports.objects.filter(parrent_id=cr_ob['id'])#.order_by('num')
                 cr_p_h = []
+                v_row = cr_ob['v_col']
+                v_col = cr_ob['v_row']
                 if cr_ob['v_forw_l_r']:
-                    v_row = cr_ob['v_row']
-                    v_col = cr_ob['v_col']
-                else:
-                    v_row = cr_ob['v_col']
-                    v_col = cr_ob['v_row']
-                row = 0
+                    v_row, v_col = v_col, v_row
                 p_count = 0
-                while row < v_row:
-                    row += 1
+                for _ in range(v_row):
                     cr_p_v = []
-                    col = 0
-                    while col < v_col:
-                        col += 1
+                    for _ in range(v_col):
                         p_count += 1
                         curr_p = cr_ob_p.get(num=p_count)
-                        cr_p_v.append([curr_p.id,                               #0
+                        cr_p_v.append((curr_p.id,                               #0
                                        curr_p.num,                              #1
                                        curr_p.int_c_status,                     #2
                                        curr_p.p_valid,                          #3
-                                       conf.COLOR_CROSS[curr_p.int_c_status],   #4
-                                       curr_p.prim                              #5
-                                       ])
+                                       curr_p.prim                              #4
+                                       #conf.COLOR_CROSS[curr_p.int_c_status],   #5 ######
+                                       ))
                     cr_p_h.append(cr_p_v)
 
                 if not cr_ob['v_forw_l_r']:
-                    cr_p_h = cr_tr_matrix(v_col, v_row, cr_p_h)
+                    cr_p_h = zip(*cr_p_h)
                 cr_ob['cr_p'] = cr_p_h
 
     if s_type in ('1', '2', '3'):
         dev = Device.objects.filter(parrent_id=lo_id).order_by('obj_type__parrent_id', 'name')\
-            .values('id', 'name', 'ip_addr', 'obj_type__parrent_id')
+                            .values('id', 'name', 'ip_addr', 'obj_type__parrent_id')
         for dev_ob in dev:
-            dev_ob_p = Device_ports.objects.filter(parrent_id=dev_ob['id']).order_by('num')\
-                .values('id', 'num', 'int_c_status', 'p_valid', 'p_alias', 'prim')
-            for ob in dev_ob_p:
-                ob['color'] = conf.COLOR_CROSS[ob['int_c_status']]
-            dev_ob['dev_p'] = dev_ob_p
-            dev_ob['pic'] = f"/static/images/dev_{str(dev_ob['obj_type__parrent_id'])}.png"
+            dev_ob['dev_p'] = Device_ports.objects.filter(parrent_id=dev_ob['id']).order_by('num')\
+                                          .values('id', 'num', 'int_c_status', 'p_valid', 'p_alias', 'prim')
+            #for ob in dev_ob_p:
+            #    ob['color'] = conf.COLOR_CROSS[ob['int_c_status']]  ######
+            #dev_ob['dev_p'] = dev_ob_p
+            #dev_ob['pic'] = f"/static/images/obj_dev/dev_{dev_ob['obj_type__parrent_id']}.png"  ######
 
     if s_type == '2':
         box = Box.objects.filter(parrent_id=lo_id).order_by('name', 'num').values('id', 'name', 'num', 'name_type')
         for box_ob in box:
             box_ob_p = Box_ports.objects.filter(parrent_id=box_ob['id']).order_by('num')\
-                .values('id', 'up_status', 'p_valid', 'p_alias')
+                                        .values('id', 'up_status', 'p_valid', 'p_alias')
             for ob in box_ob_p:
-                ob['COLOR_CROSS'] = conf.COLOR_CROSS[ob['up_status']]
-                plint = ob['p_alias'][:1] if (ob['p_alias'][:1].isdigit()) else '0'
-                ob['COLOR_PLINT'] = conf.COLOR_PLINT[int(plint)]
+                #ob['COLOR_CROSS'] = conf.COLOR_CROSS[ob['up_status']]   ######
+                #plint = ob['p_alias'][:1] if (ob['p_alias'][:1].isdigit()) else '0'
+                #ob['COLOR_PLINT'] = conf.COLOR_PLINT[int(plint)]        ######
                 ob['pair'] = ob['p_alias'][3:-1]
+                ob['plint'] = int(ob['p_alias'][:1] if (ob['p_alias'][:1].isdigit()) else '0')
             box_ob['box_p'] = box_ob_p
 
     int_type_list = conf.MODELS_LIST[1:5]
-    s_p_id = eval(int_type_list[int(s_type)] + '_ports').objects.get(pk=s_port_id)
+    s_p_id = eval(f"{int_type_list[int(s_type)]}_ports").objects.get(pk=s_port_id)
+    if s_type != '3':
+        s_p_title = (s_p_id.parrent.parrent.parrent.name,
+                     s_p_id.parrent.parrent.parrent.house_num,
+                     s_p_id.parrent.parrent.name,
+                     s_p_id.parrent.name,
+                     s_p_id.num)
+    else:
+        s_p_title = (s_p_id.parrent.parrent.parrent.name,
+                     s_p_id.parrent.parrent.parrent.house_num,
+                     s_p_id.parrent.parrent.name,
+                     s_p_id.parrent.name,
+                     s_p_id.parrent.num,
+                     s_p_id.p_alias)
 
-    return render(request, 'int_c.html', {'s_p_id': s_p_id,
+    return render(request, 'int_cr.html', {#'s_p_id': s_p_id,
                                           's_type': s_type,
                                           'cr': cr,
                                           'dev': dev,
                                           'box': box,
+                                          's_p_title': s_p_title
                                           })
 
 
@@ -306,7 +339,7 @@ def int_c(request, bu_id, lo_id, s_id, s_port_id, s_type):
 def int_ok(request, bu_id, lo_id, s_id, s_port_id, s_type, d_port_id, d_type):
 
     if not request.user.has_perm("core.can_int"):
-        return render(request, 'denied.html', {'mess': 'нет прав для создания кроссировки', 'back': 2})
+        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     int_type_list = conf.MODELS_LIST[1:5]
 
@@ -366,7 +399,7 @@ def int_ok(request, bu_id, lo_id, s_id, s_port_id, s_type, d_port_id, d_type):
                 s_p.save()
                 d_p.save()
 
-            return HttpResponseRedirect('../../../../')
+            return HttpResponseRedirect(f"../../../../?sel={s_port_id}")
     else:
         form = sel_up_status_Form(initial={'status': 1})
 
@@ -447,7 +480,7 @@ def del_int_c(request, bu_id, lo_id, s_id, s_port_id, s_type):
             s_p.save()
             d_p.save()
 
-        return HttpResponseRedirect('../../')
+        return HttpResponseRedirect(f"../../?sel={s_port_id}")
 
     lo = Locker.objects.get(pk=lo_id)
 
@@ -496,10 +529,12 @@ def cr_ab(request, bu_id, lo_id, box_id, port_id):
                     b_p = Box_ports.objects.get(pk=ob.int_c_id)
                     if b_p.int_c_status == 0:
                         dis = False
-                        cr_text += str(b_p.parrent.name)+'-'+str(b_p.parrent.num)+'-'+str(b_p.p_alias)
+                        #cr_text += str(b_p.parrent.name)+'-'+str(b_p.parrent.num)+'-'+str(b_p.p_alias)
+                        cr_text += f"{b_p.parrent.name}-{b_p.parrent.num}-{b_p.p_alias}"
                         #if len(b_p.his_dogovor) == 6 or len(b_p.his_dogovor) == 7:
                         if len(b_p.his_dogovor) > 4:
-                            cr_text += ' была:'+b_p.his_ab_kv+'кв'+b_p.his_dogovor
+                            #cr_text += ' была:'+b_p.his_ab_kv+'кв'+b_p.his_dogovor
+                            cr_text += f" была:{b_p.his_ab_kv}кв{b_p.his_dogovor}"
                             #txt_p = 'п:'+b_p.his_ab_kv+'кв'+b_p.his_dogovor
                         else:
                             #txt_p = ' п: скроссировано '
@@ -507,11 +542,13 @@ def cr_ab(request, bu_id, lo_id, box_id, port_id):
                         ind_col = 0
                     if b_p.int_c_status == 1 or b_p.int_c_status == 3:
                         dis = True
-                        cr_text += str(b_p.parrent.name)+'-'+str(b_p.parrent.num)+'-'+str(b_p.p_alias)+' занят:'+b_p.ab_kv+'кв'+b_p.dogovor
+                        #cr_text += str(b_p.parrent.name)+'-'+str(b_p.parrent.num)+'-'+str(b_p.p_alias)+' занят:'+b_p.ab_kv+'кв'+b_p.dogovor
+                        cr_text += f"{b_p.parrent.name}-{b_p.parrent.num}-{b_p.p_alias} занят:{b_p.ab_kv}кв{b_p.dogovor}"
                         ind_col = 1
                     if b_p.int_c_status == 2:
                         dis = True
-                        cr_text += str(b_p.parrent.name)+'-'+str(b_p.parrent.num)+'-'+str(b_p.p_alias)+' бронь:'+b_p.ab_kv+'кв'+b_p.dogovor
+                        #cr_text += str(b_p.parrent.name)+'-'+str(b_p.parrent.num)+'-'+str(b_p.p_alias)+' бронь:'+b_p.ab_kv+'кв'+b_p.dogovor
+                        cr_text += f"{b_p.parrent.name}-{b_p.parrent.num}-{b_p.p_alias} бронь:{b_p.ab_kv}кв{b_p.dogovor}"
                         ind_col = 2
                 else:
                     cr_text += ' занят '
@@ -719,7 +756,7 @@ def del_ab(request, bu_id, lo_id, box_id, port_id, pri):
             sel_pri = form.data['pri']
             with transaction.atomic():
                 if s_p.int_c_status == 0:
-                    return render(request, 'error.html', {'mess': 'error_041', 'back': 2})
+                    return render(request, 'error.html', {'mess': 'error: s_p.int_c_status == 0', 'back': 2})
                 if s_p.int_c_status != 2:
                     s_p.his_dogovor = s_p.dogovor
                     s_p.his_ab_kv = s_p.ab_kv
@@ -738,7 +775,7 @@ def del_ab(request, bu_id, lo_id, box_id, port_id, pri):
                 if s_p.up_status == 2:
                     d_p = Device_ports.objects.get(pk=s_p.up_device_id)
                     if d_p.int_c_status != 2:
-                        return render(request, 'error.html', {'mess': 'error_042', 'back': 2})
+                        return render(request, 'error.html', {'mess': 'error: d_p.int_c_status != 2', 'back': 2})
                     d_p.int_c_dest = 0
                     d_p.int_c_id = 0
                     d_p.int_c_status = 0
@@ -800,12 +837,12 @@ def cr_su(request, bu_id, lo_id, box_id, port_id, su_id):
     if su_id != '0':
         su = Subunit.objects.get(pk=int(su_id))
         if su.parrent_id != lo.id:
-            return render(request, 'error.html', {'mess': 'error_043', 'back': 2})
+            return render(request, 'error.html', {'mess': 'error: su.parrent_id != lo.id', 'back': 2})
         #if box_p.int_c_status != 0:
         #    return render(request, 'error.html', {'mess': 'error_044', 'back': 2})
         with transaction.atomic():
             if box_p.int_c_status != 0:
-                return render(request, 'error.html', {'mess': 'box_p.int_c_status != 0', 'back': 2})
+                return render(request, 'error.html', {'mess': 'error: box_p.int_c_status != 0', 'back': 2})
             su.box_p_id = port_id
             box_p.int_c_status = 3
             box_p.dogovor = '_su_' + str(su.id)

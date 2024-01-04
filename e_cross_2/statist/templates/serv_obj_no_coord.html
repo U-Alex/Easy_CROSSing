@@ -2,15 +2,15 @@
 
 {% block statist %}
 
-    <table class="t_header1">
+    <table class="c_base_w t_header1">
         <tr>
-            <td width="1000px" align="left"><h3>&nbsp&nbspCтатистика по объектам</h3></td>
-            <td width="280px" align="right">&nbsp</td>
+            <td width="1000px" align="left"><h3>&nbsp;&nbsp;Cтатистика по объектам</h3></td>
+            <td width="280px" align="right">&nbsp;</td>
         </tr>
     </table>
 
     <br>
-    <div align="center">
+    <div class="c_base_w" align="center">
         <table>
         <caption>объекты без координат</caption>
             <tr class="t_header2" align="center">
@@ -23,21 +23,21 @@
             <tr align="center" valign="top">
                 <td>
                 {% for ob in lo_list %}
-                    <a style="color:black" href="/cross/build={{ ob.parrent.id }}/locker={{ ob.id }}/" target="_blank"><strong>{{ ob.name }}</strong></a>
+                    <a style="color:black" href="/cross/build={{ ob.parrent.id }}/locker={{ ob.id }}/" target="_blank"><b>{{ ob.name }}</b></a>
                     <br>
                 {% endfor %}
                 </td>
                 <td class="tone1">&nbsp</td>
                 <td>
                 {% for ob in coup_list %}
-                    <a style="color:black" href="/cable/coup={{ ob.id }}/" target="_blank"><strong>{{ ob.name }}</strong></a>
+                    <a style="color:black" href="/cable/coup={{ ob.id }}/" target="_blank"><b>{{ ob.name }}</b></a>
                     <br>
                 {% endfor %}
                 </td>
                 <td class="tone1">&nbsp</td>
                 <td>
                 {% for ob in obj_list %}
-                    <a style="color:black" href="/cable/kv={{ ob.parrent.id }}/pw_edit={{ ob.id }}/" target="_blank"><strong>{{ ob.name }}</strong></a>
+                    <a style="color:black" href="/cable/kv={{ ob.parrent.id }}/pw_edit={{ ob.id }}/" target="_blank"><b>{{ ob.name }}</b></a>
                     <br>
                 {% endfor %}
                 </td>
@@ -46,10 +46,10 @@
     </div>
     
     <br>
-    <table class="t_footer">
+    <table class="c_base_w t_footer">
         <tr>
-            <td width="1000px">&nbsp</td>
-            <td width="280px" align="right"><input type="button" value="назад" onClick='location.href="/core/service"'>&nbsp</td>
+            <td width="1000px">&nbsp;</td>
+            <td width="280px" align="right"><input type="button" value="назад" onClick='location.href="/core/service"'>&nbsp;</td>
         </tr>
     </table>
 

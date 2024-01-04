@@ -4,13 +4,12 @@
 
 <div class="c_base_w tone1" align="center">
     <br>
-    <h3 style="color:red">{{ mess }}</h3>
-    
+    <h3 class="color_warn1">{{ mess }}</h3>
+    <br>
     <form action="/core/login/" method="post">
     {% csrf_token %}
     
-        <p>зайти другим пользователем</p>
-        <table>
+        <table class="t_header1">
             <tr>
                 <td align="center">login</td>
                 <td align="center">password</td>

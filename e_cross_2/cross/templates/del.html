@@ -14,17 +14,17 @@
     </div>
 </div>
 <br>
-<div class="c_base_w">
+<div class="c_base_w" align="center">
     {% if del_ok %}
     <form method="post">
         {% csrf_token %}
 
         <br>
-        <h3 align="center" style="color:red">удалить объект?</h3>
+        <h3 class="color_warn1">удалить объект?</h3>
         <br>
 
         <div class="c_base_w t_footer3">
-            <div align="center">
+            <div>
                 <input type="submit" value="     OK     ">
                 <input type="button" value="отмена" onClick='location.href="../"'>
             </div>
@@ -32,12 +32,12 @@
     </form>
 
     {% else %}
-        <h3 align="center" style="color:red">удаление невозможно</h3>
-        <h3 align="center">есть кроссировки или оборудование</h3>
+        <h3 class="color_warn1">удаление невозможно</h3>
+        <h3>есть кроссировки или оборудование</h3>
     <br>
 
     <div class="c_base_w t_footer3">
-        <div align="center">
+        <div>
             <input type="button" value="назад" onClick='location.href="../"'>
         </div>
     </div>

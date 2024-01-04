@@ -2,18 +2,18 @@
 
 {% block service %}
 
-    <table class="t_header1">
+    <table class="c_base_w t_header1">
         <tr>
-            <td width="1000px" align="left"><h3>&nbsp&nbsp{{ bu.name }} {{ bu.house_num }}</h3></td>
-            <td width="280px" align="right">&nbsp</td>
+            <td width="1000px" align="left"><h3>&nbsp;&nbsp;{{ bu.name }} {{ bu.house_num }}</h3></td>
+            <td width="280px" align="right">&nbsp;</td>
         </tr>
     </table>
     {% if f_exist %}
-        <label style="color:red;"><strong>файл с таким именем существует на сервере</strong></label>
+        <label style="color:red;"><b>файл с таким именем существует на сервере</b></label>
     {% endif %}
         <br>
         {% if f_list %}
-        <table class="tone1" width="1284px">
+        <table class="c_base_w tone1" width="1284px">
             <tr>
                 <td width="104px" align="center" valign="top">
                 {% for ob in f_list %}
@@ -48,7 +48,7 @@
         {% endif %}
 
     <br>
-    <table class="t_footer">
+    <table class="c_base_w t_footer">
         <tr>
             <td width="1000px">
                 <form enctype="multipart/form-data" method="post" action="">
@@ -64,12 +64,8 @@
     </table>
     
     
-<SCRIPT LANGUAGE="JavaScript">
-<!-- Original: Jenny Blewitt (webmaster@webdesignsdirect.com) -->
-<!-- Web Site: http://www.webdesignsdirect.com -->
-<!-- This script and many more are available free online at -->
-<!-- The JavaScript Source!! http://javascript.internet.com -->
-<!-- Begin
+<script>
+
 browserName = navigator.appName;
 browserVer = parseInt(navigator.appVersion);
 ns3up = (browserName == "Netscape" && browserVer >= 3);
@@ -80,8 +76,7 @@ function doPic(imgName) {
         document.mainpic.src = imgOn;
     }
 }
-// End -->
+
 </script>
-    
     
 {% endblock %}

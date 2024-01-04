@@ -83,7 +83,7 @@
             </table>
         </td>
         <td align="center">
-            <table width="180px" border="1">
+            <table width="300px" border="1">
                 <tr align="center" class="t_header2">
                     <td>история операций</td>
                 </tr>
@@ -93,7 +93,7 @@
             {% for ob in user_list %}
                 <tr align="center">
                     <td>
-                        <a href="/core/logs/u={{ ob.0.id }}/td=1/" {% if perms.core.can_adm %}title="{{ ob.0.date_l_v|date:"d.m.Y..H:i" }}"{% endif %}>
+                        <a href="/core/logs/u={{ ob.0.id }}/td=1/" {% if perms.core.can_adm %} title="{{ ob.0.date_l_v|date:'d.m.Y..H:i' }}" {% endif %}>
                         {% if ob.1 %}<b>{% endif %}{{ ob.0.fullname }}</b></a>
                     </td>
                 </tr>
@@ -103,7 +103,7 @@
 
         {% if perms.core.can_adm %}
         <td align="center">
-            <table width="600px" border="1">
+            <table width="800px" border="1">
                 <tr align="center" class="t_header2">
                     <td>
                         last click <a href="/core/service/clean_his/">[X]</a>

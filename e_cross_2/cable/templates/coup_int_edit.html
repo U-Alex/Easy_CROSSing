@@ -2,65 +2,53 @@
 
 {% block cable %}
 
-    <table class="c_base_w t_header1">
-        <tr>
-            <td width="100%" align="left">
-                <h3>
-                    &nbspмуфта: {{ s_p.parrent.name }},
-                    &nbspкабель №: {{ s_p.cable_num }},
-                    &nbspволокно №: {{ s_p.fiber_num }}
-                </h3>
-            </td>
-            <td width="280px" align="right">&nbsp</td>
-        </tr>
-    </table>
-    <br>
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <h3>муфта: {{ s_p.parrent.name }}, кабель №: {{ s_p.cable_num }}, волокно №: {{ s_p.fiber_num }}</h3>
+    </div>
+</div>
+<br>
 
 <form method="post">
     {% csrf_token %}
     <table class="c_base_w t_header1">
         <tr>
-            <td align="right">&nbspволокно исправно:</td>
-            <td align="left">&nbsp&nbsp&nbsp{{ form.valid }}<br></td>
+            <td align="right">волокно исправно:</td>
+            <td align="left">{{ form.valid }}<br></td>
         </tr>
         <tr>
-            <td width="260px" align="right">&nbsp{{ form.int_c_status.label }}:</td>
+            <td width="260px" align="right">{{ form.int_c_status.label }}:</td>
             <td align="left">
             {% if s_p.int_c_status == 0 %}
-                &nbsp&nbsp&nbspне сварено
+                не сварено
             {% else %}
-                &nbsp&nbsp&nbsp{{ form.int_c_status.1 }}<br>
-                &nbsp&nbsp&nbsp{{ form.int_c_status.2 }}<br>
+                {{ form.int_c_status.1 }}<br>
+                {{ form.int_c_status.2 }}<br>
             {% endif %}
             </td>
         </tr>
         <tr>
-            <td align="right">&nbsp{{ form.changed.label }}:</td>
-            <td align="left">&nbsp&nbsp&nbsp{{ form.changed }}<br></td>
+            <td align="right">{{ form.changed.label }}:</td>
+            <td align="left">{{ form.changed }}<br></td>
         </tr>
         <tr>
-            <td align="right">&nbsp{{ form.prim.label }}:</td>
-            <td align="left">&nbsp&nbsp&nbsp{{ form.prim }}<br></td>
+            <td align="right">{{ form.prim.label }}:</td>
+            <td align="left">{{ form.prim }}<br></td>
         </tr>
         <tr>
-            <td align="right">&nbsp{{ form.owner.label }}:</td>
-            <td align="left">&nbsp&nbsp&nbsp{{ form.owner }}<br></td>
+            <td align="right">{{ form.owner.label }}:</td>
+            <td align="left">{{ form.owner }}<br></td>
         </tr>
     </table>
     <br>
     
-    <table class="c_base_w t_footer">
-        <tr>
-            <td width="640px" align="right">
-                <input type="submit" value="     OK     ">&nbsp
-            </td>
-            <td width="640px" align="left">
-                <input type="button" value="отмена" onClick='location.href="../"'>
-            </td>
-        </tr>
-    </table>
+    <div class="c_base_w t_footer3">
+        <div class="_flex_c">
+            <input type="submit" value="     OK     ">
+            <input type="button" value="отмена" onClick='location.href="../"'>
+        </div>
+    </div>
     
 </form>
-
 
 {% endblock %}

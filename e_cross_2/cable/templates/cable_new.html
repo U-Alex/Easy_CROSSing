@@ -2,21 +2,17 @@
 
 {% block cable %}
 
-    <table class="c_base_w t_header1">
-        <tr>
-            <td width="1000px" align="left">
-            {% if coup %}
-                <h3>&nbsp&nbspредактирование муфты: <strong>{{ coup.name }}</strong>&nbsp({{ coup.name_type }}),&nbsp</h3>
-            {% elif pw %}
-                <h3>&nbsp&nbspредактирование объекта: <strong>{{ pw.name }}</strong>&nbsp</h3>
-            {% else %}
-                <h3>&nbsp&nbspДобавление объекта</h3>
-            {% endif %}
-            </td>
-            <td width="280px" align="right">&nbsp</td>
-        </tr>
-    </table>
-    <br>
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav">
+        <h3>
+        {% if coup %} редактирование муфты: <b>{{ coup.name }}</b> ({{ coup.name_type }})
+        {% elif pw %} редактирование объекта: <b>{{ pw.name }}</b>
+        {% else %}    Добавление объекта
+        {% endif %}
+        </h3>
+    </div>
+</div>
+<br>
 
 <form method="post">
     {% csrf_token %}
@@ -24,126 +20,115 @@
     <table class="c_base_w t_header1">
     {% if form_pw %}
         <tr>
-            <td width="160px" align="right"><b>&nbsp{{ form_pw.obj_type.label }}&nbsp</b></td>
-            <td align="center">--></td>
-            <td align="left">&nbsp{{ form_pw.obj_type }}&nbsp</td>
+            <td width="160px" align="right"><b>{{ form_pw.obj_type.label }}</b></td>
+            <td align="center">&#9658;</td>
+            <td align="left">{{ form_pw.obj_type }}</td>
         </tr>
         <tr>
-            <td width="160px" align="right"><b>&nbsp{{ form_pw.name.label }}&nbsp</b></td>
-            <td align="center">--></td>
-            <td align="left">&nbsp{{ form_pw.name }}&nbsp</td>
+            <td width="160px" align="right"><b>{{ form_pw.name.label }}</b></td>
+            <td align="center">&#9658;</td>
+            <td align="left">{{ form_pw.name }}</td>
         </tr>
         <tr>
-            <td align="right">&nbsp{{ form_pw.object_owner.label }}&nbsp</td>
-            <td align="center">--></td>
-            <td align="left">&nbsp{{ form_pw.object_owner }}&nbsp
+            <td align="right">{{ form_pw.object_owner.label }}</td>
+            <td align="center">&#9658;</td>
+            <td align="left">{{ form_pw.object_owner }}
                 <!--<input type="checkbox" id="own">&nbsp->&nbsp-->
                 <img src="/static/images/go-back.png" alt="" title="" width="16" height="10">
-                {{ form_pw.object_owner_list }}&nbsp
+                {{ form_pw.object_owner_list }}
             </td>
         </tr>
         <tr>
-            <td align="right">&nbsp{{ form_pw.rasp.label }}&nbsp</td>
-            <td align="center">--></td>
-            <td align="left">&nbsp{{ form_pw.rasp }}&nbsp</td>
+            <td align="right">{{ form_pw.rasp.label }}</td>
+            <td align="center">&#9658;</td>
+            <td align="left">{{ form_pw.rasp }}</td>
         </tr>
         <tr>
-            <td align="right">&nbsp{{ form_pw.prim.label }}&nbsp</td>
-            <td align="center">--></td>
-            <td align="left">&nbsp{{ form_pw.prim }}&nbsp</td>
+            <td align="right">{{ form_pw.prim.label }}</td>
+            <td align="center">&#9658;</td>
+            <td align="left">{{ form_pw.prim }}</td>
         </tr>
         <tr>
-            <td width="160px" align="right">&nbsp{{ form_pw.coord.label }}&nbsp</td>
-            <td align="center">--></td>
-            <td align="left">&nbsp{{ form_pw.coord }}&nbsp</td>
+            <td width="160px" align="right">{{ form_pw.coord.label }}</td>
+            <td align="center">&#9658;</td>
+            <td align="left">{{ form_pw.coord }}</td>
         </tr>
     </table>
     <br>
-    <table class="c_base_w t_footer">
-        <tr>
-            <td width="640px" align="right">
-                <input type="submit" value="     OK     ">&nbsp
-            </td>
-            <td width="640px" align="left">
-                <input type="button" value="отмена" onClick='location.href="/cable/?kv={{ kvar }}"'>
-            </td>
-        </tr>
-    </table>
+
+    <div class="c_base_w t_footer3">
+        <div class="_flex_c">
+            <input type="submit" value="     OK     ">
+            <input type="button" value="отмена" onClick='location.href="/cable/kv={{ kvar }}"'>
+        </div>
+    </div>
 
     {% elif form_c %}
         <tr>
-            <td width="160px" align="right"><b>&nbsp{{ form_c.name_type.label }}&nbsp</b></td>
-            <td align="center">--></td>
-            <td align="left">&nbsp{{ form_c.name_type }}&nbsp</td>
+            <td width="160px" align="right"><b>{{ form_c.name_type.label }}</b></td>
+            <td align="center">&#9658;</td>
+            <td align="left">{{ form_c.name_type }}</td>
         </tr>
         <tr>
-            <td width="160px" align="right"><b>&nbsp{{ form_c.name.label }}&nbsp</b></td>
-            <td align="center">--></td>
-            <td align="left">&nbsp{{ form_c.name }}&nbsp</td>
+            <td width="160px" align="right"><b>&nbsp{{ form_c.name.label }}</b></td>
+            <td align="center">&#9658;</td>
+            <td align="left">{{ form_c.name }}</td>
         </tr>
         <tr>
-            <td align="right">&nbsp{{ form_c.object_owner.label }}&nbsp</td>
-            <td align="center">--></td>
-            <td align="left">&nbsp{{ form_c.object_owner }}&nbsp
+            <td align="right">{{ form_c.object_owner.label }}</td>
+            <td align="center">&#9658;</td>
+            <td align="left">{{ form_c.object_owner }}
                 <!--<input type="checkbox" id="own">&nbsp->&nbsp-->
                 <img src="/static/images/go-back.png" alt="" title="" width="16" height="10">
-                {{ form_c.object_owner_list }}&nbsp
+                {{ form_c.object_owner_list }}
             </td>
         </tr>
         <tr>
-            <td width="160px" align="right">&nbsp{{ form_c.installed.label }}&nbsp</td>
-            <td align="center">--></td>
-            <td align="left">&nbsp{{ form_c.installed }}&nbsp</td>
+            <td width="160px" align="right">{{ form_c.installed.label }}</td>
+            <td align="center">&#9658;</td>
+            <td align="left">{{ form_c.installed }}</td>
         </tr>
         <tr>
-            <td width="160px" align="right">&nbsp{{ form_c.date_ent.label }}&nbsp</td>
-            <td align="center">--></td>
-            <td align="left">&nbsp{{ form_c.date_ent }}&nbsp</td>
+            <td width="160px" align="right">{{ form_c.date_ent.label }}</td>
+            <td align="center">&#9658;</td>
+            <td align="left">{{ form_c.date_ent }}</td>
         </tr>
         <tr>
-            <td width="160px" align="right">&nbsp{{ form_c.rasp.label }}&nbsp</td>
-            <td align="center">--></td>
-            <td align="left">&nbsp{{ form_c.rasp }}&nbsp</td>
+            <td width="160px" align="right">{{ form_c.rasp.label }}</td>
+            <td align="center">&#9658;</td>
+            <td align="left">{{ form_c.rasp }}</td>
         </tr>
         <tr>
-            <td width="160px" align="right">&nbsp{{ form_c.prim.label }}&nbsp</td>
-            <td align="center">--></td>
-            <td align="left">&nbsp{{ form_c.prim }}&nbsp</td>
+            <td width="160px" align="right">{{ form_c.prim.label }}</td>
+            <td align="center">&#9658;</td>
+            <td align="left">{{ form_c.prim }}</td>
         </tr>
         <tr>
-            <td width="160px" align="right">&nbsp{{ form_c.coord.label }}&nbsp</td>
-            <td align="center">--></td>
-            <td align="left">&nbsp{{ form_c.coord }}&nbsp</td>
+            <td width="160px" align="right">{{ form_c.coord.label }}</td>
+            <td align="center">&#9658;</td>
+            <td align="left">{{ form_c.coord }}</td>
         </tr>
     </table>
     <br>
-    <table class="c_base_w t_footer">
-        <tr>
-            <td width="640px" align="right">
-                <input type="submit" value="     OK     ">&nbsp
-            </td>
-            <td width="640px" align="left">
-            {% if coup %}
-                <input type="button" value="отмена" onClick='location.href="../"'>
-            {% elif pw %}
-                <input type="button" value="отмена" onClick='location.href="/cable/?kv={{ kvar }}"'>
-            {% else %}
-                <input type="button" value="отмена" onClick='location.href="/cable/?kv={{ kvar }}"'>
-            {% endif %}
-            </td>
-        </tr>
-    </table>
+
+    <div class="c_base_w t_footer3">
+        <div class="_flex_c">
+            <input type="submit" value="     OK     ">
+        {% if coup %}
+            <input type="button" value="отмена" onClick='location.href="../"'>
+        {% elif pw %}
+            <input type="button" value="отмена" onClick='location.href="/cable/kv={{ kvar }}"'>
+        {% else %}
+            <input type="button" value="отмена" onClick='location.href="/cable/kv={{ kvar }}"'>
+        {% endif %}
+        </div>
+    </div>
 
     {% endif %}
 
 </form>
 
-
-<script language="javascript">
-
-//own.addEventListener('change', function(){
-//    id_object_owner_list.disabled = ! own.checked;
-//}, false);
+<script>
 
 id_object_owner.addEventListener('change', function(){
     id_object_owner_list.value = 0;
@@ -154,6 +139,5 @@ id_object_owner_list.addEventListener('change', function(){
 }, false);
 
 </script>
-
 
 {% endblock %}

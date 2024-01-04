@@ -3,9 +3,9 @@
     --tone2-color: #b7c5b7;
     --tone3-color: #80978e;
     --tone4-color: #66827c;
+    --tone5-color: rgb(75, 185, 187);
     --link1-color: #003000;
     --link2-color: #0013bb;
-    --tone5-color: rgb(75, 185, 187);
     --warn1-color: #ff0055;
 }
 
@@ -26,11 +26,12 @@ body {
 .tone2 { background-color: var(--tone2-color); }
 .tone3 { background-color: var(--tone3-color); }
 .tone4 { background-color: var(--tone4-color); }
+.tone_error { background: #ff7575 !important; }
+.tone_gray { background-color: gray; }
+.tone_none { background: none; }
 .color_link1 { color: var(--link1-color); }
 .color_link2 { color: var(--link2-color) !important; }
 .color_warn1 { color: var(--warn1-color) !important; }
-.tone_error { background: #ff7575 !important; }
-.tone_off { background-color: gray; }
 
 /* HEADER */
 .header {
@@ -91,7 +92,7 @@ body {
 .c_header_nav {
     display: flex;
     align-items: center;
-    align-self: center;
+    /* align-self: center; */
     /* flex-wrap: wrap; */
     gap: 0 10px;
     padding: 0 10px;
@@ -163,6 +164,14 @@ body {
     background: linear-gradient(to bottom, var(--tone3-color), var(--tone1-color));
 }
 
+.t_footer3 ._flex_c {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.t_footer3 img { height: 24px; }
+
 /* FORM DEFAULTS */
 input, textarea, select, .form-row p, form .button {
     margin: 1px 0;
@@ -190,7 +199,6 @@ form .form_flex_c_wr {
 /* FORM BUTTONS */
 .button, input[type=submit], input[type=button], 
 .submit-row input, a.button {
-    /* font-family: "Kanit", "Arial"; */
     background: linear-gradient(to bottom, var(--tone1-color), var(--tone3-color));
     padding: 2px 5px;
     border: 1px solid #eee;
