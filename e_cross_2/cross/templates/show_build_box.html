@@ -3,7 +3,6 @@
 <details open="open">
     <summary>&nbsp;&nbsp;крт</summary>
 <table class="box_list">
-    <!-- <caption><h5>крт:</h5></caption> -->
     <tr class="t_header1 row_title">
         <th class="col_pic"></th>
         <th class="col_name2">название</th>
@@ -24,11 +23,10 @@
         <td class="col_small">{{ ob.stairway }}</td>
         <td class="col_small">{{ ob.floor }}</td>
         <td>{{ ob.serv_area }}</td>
-        <td>{{ ob.prim }}</td>
+        <td class="prim">{{ ob.prim }}</td>
         <td class="col_oper2">
             <a href="box={{ ob.id }}/edit"><img src="/static/images/edit.png" alt="р" title="редактирование"></a>&nbsp;
-            <a href="/core/logs/t=4/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="?" title="история операций"></a>&nbsp;
-            <!-- <a href="del_box={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить"></a>&nbsp;&nbsp; -->
+            <a href="/core/logs/t=4/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="i" title="история операций"></a>&nbsp;
         </td>
     </tr>
     {% endfor %}

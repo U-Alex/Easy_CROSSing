@@ -10,7 +10,7 @@
     <div class="c_header_nav2">
         {% for nav in dev_list %}
             {% if nav.id == dev.id %}
-                <label class="color_link2"><b>{{ nav.name }}</b></label>
+                <!-- <label class="color_link2"><b>{{ nav.name }}</b></label> -->
             {% else %}
                 <a href="/cross/build={{ bu.id }}/locker={{ lo.id }}/dev={{ nav.id }}/l2=1">{{ nav.name }}</a>
             {% endif %}
@@ -84,7 +84,7 @@
             </div>
         {% endif %}
             <div class="cr_p _txt_l {% if ob.uplink %}_dev_p_uplink{% endif %}">{{ ob.p_alias }}</div>
-            <div class="cr_p _txt_l">{#{{ ob.vlantz }}#}</div>
+            <div class="cr_p _txt_l">{{ ob.vlantz }}</div>
             <div class="cr_p _txt_l">{% if ob.vlan_untag != '0' %}{{ ob.vlan_untag }}{% endif %}</div>
             <div class="cr_p _txt_l">{{ ob.ip }}</div>
             <div class="cr_p _txt_l">{{ ob.desc }}</div>

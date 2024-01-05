@@ -2,8 +2,7 @@
 
 <details open="open">
     <summary>&nbsp;&nbsp;служебные устройства</summary>
-<table class="box_list">
-    <!-- <caption><h5>служебные устройства:</h5></caption> -->
+<table class="subunit_list">
     <tr class="t_header1 row_title">
         <th class="col_pic"></th>
         <th class="col_name2">название</th>
@@ -17,22 +16,21 @@
     </tr>
     {% for ob in lo_obj.3 %}
     <tr class="tr_hover">
-        <td class="col_pic"><img src="{{ ob.pic }}" alt="" title="{{ ob.name_type.1 }}"></td>
+        <td class="col_pic"><img src="/static/images/obj_subunit/subunit_{{ ob.info.1 }}.png" alt="" title="{{ ob.info.2 }}"></td>
         <td><b>{{ ob.name }}</b></td>
-        <td>{{ ob.name_type.0 }}</td>
+        <td>{{ ob.info.0 }}</td>
         <td class="col_small">{{ ob.stairway }}</td>
         <td class="col_small">{{ ob.floor }}</td>
-        <td class="col_small"><img src="{{ ob.poe.1 }}" alt="" title="{{ ob.poe.0 }}"></td>
+        <td class="col_small"><img src="/static/images/poe_{{ ob.poe }}.png" alt="" title="{{ ob.info.3 }}"></td>
         <td>
         {% if ob.box %}
             <b><a href="box={{ ob.box.parrent.id }}/?sel={{ ob.box.id }}">{{ ob.box.parrent.name }}-{{ ob.box.parrent.num }}-{{ ob.box.p_alias }}</a></b>
         {% endif %}
         </td>
-        <td>{{ ob.prim }}</td>
+        <td class="prim">{{ ob.prim }}</td>
         <td class="col_oper2">
             <a href="subunit={{ ob.id }}"><img src="/static/images/edit.png" alt="р" title="редактирование"></a>&nbsp;
-            <a href="/core/logs/t=13/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="?" title="история операций"></a>&nbsp;
-            <!-- <a href="del_subunit={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить"></a>&nbsp;&nbsp; -->
+            <a href="/core/logs/t=13/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="i" title="история операций"></a>&nbsp;
         </td>
     </tr>
     {% endfor %}

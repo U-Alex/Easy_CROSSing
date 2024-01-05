@@ -118,12 +118,16 @@ class edit_cr_Form(new_cr_Form):
 #####
 
 class new_dev_Form(forms.Form):
-    dev_name = forms.CharField(label='Имя устройства (Abc-1-1-1,...)', max_length=30, widget=forms.TextInput(attrs={'size': 50}))
+    dev_name = forms.CharField(label='Имя устройства (Abc-1-1-1,...)', max_length=20, widget=forms.TextInput(attrs={'size': 30}))
+    vlantz = forms.CharField(label='vlan ТЗ', max_length=30, required=False, widget=forms.TextInput(attrs={'size': 30}))
 
 class edit_dev_Form(forms.Form):
-    dev_name = forms.CharField(label='имя устройства', max_length=30)
+    dev_name = forms.CharField(label='имя устройства', max_length=20)
     ip = forms.GenericIPAddressField(label='IP-адрес', protocol='IPv4', required=False)
     mac = forms.CharField(label='MAC-адрес', max_length=17, required=False)
+    ip_mask = forms.IntegerField(label='маска (CIDR)', min_value=0, max_value=32)
+    ip_gateway = forms.GenericIPAddressField(label='шлюз', protocol='IPv4', required=False)
+    vlan = forms.IntegerField(label='vlan управления', min_value=0, max_value=4096)
     sn = forms.CharField(label='серийный номер', max_length=20, required=False)
     vers_po = forms.CharField(label='версия ПО', max_length=48, required=False)
 
@@ -261,7 +265,8 @@ class edit_dev_p_v_Form(new_dev_p_v_Form):
     desc = forms.CharField(label='description', max_length=50, required=False, widget=forms.TextInput(attrs={'size': 51}))
     vlan_tag_list = forms.CharField(label='vlan_tag_list', max_length=2048, required=False, widget=forms.TextInput(attrs={'size': 51}))
     shut = forms.BooleanField(required=False)
-    mvr = forms.ChoiceField(label='mvr type', widget=forms.Select, choices=[['', '---'], ['s', 'source'], ['r', 'receiver']], required=False)
+    mvr = forms.ChoiceField(label='mvr type', widget=forms.Select, choices=[('', '---'), ('s', 'source'), ('r', 'receiver')], required=False)
+    vlantz = forms.CharField(label='vlan ТЗ', max_length=30, widget=forms.TextInput(attrs={'size': 51}), required=False)
 
 class edit_box_p_Form(forms.Form):
     status1 = forms.ChoiceField(label='статус (кабельная связь)', required=False, widget=forms.RadioSelect, choices=conf.STATUS_LIST)

@@ -3,13 +3,14 @@
 <details open="open">
     <summary>&nbsp;&nbsp;активное оборудование</summary>
 <table class="device_list">
-    <!-- <caption><h5>активное оборудование:</h5></caption> -->
     <tr class="t_header1 row_title">
         <th class="col_pic"></th>
         <th class="col_name2">название</th>
         <th class="col_oper3"></th>
         <th class="col_type">модель</th>
-        <th class="col_small2">ip - адрес</th>
+        <th class="col_small2">ip / mask</th>
+        <th class="col_small3">gateway</th>
+        <th class="col_small">vlan</th>
         <th>примечание</th>
         <th class="col_oper2"></th>
     </tr>
@@ -25,17 +26,22 @@
             <a href="/statist/agr_to_abon={{ ob.id }}" target="_blank"><img src="/static/images/icon_team2.png" alt="i" title="абоненты"></a>
         </td>
         <td>{{ ob.obj_type__name }}</td>
-        <td>{{ ob.ip_addr }}</td>
-        <td>{{ ob.prim }}</td>
+        <td>
+        {% if ob.ip_addr %}
+            {{ ob.ip_addr }}{% if ob.ip_mask %} / {{ ob.ip_mask }}{% endif %}
+        {% endif %}
+        </td>
+        <td>{% if ob.ip_gateway %}{{ ob.ip_gateway }}{% endif %}</td>
+        <td>{% if ob.vlan %}{{ ob.vlan }}{% endif %}</td>
+        <td class="prim">{{ ob.prim }}</td>
         <td class="col_oper2">
             <a href="dev={{ ob.id }}/edit"><img src="/static/images/edit.png" alt="р" title="редактирование"></a>&nbsp;
-            <a href="/core/logs/t=3/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="?" title="история операций"></a>&nbsp;
-            <!-- <a href="del_dev={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить"></a>&nbsp;&nbsp; -->
+            <a href="/core/logs/t=3/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="i" title="история операций"></a>&nbsp;
         </td>
     </tr>
     {% endfor %}
     <tr class="t_footer row_bottom">
-        <td></td><td></td><td></td><td></td><td></td><td></td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
         <td class="col_add">&nbsp;
         {% if perms.core.can_new %}
             <a href="new_dev/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить оборудование"></a>&nbsp;&nbsp;

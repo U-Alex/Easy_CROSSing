@@ -96,11 +96,12 @@ class Cross(models.Model):
 class Device(models.Model):
     parrent = models.ForeignKey(Locker, on_delete=models.PROTECT)
     name = models.CharField(max_length=30)
-    #name_type = models.CharField(max_length=30, blank=True) #del
-    #con_type = models.IntegerField()                        #del
     obj_type = models.ForeignKey(Templ_device, on_delete=models.PROTECT, default=1)
     ip_addr = models.GenericIPAddressField(protocol='IPv4', null=True, blank=True)
     mac_addr = models.CharField(max_length=30, blank=True)
+    ip_mask = models.IntegerField(default=0)
+    ip_gateway = models.GenericIPAddressField(protocol='IPv4', null=True, blank=True)
+    vlan = models.IntegerField(default=0)
     sn = models.CharField(max_length=20, blank=True)
     vers_po = models.CharField(max_length=48, blank=True)
     man_conf = models.CharField(max_length=30, blank=True)
@@ -184,6 +185,7 @@ class Device_ports(models.Model):
     p_alias = models.CharField(max_length=30, blank=True)
     prim = models.CharField(max_length=200, blank=True)
     uplink = models.BooleanField(default=False)
+    vlantz = models.CharField(max_length=30, blank=True)
 
     int_c_dest = models.IntegerField(default=0)
     int_c_id = models.IntegerField(default=0)

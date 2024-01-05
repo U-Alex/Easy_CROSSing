@@ -138,7 +138,8 @@
 .col_oper3 { width: 74px; text-align: center; }
 .col_add {text-align: center;}
 .col_small { width: 40px; text-align: center; }
-.col_small2 { width: 110px; }
+.col_small2 { width: 130px; }
+.col_small3 { width: 100px; }
 
 .bu_right summary {
     display: block;
@@ -149,4 +150,9 @@
 }
 .bu_right summary::before { content: "►►►"; }
 .bu_right details[open] > summary::before { content: "▼▼▼"; }
+
+.cross_list .prim, .device_list .prim,
+.box_list .prim, .subunit_list .prim {
+    font-size: 11px;
+}
 

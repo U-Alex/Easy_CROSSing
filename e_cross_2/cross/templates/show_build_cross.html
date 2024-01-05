@@ -3,7 +3,6 @@
 <details open="open">
     <summary>&nbsp;&nbsp;кроссы</summary>
 <table class="cross_list">
-    <!-- <caption><h5>кроссы:</h5></caption> -->
     <tr class="t_header1 row_title">
         <th class="col_pic"></th>
         <th class="col_name">название</th>
@@ -16,11 +15,10 @@
         <td class="col_pic"><img src="/static/images/laser2.png" alt=" " title=""></td>
         <td><b><a href="cr={{ ob.id }}/" title="просмотр кроссировок">{{ ob.name }}</a></b></td>
         <td>{{ ob.name_type }}</td>
-        <td>{{ ob.prim }}</td>
+        <td class="prim">{{ ob.prim }}</td>
         <td class="col_oper2">
             <a href="cr={{ ob.id }}/edit"><img src="/static/images/edit.png" alt="р" title="редактирование"></a>&nbsp;
-            <a href="/core/logs/t=2/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="?" title="история операций"></a>&nbsp;
-            <!-- <a href="del_cross={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить"></a>&nbsp;&nbsp; -->
+            <a href="/core/logs/t=2/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="i" title="история операций"></a>&nbsp;
         </td>
     </tr>
     {% endfor %}

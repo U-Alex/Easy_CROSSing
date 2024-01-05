@@ -75,7 +75,7 @@ class Templ_coupling(models.Model):
 
 ####################################################################################################
 
-#таблицы для внешней программы
+#таблицы для внешней программы VOLS
 
 class links(models.Model):
     lineidid = models.CharField(max_length=15)

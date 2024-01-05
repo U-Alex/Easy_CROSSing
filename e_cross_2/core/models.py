@@ -128,7 +128,7 @@ class Templ_cross(models.Model):
         return f"{self.id} | {self.name} | ports: {self.ports}"
 
 class Templ_device(models.Model):
-    parrent = models.ForeignKey(Device_type, on_delete=models.PROTECT, default=1) ### на новой базе - default=0 (или без)
+    parrent = models.ForeignKey(Device_type, on_delete=models.PROTECT, default=1)
     name = models.CharField(max_length=30)
     ports = models.IntegerField(default=0)
     port_alias_list = models.CharField(max_length=2000)
@@ -147,7 +147,7 @@ class Templ_box(models.Model):
         return f"{self.id} | {self.name} | units: {self.units}"
 
 class Templ_subunit(models.Model):
-    parrent = models.ForeignKey(Subunit_type, on_delete=models.PROTECT, default=1) ### на новой базе - default=0 (или без)
+    parrent = models.ForeignKey(Subunit_type, on_delete=models.PROTECT, default=1)
     name = models.CharField(max_length=30)
 
     def __str__(self):
@@ -163,5 +163,4 @@ class Templ_box_cable(models.Model):
 
     def __str__(self):
         return f"{self.id} | {self.name} | ports: {self.ports}"
-
 

@@ -31,9 +31,11 @@
         <div class="bu_left_lo">
 
             {% for lo in lo_list %}
+            {% if lo.id != lo_id %}
             <div class="bu_card {% if lo_id %}no_active{% endif %}">
                 {% include "show_build_lo_card.html" %}
             </div>
+            {% endif %}
             {% endfor %}
 
             {% if perms.core.can_new and not bu_double %}

@@ -84,9 +84,10 @@ def new_cr(request, bu_id, lo_id):
                                             v_row=cr.v_row,
                                             v_forw_l_r=cr.v_forw_l_r
                                             )
-                i = 0
-                while i < cr.ports:
-                    i = i + 1
+                #i = 0
+                #while i < cr.ports:
+                #    i = i + 1
+                for i in range(1, cr.ports + 1):
                     Cross_ports.objects.create(parrent_id=n_cr.id,
                                                num=i,
                                                port_t_x=cr.port_t_x
@@ -123,19 +124,19 @@ def new_dev(request, bu_id, lo_id):
             with transaction.atomic():
                 n_dev = Device.objects.create(parrent_id=lo_id,
                                               name=form.cleaned_data['dev_name'],
-                                              #name_type=dev.name,       ######## deprecated
-                                              #con_type=dev.id,          ########
                                               obj_type=dev
                                               )
-                i = 0
-                while i < dev.ports:
-                    i = i + 1
+                #i = 0
+                #while i < dev.ports:
+                #    i = i + 1
+                for i in range(1, dev.ports + 1):
                     Device_ports.objects.create(parrent_id=n_dev.id,
                                                 num=i,
                                                 port_t_x=p_tx_list[i-1],
                                                 port_speed=p_sp_list[i-1],
-                                                p_alias=p_al_list[i-1]
+                                                p_alias=p_al_list[i-1],
                                                 #prim='...'
+                                                vlantz=form.cleaned_data['vlantz']
                                                 )
 
             to_his([request.user, 3, n_dev.id, 1, 0, 'name: '+n_dev.name])
@@ -228,9 +229,10 @@ def new_box(request, bu_id, lo_id):
                                            con_type=form.cleaned_data['box_name_type'],
                                            num_plints=cable.num_plints
                                            )
-                i = 0
-                while i < cable.ports:
-                    i = i + 1
+                #i = 0
+                #while i < cable.ports:
+                #    i = i + 1
+                for i in range(1, cable.ports + 1):
                     Box_ports.objects.create(parrent_id=n_box.id,
                                              cable_id=cable.id,
                                              num=i,
@@ -272,7 +274,8 @@ def new_su(request, bu_id, lo_id):
             return HttpResponseRedirect('../')
     else:
         su_c = Subunit.objects.filter(parrent_id=lo_id).count()
-        form = new_su_Form(initial={'su_name': (lo.name+'-su-'+str(su_c+1))})
+        #form = new_su_Form(initial={'su_name': (lo.name+'-su-'+str(su_c+1))})
+        form = new_su_Form(initial={'su_name': f"{lo.name}-su-{su_c+1}"})
 
     t_list = Templ_subunit.objects.values('parrent_id', 'id', 'name').order_by('parrent_id', 'name')
     i = 0
@@ -714,6 +717,20 @@ def edit_dev(request, bu_id, lo_id, dev_id):
                     change = True
                     h_text += 'mac: '+dev.mac_addr+' -> '+mac+'; '
                     dev.mac_addr = mac.replace('-', ':').upper()     #.lower()
+            if form.cleaned_data['ip_mask'] != dev.ip_mask:
+                change = True
+                h_text += 'ip_mask: '+str(dev.ip_mask)+' -> '+str(form.cleaned_data['ip_mask'])+'; '
+                dev.ip_mask = form.cleaned_data['ip_mask']
+            ip_gateway = form.cleaned_data['ip_gateway'] if form.cleaned_data['ip_gateway'] != '' else None
+            if ip_gateway != dev.ip_gateway:
+                change = True
+                h_text += 'ip_gateway: '+str(dev.ip_gateway)+' -> '+str(ip_gateway)+'; '
+                dev.ip_gateway = ip_gateway
+            if form.cleaned_data['vlan'] != dev.vlan:
+                change = True
+                h_text += 'vlan: '+str(dev.vlan)+' -> '+str(form.cleaned_data['vlan'])+'; '
+                dev.vlan = form.cleaned_data['vlan']
+
             if form.cleaned_data['sn'] != dev.sn:
                 change = True
                 h_text += 'sn: '+dev.sn+' -> '+form.cleaned_data['sn']+'; '
@@ -761,6 +778,9 @@ def edit_dev(request, bu_id, lo_id, dev_id):
         form = edit_dev_Form(initial={'dev_name': dev.name,
                                       'ip': dev.ip_addr,
                                       'mac': dev.mac_addr,
+                                      'ip_mask': dev.ip_mask,
+                                      'ip_gateway': dev.ip_gateway,
+                                      'vlan': dev.vlan,
                                       'sn': dev.sn,
                                       'vers_po': dev.vers_po,
                                       'date_ent': dev.date_ent,
@@ -837,6 +857,7 @@ def edit_dev_p(request, bu_id, lo_id, dev_id, p_id):
             if change:
                 s_p.save()
                 to_his([request.user, 6, s_p.id, 2, 0, ''])
+
             return HttpResponseRedirect('../')
     else:
         form = edit_dev_p_Form(initial={'valid': s_p.p_valid,
@@ -910,6 +931,10 @@ def edit_dev_p_v(request, bu_id, lo_id, dev_id, f_p_id=None, v_p_id=None):
                 change = True
                 h_text += 'prim: '+port.prim+' -> '+form.cleaned_data['prim']+'; '
                 port.prim = form.cleaned_data['prim']
+            if form.cleaned_data['vlantz'] != port.vlantz:
+                change = True
+                h_text += 'vlantz: '+port.vlantz+' -> '+form.cleaned_data['vlantz']+'; '
+                port.vlantz = form.cleaned_data['vlantz']
 
             if change:
                 port.save()
@@ -926,6 +951,7 @@ def edit_dev_p_v(request, bu_id, lo_id, dev_id, f_p_id=None, v_p_id=None):
                                       'shut': port.shut,
                                       'desc': port.desc,
                                       'prim': port.prim,
+                                      'vlantz': port.vlantz
                                       })
 
     return render(request, 'edit_dev_p_v.html', {'form': form,

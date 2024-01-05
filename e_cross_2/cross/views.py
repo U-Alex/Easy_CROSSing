@@ -49,10 +49,11 @@ def show_bu_lo(request, bu_id, lo_id=0):
         bu_double = (False, None)
 
     lo_list = Locker.objects.filter(parrent_id=bu_id).exclude(pk=lo_id).values().order_by('-agr', 'name')
+    #lo_list = Locker.objects.filter(parrent_id=bu_id).values().order_by('-agr', 'name')
+    lo_obj = (False,) * 4
     for ob in lo_list:
         ob['status2'] = conf.STATUS_LIST_LO[ob['status']]
         ob['coup_id'] = Coupling.objects.get(parrent=ob['id'], parr_type=0).id
-    lo_obj = False
     if lo:
         lo['status2'] = conf.STATUS_LIST_LO[lo['status']]
         lo['coup_id'] = Coupling.objects.get(parrent=lo['id'], parr_type=0).id
@@ -60,28 +61,12 @@ def show_bu_lo(request, bu_id, lo_id=0):
         cross_list = Cross.objects.filter(parrent_id=lo_id).order_by('name')\
             .values('id', 'name', 'name_type', 'prim', 'object_owner')
         device_list = Device.objects.filter(parrent_id=lo_id).order_by('obj_type__parrent_id', 'name')\
-            .values('id', 'name', 'obj_type__name', 'ip_addr', 'prim', 'object_owner', 'obj_type__parrent_id', 'obj_type__parrent__name')
+            .values('id', 'name', 'obj_type__name', 'ip_addr', 'prim', 'ip_mask', 'ip_gateway', 'vlan', \
+                    'object_owner', 'obj_type__parrent_id', 'obj_type__parrent__name')
         box_list = Box.objects.filter(parrent_id=lo_id).order_by('name', 'num').values()
+        #subunit_list = Subunit.objects.filter(parrent_id=lo_id).order_by('name').values()
         subunit_list = Subunit.objects.filter(parrent_id=lo_id).order_by('name').values()
-
-        if subunit_list.exists():
-            for ob in subunit_list:
-                name_type = Templ_subunit.objects.get(pk=ob['con_type'])
-                subunit_type = Subunit_type.objects.get(pk=name_type.parrent_id)
-                ob['name_type'] = [name_type.name, subunit_type.name]
-                ob['pic'] = '/static/images/obj_subunit/subunit_'+str(subunit_type.id)+'.png'
-                ob['poe'] = [conf.POE_TYPE[ob['poe']][1], f"/static/images/poe_{ob['poe']}.png"]
-                if ob['box_p_id'] == 0:
-                    ob['box'] = ''
-                else:
-                    try:
-                        ob['box'] = Box_ports.objects.get(\
-                            pk=ob['box_p_id'], parrent__parrent_id=lo_id, int_c_status=3, dogovor=f"_su_{ob['id']}")
-                    except ObjectDoesNotExist:
-                        ob['box'] = ''
-                        su = Subunit.objects.get(pk=ob['id'])
-                        su.box_p_id = 0
-                        su.save()
+        repack_su(subunit_list, lo_id)
 
         lo_obj = (cross_list, device_list, box_list, subunit_list)
 
@@ -96,6 +81,27 @@ def show_bu_lo(request, bu_id, lo_id=0):
                                                         })
 
 ####################################################################################################
+
+def repack_su(subunit_list, lo_id):
+    for ob in subunit_list:
+        name_type = Templ_subunit.objects.get(pk=ob['con_type'])
+        ob['info'] = (name_type.name,
+                      name_type.parrent_id,
+                      name_type.parrent.name,
+                      conf.POE_TYPE[ob['poe']][1]
+                      )
+        if ob['box_p_id'] == 0:
+            ob['box'] = ''
+        else:
+            try:
+                ob['box'] = Box_ports.objects.get(\
+                    pk=ob['box_p_id'], parrent__parrent_id=lo_id, int_c_status=3, dogovor=f"_su_{ob['id']}")
+            except ObjectDoesNotExist:
+                ob['box'] = ''
+                su = Subunit.objects.get(pk=ob['id'])
+                su.box_p_id = 0
+                su.save()
+
 
 def check_deadline(bu):
     try:
@@ -328,7 +334,7 @@ def show_dev(request, bu_id, lo_id, dev_id, l2=0):
 
         ob['c_down'] = c_down
 
-        step = 44
+        step = 40
         if len(ob['vlan_tag_list']) > step:
             try:
                 str1 = ob['vlan_tag_list']

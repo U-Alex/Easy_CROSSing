@@ -1,6 +1,7 @@
 {% extends 'main.html' %}
 
 {% block cross %}
+<link rel="stylesheet" type="text/css" href="/static/cross_ext_int.css">
 
 <div class="c_base_w c_header tone1">
     <div class="c_header_nav">
@@ -15,28 +16,34 @@
 
 {% if str_list %}
 
-<table class="c_base_w t_footer3" width="100%">
-    <caption><i>найденные здания:</i></caption>
-    <tr>
-        <td class="_flex_c">
-        {% for ob in str_list %}
-            <input type="button" enabled="1" value="{{ ob.house_num }}" onClick='location.href="../ext_cr2={{ ob.id }}/"' style="width:50px">
-            {% endfor %}
-        </td>
-    </tr>
-</table>
-<br>
-
-<div class="c_base_w t_footer3">
-    <div class="_flex_c">
-        <input type="button" value="новый поиск" onClick='location.href="../ext_cr1/"'>
-        <input type="button" value="отмена" onClick='location.href="../../"'>
+    <div class="res_header">
+        <div class="res_header_left"></div>
+        <div class="tone2 res_header_center">
+            <p>ул: {{ str_list.0.name }} &nbsp;&#10148;&#10148;&#10148;&nbsp;
+            <i>найденные здания &nbsp;&#9660;&#9660;&#9660;</i></p>
+        </div>
+        <div class="res_header_right"></div>
     </div>
-</div>
+    <br>
+
+    <div class="c_base_w res_cards">
+    {% for ob in str_list %}
+        <div class="res_item tone2">
+            <div class="h_num"><label>{{ ob.house_num }}</label></div>
+            <a class="_link" href="../ext_cr2={{ ob.id }}/"></a>
+        </div>
+    {% endfor %}
+    </div>
+    <br>
+
+    <div class="c_base_w t_footer3">
+        <div class="_flex_c">
+            <input type="button" value="новый поиск" onClick='location.href="../ext_cr1/"'>
+            <input type="button" value="отмена" onClick='location.href="../../"'>
+        </div>
+    </div>
     
 {% else %}
-
-<br>
 
 <div class="c_base_w t_footer3">
     <div class="_flex_c">
@@ -52,21 +59,25 @@
 
 <div class="c_base_w t_footer3">
     <div class="_flex_c">
-        <img src="/static/images/stat.png" alt="" title="агрегации">&emsp;
-    {% for ob in agr %}
-        <input type="button" value="{{ ob.co }}" onClick='location.href="../ext_cr2={{ ob.parrent.id }}"'>
-    {% endfor %}
-        &emsp;<img src="/static/images/stat.png" alt="" title="агрегации">
+        <div class="res_cards">
+            <img src="/static/images/stat.png" alt="" title="агрегации">&emsp;
+        {% for ob in agr %}
+            <input type="button" value="{{ ob.co }}" onClick='location.href="../ext_cr2={{ ob.parrent.id }}"'>
+        {% endfor %}
+            &emsp;<img src="/static/images/stat.png" alt="" title="агрегации">
+        </div>
     </div>
 </div>
 <br>
 <div class="c_base_w t_footer3">
     <div class="_flex_c">
-        <img src="/static/images/lo2.png" alt="" title="УД в процессе сдачи">&emsp;
-    {% for ob in lo %}
-        <input type="button" value="{{ ob.name }}" onClick='location.href="../ext_cr2={{ ob.parrent.id }}"'>
-    {% endfor %}
-        &emsp;<img src="/static/images/lo2.png" alt="" title="УД в процессе сдачи">
+        <div class="res_cards">
+            <img src="/static/images/lo2.png" alt="" title="УД в процессе сдачи">&emsp;
+        {% for ob in lo %}
+            <input type="button" value="{{ ob.name }}" onClick='location.href="../ext_cr2={{ ob.parrent.id }}"'>
+        {% endfor %}
+            &emsp;<img src="/static/images/lo2.png" alt="" title="УД в процессе сдачи">
+        </div>
     </div>
 </div>
 
