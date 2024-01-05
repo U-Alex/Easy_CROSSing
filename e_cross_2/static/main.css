@@ -92,8 +92,6 @@ body {
 .c_header_nav {
     display: flex;
     align-items: center;
-    /* align-self: center; */
-    /* flex-wrap: wrap; */
     gap: 0 10px;
     padding: 0 10px;
     color: #222;
@@ -110,6 +108,19 @@ body {
     align-items: center;
     gap: 8px;
     padding: 0 10px;
+}
+.c_header .c_kv_card .kvar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border: 1px solid var(--tone2-color);
+    border-radius: 4px;
+    padding: 0 4px;
+}
+.c_header .c_kv_card .kvar:hover {
+    transition: ease-out 0.2s;
+    box-shadow: inset 0 0 0 150px var(--tone2-color);
+    color: #222;
 }
 .c_header img {
     height: 22px;

@@ -7,19 +7,11 @@
     background: linear-gradient(white, var(--tone5-color), white) !important;
     font-weight: bold;
 }
-/* ._cr_valid_False > div:nth-child(1), */
-/* ._cr_valid_False > div:nth-child(2) { background: linear-gradient(white, gray, white) !important; } */
-/* ._cr_valid_True > div { background-color: white; } */
-/* ._dev_valid_False > div:nth-child(1), */
-/* ._dev_valid_False > div:nth-child(2) { background: linear-gradient(white, gray, white) !important; } */
-/* ._dev_valid2_False > div:nth-child(1) { background: linear-gradient(white, gray, white) !important; } */
-/* ._dev_valid3_False > div:nth-child(5) { background: linear-gradient(white, gray, white) !important; } */
-/* ._dev_valid_True > div { background-color: white; } */
+
 ._ch_valid_False {
-    /* text-shadow: white 0 0 5px; */
     background: linear-gradient(white, gray, white) !important;
 }
-/* ._txt_shd { text-shadow: white 0 0 2px; } */
+
 .t_cross {
     height: 83vh;
     overflow-y: auto;

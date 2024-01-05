@@ -6,6 +6,17 @@
 
 {% include "show_build_header.html" %}
 
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav2">
+    {% for nav in lo_list %}
+        <a class="{% if nav.agr %} _cr_st_txt_4 {% else %} _lo_st_txt_{{ nav.status }} {% endif %}" 
+            href="/cross/build={{ bu.id }}/locker={{ nav.id }}">
+            {{ nav.name }}
+        </a>
+    {% endfor %}
+    </div>
+</div>
+<br>
 <div class="c_base_w bu_main">
     <div class="bu_left">
 

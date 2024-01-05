@@ -147,7 +147,7 @@ def obj_no_coord(request):
 
 def duple_dog(request):
 
-    if not request.user.has_perm("kpp.can_adm"):
+    if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     dog_list = []

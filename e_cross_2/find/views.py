@@ -68,16 +68,15 @@ def find_bu(request):
 def ch_bu_lo(bu):
     
     for ob in bu:
-        lo = Locker.objects.filter(parrent_id=int(ob['id'])).values('status', 'agr', 'detached').order_by('-agr', 'name')
+        lo = Locker.objects.filter(parrent_id=int(ob['id'])).values('status', 'agr', 'detached').order_by('-agr', 'detached', 'name')
         ob['lo'] = []
         for ob2 in lo:
-            ob['lo'].append(
-                            [conf.COLOR_LIST_LO[ob2['status']],###### del
+            ob['lo'].append((#conf.COLOR_LIST_LO[ob2['status']],###### del
                             #conf.STATUS_LIST_LO[ob2['status']],
                             ob2['agr'],
                             ob2['detached'],
                             ob2['status']   # <-
-                            ])
+                            ))
 
     return bu
 

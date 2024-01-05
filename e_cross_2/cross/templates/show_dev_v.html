@@ -10,7 +10,7 @@
     <div class="c_header_nav2">
         {% for nav in dev_list %}
             {% if nav.id == dev.id %}
-                <label class="color_link2"><strong>{{ nav.name }}</strong></label>
+                <label class="color_link2"><b>{{ nav.name }}</b></label>
             {% else %}
                 <a href="/cross/build={{ bu.id }}/locker={{ lo.id }}/dev={{ nav.id }}/l2=1">{{ nav.name }}</a>
             {% endif %}
@@ -24,10 +24,10 @@
         <div class="cr_h_1 t_header1 _col_2">порт</div>
         <div class="cr_h_1 t_header1 _col_4">внутренняя связь</div>
         <div class="cr_h_1 t_header1 _col_9">
-            конфигурация портов&emsp;&emsp;<strong>
+            конфигурация портов&emsp;&emsp;<b>
             {% if dev.date_upd %}последнее обновление: <b>{{ dev.date_upd|date:"d.m.Y" }}</b>{% endif %}
             {% if upd_td %} (<b>{{ upd_td.0 }}</b> д. <b>{{ upd_td.1 }}</b> ч.м.с. назад){% endif %}
-            </strong>
+            </b>
         </div>
         <div class="cr_h_1 t_header1 _col_3"></div>
 

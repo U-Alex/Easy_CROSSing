@@ -1,5 +1,11 @@
  /* colors  */
 
+._lo_st_find_0 { background: orange; }
+._lo_st_find_1 { background: yellow; }
+._lo_st_find_2 { background: lawngreen; }
+._lo_st_find_3 { background: gray; }
+._lo_st_find_agr { background: aqua; }
+
 ._lo_status_0 { background: radial-gradient(orange, var(--tone2-color)); }
 ._lo_status_1 { background: radial-gradient(yellow, var(--tone2-color)); }
 ._lo_status_2 { background: radial-gradient(lawngreen, var(--tone2-color)); }

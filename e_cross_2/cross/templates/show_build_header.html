@@ -32,12 +32,15 @@
     <div class="c_kv_card">
     {% if kv.id != 1 %}
         {% if dev_nav == 2 %}
-        <a href="/core/dev_upd_config={{ dev.id }}"><img src="/static/images/refresh.png" alt="upd_conf" title="обновить конфиг"></a>&nbsp;
+        <a href="/core/dev_upd_config={{ dev.id }}"><img src="/static/images/refresh.png" alt="upd_conf" title="обновить конфиг"></a>
         {% endif %}
         {% if dev_nav == 1 %}
-        <a href="/statist/agr_to_abon={{ dev.id }}" target="_blank"><img src="/static/images/icon_team2.png" alt="i" title="абоненты, зависимые от устройства"></a>&nbsp;
+        <a href="/statist/agr_to_abon={{ dev.id }}" target="_blank"><img src="/static/images/icon_team2.png" alt="i" title="абоненты, зависимые от устройства"></a>
         {% endif %}
-        <p>квартал: <b>{{ kv.name }}</b>&nbsp;&nbsp;</p>
+        <!-- <a href="/cable/kv={{ kv.id }}" target="_blank">квартал: <b>{{ kv.name }}</b>&nbsp;&nbsp;</a> -->
+        <a class="kvar" href="/cable/kv={{ kv.id }}" title="квартал" target="_blank">
+            <img src="/static/images/kvar1.png" alt="&#9636;">{{ kv.name }}
+        </a>
         <a href="/statist/bu_doc={{ bu.id }}" target="_blank">
             <img class="link_oper" src="/static/images/input_card1.png" alt="фото" title="фотоотчет"></a>
         <a href="/statist/bu_doc={{ bu.id }}" target="_blank">

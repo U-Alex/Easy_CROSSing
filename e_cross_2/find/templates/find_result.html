@@ -4,86 +4,58 @@
 
 {% if str_list %}
 
-    <div class="res_header">
-        <div class="res_header_left"></div>
-        <div class="tone2 res_header_center">
-            <p>ул: {{ str_list.0.name }} &nbsp;&#10148;&#10148;&#10148;&nbsp;
-            <i>найденные здания &nbsp;&#9660;&#9660;&#9660;</i></p>
-        </div>
-        <div class="res_header_right"></div>
+<div class="res_header">
+    <div class="res_header_left"></div>
+    <div class="tone2 res_header_center">
+        <p>ул: {{ str_list.0.name }} &nbsp;&#10148;&#10148;&#10148;&nbsp;
+        <i>найденные здания &nbsp;&#9660;&#9660;&#9660;</i></p>
     </div>
+    <div class="res_header_right"></div>
+</div>
 
-        <table class="c_base_w tone_none">
-            <tr>
-                <td width="140px" align="center">
-                    <img src="/static/images/sks2.png" alt="" title="" width="100">
-                </td>
-                <td width="1000px" align="center">
-
-                {% for ob in str_list %}
-                    <button onClick='location.href="/cross/build={{ ob.id }}/"'
-                            {% if ob.double_id %} style="background: gray" {% endif %}
-                            class="t_header1"
-                            >
-                        <table class="t_header1" width="150px" {% if ob.double_id %} style="background: gray"{% endif %}>
-                            <tr><td colspan="30"></td></tr>
-                            <tr>
-                                <td colspan="30">
-                                    <b><font size="3">{{ ob.house_num }}</font></b>
-                                </td>
-                            </tr>
-                            <tr><td colspan="30"></td></tr>
-                            <tr height="7px">
-                            {% for ob2 in ob.lo %}
-                                <td width="1px" style="background:none"></td>
-                                <!--<td width={% if ob2.1 %} "16%" {% elif ob2.2 %} "4%" {% else %} "8%" {% endif %}-->
-                                <td width={% if ob2.1 %} "20px" {% elif ob2.2 %} "3px" {% else %} "8px" {% endif %}
-                                    style="background: {% if ob2.1 %} cyan {% else %} {{ ob2.0 }} {% endif %}">
-                                </td>
-                            {% endfor %}
-                                <td style="background:none"></td>
-                            </tr>
-                            <tr><td colspan="30"></td></tr>
-                            <tr><td colspan="30"></td></tr>
-                        </table>
-                    </button>
-                {% endfor %}
-
-                </td>
-                <td width="160px" align="center">&nbsp;</td>
-            </tr>
-        </table>
+<div class="c_base_w res_bu">
+    <div class="res_l"><img src="/static/images/sks2.png" alt="" title=""></div>
+    <div class="res_cards">
+    {% for ob in str_list %}
+        <div class="res_item {% if ob.double_id %} tone_gray {% else %} tone2 {% endif %}">
+            <div class="h_num"><label>{{ ob.house_num }}</label></div>
+            <div class="lo_list">
+            {% for ob2 in ob.lo %}
+                <div class="{% if ob2.0 %} _lo_st_find_agr _agr {% else %} _lo_st_find_{{ ob2.2 }}
+                            {% if ob2.1 %} _det {% else %} _lo {% endif %} {% endif %}">
+                    &nbsp;</div>
+            {% endfor %}
+            </div>
+            <a class="_link" href="/cross/build={{ ob.id }}/"></a>
+        </div>
+    {% endfor %}
+    </div>
+    <div class="res_r"></div>
+</div>
 
 {% elif agr %}
 
-    <div class="res_header">
-        <div class="res_header_left"></div>
-        <div class="tone2 res_header_center">
-            <p>список агрегаций &nbsp;&#9660;&#9660;&#9660;</p>
-        </div>
-        <div class="res_header_right"></div>
+<div class="res_header">
+    <div class="res_header_left"></div>
+    <div class="tone2 res_header_center">
+        <p>агрегации &nbsp;&#9660;&#9660;&#9660;</p>
     </div>
-        
-        <table class="c_base_w tone_none">
-            <caption>&nbsp;</caption>
-            <tr>
-                <td width="100px" align="center">
-                    <img src="/static/images/stat3.png" alt="" title="" height="60">
-                </td>
-                <td width="1150px" align="center">
-                {% for ob in agr %}
-                    <input type="button" 
-                                 enabled="1"
-                                 value="{{ ob.co }}"
-                                 onClick='location.href="/cross/build={{ ob.parrent_id }}/locker={{ ob.id }}"'
-                                 style="width:70px; height:30px;"
-                                 >&nbsp;
-                {% endfor %}
-                </td>
-                <td width="10px" align="center">&nbsp;</td>
-            </tr>
-        </table>
-        
+    <div class="res_header_right"></div>
+</div>
+
+<div class="c_base_w res_agr">
+    <div class="res_l"><img src="/static/images/_cross2.png" alt="" title=""></div>
+    <div class="res_cards">
+    {% for ob in agr %}
+        <div class="res_item tone2">
+            <div class="co"><label>{{ ob.co }}</label></div>
+            <a class="_link" href="/cross/build={{ ob.parrent_id }}/locker={{ ob.id }}/"></a>
+        </div>
+    {% endfor %}
+    </div>
+    <div class="res_r"></div>
+</div>
+
 {% elif txt %}
 
     <div class="res_header">
