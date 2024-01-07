@@ -52,8 +52,11 @@
         {% for ob1 in dev %}
             <div class="ob_cross">
                 <div class="ob_name">
-                    <img src="/static/images/obj_dev/dev_{{ ob1.obj_type__parrent_id }}.png" alt=" " title="{{ ob1.ip_addr }}">
-                    <b>{{ ob1.name }}</b>
+                    <img src="/static/images/obj_dev/dev_{{ ob1.obj_type__parrent_id }}.png" alt=" " title="">
+                    <div>
+                        <p><b>{{ ob1.name }}</b></p>
+                        <p class="color_link1">{% if ob1.ip_addr %}{{ ob1.ip_addr }}{% else %}&nbsp;{% endif %}</p>
+                    </div>
                 </div>
                 <div class="ob_ports tone2">
                     <div class="ob_ports_line">

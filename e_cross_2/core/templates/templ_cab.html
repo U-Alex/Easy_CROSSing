@@ -22,16 +22,16 @@
                 </td>
             </tr>
             <tr>
-                <td align="right">&nbsp{{ form.mod_capa_list.label }}:&nbsp</td>
-                <td align="left">&nbsp{{ form.mod_capa_list }}&nbsp</td>
+                <td align="right">{{ form.mod_capa_list.label }}:</td>
+                <td align="left">{{ form.mod_capa_list }}</td>
             </tr>
             <tr>
-                <td align="right">&nbsp{{ form.mod_color_list.label }}:&nbsp</td>
-                <td align="left">&nbsp{{ form.mod_color_list }}&nbsp</td>
+                <td align="right">{{ form.mod_color_list.label }}:</td>
+                <td align="left">{{ form.mod_color_list }}</td>
             </tr>
             <tr>
-                <td align="right">&nbsp{{ form.fiber_colors_list.label }}:&nbsp</td>
-                <td align="left">&nbsp{{ form.fiber_colors_list }}&nbsp</td>
+                <td align="right">{{ form.fiber_colors_list.label }}:</td>
+                <td align="left">{{ form.fiber_colors_list }}</td>
             </tr>
         </table>
         <br>
@@ -41,7 +41,7 @@
                 <input type="button" id="id_to_const" value=" &#9660;&#9660;&#9660; " onClick='javascript:to_const();'>
                 <input type="button" id="id_to_form" value=" &#9650;&#9650;&#9650; " onClick='javascript:to_form();'>
                 &nbsp;&nbsp;
-                <input type="submit" id="id_ok" value="     OK     ">&nbsp&nbsp
+                <input type="submit" id="id_ok" value="     OK     ">
                 <input type="button" id="id_cancel" value="отмена" onClick='location.href="/core/templ/"'>
             </div>
         </div>
@@ -103,7 +103,7 @@
     </table>
 </div>
 
-<script language="javascript">
+<script>
 
 window.onload = function init() {
     id_to_form.disabled = 1;
@@ -255,6 +255,5 @@ function valid() {
 }
 
 </script>
-
 
 {% endblock %}

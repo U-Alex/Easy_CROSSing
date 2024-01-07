@@ -16,15 +16,15 @@
         <table>
             <tr class="tone2">
                 <td colspan="2" align="center">
-                    &nbsp{{ form.name.label }}:&nbsp{{ form.name }}&nbsp&nbsp&nbsp
-                    &nbsp{{ form.ports.label }}:&nbsp{{ form.ports }}&nbsp&nbsp&nbsp
-                    &nbsp{{ form.num_plints.label }}:&nbsp{{ form.num_plints }}&nbsp&nbsp
-                    &nbsp{{ form.color_cable.label }}:&nbsp{{ form.color_cable }}&nbsp&nbsp
+                    {{ form.name.label }}: {{ form.name }}
+                    {{ form.ports.label }}: {{ form.ports }}
+                    {{ form.num_plints.label }}: {{ form.num_plints }}
+                    {{ form.color_cable.label }}: {{ form.color_cable }}
                 </td>
             </tr>
             <tr>
-                <td align="right">&nbsp{{ form.alias_list.label }}:&nbsp</td>
-                <td align="left">&nbsp{{ form.alias_list }}&nbsp</td>
+                <td align="right">{{ form.alias_list.label }}:</td>
+                <td align="left">{{ form.alias_list }}</td>
             </tr>
         </table>
         <br>
@@ -42,7 +42,7 @@
     <div id="info"></div>
 </div>
 
-<script language="javascript">
+<script>
 
 window.onload = function init() {
     valid();

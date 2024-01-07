@@ -28,7 +28,7 @@
         <br>
         {% for ob in pw_list %}
             &emsp;&emsp;
-            <a href="/cable/?kv={{ ob.parrent.id }}" target="_blank"><b>{{ ob.name }}</b></a>
+            <a href="/cable/kv={{ ob.parrent.id }}/" target="_blank"><b>{{ ob.name }}</b></a>
             <br>
         {% endfor %}
     {% endif %}

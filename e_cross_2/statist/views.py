@@ -353,6 +353,7 @@ def check_link(request):
 
 ####################################################################################################
 
+@login_required(login_url='/core/login/')
 def agr_to_abon(request, dev_id):
     try:
         root_dev = Device.objects.get(pk=dev_id)

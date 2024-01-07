@@ -23,7 +23,6 @@ from core.e_config import conf
 
 ####################################################################################################
 
-
 @login_required(login_url='/core/login/')
 def show_bu_lo(request, bu_id, lo_id=0):
 
@@ -64,7 +63,6 @@ def show_bu_lo(request, bu_id, lo_id=0):
             .values('id', 'name', 'obj_type__name', 'ip_addr', 'prim', 'ip_mask', 'ip_gateway', 'vlan', \
                     'object_owner', 'obj_type__parrent_id', 'obj_type__parrent__name')
         box_list = Box.objects.filter(parrent_id=lo_id).order_by('name', 'num').values()
-        #subunit_list = Subunit.objects.filter(parrent_id=lo_id).order_by('name').values()
         subunit_list = Subunit.objects.filter(parrent_id=lo_id).order_by('name').values()
         repack_su(subunit_list, lo_id)
 
@@ -79,7 +77,7 @@ def show_bu_lo(request, bu_id, lo_id=0):
                                                         'bu_double': bu_double,
                                                         'jyr_info': jyr_info,
                                                         })
-
+# if (request.user.groups.filter(name='test').exists())
 ####################################################################################################
 
 def repack_su(subunit_list, lo_id):

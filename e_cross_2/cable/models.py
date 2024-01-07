@@ -21,7 +21,7 @@ class Coupling(models.Model):
     parrent = models.IntegerField(default=0)
     parr_type = models.IntegerField(default=0)                              #0-Locker, 1-Building, 2-PW_cont
     name = models.CharField(max_length=40)
-    name_type = models.CharField(max_length=30)
+    name_type = models.CharField(max_length=30)                 #
     object_owner = models.CharField(max_length=60, blank=True)
     installed = models.BooleanField(default=True)
     date_ent = models.DateField(null=True, blank=True)

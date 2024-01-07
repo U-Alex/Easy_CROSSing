@@ -1,7 +1,14 @@
-{% if lo_obj.3 %}
 
-<details open="open">
-    <summary>&nbsp;&nbsp;служебные устройства</summary>
+<details {% if lo_obj.3 %} open="open"{% endif %}>
+    <summary>
+        &nbsp;&nbsp;
+        {% if not lo_obj.3 %} служебные устройства отсутствуют&nbsp;&nbsp;
+            {% if perms.core.can_new %}
+            <a href="new_su/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить"></a>
+            {% endif %}
+        {% else %} служебные устройства
+        {% endif %}
+    </summary>
 <table class="subunit_list">
     <tr class="t_header1 row_title">
         <th class="col_pic"></th>
@@ -44,9 +51,3 @@
     </tr>
 </table>
 </details>
-
-{% else %}
-<div class="card_txt_l"><h5>устройства отсутствуют &nbsp;&nbsp;
-    <a href="new_su/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить"></a></h5>
-</div>
-{% endif %}

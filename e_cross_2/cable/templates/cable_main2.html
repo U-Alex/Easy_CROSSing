@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="/static/cable.css">
 
 <div class="c_base_w c_header tone1">
-    <div class="c_header_nav">
+    <div class="c_header_nav _pad_td_0">
         <form method="post" action="/cable/kv=0/">
             {% csrf_token %}
             {{ form.kvar }}
@@ -25,6 +25,7 @@
         {% endif %}
     </div>
 </div>
+<br>
 
 <div class="c_base_w cab_main">
     <div class="cab_left">

@@ -93,14 +93,14 @@ body {
     display: flex;
     align-items: center;
     gap: 0 10px;
-    padding: 0 10px;
+    padding: 7px 10px;
     color: #222;
 }
 .c_header_nav2 {
     display: flex;
     flex-wrap: wrap;
     gap: 0 20px;
-    padding: 0 10px;
+    padding: 1px 10px;
     font-size: 12px;
 }
 .c_header .c_kv_card {

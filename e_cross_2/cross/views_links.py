@@ -24,7 +24,6 @@ from core.shared_def import to_his
 from core.e_config import conf
 
 ####################################################################################################
-####################################################################################################
 
 @login_required(login_url='/core/login/')
 def ext_cr1(request, bu_id, lo_id, cr_id, s_port_id):
@@ -869,7 +868,4 @@ def cr_su(request, bu_id, lo_id, box_id, port_id, su_id):
                                           'cur_box_p': box_p,
                                           'su_list': su_list,
                                           })
-
-
-
 

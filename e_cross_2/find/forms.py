@@ -24,6 +24,7 @@ class find_Form_map(forms.Form):
 
 class find_Form_kv(forms.Form):
     kvar = forms.ChoiceField(label='квартал', widget=forms.Select, choices=[])
+    #kvar = forms.ChoiceField(label='квартал', widget=forms.Select(attrs={'class': 'head_kv_form'}), choices=[])
 
     def __init__(self, *args, **kwargs):
         super(find_Form_kv, self).__init__(*args, **kwargs)

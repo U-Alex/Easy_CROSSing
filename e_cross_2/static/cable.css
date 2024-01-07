@@ -3,6 +3,10 @@
 .c_header_nav ._hidden {
     display: none;
 }
+._pad_td_0 {
+    padding-top: 1px;
+    padding-bottom: 0;
+}
 
 .cab_main {
     display: flex;
@@ -157,11 +161,4 @@
 .col_oper3 { width: 54px; text-align: center; }
 
 .cab_txt_r { text-align: right; }
-
-
-
-
-
-
-
 

@@ -345,14 +345,14 @@ def cab_up(request, s_coup, cab_num):
     n_num = c_num-1
     if c_num == 1:
         return HttpResponseRedirect('../')
-    
+
     p_list = Coupling_ports.objects.filter(parrent_id=s_coup)
-    
+
     if c_num <= 0 or p_list.filter(cable_num=0).exists():
         return render(request, 'error.html', {'mess': 'c_num <= 0 or p_list.filter(cable_num=0).exists()', 'back': 1})
-    
+
     with transaction.atomic():
-        
+
         p_list2 = p_list.filter(cable_num=n_num)
         if p_list2.count() != 0:
             p_list2.update(cable_num=0)

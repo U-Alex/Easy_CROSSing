@@ -31,12 +31,12 @@ class edit_bu_Form(forms.Form):
         super(edit_bu_Form, self).__init__(*args, **kwargs)
         self.fields['kvar'].choices = Kvartal.objects.values_list('id', 'name').order_by('name')
         self.fields['info_comp'].choices = manage_comp.objects.values_list('id', 'name').order_by('name')
-        d_list = [[i, i] for i in range(1, 32)]
+        d_list = [(i, i) for i in range(1, 32)]
         self.fields['deadline_d'].choices = d_list
-        m_list = []
-        for key, value in conf.MONTHS.items():
-            m_list.append([key, value])
-        self.fields['deadline_m'].choices = m_list
+        #m_list = []
+        #for key, value in conf.MONTHS.items():
+        #    m_list.append([key, value])
+        self.fields['deadline_m'].choices = [(key, value) for key, value in conf.MONTHS.items()]
 
 class new_locker_Form(forms.Form):
     lo_name = forms.CharField(label='Имя (УД-1, УА-5-2, ...)', max_length=30)
@@ -48,10 +48,10 @@ class new_locker_Form(forms.Form):
         super(new_locker_Form, self).__init__(*args, **kwargs)
         self.fields['lo_name_type'].choices = Templ_locker.objects.values_list('id', 'name').order_by('name')
         #self.fields['kvar'].choices = Kvartal.objects.values_list('id', 'name').order_by('name')
-        co_list2 = list(COffice.objects.values_list('name', flat=True).order_by('name'))
-        for ob in co_list2:
-            co_list2[co_list2.index(ob)] = [ob, ob]
-        self.fields['co'].choices = co_list2
+        co_list2 = COffice.objects.values_list('name', flat=True).order_by('name')
+        #for ob in co_list2:
+        #    co_list2[co_list2.index(ob)] = [ob, ob]
+        self.fields['co'].choices = [(i, i) for i in co_list2]
 
 class edit_lo_Form(new_locker_Form):#(forms.Form):
     status = forms.ChoiceField(label='статус', widget=forms.RadioSelect, choices=conf.STATUS_LIST_LO)
@@ -75,9 +75,9 @@ class edit_lo_Form(new_locker_Form):#(forms.Form):
         key_type = [(i, i) for i in conf.KEY_DOOR_TYPE]
         self.fields['cab_door'].choices = key_type
         own_list = list(firm.objects.filter(lo=True).values_list('name', flat=True).order_by('name'))
-        for ob in own_list:
-            own_list[own_list.index(ob)] = [ob, ob]
-        self.fields['object_owner_list'].choices = [['', '']] + own_list
+        #for ob in own_list:
+        #    own_list[own_list.index(ob)] = [ob, ob]
+        self.fields['object_owner_list'].choices = [('', '')] + [(i, i) for i in own_list]
         self.fields['coord'].disabled = True
 
 class energy_Form(forms.Form):
@@ -111,9 +111,9 @@ class edit_cr_Form(new_cr_Form):
     def __init__(self, *args, **kwargs):
         super(edit_cr_Form, self).__init__(*args, **kwargs)
         own_list = list(firm.objects.filter(lo=True).values_list('name', flat=True).order_by('name'))
-        for ob in own_list:
-            own_list[own_list.index(ob)] = [ob, ob]
-        self.fields['object_owner_list'].choices = [['', '']] + own_list
+        #for ob in own_list:
+        #    own_list[own_list.index(ob)] = [ob, ob]
+        self.fields['object_owner_list'].choices = [('', '')] + [(i, i) for i in own_list]
 
 #####
 
@@ -146,15 +146,16 @@ class edit_dev_Form(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(edit_dev_Form, self).__init__(*args, **kwargs)
-        eng_list2 = list(engineer.objects.filter(lo=True).values_list('fio', flat=True).order_by('fio'))
-        for ob in eng_list2:
-            eng_list2[eng_list2.index(ob)] = [ob, ob]
-        self.fields['man_conf_list'].choices = eng_list2
-        self.fields['man_install_list'].choices = eng_list2
-        own_list = list(firm.objects.filter(lo=True).values_list('name', flat=True).order_by('name'))
-        for ob in own_list:
-            own_list[own_list.index(ob)] = [ob, ob]
-        self.fields['object_owner_list'].choices = [['', '']] + own_list
+        eng_list2 = engineer.objects.filter(lo=True).values_list('fio', flat=True).order_by('fio')
+        eng_list = [(i, i) for i in eng_list2]
+        #for ob in eng_list2:
+        #    eng_list2[eng_list2.index(ob)] = [ob, ob]
+        self.fields['man_conf_list'].choices = eng_list
+        self.fields['man_install_list'].choices = eng_list
+        own_list = firm.objects.filter(lo=True).values_list('name', flat=True).order_by('name')
+        #for ob in own_list:
+        #    own_list[own_list.index(ob)] = [ob, ob]
+        self.fields['object_owner_list'].choices = [('', '')] + [(i, i) for i in own_list]
 
 #####
 
@@ -209,14 +210,14 @@ class edit_subunit_Form(forms.Form):
         super(edit_subunit_Form, self).__init__(*args, **kwargs)
         self.fields['name_type'].choices = Templ_subunit.objects.values_list('id', 'name').order_by('parrent_id', 'name')#conf.SUBUNIT_TYPE
         self.fields['poe'].choices = conf.POE_TYPE
-        eng_list2 = list(engineer.objects.filter(lo=True).values_list('fio', flat=True).order_by('fio'))
-        for ob in eng_list2:
-            eng_list2[eng_list2.index(ob)] = [ob, ob]
-        self.fields['man_install_list'].choices = eng_list2
-        own_list = list(firm.objects.filter(lo=True).values_list('name', flat=True).order_by('name'))
-        for ob in own_list:
-            own_list[own_list.index(ob)] = [ob, ob]
-        self.fields['object_owner_list'].choices = [['', '']] + own_list
+        eng_list2 = engineer.objects.filter(lo=True).values_list('fio', flat=True).order_by('fio')
+        #for ob in eng_list2:
+        #    eng_list2[eng_list2.index(ob)] = [ob, ob]
+        self.fields['man_install_list'].choices = [(i, i) for i in eng_list2]
+        own_list = firm.objects.filter(lo=True).values_list('name', flat=True).order_by('name')
+        #for ob in own_list:
+        #    own_list[own_list.index(ob)] = [ob, ob]
+        self.fields['object_owner_list'].choices = [('', '')] + [(i, i) for i in own_list]
 
 ####################################################################################################
 

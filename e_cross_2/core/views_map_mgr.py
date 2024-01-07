@@ -32,7 +32,7 @@ def m_manager(request, m_num):
         f_list1 = default_storage.listdir('map_1/'+num)[1]
         f_list2 = default_storage.listdir('map_2/'+num)[1]
     except Exception as error:
-        print(error)
+        #print(error)
         return render(request, 'error.html', {'mess': 'невозможно получить список файлов', 'back': 2})
 
     cut1 = []

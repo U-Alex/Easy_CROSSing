@@ -10,13 +10,13 @@ body { background: var(--tone1-color); }
     padding-top: 8px;
     padding-left: 20px;
 }
-.cr_ext summary::before { content: "►►►"; }
-.cr_ext details[open] > summary::before { content: "▼▼▼"; }
-.cr_int summary::before { content: "►►►"; }
-.cr_int details[open] > summary::before { content: "▼▼▼"; }
-.dev_int summary::before { content: "►►►"; }
-.dev_int details[open] > summary::before { content: "▼▼▼"; }
+.cr_ext summary::before,
+.cr_int summary::before,
+.dev_int summary::before,
 .box_int summary::before { content: "►►►"; }
+.cr_ext details[open] > summary::before,
+.cr_int details[open] > summary::before,
+.dev_int details[open] > summary::before,
 .box_int details[open] > summary::before { content: "▼▼▼"; }
 
 .cr_ext .ob_cross, .cr_int .ob_cross, .dev_int .ob_cross, .box_int .ob_cross {
@@ -97,7 +97,7 @@ body { background: var(--tone1-color); }
     flex-wrap: wrap;
     justify-content: center;
     gap: 6px 8px;
-    max-width: 800px;
+/*     max-width: 1400px; */
     align-content: flex-start;
 }
 .res_item {

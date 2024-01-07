@@ -1,7 +1,14 @@
-{% if lo_obj.0 %}
 
-<details open="open">
-    <summary>&nbsp;&nbsp;кроссы</summary>
+<details {% if lo_obj.0 %} open="open"{% endif %}>
+    <summary>
+        &nbsp;&nbsp;
+        {% if not lo_obj.0 %} кроссы отсутствуют&nbsp;&nbsp;
+            {% if perms.core.can_new %}
+            <a href="new_cr/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить"></a>
+            {% endif %}
+        {% else %} кроссы
+        {% endif %}
+    </summary>
 <table class="cross_list">
     <tr class="t_header1 row_title">
         <th class="col_pic"></th>
@@ -32,9 +39,3 @@
     </tr>
 </table>
 </details>
-
-{% else %}
-<div class="card_txt_l"><h5>кроссы отсутствуют &nbsp;&nbsp;
-    <a href="new_cr/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить"></a></h5>
-</div>
-{% endif %}

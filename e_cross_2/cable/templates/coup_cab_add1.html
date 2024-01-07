@@ -27,17 +27,15 @@
                     </tr>
                 {% for ob in list1 %}
                     <tr>
-                        <td>&nbsp{{ ob.0.name }}&nbsp{{ ob.0.house_num }}</td>
+                        <td>{{ ob.0.name }} {{ ob.0.house_num }}</td>
                         <td>
                         {% for ob2 in ob.2 %}
-                            &nbsp
                             <a href="target={{ ob2.1.id }}/"><b>{{ ob2.1.name }}</b></a>
                             <br>
                         {% endfor %}
                         </td>
                         <td>
                         {% for ob2 in ob.1 %}
-                            &nbsp
                             <a href="target={{ ob2.id }}/"><b>{{ ob2.name }}</b></a>
                             <br>
                         {% endfor %}
@@ -54,10 +52,9 @@
                     </tr>
                 {% for ob in list2 %}
                     <tr>
-                        <td>&nbsp{{ ob.0.name }}</td>
+                        <td>{{ ob.0.name }}</td>
                         <td>
                         {% for ob2 in ob.1 %}
-                            &nbsp
                             <a href="target={{ ob2.id }}/"><b>{{ ob2.name }}</b></a>
                             <br>
                         {% endfor %}

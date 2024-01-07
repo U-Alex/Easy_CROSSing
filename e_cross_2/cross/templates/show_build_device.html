@@ -1,12 +1,19 @@
-{% if lo_obj.1 %}
 
-<details open="open">
-    <summary>&nbsp;&nbsp;активное оборудование</summary>
+<details {% if lo_obj.1 %} open="open"{% endif %}>
+    <summary>
+        &nbsp;&nbsp;
+        {% if not lo_obj.1 %} активное оборудование отсутствует&nbsp;&nbsp;
+            {% if perms.core.can_new %}
+            <a href="new_dev/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить"></a>
+            {% endif %}
+        {% else %} активное оборудование
+        {% endif %}
+    </summary>
 <table class="device_list">
     <tr class="t_header1 row_title">
         <th class="col_pic"></th>
         <th class="col_name2">название</th>
-        <th class="col_oper3"></th>
+        <th class="col_oper2"></th>
         <th class="col_type">модель</th>
         <th class="col_small2">ip / mask</th>
         <th class="col_small3">gateway</th>
@@ -20,10 +27,10 @@
             <img src="/static/images/obj_dev/dev_{{ ob.obj_type__parrent_id }}.png" alt=" " title="{{ ob.obj_type__parrent__name }}">
         </td>
         <td><b><a href="dev={{ ob.id }}/" title="просмотр кроссировок">{{ ob.name }}</a></b></td>
-        <td class="col_oper3">
+        <td class="col_oper2">
             <a href="dev={{ ob.id }}/l2=1"><img src="/static/images/chain3_1.png" alt="" title="конфигурация"></a>&nbsp;
-            <a href="dev={{ ob.id }}/ips"><img src="/static/images/stat.png" alt="" title="коммутация"></a>&nbsp;
-            <a href="/statist/agr_to_abon={{ ob.id }}" target="_blank"><img src="/static/images/icon_team2.png" alt="i" title="абоненты"></a>
+            <a href="dev={{ ob.id }}/ips"><img src="/static/images/stat.png" alt="" title="коммутация"></a>
+            <!-- <a href="/statist/agr_to_abon={{ ob.id }}" target="_blank"><img src="/static/images/icon_team2.png" alt="i" title="абоненты"></a> -->
         </td>
         <td>{{ ob.obj_type__name }}</td>
         <td>
@@ -50,10 +57,3 @@
     </tr>
 </table>
 </details>
-
-{% else %}
-<div class="card_txt_l"><h5>оборудование отсутствует &nbsp;&nbsp;
-    <a href="new_dev/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить"></a></h5>
-</div>
-{% endif %}
-
