@@ -1,0 +1,86 @@
+ /* cable__int */
+
+body { background: var(--tone1-color); }
+
+.cr_int { padding-bottom: 6px; }
+.cr_int summary {
+    display: block;
+    text-align: left;
+    color: var(--link1-color);
+    padding-top: 10px;
+    padding-left: 20px;
+}
+.cr_int summary::before { content: "►►►"; }
+.cr_int details[open] > summary::before { content: "▼▼▼"; }
+
+.cr_int .ob_cab {
+    margin: 6px 0;
+    display: grid;
+    grid-template-columns: minmax(100px, 250px) auto minmax(10px, 150px);
+    grid-template-rows: auto;
+    overflow-x: auto;
+}
+.cr_int .ob_tit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 9px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background: linear-gradient(to right, var(--tone1-color), var(--tone2-color));
+}
+.cr_int .cab_num {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--tone4-color);
+    border-radius: 12px;
+    width: 20px;
+    height: 20px;
+    font-weight: bold;
+    font-size: 15px;
+}
+.cr_int .ob_ports {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 4px 0;
+    gap: 2px;
+
+}
+.cr_int .ob_r {
+    background: linear-gradient(to right, var(--tone2-color), var(--tone1-color));
+}
+
+.ob_ports_item input[type=radio] {
+    display: none;
+}
+.ob_ports_item label {
+    display: inline-block;
+    text-align: center;
+    width: 20px;
+    border: 1px solid var(--tone4-color);
+    padding: 3px 3px;
+    border-radius: 3px;
+    /* font-weight: bold; */
+}
+.ob_ports_item input[type="radio"]:checked + label {
+    background: radial-gradient(white, var(--tone5-color));
+    font-weight: bold;
+}
+.ob_ports_item label:hover {
+    background-color: var(--tone1-color);
+    outline: 1px solid var(--tone4-color);
+    /* box-shadow: 0px 0px 4px 4px var(--tone2-color); */
+}
+
+._cab_st_0 { background: white; }
+._cab_st_1 { background: radial-gradient( white, lawngreen); }
+._cab_st_s {
+    background: radial-gradient(white, var(--warn1-color));
+    font-weight: bold;
+}
+._cab_st_ch {
+    color: darkorange;
+    font-weight: bold;
+}
+

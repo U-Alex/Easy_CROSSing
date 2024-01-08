@@ -1,120 +1,121 @@
 {% extends 'main.html' %}
 
 {% block cable %}
-<link rel="stylesheet" type="text/css" href="/static/colors.css">
+<!-- <link rel="stylesheet" type="text/css" href="/static/colors.css"> -->
+<link rel="stylesheet" type="text/css" href="/static/cable_int.css">
 
 <div class="c_base_w c_header tone1">
     <div class="c_header_nav">
-        <h3>
-            исходная муфта: {{ s_p.parrent.name }}, кабель №: {{ s_p.cable_num }}, волокно №: {{ s_p.fiber_num }}
-        </h3>
+        <h3>исходная муфта: {{ s_p.parrent.name }}, кабель №: {{ s_p.cable_num }}, волокно №: {{ s_p.fiber_num }}</h3>
     </div>
 </div>
 <br>
 
-<form method="post" action="dest=0/">
-    {% csrf_token %}
-    
-    <table class="c_base_w" border="1"> 
-        <tr>
-            <td align="center">№ кабеля -> </td>
-        {% for ob in cab_list %}
-            <td align="center">
-                <label title="удаленная муфта: {{ ob.1.parrent.name }}">&nbsp;{{ ob.0 }}&nbsp;</label>
-            </td>
+{% if p_list1 %}
+<div class="c_base_w cr_int">
+    <details open="open">
+        <summary><b>&emsp;&emsp;кабели ВОЛС</b></summary>
+        <form method="post" action="dest=0/">
+        {% csrf_token %}
+        {% for ob1 in p_list1 %}
+            <div class="ob_cab">
+                <div class="ob_tit">
+                    <p>{{ ob1.1 }}</p>
+                    <!-- &#9669;&nbsp;&nbsp; -->
+                    <label class="cab_num" title="номер кабеля в муфте">{{ ob1.0 }}</label>
+                </div>
+                <div class="ob_ports tone2">
+                {% for ob2 in ob1.2 %}
+                    <div class="ob_ports_item">
+                        <input type="radio" name="f_port" id="{{ ob2.id }}" value="{{ ob2.id }}"
+                        {% if ob2.int_c_status != 0 or ob2.id == s_p.id %} disabled="1"{% endif %}>
+                        <label for="{{ ob2.id }}" class="
+                        {% if ob2.id == s_p.id %} _cab_st_s
+                        {% elif ob2.int_c_status == 0 %} _cab_st_0
+                        {% else %} _cab_st_1
+                        {% endif %}
+                        {% if ob2.changed %} _cab_st_ch
+                        {% endif %}"
+                        title="id: {{ ob2.id }}">
+                        {{ ob2.fiber_num }}</label>
+                    </div>
+                {% endfor %}
+                </div>
+                <div class="ob_r"></div>
+            </div>
         {% endfor %}
-        </tr>
-        <tr>
-            <td align="center">№ волокна -> </td>
-        {% for ob in p_list %}
-            <td style="vertical-align: top">
-            {% for ob2 in ob %}
-                &nbsp;
-                <input type="radio" name="f_port" id="{{ ob2.id }}" value="{{ ob2.id }}"
-                    {% if ob2.int_c_status != 0 or ob2.id == s_p.id %} disabled="1"{% endif %}>
-                <label for="{{ ob2.id }}"
-                {% if ob2.id == s_p.id %} class="crab_color_txt_5"
-                {% elif ob2.changed %} class="crab_color_txt_2"
-                {% elif ob2.int_c_status == 0 %} class="crab_color_txt_0"
-                {% else %} class="crab_color_txt_1"
-                {% endif %}>
-                <b>{{ ob2.fiber_num }}</b>&nbsp;</label>
-                &nbsp;<br>
-            {% endfor %}
-            </td>
-        {% endfor %}
-        </tr>
-    </table>
-    <br>
-    
-    {% if e_p.1 == "1" %}
-    <table class="c_base_w t_header1" border="1"> 
-        <tr><td align="center">&nbsp;конечное волокно в исходном кабеле:&nbsp;</td></tr>
-        <tr><td align="center"><input type="number" name="end_p0" min="1" max="{{ e_p.0 }}" value="{{ e_p.0 }}" size="5"></td></tr>
-    </table>
-    <br>
-    {% endif %}
-    
-    <div class="c_base_w t_footer3">
-        <div class="_flex_c">
-            <input type="submit" value="     OK     ">
-            <input type="button" value="отмена" onClick='location.href="../../../"'>
-        </div>
+        {% if e_p.1 %}
+            <div class="c_base_w t_footer3">
+                <div class="_flex_c">
+                    конечное волокно в исходном кабеле:
+                    <input type="number" name="end_p0" min="1" max="{{ e_p.0 }}" value="{{ e_p.0 }}" size="5">
+                </div>
+            </div>
+        {% endif %}
+            <div class="c_base_w t_footer3">
+                <div class="_flex_c">
+                    <input type="submit" value="     OK     ">
+                    <input type="button" value="отмена" onClick='location.href="../../../"'>
+                </div>
+            </div>
+        </form>
+    </details>
+</div>
+
+{% else %}
+<div class="c_base_w t_footer3">
+    <div class="_flex_c">
+        <input type="button" value="доступные для связи порты отсутствуют" onClick='location.href="../../../"'>
     </div>
+</div>
+{% endif %}
 
-</form>
-
-<br>
-
-{% if cr_list %}
-<form method="post" action="dest=1/">
-    {% csrf_token %}
-    
-    <table class="c_base_w" border="1"> 
-        <tr>
-        {% for ob in cr_list %}
-            <td align="center">
-                <a href="/cross/build={{ ob.parrent.parrent.id }}/locker={{ ob.parrent.id }}/cr={{ ob.id }}" target="_blank">{{ ob.name }}</a>
-            </td>
+{% if p_list2 %}
+<div class="c_base_w cr_int">
+    <details open="open">
+        <summary><b>&emsp;&emsp;кроссы</b></summary>
+        <form method="post" action="dest=1/">
+        {% csrf_token %}
+        {% for ob1 in p_list2 %}
+            <div class="ob_cab">
+                <div class="ob_tit">
+                    <label title="номер кабеля в муфте">{{ ob1.0.name_type }}</label>
+                    <!-- &#9669;&nbsp;&nbsp; -->
+                    <p><b><a href="/cross/build={{ ob1.0.parrent__parrent_id }}/locker={{ ob1.0.parrent_id }}/cr={{ ob1.0.id }}" target="_blank">{{ ob1.0.name }}</a></b></p>
+                </div>
+                <div class="ob_ports tone2">
+                {% for ob2 in ob1.1 %}
+                    <div class="ob_ports_item">
+                        <input type="radio" name="cr_port" id="{{ ob2.id }}" value="{{ ob2.id }}" 
+                        {% if ob2.cab_p_id != 0 %} disabled="1" {% endif %}>
+                        <label for="{{ ob2.id }}" class="
+                        {% if ob2.cab_p_id == 0 %} _cab_st_0
+                        {% else %} _cab_st_1
+                        {% endif %}">
+                        {{ ob2.num }}</label>
+                    </div>
+                {% endfor %}
+                </div>
+                <div class="ob_r"></div>
+            </div>
         {% endfor %}
-        </tr>
-        <tr>
-        {% for ob in cr_p_list %}
-            <td style="vertical-align: top">
-            {% for ob2 in ob %}
-                &nbsp;
-                <input type="radio" name="cr_port" id="{{ ob2.id }}" value="{{ ob2.id }}" 
-                    {% if ob2.cab_p_id != 0 %} disabled="1" {% endif %}>
-                <label for="{{ ob2.id }}"
-                {% if ob2.cab_p_id == 0 %} class="crab_color_txt_0"
-                {% else %} class="crab_color_txt_1"
-                {% endif %}>
-                <b>{{ ob2.num }}</b>&nbsp;</label>
-                &nbsp;<br>
-            {% endfor %}
-            </td>
-        {% endfor %}
-        </tr>
-    </table>
-    <br>
-    
-    {% if e_p.1 == "1" %}
-    <table class="c_base_w t_header1" border="1"> 
-        <tr><td align="center">&nbsp;конечное волокно в исходном кабеле:&nbsp;</td></tr>
-        <tr><td align="center"><input type="number" name="end_p1" min="1" max="{{ e_p.0 }}" value="{{ e_p.0 }}" size="5"></td></tr>
-    </table>
-    <br>
-    {% endif %}
-    
-    <div class="c_base_w t_footer3">
-        <div class="_flex_c">
-            <input type="submit" value="     OK     ">
-            <input type="button" value="отмена" onClick='location.href="../../../"'>
-        </div>
-    </div>
-
-</form>
-
+        {% if e_p.1 %}
+            <div class="c_base_w t_footer3">
+                <div class="_flex_c">
+                    конечное волокно в исходном кабеле:
+                    <input type="number" name="end_p1" min="1" max="{{ e_p.0 }}" value="{{ e_p.0 }}" size="5">
+                </div>
+            </div>
+        {% endif %}
+            <div class="c_base_w t_footer3">
+                <div class="_flex_c">
+                    <input type="submit" value="     OK     ">
+                    <input type="button" value="отмена" onClick='location.href="../../../"'>
+                </div>
+            </div>
+        </form>
+    </details>
+</div>
 {% endif %}
 
 {% endblock %}

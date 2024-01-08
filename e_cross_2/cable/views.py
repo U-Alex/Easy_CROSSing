@@ -93,24 +93,21 @@ def create_obj_list(kvar):
         lo_ob = []
         for lo in lo_list:
             lo_coup = Coupling.objects.filter(parr_type=0, parrent=lo.id).order_by('name').first()
-            lo_ob.append([
-                            lo.name,
-                            lo_coup,
-                            lo.id,
-                            ])
-        list1.append([
-                        ob,
-                        coup_list,
-                        lo_ob,
-                        ])
+            lo_ob.append((lo.name,
+                          lo_coup,
+                          lo.id,
+                          ))
+        list1.append((ob,
+                      coup_list,
+                      lo_ob,
+                      ))
     for ob in qs2:
         coup_list = Coupling.objects.filter(parr_type=2, parrent=ob.id).order_by('name')
-        list2.append([
-                        ob,
-                        coup_list,
-                        ])
+        list2.append((ob,
+                      coup_list,
+                      ))
 
-    return [list1, list2]
+    return (list1, list2)
 
 #___________________________________________________________________________
 
@@ -221,14 +218,14 @@ def coup_view(request, s_coup):
                     info[0] = firms.get(pk=int(info[1])).name
                 except:
                     info[0] = 'владелец не найден в справочнике фирм... '
-            cab_title = {'cab':[ob.cable_num,
+            cab_title = {'cab':(ob.cable_num,
                                 Templ_cable.objects.get(pk=ob.cable_type).name,
                                 info,
                                 conf.N_CAB_COLORS[ob.cable_num] if ob.cable_num < 15 else '#B5FFCE',
-                                ],
-                         'rem':[rem_coup,
+                                ),
+                         'rem':(rem_coup,
                                 parr2,
-                                ],
+                                ),
                          }
 ### up
         fin = False
@@ -438,13 +435,15 @@ def cab_add2(request, s_coup, kvar, d_coup):
             owner = form.cleaned_data['owner']
             
             cab_num1 = 1
-            while Coupling_ports.objects.filter(parrent_id=s_c.id, cable_num=cab_num1).count() != 0:
+            while Coupling_ports.objects.filter(parrent_id=s_c.id, cable_num=cab_num1).count() != 0:#exists() TODO
                 cab_num1 += 1
             cab_num2 = 1
-            while (Coupling_ports.objects.filter(parrent_id=d_c.id, cable_num=cab_num2).count() != 0) or ((s_coup == d_coup) and (cab_num1 == cab_num2)):     #experimental
+            while (Coupling_ports.objects.filter(parrent_id=d_c.id, cable_num=cab_num2).count() != 0) or \
+                  ((s_coup == d_coup) and (cab_num1 == cab_num2)):     #experimental
                 cab_num2 += 1
             
             with transaction.atomic():
+                #for i in range(1, sel_cable.capacity+1):# TODO
                 i = 0
                 while i < sel_cable.capacity:
                     i = i + 1
@@ -566,37 +565,36 @@ def int_c(request, s_coup, s_port, stat, multi, dest_type=None):
         return HttpResponseRedirect('../../../../')
     
     curr_cab = 0
-    cab_list = []
-    p_list = []
+    p_list1, p_list2 = [], []
+
     coup_p_list = Coupling_ports.objects.filter(parrent_id=coup.id).order_by('cable_num', 'fiber_num')
     if int(stat) == 1:                 #транзит -> кабель должен быть одного типа и с разными номерами в муфте
         coup_p_list = coup_p_list.filter(cable_type=s_p.cable_type).exclude(cable_num=s_p.cable_num)
     for ob in coup_p_list:
         if curr_cab != ob.cable_num:
             curr_cab = ob.cable_num
-            cab_list.append([
-                            curr_cab,
-                            Coupling_ports.objects.get(pk=ob.up_id),
-                            ])
-            p_list.append(coup_p_list.filter(cable_num=curr_cab))
-            #print(p_list[0].count())
-    cr_list = []
-    cr_p_list = []
+            p_list1.append((curr_cab,
+                            Coupling_ports.objects.get(pk=ob.up_id).parrent.name,
+                            coup_p_list.filter(cable_num=curr_cab)\
+                                .values('id', 'fiber_num', 'int_c_status', 'changed')
+                            ))
+
     if coup.parr_type == 0 and int(stat) != 1:
-        cr_list = Cross.objects.filter(parrent_id=coup.parrent).order_by('name')
+        cr_list = Cross.objects.filter(parrent_id=coup.parrent).order_by('name')\
+            .values('parrent__parrent_id', 'parrent_id', 'id', 'name', 'name_type')
         for ob in cr_list:
-            cr_p_list.append(Cross_ports.objects.filter(parrent_id=ob.id).order_by('num'))
+            p_list2.append((ob,
+                            Cross_ports.objects.filter(parrent_id=ob['id']).order_by('num')\
+                                .values('id', 'cab_p_id', 'num')
+                            ))
             
-    e_p = Coupling_ports.objects.filter(parrent_id=s_p.parrent_id,cable_num=s_p.cable_num).count() #end_port
+    e_p = Coupling_ports.objects.filter(parrent_id=s_p.parrent_id, cable_num=s_p.cable_num).count() #end_port
     
-    return render(request, 'coup_int_c.html', {
-                                            's_p': s_p,
-                                            'e_p': [e_p, multi],
-                                            'cab_list': cab_list,
-                                            'p_list': p_list,
-                                            'cr_list': cr_list,
-                                            'cr_p_list': cr_p_list,
-                                            })
+    return render(request, 'coup_int_c.html',  {'s_p': s_p,
+                                                'e_p': (e_p, int(multi)),
+                                                'p_list1': p_list1,
+                                                'p_list2': p_list2
+                                                })
 
 
 def int_c_multi(s_p, d_p, stat, e_p):
@@ -609,6 +607,7 @@ def int_c_multi(s_p, d_p, stat, e_p):
                                             )
     d_p_list = Coupling_ports.objects.filter(parrent_id=d_p.parrent_id,cable_num=d_p.cable_num,fiber_num__gt=d_p.fiber_num)
     count_op = s_p_list.count() if (s_p_list.count() < d_p_list.count()) else d_p_list.count()
+    #for i in range(1, count_op+1):# TODO
     i = 0
     while i < count_op:
         i += 1
@@ -641,6 +640,7 @@ def int_c_multi_cross(s_p, d_p, e_p):
                                             )
     d_p_list = Cross_ports.objects.filter(parrent_id=d_p.parrent_id, num__gt=d_p.num)
     count_op = s_p_list.count() if (s_p_list.count() < d_p_list.count()) else d_p_list.count()
+    #for i in range(1, count_op+1):# TODO
     i = 0
     while i < count_op:
         i += 1

@@ -9,7 +9,9 @@
         </tr>
     </table>
     {% if f_exist %}
-        <label style="color:red;"><b>файл с таким именем существует на сервере</b></label>
+    <div class="c_base_w" align="center">
+        <label class="color_warn1"><b>файл с таким именем существует на сервере</b></label>
+    </div>
     {% endif %}
         <br>
         {% if f_list %}
@@ -28,13 +30,10 @@
                                 <font size="1">{{ ob }}</font>
                             </td>
                             <td align="right" valign="top">
-                                <a href="/statist/bu_doc_del={{ bu.id }}/?d_file={{ ob }}" style="color:red;"><font size="1">[X]</font></a>
+                                <a href="/statist/bu_doc_del={{ bu.id }}/?d_file={{ ob }}" class="color_warn1"><font size="1">[X]</font></a>
                             </td>
                         </tr>
                     </table>
-                    <!--<table class="tbl-main">
-                        <tr><td>&nbsp</td></tr>
-                    </table>-->
                 {% endfor %}
                 </td>
                 <td>
