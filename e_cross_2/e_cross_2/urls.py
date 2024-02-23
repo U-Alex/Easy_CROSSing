@@ -32,6 +32,6 @@ urlpatterns = [
     #re_path(r'^rent/', include('eq_rent.urls')),
     #re_path(r'^mess/', include('mess.urls')),
     #url(r'^hard/', include('hard.urls')),
-    re_path(r'^', include('core.urls')),
+    re_path(r'^', include('find.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  #### for dev server

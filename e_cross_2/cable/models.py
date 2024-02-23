@@ -46,7 +46,7 @@ class Coupling_ports(models.Model):
     prim = models.CharField(max_length=200, blank=True)
 
     up_id = models.IntegerField(default=0)
-    up_info = models.CharField(max_length=256, blank=True)                  #владелец волокна/кабеля,физич длина,запас,дата прокладки
+    up_info = models.CharField(max_length=256, blank=True)                  #владелец волокна/кабеля,физич длина,запас,дата прокладки # TODO to JSONField
     int_c_dest = models.IntegerField(default=0)                             #0-в муфту, 1-в кросс
     int_c_id = models.IntegerField(default=0)
     int_c_status = models.IntegerField(default=0)                           #0-разрыв, 1-транзит, 2-варка

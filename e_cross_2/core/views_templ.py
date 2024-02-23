@@ -270,6 +270,8 @@ def templ_box_cable(request, b_cab_id):
     if request.method == 'POST':
         if b_cab_id != '0':
             form = templ_box_cable_Form(request.POST, instance=box_cab)
+            if box_cab.ports != int(form.data['ports']):
+                return render(request, 'error.html', {'mess': 'нельзя изменить количество портов', 'back': 0})
             if box_cab.alias_list != form.data['alias_list']:
                 ch_box_ports = Box_ports.objects.filter(cable_id=box_cab.id)
                 alias_list = form.data['alias_list'].split(',')

@@ -6,7 +6,8 @@ class conf:
     #
     ##HOME_PATH = os.getcwd()
     #HOME_PATH = '/home/'               #for production server
-    HOME_PATH = '/home/uaa/django_2/'     #for dev server
+    #HOME_PATH = '/home/uaa/django_2/'     #for dev server
+    HOME_PATH = '/home/uaa/PycharmProjects/django_2/'  # for dev server
     #
     MAP_PATH =  "e_cross_2/media/map/"
     MAP1_PATH = "e_cross_2/media/map_1/"
