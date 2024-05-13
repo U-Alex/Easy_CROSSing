@@ -1,7 +1,7 @@
 # cable__forms
 
 from django import forms
-from django.forms.widgets import SelectDateWidget
+# from django.forms.widgets import SelectDateWidget
 
 #from cross.models import Kvartal, Street
 from core.models import firm#, COffice
@@ -22,8 +22,6 @@ class add_PW_Form(forms.Form):
     def __init__(self, *args, **kwargs):
         super(add_PW_Form, self).__init__(*args, **kwargs)
         own_list = list(firm.objects.filter(obj=True).values_list('name', flat=True).order_by('name'))
-        #for ob in own_list:
-        #    own_list[own_list.index(ob)] = [ob, ob]
         self.fields['object_owner_list'].choices = [('', '')] + [(i, i) for i in own_list]
         #self.fields['object_owner_list'].disabled = True
 
@@ -33,7 +31,7 @@ class add_Coup_Form(forms.Form):
     object_owner = forms.CharField(label='владелец муфты', max_length=60, required=False, widget=forms.TextInput(attrs={'size': 28}))
     object_owner_list = forms.ChoiceField(label='владелец муфты', required=False, widget=forms.Select, choices=[])
     installed = forms.BooleanField(label='установлена', required=False)
-    date_ent = forms.DateField(label='дата установки', required=False, widget=SelectDateWidget(months=conf.MONTHS, years=conf.YEARS))
+    date_ent = forms.DateField(label='дата установки', required=False, widget=forms.DateInput(attrs={'type': 'date'}))
     rasp = forms.CharField(label='расположение', max_length=190, required=False, widget=forms.TextInput(attrs={'size': 51}))
     prim = forms.CharField(label='примечание', max_length=190, required=False, widget=forms.TextInput(attrs={'size': 51}))
     coord = forms.CharField(label='координаты', max_length=32, required=False, widget=forms.TextInput(attrs={'size': 51}))
@@ -41,13 +39,8 @@ class add_Coup_Form(forms.Form):
     def __init__(self, *args, **kwargs):
         super(add_Coup_Form, self).__init__(*args, **kwargs)
         coup_list = Templ_coupling.objects.values_list('name', flat=True).order_by('name')
-        #for ob in coup_list2:
-        #    coup_list2[coup_list2.index(ob)] = [ob, ob]
-        #self.fields['name_type'].choices = coup_list2
         self.fields['name_type'].choices = [(i, i) for i in coup_list]
         own_list = firm.objects.filter(coup=True).values_list('name', flat=True).order_by('name')
-        #for ob in own_list:
-        #    own_list[own_list.index(ob)] = [ob, ob]
         self.fields['object_owner_list'].choices = [('', '')] + [(i, i) for i in own_list]
 
 ####################################################################################################
@@ -56,7 +49,7 @@ class coup_cab_edit_Form(forms.Form):
     #phys_len = forms.CharField(label='длина кабеля между муфтами (в метрах)', max_length=8, required=False, widget=forms.TextInput(attrs={'size': 11}))
     phys_len = forms.IntegerField(label='длина кабеля между муфтами (в метрах)', min_value=0, max_value=9999)#, required=False)
     res_len = forms.CharField(label='запас кабеля в муфте (в метрах)', max_length=6, required=False, widget=forms.TextInput(attrs={'size': 11}))
-    date_ent = forms.DateField(label='дата ввода в муфту', required=False, widget=SelectDateWidget(months=conf.MONTHS, years=conf.YEARS))
+    date_ent = forms.DateField(label='дата ввода в муфту', required=False, widget=forms.DateInput(attrs={'type': 'date'}))
     owner = forms.ChoiceField(label='владелец кабеля', required=False, widget=forms.Select, choices=[])
     owner_f = forms.BooleanField(label='применить ко всем волокнам в кабеле', required=False)
 
@@ -94,8 +87,5 @@ class coup_p_edit_Form(forms.Form):
     def __init__(self, *args, **kwargs):
         super(coup_p_edit_Form, self).__init__(*args, **kwargs)
         own_list = firm.objects.filter(coup=True).values_list('id', 'name').order_by('id')
-        #own_list2 = [['', '---']]
-        #for ob in own_list:
-        #    own_list2.append([ob[0], ob[1]])
         self.fields['owner'].choices = [('', '---')] + [(i[0], i[1]) for i in own_list]
 

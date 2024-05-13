@@ -161,16 +161,17 @@ def templ_dev(request, dev_id):
     if request.method == 'POST':
         if dev_id != '0':
             form = templ_dev_Form(request.POST, instance=dev)
-            ch_dev = Device.objects.filter(con_type=dev.id)
-            ch_dev.update(name_type=form.data['name'].strip())
-            if (dev.port_alias_list != form.data['port_alias_list']) or (dev.port_t_x_list != form.data['port_t_x_list']) or (dev.port_speed_list != form.data['port_speed_list']):
-                ch_dev_ports = Device_ports.objects.filter(parrent_id__con_type=dev.id)
+            #ch_dev = Device.objects.filter(con_type=dev.id)
+            #ch_dev.update(name_type=form.data['name'].strip())
+            if (dev.port_alias_list != form.data['port_alias_list']) or \
+                    (dev.port_t_x_list != form.data['port_t_x_list']) or \
+                    (dev.port_speed_list != form.data['port_speed_list']):
+                #ch_dev_ports = Device_ports.objects.filter(parrent_id__con_type=dev.id)
+                ch_dev_ports = Device_ports.objects.filter(parrent_id__obj_type_id=dev.id)
                 alias_list = form.data['port_alias_list'].split(',')
                 t_x_list = form.data['port_t_x_list'].split(',')
                 speed_list = form.data['port_speed_list'].split(',')
-                i = 0
-                while i < len(alias_list):
-                    i += 1
+                for i in range(1, len(alias_list) + 1):
                     ch_dev_ports.filter(num=i).update(p_alias=alias_list[i-1].strip(),
                                                       port_t_x=t_x_list[i-1].strip(),
                                                       port_speed=speed_list[i-1].strip()
@@ -196,14 +197,16 @@ def templ_dev_del(request, dev_id):
     except ObjectDoesNotExist:
         return render(request, 'error.html', {'mess': 'объект не найден', 'back': 2})
 
-    del_ok = False if Device.objects.filter(con_type=int(dev.id)).exists() else True
+    #del_ok = False if Device.objects.filter(con_type=int(dev.id)).exists() else True
+    del_ok = False if Device.objects.filter(obj_type_id=int(dev.id)).exists() else True
     if request.method == 'POST' and del_ok:
         dev.delete()
         return HttpResponseRedirect('/core/templ/')
 
     return render(request, 'templ_del.html', {'dev': dev,
                                               'del_ok': del_ok,
-                                              'count': Device.objects.filter(con_type=int(dev.id)).count(),
+                                              #'count': Device.objects.filter(con_type=int(dev.id)).count(),
+                                              'count': Device.objects.filter(obj_type_id=int(dev.id)).count(),
                                               })
 
 ###############################--box--##############################################################

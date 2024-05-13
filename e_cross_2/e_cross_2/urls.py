@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import re_path, include
+from django.urls import re_path, include#, path
 
 from django.conf import settings            #### for dev server
 from django.conf.urls.static import static  #### for dev server
@@ -33,5 +33,6 @@ urlpatterns = [
     #re_path(r'^mess/', include('mess.urls')),
     #url(r'^hard/', include('hard.urls')),
     re_path(r'^', include('find.urls')),
+    re_path(r'^__debug__/', include('debug_toolbar.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  #### for dev server

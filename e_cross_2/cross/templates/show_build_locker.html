@@ -80,14 +80,19 @@
     </div>
     <div class="c_footer_nav">
         {% if not lo_id and not bu_double %}
-        <input type="button" value="история" onClick='location.href="/core/logs/t=0/id={{ bu.id }}"'>
+{#        <input type="button" value="история" onClick='location.href="/core/logs/t=0/id={{ bu.id }}"'>#}
+        <input type="button" value="история" onClick='location.href="{% url 'show_logs' 0 bu.id %}"'>
         {% endif %}
         {% if not lo_id %}
-        <input type="button" value="редактирование" onClick='location.href="edit"'>
-        <input type="button" value="закрыть" onClick='location.href="/find/str={{ bu.parrent_id }}"'>
+{#        <input type="button" value="редактирование" onClick='location.href="edit"'>#}
+        <input type="button" value="редактирование" onClick='location.href="{% url 'edit_build' bu.id %}"'>
+{#        <input type="button" value="закрыть" onClick='location.href="/find/str={{ bu.parrent_id }}"'>#}
+        <input type="button" value="закрыть" onClick='location.href="{% url 'find_0' bu.parrent_id %}"'>
         {% else %}
-        <input type="button" value="удалить УД" onClick='location.href="../del_locker={{ lo.id }}/"'>
-        <input type="button" value="закрыть" onClick='location.href="/cross/build={{ bu.id }}/"'>
+{#        <input type="button" value="удалить УД" onClick='location.href="../del_locker={{ lo.id }}/"'>#}
+        <input type="button" value="удалить УД" onClick='location.href="{% url 'del_locker' bu.id lo.id %}"'>
+{#        <input type="button" value="закрыть" onClick='location.href="/cross/build={{ bu.id }}/"'>#}
+        <input type="button" value="закрыть" onClick='location.href="{% url 'show_bu_lo' bu.id %}"'>
         {% endif %}
     </div>
 </div>

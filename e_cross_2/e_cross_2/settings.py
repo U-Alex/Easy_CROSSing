@@ -23,14 +23,22 @@ SECRET_KEY = 'django-insecure-r!=lz6kxm#cx_e$(d!8xj())@t-w4spvwlji_qy2#wp^d2-m+m
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '192.168.1.11']
 X_FRAME_OPTIONS = '127.0.0.1'
-
+INTERNAL_IPS = ['127.0.0.1', '192.168.1.1', '192.168.1.11']
 
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
     'core',
     'find',
     'cross',
@@ -38,15 +46,11 @@ INSTALLED_APPS = [
     'app_proc',
     'statist',
     'manual',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -112,7 +116,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -130,16 +133,16 @@ USE_L10N = True
 #USE_TZ = True
 USE_TZ = False
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-#STATIC_URL = 'static/'
-STATIC_URL = '/static/'
-STATIC_ROOT = str(BASE_DIR) + str(STATIC_URL)
+STATIC_URL = 'static/'
+# STATIC_ROOT = str(BASE_DIR) + str(STATIC_URL)
+STATIC_ROOT = BASE_DIR / 'static/'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = str(BASE_DIR) + str(MEDIA_URL)
+# MEDIA_ROOT = str(BASE_DIR) + str(MEDIA_URL)
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

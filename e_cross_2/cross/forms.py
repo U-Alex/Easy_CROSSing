@@ -1,7 +1,7 @@
 #  cross__forms
 
 from django import forms
-from django.forms.widgets import SelectDateWidget
+# from django.forms.widgets import SelectDateWidget
 
 from .models import Kvartal#, Street, Building
 from core.models import Templ_locker, Templ_cross, Templ_box_cable, Templ_box, Templ_subunit
@@ -33,28 +33,22 @@ class edit_bu_Form(forms.Form):
         self.fields['info_comp'].choices = manage_comp.objects.values_list('id', 'name').order_by('name')
         d_list = [(i, i) for i in range(1, 32)]
         self.fields['deadline_d'].choices = d_list
-        #m_list = []
-        #for key, value in conf.MONTHS.items():
-        #    m_list.append([key, value])
         self.fields['deadline_m'].choices = [(key, value) for key, value in conf.MONTHS.items()]
 
 class new_locker_Form(forms.Form):
     lo_name = forms.CharField(label='Имя (УД-1, УА-5-2, ...)', max_length=30)
     lo_name_type = forms.ChoiceField(label='Тип', widget=forms.Select, choices=[])
-    #kvar = forms.ChoiceField(label='квартал', widget=forms.Select, choices=[], required=False)
     co = forms.ChoiceField(label='офис', required=False, widget=forms.Select, choices=[])
 
     def __init__(self, *args, **kwargs):
         super(new_locker_Form, self).__init__(*args, **kwargs)
         self.fields['lo_name_type'].choices = Templ_locker.objects.values_list('id', 'name').order_by('name')
-        #self.fields['kvar'].choices = Kvartal.objects.values_list('id', 'name').order_by('name')
         co_list2 = COffice.objects.values_list('name', flat=True).order_by('name')
-        #for ob in co_list2:
-        #    co_list2[co_list2.index(ob)] = [ob, ob]
         self.fields['co'].choices = [(i, i) for i in co_list2]
 
 class edit_lo_Form(new_locker_Form):#(forms.Form):
     status = forms.ChoiceField(label='статус', widget=forms.RadioSelect, choices=conf.STATUS_LIST_LO)
+    # date_ent = forms.DateField(label='дата приемки', required=False, widget=forms.DateInput(attrs={'type': 'date'}))
     rasp = forms.CharField(label='расположение', max_length=190, required=False, widget=forms.TextInput(attrs={'size': 54}))
     prim = forms.CharField(label='примечание', max_length=190, required=False, widget=forms.TextInput(attrs={'size': 54}))
     detached = forms.BooleanField(required=False)
@@ -69,14 +63,9 @@ class edit_lo_Form(new_locker_Form):#(forms.Form):
     def __init__(self, *args, **kwargs):
         super(edit_lo_Form, self).__init__(*args, **kwargs)
         self.fields['racks'].disabled = True                                                        ###########
-        #key_type = []
-        #for ob in conf.KEY_DOOR_TYPE:
-        #    key_type.append([ob, ob])
         key_type = [(i, i) for i in conf.KEY_DOOR_TYPE]
         self.fields['cab_door'].choices = key_type
         own_list = list(firm.objects.filter(lo=True).values_list('name', flat=True).order_by('name'))
-        #for ob in own_list:
-        #    own_list[own_list.index(ob)] = [ob, ob]
         self.fields['object_owner_list'].choices = [('', '')] + [(i, i) for i in own_list]
         self.fields['coord'].disabled = True
 
@@ -90,7 +79,6 @@ class energy_Form(forms.Form):
         super(energy_Form, self).__init__(*args, **kwargs)
         self.fields['en_model'].choices = Energy_type.objects.values_list('id', 'name').order_by('id')
 
-#####
 
 class new_cr_Form(forms.Form):
     cr_name = forms.CharField(label='Имя кросса (M-1, M-2, kc-1,...)', max_length=30)
@@ -111,8 +99,6 @@ class edit_cr_Form(new_cr_Form):
     def __init__(self, *args, **kwargs):
         super(edit_cr_Form, self).__init__(*args, **kwargs)
         own_list = list(firm.objects.filter(lo=True).values_list('name', flat=True).order_by('name'))
-        #for ob in own_list:
-        #    own_list[own_list.index(ob)] = [ob, ob]
         self.fields['object_owner_list'].choices = [('', '')] + [(i, i) for i in own_list]
 
 #####
@@ -131,13 +117,16 @@ class edit_dev_Form(forms.Form):
     sn = forms.CharField(label='серийный номер', max_length=20, required=False)
     vers_po = forms.CharField(label='версия ПО', max_length=48, required=False)
 
-    man_conf = forms.CharField(label='прошил', max_length=30, required=False, widget=forms.TextInput(attrs={'size': 20}))
+    man_conf = forms.CharField(label='подготовил', max_length=30, required=False, widget=forms.TextInput(attrs={'size': 20}))
     man_conf_list = forms.ChoiceField(required=False, widget=forms.Select, choices=[])
     man_install = forms.CharField(label='монтаж', max_length=30, required=False, widget=forms.TextInput(attrs={'size': 20}))
     man_install_list = forms.ChoiceField(required=False, widget=forms.Select, choices=[])
 
-    date_ent = forms.DateField(label='дата ввода', required=False, widget=SelectDateWidget(months=conf.MONTHS, years=conf.YEARS))
-    date_repl = forms.DateField(label='дата замены', required=False, widget=SelectDateWidget(months=conf.MONTHS, years=conf.YEARS))
+    # date_ent = forms.DateField(label='дата ввода', required=False, widget=SelectDateWidget(months=conf.MONTHS, years=conf.YEARS))
+    date_ent = forms.DateField(label='дата ввода', required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+    # date_repl = forms.DateField(label='дата замены', required=False, widget=SelectDateWidget(months=conf.MONTHS, years=conf.YEARS))
+    date_repl = forms.DateField(label='дата замены', required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+
     prim = forms.CharField(label='примечание', max_length=190, required=False, widget=forms.TextInput(attrs={'size': 51}))
     rack_num = forms.ChoiceField(label='стойка', widget=forms.Select, choices=[], required=False)
     rack_pos = forms.IntegerField(label='позиция', min_value=0, max_value=64, required=False)
@@ -148,13 +137,9 @@ class edit_dev_Form(forms.Form):
         super(edit_dev_Form, self).__init__(*args, **kwargs)
         eng_list2 = engineer.objects.filter(lo=True).values_list('fio', flat=True).order_by('fio')
         eng_list = [(i, i) for i in eng_list2]
-        #for ob in eng_list2:
-        #    eng_list2[eng_list2.index(ob)] = [ob, ob]
         self.fields['man_conf_list'].choices = eng_list
         self.fields['man_install_list'].choices = eng_list
         own_list = firm.objects.filter(lo=True).values_list('name', flat=True).order_by('name')
-        #for ob in own_list:
-        #    own_list[own_list.index(ob)] = [ob, ob]
         self.fields['object_owner_list'].choices = [('', '')] + [(i, i) for i in own_list]
 
 #####
@@ -200,8 +185,8 @@ class edit_subunit_Form(forms.Form):
     floor = forms.CharField(label='этаж', max_length=6, required=False, widget=forms.TextInput(attrs={'size': 3}))
     man_install = forms.CharField(label='монтаж', max_length=30, required=False, widget=forms.TextInput(attrs={'size': 20}))
     man_install_list = forms.ChoiceField(required=False, widget=forms.Select, choices=[])
-    date_ent = forms.DateField(label='дата ввода', required=False, widget=SelectDateWidget(months=conf.MONTHS, years=conf.YEARS))
-    date_repl = forms.DateField(label='дата замены', required=False, widget=SelectDateWidget(months=conf.MONTHS, years=conf.YEARS))
+    date_ent = forms.DateField(label='дата ввода', required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+    date_repl = forms.DateField(label='дата замены', required=False, widget=forms.DateInput(attrs={'type': 'date'}))
     prim = forms.CharField(label='примечание', max_length=180, required=False, widget=forms.TextInput(attrs={'size': 71}))
     object_owner = forms.CharField(label='владелец', max_length=60, required=False, widget=forms.TextInput(attrs={'size': 20}))
     object_owner_list = forms.ChoiceField(label='владелец', required=False, widget=forms.Select, choices=[])
@@ -211,12 +196,8 @@ class edit_subunit_Form(forms.Form):
         self.fields['name_type'].choices = Templ_subunit.objects.values_list('id', 'name').order_by('parrent_id', 'name')#conf.SUBUNIT_TYPE
         self.fields['poe'].choices = conf.POE_TYPE
         eng_list2 = engineer.objects.filter(lo=True).values_list('fio', flat=True).order_by('fio')
-        #for ob in eng_list2:
-        #    eng_list2[eng_list2.index(ob)] = [ob, ob]
         self.fields['man_install_list'].choices = [(i, i) for i in eng_list2]
         own_list = firm.objects.filter(lo=True).values_list('name', flat=True).order_by('name')
-        #for ob in own_list:
-        #    own_list[own_list.index(ob)] = [ob, ob]
         self.fields['object_owner_list'].choices = [('', '')] + [(i, i) for i in own_list]
 
 ####################################################################################################

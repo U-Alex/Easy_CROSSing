@@ -3,16 +3,16 @@
 import datetime
 
 from django.contrib.auth.decorators import login_required
-#from django.contrib.auth.decorators import permission_required
+# from django.contrib.auth.decorators import permission_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
-#from django.http import HttpResponse
-from django.http import HttpResponseRedirect
+# from django.http import HttpResponse
+# from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from .models import Kvartal, Building, Locker, Cross, Device, Box, Subunit
 from .models import Cross_ports, Device_ports, Device_ports_v, Box_ports
-from core.models import Templ_cross, Templ_device, Templ_box_cable, Templ_box, Templ_subunit#, Templ_locker
+from core.models import Templ_cross, Templ_device, Templ_box_cable, Templ_box, Templ_subunit
 from core.models import Subunit_type, manage_comp, History
 from cable.models import Coupling
 
@@ -30,7 +30,7 @@ def show_bu_lo(request, bu_id, lo_id=0):
     try:
         bu = Building.objects.get(pk=bu_id)
         kv = Kvartal.objects.get(pk=bu.kvar)
-        lo = Locker.objects.get(pk=lo_id, parrent_id=bu_id).get_dict() if lo_id else False
+        lo = Locker.objects.get(pk=lo_id, parrent_id=bu_id).get_dict() if lo_id else {}
     except ObjectDoesNotExist as error:
         return render(request, 'error.html', {'mess': f'объект не найден ({error})', 'back': 8})
 

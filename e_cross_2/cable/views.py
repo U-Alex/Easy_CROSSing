@@ -42,11 +42,11 @@ def cable_main2(request, kv_id=0):
         if form.is_valid():
             kv_id = form.cleaned_data['kvar']
     try:
-        kv = Kvartal.objects.get(pk=kv_id).get_dict() if int(kv_id) else 0
+        kv = Kvartal.objects.get(pk=kv_id).get_dict() if int(kv_id) else {}
     except ObjectDoesNotExist as error:
         return render(request, 'error.html', {'mess': f'объект не найден ({error})', 'back': 1})
 
-    kv_list = Kvartal.objects.exclude(pk=kv_id).values().order_by('name')
+    kv_list = Kvartal.objects.exclude(pk=kv_id).values().order_by('name')   #TODO .exclude ???
     bu_list = Building.objects.all()
     pw_list = PW_cont.objects.all()
     for ob in kv_list:

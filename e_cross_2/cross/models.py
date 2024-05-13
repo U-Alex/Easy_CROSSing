@@ -5,6 +5,7 @@ import datetime
 from django.db import models
 from core.models import Device_type, Subunit_type, Templ_device
 
+
 class Kvartal(models.Model):
     #id = models.BigAutoField(primary_key=True)    ############## после update to 3.2
     name = models.CharField(max_length=30)
@@ -14,6 +15,7 @@ class Kvartal(models.Model):
 
     def get_dict(self):
         return self.__dict__
+
 
 class Street(models.Model):
     parrent = models.IntegerField(default=0)
@@ -28,7 +30,7 @@ class Building(models.Model):
     house_num = models.CharField(max_length=10)
     kvar = models.IntegerField(default=1)
     double_id = models.IntegerField(default=0)
-
+                                                                        # TODO перенести в др.табл. one to one
     info_comp = models.IntegerField(default=1)                          # УК/ТСЖ/ЖСК   kpp.manage_comp
     info_cont = models.CharField(max_length=2048, blank=True)           # Контактная информация уполномоченного представителя собственников
     cnt_place = models.CharField(max_length=512, blank=True)            # Договор на размещение оборудования
@@ -43,6 +45,7 @@ class Building(models.Model):
 
     def __str__(self):
         return f"{self.id} | {self.name} {self.house_num} ⏩ {self.parrent}"
+
 
 class Locker(models.Model):
     parrent = models.ForeignKey(Building, on_delete=models.PROTECT)
@@ -77,6 +80,10 @@ class Locker(models.Model):
     def get_dict(self):
         return self.__dict__
 
+    def get_coord(self):
+        return f"{self.coord_x},{self.coord_y}"
+
+
 class Cross(models.Model):
     parrent = models.ForeignKey(Locker, on_delete=models.PROTECT)
     name = models.CharField(max_length=30)
@@ -92,6 +99,7 @@ class Cross(models.Model):
 
     def __str__(self):
         return f"{self.id} | {self.name} || {self.name_type} ⏩ {self.parrent.name}"
+
 
 class Device(models.Model):
     parrent = models.ForeignKey(Locker, on_delete=models.PROTECT)
@@ -117,6 +125,7 @@ class Device(models.Model):
     def __str__(self):
         return f"{self.id} | {self.name} || {self.obj_type.name} ⏩ {self.parrent.name}"
 
+
 class Box(models.Model):
     parrent = models.ForeignKey(Locker, on_delete=models.PROTECT)
     name = models.CharField(max_length=8)
@@ -133,6 +142,7 @@ class Box(models.Model):
 
     def __str__(self):
         return f"{self.id} | {self.name}-{self.num} || {self.name_type} ⏩ {self.parrent.name}"
+
 
 class Subunit(models.Model):
     parrent = models.ForeignKey(Locker, on_delete=models.PROTECT)
@@ -158,6 +168,7 @@ class Subunit(models.Model):
 
 ####################################################################################################
 
+
 class Cross_ports(models.Model):
     parrent = models.ForeignKey(Cross, on_delete=models.CASCADE)
     num = models.IntegerField()
@@ -175,6 +186,7 @@ class Cross_ports(models.Model):
 
     def __str__(self):
         return f"{self.id} | p: {self.num} ⏩ {self.parrent}"
+
 
 class Device_ports(models.Model):
     parrent = models.ForeignKey(Device, on_delete=models.CASCADE)
@@ -205,6 +217,7 @@ class Device_ports(models.Model):
     def __str__(self):
         return f"{self.id} | p: {self.num} | {self.p_alias} ⏩ {self.parrent}"
 
+
 class Device_ports_v(models.Model):
     parrent = models.ForeignKey(Device, on_delete=models.CASCADE)
     parrent_p = models.IntegerField(default=0)
@@ -218,6 +231,7 @@ class Device_ports_v(models.Model):
 
     def __str__(self):
         return f"{self.id} | p: {self.p_alias} ⏩ {self.parrent}"
+
 
 class Box_ports(models.Model):
     parrent = models.ForeignKey(Box, on_delete=models.CASCADE)

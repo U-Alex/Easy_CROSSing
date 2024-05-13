@@ -137,7 +137,7 @@
                                 <img src="/static/images/sfp.png" alt="sfp" title="" height="26">
                             </td>
                             <td align="center">
-                                коммутатор: <b>{{ ob.0.1.parrent.name_type }}</b>
+                                {{ ob.0.1.parrent.obj_type.parrent.name }}: <b>{{ ob.0.1.parrent.obj_type.name }}</b>
                                 ip: <b>{{ ob.0.1.parrent.ip_addr }}</b><br>
                                 <a href="/cross/build={{ ob.0.1.parrent.parrent.parrent_id }}/locker={{ ob.0.1.parrent.parrent_id }}/dev={{ ob.0.1.parrent_id }}/?sel={{ ob.0.1.id }}" target="_blank">
                                     <b>{{ ob.0.1.parrent.name }}</b>,
