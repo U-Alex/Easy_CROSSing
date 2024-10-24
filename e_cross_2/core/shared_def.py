@@ -10,7 +10,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from core.models import last_visit, History
 from core.models import Templ_cross
-from cross.models import Building, Locker
+from cross.models import Building, Locker, Subunit
 from cross.models import Cross_ports, Device_ports
 from cable.models import PW_cont, Coupling_ports, Templ_cable
 #from eq_rent.models import equipment
@@ -19,6 +19,14 @@ from core.e_config import conf
 
 ####################################################################################################
 
+def from_db_su_rq(lo_id, su):
+    rq1 = False
+    if su.startswith('_su_'):
+        rq1 = Subunit.objects.get(pk=su.replace('_su_', ''), parrent_id=lo_id)
+    return rq1
+
+
+####################################################################################################
 
 def chain_trace(p_id, p_type, transit=False):
     #   ch_list[n][0]:
@@ -175,7 +183,7 @@ def chain_trace(p_id, p_type, transit=False):
 ####################################################################################################
 
 def find_coup_parrent(coup):   #определяем родителя
-
+    # return False
     if coup.parr_type == 0:
         try:
             return Locker.objects.get(pk=coup.parrent)

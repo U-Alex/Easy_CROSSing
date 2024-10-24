@@ -14,11 +14,11 @@ class conf:
     MAP2_PATH = "e_cross_2/media/map_2/"
     #
 
-    MONTHS = {1:('январь'), 2:('февраль'), 3:('март'), 4:('апрель'),
-              5:('май'), 6:('июнь'), 7:('июль'), 8:('август'),
-              9:('сентябрь'), 10:('октябрь'), 11:('ноябрь'), 12:('декабрь')
+    MONTHS = {1: 'январь', 2: 'февраль', 3: 'март', 4: 'апрель',
+              5: 'май', 6: 'июнь', 7: 'июль', 8: 'август',
+              9: 'сентябрь', 10: 'октябрь', 11: 'ноябрь', 12: 'декабрь'
               }
-    YEARS = range(2009, 2026)
+    YEARS = range(2009, 2028)
 
 #mod core
     #
@@ -73,9 +73,9 @@ class conf:
     #
     COLOR_APP = ('white', 'yellow', 'lawngreen', 'gray', 'pink', 'lightcoral')
     #
-    #COLOR_CROSS = ('white', 'lawngreen', 'yellow', 'pink', 'aqua', 'gray')
+    COLOR_CROSS = ('white', 'lawngreen', 'yellow', 'pink', 'aqua', 'gray')
     #
-    #COLOR_PLINT = ('violet', 'brown', 'blue', 'green', 'orange', 'teal', 'black', 'black', 'black', 'black') ######
+    COLOR_PLINT = ('violet', 'brown', 'blue', 'green', 'orange', 'teal', 'black', 'black', 'black', 'black') ######
     #
     APP_REJECT_LIST = ('----', 'некорректная заявка', 'отказ заявителя', 'дом не подключен', 'подъезд не подключен')
     APP_REJECT_LIST2 = ('----', 'некорректная заявка', 'отказ заявителя', '', '', 'ресурсы были сняты ранее')
@@ -101,19 +101,21 @@ class conf:
     #
     DEV_FIND_PARAM = ('ip', 'mac', 'sn', 'vlan')
     #
-    COLOR_CROSS = ('white', 'lawngreen', 'yellow', 'pink', 'aqua', 'gray') ######
+    #COLOR_CROSS = ('white', 'lawngreen', 'yellow', 'pink', 'aqua', 'gray') ######
     #
-    COLOR_PLINT = ('violet', 'brown', 'blue', 'green', 'orange', 'teal', 'black', 'lightcoral', 'gray', 'black') ######
+    #COLOR_PLINT = ('violet', 'brown', 'blue', 'green', 'orange', 'teal', 'black', 'lightcoral', 'gray', 'black') ######
     #
     PRI_LIST = ('', '', ' (переезд)', ' (смена ресурсов)')
     #
-    COLOR_CRAB = ('black', 'green', 'orange', 'violet', 'olive', 'red')######
+    #COLOR_CRAB = ('black', 'green', 'orange', 'violet', 'olive', 'red')######
     #
     #COLOR_CABLE = ['white', '#BFFFBB', '#FFD39B', '#BCD2EE', 'white', 'white', 'white', 'white', 'white', 'white']
     #
     KEY_DOOR_TYPE = ('', 'в ключнице', 'универсальный внутр.', 'замок открыт', 'замок сломан', 'универс.навесной', 'треугольник малый', 'треугольник большой')
     #
     POE_TYPE = ((0, '---'), (1, 'порт'), (2, 'PoE-инжектор'), (3, 'отдельный б.п.'))
+    #
+    STEP_VIEW_VLAN = 40
     #
 #mod cable
     #

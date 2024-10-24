@@ -12,13 +12,14 @@
 <table class="subunit_list">
     <tr class="t_header1 row_title">
         <th class="col_pic"></th>
-        <th class="col_name2">название</th>
+        <th class="col_name">название</th>
         <th class="col_type">модель</th>
         <th class="col_small">под.</th>
         <th class="col_small">этаж</th>
         <th class="col_small">эл.пит.</th>
-        <th class="col_small2">кроссировки</th>
+        <th class="col_small4">кроссировки</th>
         <th>примечание</th>
+        <th class="col_small3">владелец</th>
         <th class="col_oper2"></th>
     </tr>
     {% for ob in lo_obj.3 %}
@@ -35,14 +36,15 @@
         {% endif %}
         </td>
         <td class="prim">{{ ob.prim }}</td>
+        <td class="prim">{{ ob.object_owner }}</td>
         <td class="col_oper2">
             <a href="subunit={{ ob.id }}"><img src="/static/images/edit.png" alt="р" title="редактирование"></a>&nbsp;
-            <a href="/core/logs/t=13/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="i" title="история операций"></a>&nbsp;
+            <a href="/core/logs/t=13/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="i" title="история операций"></a>
         </td>
     </tr>
     {% endfor %}
     <tr class="t_footer row_bottom">
-        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
         <td class="col_add">&nbsp;
         {% if perms.core.can_new %}
             <a href="new_su/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить"></a>&nbsp;&nbsp;

@@ -52,6 +52,8 @@ class coup_cab_edit_Form(forms.Form):
     date_ent = forms.DateField(label='дата ввода в муфту', required=False, widget=forms.DateInput(attrs={'type': 'date'}))
     owner = forms.ChoiceField(label='владелец кабеля', required=False, widget=forms.Select, choices=[])
     owner_f = forms.BooleanField(label='применить ко всем волокнам в кабеле', required=False)
+    prim = forms.CharField(label='примечание', max_length=100, required=False,
+                           widget=forms.TextInput(attrs={'size': 54}))
 
     def __init__(self, *args, **kwargs):
         super(coup_cab_edit_Form, self).__init__(*args, **kwargs)

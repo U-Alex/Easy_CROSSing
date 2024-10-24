@@ -140,7 +140,7 @@ body {
     gap: 0 6px;
     padding: 0 10px;
 }
-.c_footer .c_footer_txt { font-size: 11px; }
+.c_footer .c_footer_txt { font-size: 12px; }
 
 .fixed-bottom {
     position: fixed;
@@ -283,7 +283,10 @@ td, th {
 }
 tr.tr_hover:hover > td {
     /* background: rgb(255, 232, 101); */
-    background: linear-gradient(white, rgb(255, 232, 101), white);
+    /*background: linear-gradient(white, rgb(255, 232, 101), white);*/
+    /*background: linear-gradient(aquamarine, aquamarine);*/
+    background: linear-gradient(rgba(255, 98, 1, 0.2), rgba(255, 98, 1, 0.2));
+    /*background: aquamarine;*/
 }
 
 /* app */

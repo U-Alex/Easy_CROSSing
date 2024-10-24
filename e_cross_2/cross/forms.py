@@ -117,7 +117,7 @@ class edit_dev_Form(forms.Form):
     sn = forms.CharField(label='серийный номер', max_length=20, required=False)
     vers_po = forms.CharField(label='версия ПО', max_length=48, required=False)
 
-    man_conf = forms.CharField(label='подготовил', max_length=30, required=False, widget=forms.TextInput(attrs={'size': 20}))
+    man_conf = forms.CharField(label='настроил', max_length=30, required=False, widget=forms.TextInput(attrs={'size': 20}))
     man_conf_list = forms.ChoiceField(required=False, widget=forms.Select, choices=[])
     man_install = forms.CharField(label='монтаж', max_length=30, required=False, widget=forms.TextInput(attrs={'size': 20}))
     man_install_list = forms.ChoiceField(required=False, widget=forms.Select, choices=[])
@@ -172,7 +172,7 @@ class edit_box_Form(new_box_Form):
 
 class new_su_Form(forms.Form):
     su_name = forms.CharField(label='Имя устройства', max_length=20, widget=forms.TextInput(attrs={'size': 50}))
-    
+
 class edit_subunit_Form(forms.Form):
     name = forms.CharField(label='имя устройства', max_length=20)
     name_type = forms.ChoiceField(label='тип устройства', widget=forms.Select, choices=[])
@@ -190,7 +190,7 @@ class edit_subunit_Form(forms.Form):
     prim = forms.CharField(label='примечание', max_length=180, required=False, widget=forms.TextInput(attrs={'size': 71}))
     object_owner = forms.CharField(label='владелец', max_length=60, required=False, widget=forms.TextInput(attrs={'size': 20}))
     object_owner_list = forms.ChoiceField(label='владелец', required=False, widget=forms.Select, choices=[])
-    
+
     def __init__(self, *args, **kwargs):
         super(edit_subunit_Form, self).__init__(*args, **kwargs)
         self.fields['name_type'].choices = Templ_subunit.objects.values_list('id', 'name').order_by('parrent_id', 'name')#conf.SUBUNIT_TYPE
@@ -235,6 +235,8 @@ class edit_dev_p_Form(forms.Form):
     desc = forms.CharField(label='description', max_length=50, required=False, widget=forms.TextInput(attrs={'size': 51}))
     prim = forms.CharField(label='примечание', max_length=50, required=False, widget=forms.TextInput(attrs={'size': 51}))
     uplink = forms.BooleanField(required=False)
+    sfp_type = forms.ChoiceField(label='тип sfp модуля', required=False, widget=forms.RadioSelect,
+        choices=((0, '1 опт.кабель'), (1, '2 опт.кабеля'),) )
 
 class new_dev_p_v_Form(forms.Form):
     parrent_p = forms.IntegerField(label='родительский порт', min_value=0, max_value=128, required=False)

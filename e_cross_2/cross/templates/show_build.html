@@ -1,178 +1,97 @@
 {% extends 'main.html' %}
 
 {% block cross %}
+<link rel="stylesheet" type="text/css" href="/static/colors.css">
+<link rel="stylesheet" type="text/css" href="/static/build.css">
 
-    <div class="c_header base_w t_header1">
-        <div class="c_title"><h3>&nbsp{{ bu.name }}&nbsp{{ bu.house_num }}</h3></div>
-        <div class="c_kv_card">
-            {% if kv.id != 1 %}
-            <p>квартал: {{ kv.name }}&nbsp&nbsp</p>
-            <a href="/statist/bu_doc={{ bu.id }}" target="_blank">
-                <img src="/static/images/input_card1.png" alt="фото" title="фотоотчет"></a>
-            <a href="/statist/bu_doc={{ bu.id }}" target="_blank">
-                <img src="/static/images/input_card2.png" alt="докум." title="документация"></a>
+{% include "show_build_header.html" %}
+
+<div class="c_base_w c_header tone1">
+    <div class="c_header_nav2">
+    {% for nav in lo_list %}
+        <a class="{% if nav.agr %} _cr_st_txt_4 {% else %} _lo_st_txt_{{ nav.status }} {% endif %}" 
+            href="/cross/build={{ bu.id }}/locker={{ nav.id }}">
+            {% if nav.id == lo_id %}<b>{% endif %}{{ nav.name }}</b>
+        </a>
+    {% endfor %}
+    </div>
+</div>
+<br>
+<div class="c_base_w bu_main">
+{#    <div class="bu_left">#}
+{##}
+{#        {% for lo in lo_list %}#}
+{#            {% if lo.id != lo_id %}#}
+{#            <div class="bu_card {% if lo_id %}no_active{% endif %}">#}
+{#                {% include "show_build_lo_card.html" %}#}
+{#            </div>#}
+{#            {% else %}#}
+{#            <div class="bu_card active">#}
+{#                {% include "show_build_lo_card.html" %}#}
+{#            </div>#}
+{#            {% endif %}#}
+{#        {% endfor %}#}
+{##}
+{#        {% if perms.core.can_new and not bu_double %}#}
+{#        <div class="bu_card">#}
+{#            <div class="bu_card_l"></div>#}
+{#            <div class="bu_card_add tone2">#}
+{#                <a href="/cross/build={{ bu.id }}/new_locker/">#}
+{#                    <img src="/static/images/icon_addlink.gif" alt="+" title="добавить УД">#}
+{#                </a>#}
+{#            </div>#}
+{#            <div class="bu_card_r"></div>#}
+{#        </div>#}
+{#        {% endif %}#}
+{#    </div>#}
+
+    {% if not bu_double %}
+    <div class="bu_left">
+        {% include "show_build_locker.html" %}
+    </div>
+    {% endif %}
+
+    <div class="bu_right">
+        {% if bu_double %}
+        <div class="card_txt_c">
+            <h4>Внимание, данное строение отмечено как "дубликат"</h4>Ссылается на:<br>
+            {% if bu_double.0 %}
+            <a href="/cross/build={{ bu_double.1.id }}"><h4>{{ bu_double.1.name }}&nbsp;{{ bu_double.1.house_num }}</h4></a>
+            {% else %}
+                <h4>ОШИБКА, здание не найдено, возможно оно было удалено из базы</h4>
             {% endif %}
         </div>
-    </div>
-
-{% if bu_double %}
-
-    <div width="1000px">
-        <h3>Внимание, данное строение отмечено как "дубликат"</h3>
-        Ссылается на:<br>
-        <h3><a href="/cross/build={{ bu_double.id }}"><b>{{ bu_double.name }}&nbsp{{ bu_double.house_num }}</b></a></h3>
-        <br>
-    </div>
-    <br>
-{% endif %}
-
-{% if lo_list %}
-    
-    <table width="1404px" border="1">
-    <caption>Узлы доступа:</caption>
-        <tr class="t_header1">
-            <td width="26px"></td>
-            <td width="200px" align="center">название</td>
-            <td width="200px" align="center">тип УД</td>
-            <td width="90px" align="center">операции</td>
-            <td width="86px" align="center">статус</td>
-            <td width="100px" align="center">дата приемки</td>
-            <td width="70px" align="center">офис</td>
-            <td width="8%" align="center">расположение</td>
-            <td width="8%" align="center">ключ от УД</td>
-            <td align="center">примечание</td>
-            <td width="8%" align="center">владелец</td>
-            <td width="20px" align="center">&nbsp</td>
-            <td width="20px" align="center">?</td>
-        </tr>
-        {% for ob in lo_list %}
-        <tr class="tr_hover">
-        {% if ob.agr %}
-            <td align="center"><img src="/static/images/lo1.png" alt="" title="" width="16" height="16"></td>
-        {% elif ob.detached %}
-            <td align="center"><img src="/static/images/lo2.png" alt="" title="" width="14" height="14"></td>
+        {% elif not lo_id %}
+            <br>
+            {% include "show_build_jyr_info.html" %}
         {% else %}
-            <td align="center"><img src="/static/images/lo3.png" alt="" title="" width="14" height="14"></td>
+            {% include "show_build_cross.html" %}
+            {% include "show_build_device.html" %}
+            {% include "show_build_box.html" %}
+            {% include "show_build_subunit.html" %}
         {% endif %}
-            <td><strong><a style="color:black" href="locker={{ ob.id }}/">{{ ob.name }}</a></strong></td>
-            <td><a style="color:black" href="/cross/build={{ bu.id }}/locker={{ ob.id }}/racks/">{{ ob.name_type }}</a></td>
-            <td align="center">
-            {% if ob.coord_x > 30 and ob.coord_y > 30 %}
-                <a href="/find/map/?coord={{ ob.coord_x }},{{ ob.coord_y }}" target="_blank"><img src="/static/images/selector-search.gif" alt="М" title="найти на карте" width="15" height="15"></a>
-            {% else %}
-                <a href="/find/map/" target="_blank"><img src="/static/img/icon_error.gif" alt="X" title="не внесены координаты" width="15" height="15"></a>
-            {% endif %}
-            {% if ob.coup %}
-                <a href="/cable/coup={{ ob.coup.id }}/" target="_blank"><img src="/static/images/mufta.png" alt="С" title="просмотр муфты" width="16" height="16"></a>
-            {% else %}
-                <img src="/static/images/blank.png" alt="" title="" width="15" height="15">
-            {% endif %}
-                <a href="locker={{ ob.id }}/edit"><img src="/static/images/edit.png" alt="Р" title="редактирование" width="16" height="16"></a>
-                <a href="locker={{ ob.id }}/energy"><img src="/static/images/shut_{{ ob.en_model }}.png" alt="Э" title="электроэнергия" width="15" height="15"></a>
-            </td>
-            <td style="background-color:{{ ob.status2.0 }}" align="center">{{ ob.status2.1.1 }}</td>
-            {% if ob.date_ent|date:"d.m.Y" != "" %}
-                <td align="center">{% if ob.status == 2 or ob.status == 3 %}{{ ob.date_ent|date:"d.m.Y" }}{% endif %}</td>
-            {% else %}
-                <td align="center">{% if ob.status == 2 or ob.status == 3 %}----{% endif %}</td>
-            {% endif %}
-            <td align="center">{{ ob.co }}</td>
-            <td align="center">{{ ob.rasp }}</td>
-            <td align="center">
-                {{ ob.cab_door }}&nbsp{% if ob.cab_door == 'в ключнице' %}{{ ob.cab_key }}{% endif %}
-            </td>
-            <td>{{ ob.prim }}</td>
-            <td>{{ ob.object_owner }}</td>
-            <td align="center"><a href="del_locker={{ ob.id }}/"><img src="/static/images/icon_deletelink.gif" alt="X" title="удалить" height="12"></a></td>
-            <td class="tone2" align="center"><a href="/core/logs/t=1/id={{ ob.id }}"><img src="/static/images/icon_info.png" alt="?" title="история операций" height="14"></a></td>
-        </tr>
-        {% endfor %}
-        <tr class="t_footer">
-            <td colspan="3">&nbsp</td>
-            <td align="center">
-            {% if perms.core.can_new %}
-                <a href="new_locker/"><img src="/static/images/icon_addlink.gif" alt="+" title="добавить УД" width="11" height="11"></a>
-            {% endif %}
-            </td>
-            <td colspan="9"></td>
-        </tr>
-    </table>
-{% elif not bu_double %}
-    <br>
-    <p>&nbspУзлы доступа отсутствуют</p>
-    <p><a href="new_locker/">&nbsp добавить УД</a></p>
-{% endif %}
-    <br>
+    </div>
+</div>
 
-    <table width="1404px" border="1">
-        <caption id="templ_header">юридическая информация:</caption>
-        <tr>
-            <td class="tone2" width="300px" align="right">УК/ТСЖ/ЖСК</td>
-            <td><b>{{ upr_comp.name }}</b>&nbsp&nbsp&nbsp{{ upr_comp.info }}</td>
-        </tr>
-        <tr>
-            <td class="tone2" align="right">Контактная информация уполномоченного<br> представителя собственников</td>
-            <td>{{ bu.info_cont }}</td>
-        </tr>
-        <tr>
-            <td class="tone2" align="right">Договор на размещение оборудования</td>
-            <td>{{ bu.cnt_place }}&nbsp&nbsp&nbsp{{ bu.cnt_price }}</td>
-        </tr>
-        <tr>
-            <td class="tone2" align="right">Сроки оплаты по договору (за размещение)</td>
-            {% if deadline.2 %}
-            <td style="background-color:orange">
-            {% else %}
-            <td>
-            {% endif %}
-                &nbsp{{ deadline.0 }}&nbsp{{ deadline.1 }}
-            </td>
-        </tr>
-        <tr>
-            <td class="tone2" align="right">Акты сверки показаний и возмещение эл/эн</td>
-            <td>{{ bu.electricity }}</td>
-        </tr>
-        <tr>
-            <td class="tone2" align="right">Информационные таблички</td>
-            <td>{% if bu.info_signs %}Да{% else %}Нет{% endif %}</td>
-        </tr>
-        <tr>
-            <td class="tone2" align="right">Льгота старшему дома</td>
-            <td>{{ bu.senior_home }}</td>
-        </tr>
-        <tr>
-            <td class="tone2" align="right">Наличие тех.условий и актов разграничения</td>
-            <td>{{ bu.tech_conditions }}</td>
-        </tr>
-        <tr>
-            <td class="tone2" align="right">Доступ</td>
-            <td>{{ bu.access }}</td>
-        </tr>
-        <tr>
-            <td class="tone2" align="right">Примечание</td>
-            <td>{{ bu.prim }}</td>
-        </tr>
-        <!--<tr>
-            <td align="right" style="background-color:#dddddd">Сторонние провайдеры&nbsp</td>
-            <td>&nbspMTC, Ростелеком</td>
-        </tr>-->
-    </table>
-    <br>
-
-    <table class="t_footer">
-        <tr>
-            <td width="1200px">
-                <input type="button" value="блокировка портов" onClick='location.href="/core/block_ports={{ bu.id }}"'>&nbsp
-                <input type="button" value="рассылка о приёме в работу" onClick='location.href="/send_mail={{ bu.id }}"'>&nbsp
-            </td>
-            <td width="400px" align="right">
-                <input type="button" value="редактирование" onClick='location.href="edit"'>&nbsp
-                <input type="button" value="история" onClick='location.href="/core/logs/t=0/id={{ bu.id }}"'>&nbsp
-                <input type="button" value="закрыть" onClick='location.href="/find/str={{ bu.parrent_id }}"'>&nbsp
-            </td>
-        </tr>
-    </table>
-
-    </form>
+<div class="c_base_w c_footer t_footer">
+    <div class="c_footer_nav">
+        {% if not lo_id and not bu_double %}
+        <input type="button" value="блокировка портов" onClick='location.href="/core/block_ports={{ bu.id }}"'>
+        <input type="button" value="рассылка о приёме в работу" onClick='location.href="/core/send_mail={{ bu.id }}"'>
+        {% endif %}
+    </div>
+    <div class="c_footer_nav">
+        {% if not lo_id and not bu_double %}
+        <input type="button" value="история" onClick='location.href="/core/logs/t=0/id={{ bu.id }}"'>
+        {% endif %}
+        {% if not lo_id %}
+        <input type="button" value="редактирование" onClick='location.href="edit"'>
+        <input type="button" value="закрыть" onClick='location.href="/find/str={{ bu.parrent_id }}"'>
+        {% else %}
+        <input type="button" value="удалить УД" onClick='location.href="../del_locker={{ lo.id }}/"'>
+        <input type="button" value="закрыть" onClick='location.href="/cross/build={{ bu.id }}/"'>
+        {% endif %}
+    </div>
+</div>
 
 {% endblock %}

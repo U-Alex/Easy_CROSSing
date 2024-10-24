@@ -10,7 +10,7 @@
     <div class="c_header_nav2">
         {% for nav in cr_list %}
             {% if nav.id == cr.id %}
-                <!-- <label class="color_link2"><b>{{ nav.name }}</b></label> -->
+                <label class="color_link2"><b>{{ nav.name }}</b></label>
             {% else %}
                 <a href="/cross/build={{ bu.id }}/locker={{ lo.id }}/cr={{ nav.id }}">{{ nav.name }}</a>
             {% endif %}

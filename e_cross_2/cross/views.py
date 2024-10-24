@@ -3,7 +3,6 @@
 import datetime
 
 from django.contrib.auth.decorators import login_required
-# from django.contrib.auth.decorators import permission_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 # from django.http import HttpResponse
@@ -18,7 +17,8 @@ from cable.models import Coupling
 
 from .forms import energy_Form, edit_racks_Form
 
-from core.shared_def import chain_trace, upd_visit, to_his#, from_bgb_gog_rq
+from core.shared_def import from_db_su_rq#, from_bgb_gog_rq
+from core.shared_def import chain_trace, upd_visit, to_his
 from core.e_config import conf
 
 ####################################################################################################
@@ -30,11 +30,13 @@ def show_bu_lo(request, bu_id, lo_id=0):
     try:
         bu = Building.objects.get(pk=bu_id)
         kv = Kvartal.objects.get(pk=bu.kvar)
-        lo = Locker.objects.get(pk=lo_id, parrent_id=bu_id).get_dict() if lo_id else {}
+        # lo = Locker.objects.get(pk=lo_id, parrent_id=bu_id).get_dict() if lo_id else False
+        lo = Locker.objects.get(pk=lo_id, parrent_id=bu_id) if lo_id else False
     except ObjectDoesNotExist as error:
         return render(request, 'error.html', {'mess': f'объект не найден ({error})', 'back': 8})
 
-    if lo and lo['agr'] and not request.user.has_perm("core.can_sh_agr"):
+    # if lo and lo['agr'] and not request.user.has_perm("core.can_sh_agr"):
+    if lo and lo.agr and not request.user.has_perm("core.can_sh_agr"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1,
                                                'next_url': f"/cross/build={bu_id}/locker={lo_id}/"
                                                })
@@ -47,16 +49,15 @@ def show_bu_lo(request, bu_id, lo_id=0):
     except ObjectDoesNotExist:
         bu_double = (False, None)
 
-    lo_list = Locker.objects.filter(parrent_id=bu_id).exclude(pk=lo_id).values().order_by('-agr', 'name')
-    #lo_list = Locker.objects.filter(parrent_id=bu_id).values().order_by('-agr', 'name')
+    # lo_list = Locker.objects.filter(parrent_id=bu_id).exclude(pk=lo_id).values().order_by('-agr', 'name')
+    lo_list = Locker.objects.filter(parrent_id=bu_id).values().order_by('-agr', 'name')
     lo_obj = (False,) * 4
     for ob in lo_list:
         ob['status2'] = conf.STATUS_LIST_LO[ob['status']]
         ob['coup_id'] = Coupling.objects.get(parrent=ob['id'], parr_type=0).id
     if lo:
-        lo['status2'] = conf.STATUS_LIST_LO[lo['status']]
-        lo['coup_id'] = Coupling.objects.get(parrent=lo['id'], parr_type=0).id
-
+        # lo['status2'] = conf.STATUS_LIST_LO[lo['status']]
+        # lo['coup_id'] = Coupling.objects.get(parrent=lo['id'], parr_type=0).id
         cross_list = Cross.objects.filter(parrent_id=lo_id).order_by('name')\
             .values('id', 'name', 'name_type', 'prim', 'object_owner')
         device_list = Device.objects.filter(parrent_id=lo_id).order_by('obj_type__parrent_id', 'name')\
@@ -68,7 +69,8 @@ def show_bu_lo(request, bu_id, lo_id=0):
 
         lo_obj = (cross_list, device_list, box_list, subunit_list)
 
-    return render(request, 'show_build_locker.html',   {'bu': bu,
+    return render(request, 'show_build.html', {
+                                                        'bu': bu,
                                                         'kv': kv,
                                                         'lo': lo,
                                                         'lo_id': int(lo_id),
@@ -76,7 +78,7 @@ def show_bu_lo(request, bu_id, lo_id=0):
                                                         'lo_obj': lo_obj,
                                                         'bu_double': bu_double,
                                                         'jyr_info': jyr_info,
-                                                        })
+                                               })
 # if (request.user.groups.filter(name='test').exists())
 ####################################################################################################
 
@@ -92,8 +94,11 @@ def repack_su(subunit_list, lo_id):
             ob['box'] = ''
         else:
             try:
-                ob['box'] = Box_ports.objects.get(\
-                    pk=ob['box_p_id'], parrent__parrent_id=lo_id, int_c_status=3, dogovor=f"_su_{ob['id']}")
+                ob['box'] = Box_ports.objects.get(pk=ob['box_p_id'],
+                                                  parrent__parrent_id=lo_id,
+                                                  int_c_status=3,
+                                                  dogovor=f"_su_{ob['id']}"
+                                                  )
             except ObjectDoesNotExist:
                 ob['box'] = ''
                 su = Subunit.objects.get(pk=ob['id'])
@@ -163,6 +168,7 @@ def show_cr(request, bu_id, lo_id, cr_id):
     cr_list = Cross.objects.filter(parrent_id=lo_id).values().order_by('name')
     cr_p_list = Cross_ports.objects.filter(parrent_id=cr.id).values().order_by('num')
 
+    c_up, c_down = (), ()
     for ob in cr_p_list:
         if ob['up_status'] == 0:
             if ob['cab_p_id'] != 0:
@@ -264,6 +270,8 @@ def show_dev(request, bu_id, lo_id, dev_id, l2=0):
     dev_p_list = Device_ports.objects.filter(parrent_id=dev.id).values().order_by('num')
     dev_p_v_list = Device_ports_v.objects.filter(parrent_id=dev.id).values().order_by('parrent_p', 'vlan_untag')
 
+    c_down = ()
+    step = conf.STEP_VIEW_VLAN
     for ob in dev_p_list:
         if ob['int_c_status'] == 0:
             c_down = ('blank.png',)
@@ -315,24 +323,26 @@ def show_dev(request, bu_id, lo_id, dev_id, l2=0):
             if ob['int_c_dest'] == 3:
                 try:
                     down = Box_ports.objects.get(pk=ob['int_c_id'])
-                    c_down = ('rj45_2_1.png',                               #'КРТ ',
-                              f"{down.parrent.name}-{down.parrent.num}",    #1 имя КРТ
-                              down.p_alias,                                 #2 порт КРТ
-                              (down.dogovor, down.ab_kv, down.ab_fio),      #3 договор,кв,ФИО
-                              'billing' if down.int_c_status == 1 else '',  #4 статус аб.кроссировки для ссылки в билинг
+                    rq = 'billing' if down.int_c_status == 1 else \
+                        ('subunit' if (down.int_c_status == 3 and down.dogovor.startswith('_su_')) else '')
+                    c_down = ('rj45_2_1.png',  #'КРТ ',
+                              f"{down.parrent.name}-{down.parrent.num}",        #1 имя КРТ
+                              down.p_alias,                                     #2 порт КРТ
+                              (down.dogovor, down.ab_kv, down.ab_fio),          #3 договор,кв,ФИО
+                              # 'billing' if down.int_c_status == 1 else '',  # 4 статус аб.кроссировки для ссылки в билинг
+                              rq,
                               (down.his_ab_kv+'кв' if down.his_ab_kv != '' else '') + down.his_dogovor,  #5 история пары
-                              down.int_c_status,                            #6 статус абонентской кроссировки
-                              f"../box={down.parrent.id}",                  #7 ссылка на противоположное оборудование
-                              False,                                        #8 N/A
-                              False,                                        #9 только для внешней связи
-                              str(down.id)                                  #10 ид противоположного порта для маркера
+                              down.int_c_status,                                #6 статус абонентской кроссировки
+                              f"../box={down.parrent.id}",                      #7 ссылка на противоположное оборудование
+                              False,                                            #8 N/A
+                              False,                                            #9 только для внешней связи
+                              str(down.id)                                      #10 ид противоположного порта для маркера
                               )
                 except ObjectDoesNotExist:
                     c_down = ('rj45_2_1.png', 'link_err')
 
         ob['c_down'] = c_down
 
-        step = 40
         if len(ob['vlan_tag_list']) > step:
             try:
                 str1 = ob['vlan_tag_list']
@@ -352,14 +362,18 @@ def show_dev(request, bu_id, lo_id, dev_id, l2=0):
         gog = request.GET['bil_rq']
         bil_rq = from_bgb_gog_rq(gog)
     except:
-        bil_rq = [False, False]
+        bil_rq = (False, False)
     try:
         td = datetime.datetime.now() - dev.date_upd
-        tmin,tsec = divmod(td.seconds, 60)
+        tmin, tsec = divmod(td.seconds, 60)
         th, tmin = divmod(tmin, 60)
         upd_td = [td.days, "%02d:%02d:%02d" % (th, tmin, tsec)]
     except:
         upd_td = False
+    try:
+        su_rq = from_db_su_rq(lo.id, request.GET['su_rq'])
+    except:
+        su_rq = False
 
     context = {'bu': bu,
                'kv': kv,
@@ -369,6 +383,7 @@ def show_dev(request, bu_id, lo_id, dev_id, l2=0):
                'dev_p_list': dev_p_list,
                'sel': sel,
                'bil_rq': bil_rq,
+               'su_rq': su_rq,
                'upd_td': upd_td,
                'dev_p_v_list': dev_p_v_list,
                'dev_nav': 2 if l2 == '1' else 1
@@ -403,8 +418,10 @@ def show_dev_ips(request, bu_id, lo_id, dev_id):
     dev_vector = []                         # уникальный список устройств
     dev = Device.objects.get(pk=dev_id)
     dev_list = Device.objects.filter(parrent_id=lo_id).order_by('name')
-    dev_p_list = Device_ports.objects.filter(parrent_id=dev.id).order_by('num')
+    #dev_p_list = Device_ports.objects.filter(parrent_id=dev.id).order_by('num')
+    dev_p_list = Device_ports.objects.filter(parrent_id=dev.id).order_by('id')[:dev.obj_type.ports]
     t_list2 = [False] * dev_p_list.count()  # 'корневые' линки
+    #t_list2 = []
     t_list3 = []                            # 'паровозные' линки
 ###
 ###
@@ -417,7 +434,7 @@ def show_dev_ips(request, bu_id, lo_id, dev_id):
             obj0 = t_list2[obj[0]-1][0].copy()
             obj0[2] = obj[1]
             t_list3.append([obj0, obj])
-###                             проверка на повторяющийся коммут
+### проверка на повторяющийся коммут
     def check_vector(dev_id):
         nonlocal dev_vector
         return dev_id in dev_vector
@@ -466,6 +483,7 @@ def show_dev_ips(request, bu_id, lo_id, dev_id):
 ###
     for port in dev_p_list:
         t_list2[port.num-1] = [[port.num, port.p_alias, 0, 1, port.p_valid, port.port_t_x], [False]]
+        #t_list2.append( [[port.num, port.p_alias, 0, 1, port.p_valid, port.port_t_x], [False]] )
         #if port.num not in[0]:####
         if port.int_c_dest == 1:
             ch_cr(0, port.int_c_id, port.p_alias, port.num)
@@ -489,7 +507,7 @@ def show_dev_ips(request, bu_id, lo_id, dev_id):
         else:
             t_list2[ind][0][3] = False
             t_list2[pos][0][3] += 1
-        ind +=1
+        ind += 1
 
     context = {'bu': bu,
                'kv': kv,
@@ -542,6 +560,10 @@ def show_box(request, bu_id, lo_id, box_id):
                 to_his([request.user, 7, box_p.id, 17, 0, h_text])
     except:
         to_his([request.user, 4, box.id, 17, 0, f"error- {bil_rq[0]['comment']}"])
+    try:
+        su_rq = from_db_su_rq(lo.id, request.GET['su_rq'])
+    except:
+        su_rq = False
 
     box_list = Box.objects.filter(parrent_id=lo_id).values().order_by('name', 'num')
     box_p_list = Box_ports.objects.filter(parrent_id=box.id).values().order_by('num')
@@ -554,15 +576,9 @@ def show_box(request, bu_id, lo_id, box_id):
             #l_up = ''###
         else:
             try:
-                up = Device_ports.objects.get(pk=ob['up_device_id'])###
-                c_up = ((up.parrent.id, up.parrent.name, up.parrent.ip_addr),
+                up = Device_ports.objects.get(pk=ob['up_device_id'])
+                c_up = ((up.parrent.id, up.parrent.name, up.parrent.ip_addr, up.p_valid),
                         (str(up.id), str(up.num)))
-                # c_up = (up.parrent.name,
-                #         str(up.num),
-                #         up.parrent.ip_addr,
-                #         str(up.id)
-                #         )
-                #l_up = f"../dev={up.parrent.id}"###
             except ObjectDoesNotExist:
                 c_up = ('link_err',)
                 #l_up = ''
@@ -598,6 +614,7 @@ def show_box(request, bu_id, lo_id, box_id):
                                              'box_p_list': box_p_list,
                                              'sel': select,
                                              'bil_rq': bil_rq,
+                                             'su_rq': su_rq,
                                              })
 
 

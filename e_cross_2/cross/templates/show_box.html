@@ -10,7 +10,7 @@
     <div class="c_header_nav2">
         {% for nav in box_list %}
             {% if nav.id == box.id %}
-                <!-- <label class="color_link2"><b>{{ nav.name }}-{{ nav.num }}</b></label> -->
+                <label class="color_link2"><b>{{ nav.name }}-{{ nav.num }}</b></label>
             {% else %}
                 <a href="/cross/build={{ bu.id }}/locker={{ lo.id }}/box={{ nav.id }}">{{ nav.name }}-{{ nav.num }}</a>
             {% endif %}
@@ -20,6 +20,8 @@
 <br>
 {% if bil_rq.0 %} 
 <div class="c_base_w bil_rq">{% include "bil_rq.html" %}</div>
+{% elif su_rq %}
+<div class="c_base_w bil_rq">{% include "su_rq.html" %}</div>
 {% endif %}
 
 <div class="c_base_w t_cross">
@@ -50,7 +52,7 @@
         {% if ob.c_up.0 == 'link_err' %}
             <div class="cr_p tone_error _col_3 _row_2">link error!!!</div>
         {% else %}
-            <div class="cr_p _row_2 _cr_st_{{ ob.up_status }}">
+            <div class="cr_p _row_2 _cr_st_{{ ob.up_status }} _ch_valid_{{ ob.c_up.0.3 }}">
                 <a href="../dev={{ ob.c_up.0.0 }}/?sel={{ ob.c_up.1.0 }}" title="{{ ob.c_up.0.2 }}" target="_blank">
                     <b>{{ ob.c_up.0.1 }}</b>
                 </a>
@@ -89,6 +91,7 @@
 
             <div class="cr_p _cr_st_{{ ob.int_c_status }}">
                 {% if ob.int_c_status == 1 %} <a href="?sel={{ ob.id }}&bil_rq={{ ob.dogovor }}"><b>{{ ob.dogovor }}</b></a>
+                {% elif ob.int_c_status == 3 %} <a href="?sel={{ ob.id }}&su_rq={{ ob.dogovor }}"><b>{{ ob.dogovor }}</b></a>
                 {% else %}<b>{{ ob.dogovor }}</b>{% endif %}
             </div>
             <div class="cr_p _cr_st_{{ ob.int_c_status }}">{{ ob.ab_kv }}</div>

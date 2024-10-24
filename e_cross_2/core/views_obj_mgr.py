@@ -11,10 +11,6 @@ from cable.models import PW_cont, Coupling
 #
 from .forms import add_kv_Form, add_st_Form, add_bu_Form
 from .forms import del_kv_Form, del_st_Form, del_bu_Form
-#
-# from core.shared_def import to_his
-# from core.e_config import conf
-
 
 ####################################################################################################
 
@@ -112,14 +108,4 @@ def o_manager(request):
                                                  'mess': mess,
                                                  'bu_list': bu_list,
                                                  })
-
-
-
-
-
-
-
-
-
-
 

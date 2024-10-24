@@ -809,6 +809,9 @@ def edit_dev_p(request, bu_id, lo_id, dev_id, p_id):
     except ObjectDoesNotExist:
         return render(request, 'error.html', {'mess': 'объект не найден', 'back': 1})
 
+    s_p1 = Device_ports.objects.filter(parrent_id=s_p.parrent_id, num=s_p.num).order_by('id')
+    s_p2 = False if s_p1.count() == 1 else s_p1.last()
+
     if request.method == 'POST':
         form = edit_dev_p_Form(request.POST)
         if form.is_valid():
@@ -825,6 +828,24 @@ def edit_dev_p(request, bu_id, lo_id, dev_id, p_id):
             if form.cleaned_data['uplink'] != s_p.uplink:
                 change = True
                 s_p.uplink = form.cleaned_data['uplink']
+
+            if request.user.has_perm("kpp.can_adm") and \
+                    s_p.port_t_x != 2 and bool(int(form.cleaned_data['sfp_type'])) != bool(s_p2):
+                if not s_p2:
+                    Device_ports.objects.create(parrent_id=s_p.parrent_id,
+                                                num=s_p.num,
+                                                port_t_x=s_p.port_t_x,
+                                                port_speed=s_p.port_speed,
+                                                #p_alias=f"{s_p.p_alias}_2",
+                                                p_alias=s_p.p_alias,
+                                                )
+                    to_his([request.user, 6, s_p.id, 11, 0, '2 порта'])
+                else:
+                    if s_p2.int_c_status != 0:
+                        return render(request, 'error.html', {'mess': 'порт скроссирован', 'back': 1})
+                    else:
+                        s_p2.delete()
+                        to_his([request.user, 6, s_p1.first().id, 11, 0, '1 порт'])
 
             if s_p.int_c_status != 0:
                 if form.cleaned_data['status'] != str(s_p.int_c_status):
@@ -865,7 +886,10 @@ def edit_dev_p(request, bu_id, lo_id, dev_id, p_id):
                                         'prim': s_p.prim,
                                         'status': s_p.int_c_status,
                                         'uplink': s_p.uplink,
+                                        'sfp_type': 1 if s_p2 else 0,
                                         })
+        if not request.user.has_perm("kpp.can_adm") or s_p.port_t_x == 2:
+            form.fields['sfp_type'].disabled = True
 
     return render(request, 'edit_dev_p.html', {'form': form, 'port': s_p})
 

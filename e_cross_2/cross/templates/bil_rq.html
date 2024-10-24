@@ -1,5 +1,5 @@
     <span>
-        <i>данные билинга: </i>
+        <label style="color: #FF3B65"><i><b>данные билинга: </b></i></label>
         &nbsp;{% if bil_rq.0.sub %}<b>суб</b>договор: {% elif bil_rq.0.superCid %}<b>супер</b>договор: {% else %}договор: {% endif %}
         <b>{{ bil_rq.0.title }}</b>&nbsp;&nbsp;
         {% if bil_rq.0.personType %}(юр.лицо) {% else %}(физ.лицо)&nbsp;&nbsp;{% endif %}

@@ -25,6 +25,7 @@ from core.e_config import conf
 
 ####################################################################################################
 
+
 @login_required(login_url='/core/login/')
 def find_0(request, str_id=0):
 
@@ -37,9 +38,9 @@ def find_0(request, str_id=0):
 
 @login_required(login_url='/core/login/')    #(redirect_field_name='my_redirect_field')
 def find_bu(request):
-    
+
     upd_visit(request.user, 'f_bu')
-    
+
     if request.method == 'POST':
         form1 = find_Form_bu(request.POST)
         if form1.is_valid():

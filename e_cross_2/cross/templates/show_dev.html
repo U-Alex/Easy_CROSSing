@@ -10,7 +10,7 @@
     <div class="c_header_nav2">
         {% for nav in dev_list %}
             {% if nav.id == dev.id %}
-                <!-- <label class="color_link2"><b>{{ nav.name }}</b></label> -->
+                <label class="color_link2"><b>{{ nav.name }}</b></label>
             {% else %}
                 <a href="/cross/build={{ bu.id }}/locker={{ lo.id }}/dev={{ nav.id }}">{{ nav.name }}</a>
             {% endif %}
@@ -20,6 +20,8 @@
 <br>
 {% if bil_rq.0 %} 
 <div class="c_base_w bil_rq">{% include "bil_rq.html" %}</div>
+{% elif su_rq %}
+<div class="c_base_w bil_rq">{% include "su_rq.html" %}</div>
 {% endif %}
 
 <div class="c_base_w">
@@ -39,8 +41,8 @@
         <div class="cr_h_2 t_footer">договор</div>
         <div class="cr_h_2 t_footer">кв</div>
 
-        <div class="cr_h_2 t_footer">внешний адрес</div>
-        <div class="cr_h_2 t_footer">УД</div>
+        <div class="cr_h_2 t_footer">внешний адрес / история пары</div>
+        <div class="cr_h_2 t_footer">УД / название устр.</div>
         <div class="cr_h_2 t_footer">кросс</div>
         <div class="cr_h_2 t_footer">порт</div>
         <div class="cr_h_2 t_footer">примечание</div>
@@ -82,8 +84,10 @@
                 {% endif %}
             </div>
             <div class="cr_p _cr_st_{{ ob.c_down.6 }}">
-            {% if ob.c_down.4 %}
+            {% if ob.c_down.4 == 'billing' %}
                 <a href="?sel={{ ob.id }}&bil_rq={{ ob.c_down.3.0 }}" title="{{ ob.c_down.3.2 }}" style="color:black">{{ ob.c_down.3.0 }}</a>
+            {% elif ob.c_down.4 == 'subunit' %}
+                <a href="?sel={{ ob.id }}&su_rq={{ ob.c_down.3.0 }}" title="{{ ob.c_down.3.2 }}" style="color:black">{{ ob.c_down.3.0 }}</a>
             {% else %}
                 <label title="{{ ob.c_down.3.2 }}">{{ ob.c_down.3.0 }}</label>
             {% endif %}
@@ -112,7 +116,12 @@
                 </a>
             </div>
             {% else %}
-            <div class="cr_p _cr_st_{{ ob.c_down.9 }} _col_4"></div>
+            <div class="cr_p _cr_st_{{ ob.c_down.9 }} _txt_l _prim">
+                {% if ob.c_down.5 %}&nbsp;&nbsp;{{ ob.c_down.5 }}{% endif %}
+            </div>
+            <div class="cr_p _cr_st_{{ ob.c_down.9 }} _col_3 _txt_l _prim">
+                {% if ob.c_down.4 == 'subunit' %}&nbsp;&nbsp;{{ ob.c_down.3.2 }}{% endif %}
+            </div>
             {% endif %}
 
         {% endif %}
@@ -139,10 +148,10 @@
         {% if dev.ip_gateway %} gateway:<b>{{ dev.ip_gateway }}</b>{% endif %}
         {% if dev.vlan %} vlan:<b>{{ dev.vlan }}</b>{% endif %}
         {#{% if dev.vers_po != "" %} версия ПО: <b>{{ dev.vers_po }}</b>{% endif %}#}
-        {#{% if dev.man_conf != "" %} прошил: <b>{{ dev.man_conf }}</b>{% endif %}#}
-        {#{% if dev.man_install != "" %} монтаж: <b>{{ dev.man_install }}</b>{% endif %}#}
-        {#{% if dev.date_ent|date:"d.m.Y" != "" %} дата ввода: <b>{{ dev.date_ent|date:"d.m.Y" }}</b>{% endif %}#}
-        {#{% if dev.date_repl|date:"d.m.Y" != "" %} дата замены: <b>{{ dev.date_repl|date:"d.m.Y" }}</b>{% endif %}#}
+        {% if dev.man_conf != "" %} настроил: <b>{{ dev.man_conf }}</b>{% endif %}
+        {% if dev.man_install != "" %} монтаж: <b>{{ dev.man_install }}</b>{% endif %}
+        {% if dev.date_ent|date:"d.m.Y" != "" %} дата ввода: <b>{{ dev.date_ent|date:"d.m.Y" }}</b>{% endif %}
+        {% if dev.date_repl|date:"d.m.Y" != "" %} дата замены: <b>{{ dev.date_repl|date:"d.m.Y" }}</b>{% endif %}
     </div>
     <div class="c_footer_nav">
         <!-- <input type="button" value="абоненты" onClick='window.open("/statist/agr_to_abon={{ dev.id }}")'> -->
@@ -151,6 +160,8 @@
         <input type="button" value="удалить" onClick='location.href="../del_dev={{ dev.id }}"'>
         <input type="button" value="закрыть" onClick='location.href="/cross/build={{ bu.id }}/locker={{ lo.id }}"'>
     </div>
+
 </div>
+
 
 {% endblock %}

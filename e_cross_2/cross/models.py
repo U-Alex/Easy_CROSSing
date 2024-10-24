@@ -210,7 +210,7 @@ class Device_ports(models.Model):
     vlan_untag = models.CharField(max_length=128, blank=True)
     ip = models.CharField(max_length=128, blank=True)
     shut = models.BooleanField(default=False)
-    desc = models.CharField(max_length=30, blank=True)
+    desc = models.CharField(max_length=64, blank=True)
     p_chan = models.IntegerField(default=0)
     trunk = models.BooleanField(default=False)
 

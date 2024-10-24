@@ -7,29 +7,26 @@
 <br>
 
 <div class="c_base_w">
-    {% if to_print %}
-    <div align="left" style="width:100%;overflow-y:auto">
-    {% else %}
-    <div align="left" style="width:100%;height:83vh;overflow-y:auto">
-    {% endif %}
+    <div align="left" style="width:100%; {% if not to_print %} height:83vh; {% endif %} overflow-y:auto">
         <table width="100%" border="1">
             
         {% for ob in p_list %}
             {% if ob.f.3 %}
             <tr><td colspan="13"></td></tr>
             <tr style="background-color: {{ ob.f.3.cab.3 }}">
-                <td rowspan="2" width="30px" align="center" style="background-color:gray; color:#B5FFCE">&#9668;&#9668;</td>
+                <td rowspan="2" width="30px" align="center" style="background-color:grey; color:#B5FFCE">&#9668;&#9668;</td>
                 <td colspan="3">
                     длина: <strong>{% if ob.f.3.cab.2.2 != '' %}{{ ob.f.3.cab.2.2 }}{% else %}-{% endif %}</strong>,
                     запас: <strong>{% if ob.f.3.cab.2.3 != '' %}{{ ob.f.3.cab.2.3 }}{% else %}-{% endif %}</strong>
                     {% if ob.f.3.cab.2.4 != 'None' %}&nbspдата ввода: <strong>{{ ob.f.3.cab.2.4 }}</strong>{% endif %}
                 </td>
-                <td rowspan="2" width="30px" align="center" style="background-color:gray">
+                <td rowspan="2" width="30px" align="center" style="background-color:grey">
                     <input type="button" style="background: {{ ob.f.3.cab.3 }}; border-color: {{ ob.f.3.cab.3 }}; color:black; border-radius:14px; width:28px; height:28px" value="{{ ob.f.3.cab.0 }}" title="порядковый номер кабеля в муфте">
                 </td>
                 <td colspan="6">
                     <b>{{ ob.f.3.cab.1 }}</b>
                     {% if ob.f.3.cab.2.1 != '0' %}({{ ob.f.3.cab.2.0 }}){% endif %}
+                    {% if ob.f.3.cab.4.1 %}({{ ob.f.3.cab.4.1 }}){% endif %}
                 </td>
                 <td colspan="2" align="center">операции</td>
             </tr>
@@ -78,9 +75,9 @@
                 </td>
             </tr>
             {% endif %}
-            <tr class="tr_hover" {% if ob.f.9 == False %} style="background-color:gray" {% endif %}>
+            <tr class="tr_hover" {% if ob.f.9 == False %} style="background-color:grey" {% endif %}>
                 <td align="center" {% if ob.f.0 == sel %} style="background-color:#FF0099" {% endif %}>
-                    <a href="/cable/chain={{ ob.f.0 }}/p_type=0" title="количество муфт в цепочке" style="{% if ob.f.0 != sel %}color:blue{% else %}color:white{% endif %}" target="_blank">
+                    <a href="/cable/chain={{ ob.f.0 }}/p_type=0" title="количество муфт в цепочке" style="{% if ob.f.0 != sel %}color: blue {% else %} color: white {% endif %}" target="_blank">
                         <strong>&nbsp{{ ob.up.4 }}&nbsp</strong>
                     </a>
                 </td>
@@ -141,7 +138,7 @@
                 <td {% if ob.f.0 == sel %} style="background-color:#FF0099" {% endif %} align="center">
                     <label title="id-{{ ob.f.0 }}" {% if ob.f.0 == sel %} style="color:white" {% endif %}>&nbsp&nbsp&nbsp<strong>{{ ob.f.1 }}</strong>&nbsp&nbsp&nbsp</label>
                 </td>
-                <td {% if ob.f.7 %} class="_lo_status_0" {% endif %} align="center">
+                <td {% if ob.f.7 %} class="_cab_changed" {% endif %}>
                 {% if ob.cr.0 == 1 %}транзит
                 {% elif ob.cr.0 == 2 %}варка
                 {% else %}&nbsp;

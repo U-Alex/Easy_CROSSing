@@ -3,27 +3,31 @@
 ._lo_st_find_0 { background: orange; }
 ._lo_st_find_1 { background: yellow; }
 ._lo_st_find_2 { background: lawngreen; }
-._lo_st_find_3 { background: gray; }
+._lo_st_find_3 { background: grey; }
 ._lo_st_find_agr { background: aqua; }
 
-._lo_status_0 { background: radial-gradient(orange, var(--tone2-color)); }
-._lo_status_1 { background: radial-gradient(yellow, var(--tone2-color)); }
-._lo_status_2 { background: radial-gradient(lawngreen, var(--tone2-color)); }
-._lo_status_3 { background: radial-gradient(gray, var(--tone2-color)); }
+._lo_status_0 { background: radial-gradient(orange, white); }
+._lo_status_1 { background: radial-gradient(yellow, white); }
+._lo_status_2 { background: radial-gradient(lawngreen, white); }
+._lo_status_3 { background: radial-gradient(grey, white); }
 
 ._lo_st_txt_0 { text-shadow: orange 0 0 6px; }
 ._lo_st_txt_1 { text-shadow: yellow 0 0 6px; }
 ._lo_st_txt_2 { text-shadow: lawngreen 0 0 6px; }
-._lo_st_txt_3 { text-shadow: gray 0 0 6px; }
+._lo_st_txt_3 { text-shadow: grey 0 0 6px; }
 ._lo_st_txt_0, ._lo_st_txt_1, ._lo_st_txt_2, ._lo_st_txt_3 {
     color: #222;
 }
 
 /* ._cr_st_0 { background: none; } */
-._cr_st_1 { background: linear-gradient(white, lawngreen, white); }
-._cr_st_2 { background: linear-gradient(white, yellow, white); }
-._cr_st_3 { background: linear-gradient(white, pink, white); }
-._cr_st_4 { background: linear-gradient(white, aqua, white); }
+/*._cr_st_1 { background: linear-gradient(white, lawngreen, white); }*/
+._cr_st_1 { background: linear-gradient(rgba(0, 255, 0, 0.3), rgba(0, 255, 0, 0.3)); }
+/*._cr_st_2 { background: linear-gradient(white, yellow, white); }*/
+._cr_st_2 { background: linear-gradient(yellow, yellow); }
+/*._cr_st_3 { background: linear-gradient(white, pink, white); }*/
+._cr_st_3 { background: linear-gradient(pink, pink); }
+/*._cr_st_4 { background: linear-gradient(white, aqua, white); }*/
+._cr_st_4 { background: linear-gradient(aqua, aqua); }
 
 ._cr_st_txt_1 { text-shadow: lawngreen 0 0 6px; }
 ._cr_st_txt_2 { text-shadow: yellow 0 0 6px; }
@@ -57,7 +61,7 @@
 ._plint_color_5 { color: teal; }
 ._plint_color_6 { color: black; }
 ._plint_color_7 { color: lightcoral; }
-._plint_color_8 { color: gray; }
+._plint_color_8 { color: grey; }
 ._plint_color_9 { color: black; }
 
 ._plint_color_cr_ext_int_0 { border: 2px solid violet !important; }
@@ -68,7 +72,7 @@
 ._plint_color_cr_ext_int_5 { border: 2px solid teal !important; }
 ._plint_color_cr_ext_int_6 { border: 2px solid black !important; }
 ._plint_color_cr_ext_int_7 { border: 2px solid lightcoral !important; }
-._plint_color_cr_ext_int_8 { border: 2px solid gray !important; }
+._plint_color_cr_ext_int_8 { border: 2px solid grey !important; }
 ._plint_color_cr_ext_int_9 { border: 2px solid black !important; }
 
 .crab_color_txt_0 { color: black; }
@@ -78,4 +82,4 @@
 .crab_color_txt_4 { color: olive; }
 .crab_color_txt_5 { color: red; }
 
-
+._cab_changed { background: orange; }
