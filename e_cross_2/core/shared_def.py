@@ -19,6 +19,9 @@ from core.e_config import conf
 
 ####################################################################################################
 
+def from_bgb_gog_rq(gog):
+    return False, False
+
 def from_db_su_rq(lo_id, su):
     rq1 = False
     if su.startswith('_su_'):
@@ -182,23 +185,22 @@ def chain_trace(p_id, p_type, transit=False):
 
 ####################################################################################################
 
-def find_coup_parrent(coup):   # TODO del
+def find_coup_parrent(coup):
     # return False
-    if coup.parr_type == 0:
-        try:
+    try:
+        if coup.parr_type == 0:
             return Locker.objects.get(pk=coup.parrent)
-        except ObjectDoesNotExist:
-            return False
-    elif coup.parr_type == 1:
-        return Building.objects.get(pk=coup.parrent)
-    else:
-        return PW_cont.objects.get(pk=coup.parrent)
-
+        elif coup.parr_type == 1:
+            return Building.objects.get(pk=coup.parrent)
+        else:
+            return PW_cont.objects.get(pk=coup.parrent)
+    except ObjectDoesNotExist:
+        return False
 
 ####################################################################################################
 
 def upd_visit(user, prim=''):
-
+    return #TODO убрать за ненадобностью
     if last_visit.objects.filter(pk=user.id).exists():
         #prim = last_visit.objects.get(pk=user.id).prim + '▲' + prim
         prim += '▲' + last_visit.objects.get(pk=user.id).prim

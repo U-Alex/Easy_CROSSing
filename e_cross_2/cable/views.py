@@ -255,7 +255,7 @@ def coup_view(request, s_coup):
         owner_f = ob.up_info.split('∿')[0]
 
         while not fin:
-            par1 = p_all.get(pk=start_id)
+            par1 = p_all.only('parrent', 'id', 'int_c_id', 'int_c_status', 'int_c_dest').get(pk=start_id)
             if par1.int_c_status == 0:      #обрыв
                 fin = True
                 obj_ty = 0
@@ -308,7 +308,9 @@ def coup_view(request, s_coup):
                              #coup_p_list.get(pk=ob.int_c_id) if ob.int_c_status != 0 and ob.int_c_dest == 0 else '',
                              cr_int_port,
                              #Cross_ports.objects.get(pk=ob.int_c_id) if ob.int_c_status != 0 and ob.int_c_dest == 1 else '',
-                             Cross_ports.objects.select_related('parrent', 'parrent__parrent').get(pk=ob.int_c_id) if ob.int_c_status != 0 and ob.int_c_dest == 1 else '',
+                             Cross_ports.objects.select_related('parrent', 'parrent__parrent')\
+                                 .only('id', 'num', 'parrent_id', 'parrent__name', 'parrent__parrent_id', 'parrent__parrent__parrent_id')\
+                                 .get(pk=ob.int_c_id) if ob.int_c_status != 0 and ob.int_c_dest == 1 else '',
                              #conf.N_CAB_COLORS[coup_p_list.get(pk=ob.int_c_id).cable_num] if ob.int_c_status != 0 and ob.int_c_dest == 0 else 'white',
                              cr_cab_color,
                             ),

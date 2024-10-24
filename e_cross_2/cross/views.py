@@ -17,7 +17,7 @@ from cable.models import Coupling
 
 from .forms import energy_Form, edit_racks_Form
 
-from core.shared_def import from_db_su_rq#, from_bgb_gog_rq
+from core.shared_def import from_db_su_rq, from_bgb_gog_rq
 from core.shared_def import chain_trace, upd_visit, to_his
 from core.e_config import conf
 
@@ -54,7 +54,7 @@ def show_bu_lo(request, bu_id, lo_id=0):
     lo_obj = (False,) * 4
     for ob in lo_list:
         ob['status2'] = conf.STATUS_LIST_LO[ob['status']]
-        ob['coup_id'] = Coupling.objects.get(parrent=ob['id'], parr_type=0).id
+        ob['coup_id'] = Coupling.objects.only('id').get(parrent=ob['id'], parr_type=0).id
     if lo:
         # lo['status2'] = conf.STATUS_LIST_LO[lo['status']]
         # lo['coup_id'] = Coupling.objects.get(parrent=lo['id'], parr_type=0).id
@@ -183,7 +183,11 @@ def show_cr(request, bu_id, lo_id, cr_id):
             c_up_l = ''
         else:
             try:
-                up = Cross_ports.objects.get(pk=ob['up_cross_id'])
+                # up = Cross_ports.objects.get(pk=ob['up_cross_id'])
+                up = Cross_ports.objects\
+                    .select_related('parrent', 'parrent__parrent', 'parrent__parrent__parrent')\
+                    .only('id', 'num', 'parrent__name', 'parrent__parrent__name', 'parrent__parrent__parrent__name', 'parrent__parrent__parrent__house_num')\
+                    .get(pk=ob['up_cross_id'])
                 c_up = (up.parrent.parrent.parrent.name,            #0 улица
                         up.parrent.parrent.parrent.house_num,       #1 дом
                         up.parrent.parrent.name,                    #2 УД
@@ -281,7 +285,11 @@ def show_dev(request, bu_id, lo_id, dev_id, l2=0):
                     down = Cross_ports.objects.get(pk=ob['int_c_id'])
                     down_ext = False
                     if down.up_status:
-                        ext_cr = Cross_ports.objects.get(pk=down.up_cross_id)
+                        ext_cr = Cross_ports.objects\
+                            .select_related('parrent', 'parrent__parrent', 'parrent__parrent__parrent')\
+                            .only('id', 'num', 'parrent_id', 'parrent__name', 'parrent__parrent_id', 'parrent__parrent__name',\
+                                  'parrent__parrent__parrent__name', 'parrent__parrent__parrent__house_num')\
+                            .get(pk=down.up_cross_id)
                         down_ext = ((ext_cr.parrent.parrent.parrent_id,
                                      ext_cr.parrent.parrent.parrent.name, ext_cr.parrent.parrent.parrent.house_num), # 0 bu
                                     (ext_cr.parrent.parrent_id, ext_cr.parrent.parrent.name),                        # 1 lo
@@ -570,6 +578,7 @@ def show_box(request, bu_id, lo_id, box_id):
     templ_box_cab_list = Templ_box_cable.objects.all()
     i = 1
     cab_count = 1
+    color_cache = {}
     for ob in box_p_list:
         if ob['up_status'] == 0:
             c_up = []
@@ -592,7 +601,13 @@ def show_box(request, bu_id, lo_id, box_id):
         #ob['up_color'] = conf.COLOR_CROSS[ob['up_status']]###
         #ob['int_color'] = conf.COLOR_CROSS[ob['int_c_status']]###
         #ob['pl_color'] = conf.COLOR_PLINT[int(plint)]###
-        ob['c_color'] = templ_box_cab_list.get(pk=int(ob['cable_id'])).color_cable
+        # ob['c_color'] = templ_box_cab_list.get(pk=int(ob['cable_id'])).color_cable
+        # ob['c_color'] = templ_box_cab_list.only('color_cable').get(pk=int(ob['cable_id'])).color_cable
+        res = color_cache.get(int(ob['cable_id']), False)
+        if not res:
+            res = templ_box_cab_list.only('color_cable').get(pk=int(ob['cable_id'])).color_cable
+            color_cache[int(ob['cable_id'])] = res
+        ob['c_color'] = res
         
         i = i-1
         if i == 0:
