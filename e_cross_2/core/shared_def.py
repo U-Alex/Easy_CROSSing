@@ -182,7 +182,7 @@ def chain_trace(p_id, p_type, transit=False):
 
 ####################################################################################################
 
-def find_coup_parrent(coup):   #определяем родителя
+def find_coup_parrent(coup):   # TODO del
     # return False
     if coup.parr_type == 0:
         try:

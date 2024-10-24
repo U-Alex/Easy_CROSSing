@@ -21,7 +21,7 @@ from .forms import add_PW_Form, add_Coup_Form
 from .forms import coup_link_Form
 from .forms import coup_p_edit_Form, coup_cab_edit_Form
 
-from core.shared_def import chain_trace, find_coup_parrent, upd_visit, to_his
+from core.shared_def import chain_trace, upd_visit, to_his#, find_coup_parrent
 from core.e_config import conf
 
 from .vols_def import vols_coup_move, vols_cab_up, vols_cab_remove
@@ -176,26 +176,31 @@ def coup_add(request, kvar, p_t, p_id):
     else:
         form = add_Coup_Form()
 
-    return render(request, 'cable_new.html', {'form_c': form,
-                                              'kvar': kvar,
-                                              })
+    return render(request, 'cable_new.html', {'form_c': form, 'kvar': kvar, })
 
 #___________________________________________________________________________
 
 
 @login_required(login_url='/core/login/')
 def coup_view(request, s_coup):
+
+    parr_list = ('Locker', 'Building', 'PW_cont')
+    parr_cache = [{}, {}, {}]
     def find_parrent(f_coup):
-        # return False
-        if f_coup.parr_type == 0:
-            try:
-                return Locker.objects.get(pk=f_coup.parrent)
-            except ObjectDoesNotExist:
-                return False
-        elif f_coup.parr_type == 1:
-            return Building.objects.get(pk=f_coup.parrent)
-        else:
-            return PW_cont.objects.get(pk=f_coup.parrent)
+        try:
+            res = parr_cache[f_coup.parr_type].get(f_coup.parrent, False)
+            if res: return res
+            res = eval(parr_list[f_coup.parr_type]).objects.get(pk=f_coup.parrent)
+            parr_cache[f_coup.parr_type][f_coup.parrent] = res
+            return res
+        except:
+            return False
+        # if f_coup.parr_type == 0:
+        #     return Locker.objects.get(pk=f_coup.parrent)
+        # elif f_coup.parr_type == 1:
+        #     return Building.objects.get(pk=f_coup.parrent)
+        # else:
+        #     return PW_cont.objects.get(pk=f_coup.parrent)
 
     upd_visit(request.user, 'coup')
     try:
@@ -302,7 +307,8 @@ def coup_view(request, s_coup):
                              ob.int_c_dest,
                              #coup_p_list.get(pk=ob.int_c_id) if ob.int_c_status != 0 and ob.int_c_dest == 0 else '',
                              cr_int_port,
-                             Cross_ports.objects.get(pk=ob.int_c_id) if ob.int_c_status != 0 and ob.int_c_dest == 1 else '',
+                             #Cross_ports.objects.get(pk=ob.int_c_id) if ob.int_c_status != 0 and ob.int_c_dest == 1 else '',
+                             Cross_ports.objects.select_related('parrent', 'parrent__parrent').get(pk=ob.int_c_id) if ob.int_c_status != 0 and ob.int_c_dest == 1 else '',
                              #conf.N_CAB_COLORS[coup_p_list.get(pk=ob.int_c_id).cable_num] if ob.int_c_status != 0 and ob.int_c_dest == 0 else 'white',
                              cr_cab_color,
                             ),
@@ -313,24 +319,24 @@ def coup_view(request, s_coup):
                              hop,
                             )
                        })
-
-    if coup.parr_type == 0:
-        try:
+    try:
+        if coup.parr_type == 0:
             kvar_id = Locker.objects.get(pk=coup.parrent).parrent.kvar
-        except ObjectDoesNotExist:
-            kvar_id = False
-    elif coup.parr_type == 1:
-        kvar_id = Building.objects.get(pk=coup.parrent).kvar
-    elif coup.parr_type == 2:
-        kvar_id = PW_cont.objects.get(pk=coup.parrent).parrent.id
-    kvar = Kvartal.objects.get(pk=kvar_id) if kvar_id else False
+        elif coup.parr_type == 1:
+            kvar_id = Building.objects.get(pk=coup.parrent).kvar
+        elif coup.parr_type == 2:
+            kvar_id = PW_cont.objects.get(pk=coup.parrent).parrent.id
+        kvar = Kvartal.objects.get(pk=kvar_id)
+    except ObjectDoesNotExist:
+        kvar = False
 
     try:    sel = int(request.GET['sel'])
     except: sel = 0
 
     try:    to_print = int(request.GET['to_print'])
     except: to_print = False
-
+    # for ob in parr_cache:
+    #     print(ob)
     return render(request, 'coup_view.html', {
                                             'kvar': kvar,
                                             'coup': coup,
