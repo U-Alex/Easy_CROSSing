@@ -139,9 +139,7 @@ def pw_add(request, kvar):
     else:
         form = add_PW_Form()
 
-    return render(request, 'cable_new.html', {'form_pw': form,
-                                              'kvar': kvar,
-                                              })
+    return render(request, 'cable_new.html', {'form_pw': form, 'kvar': kvar,})
 
 #___________________________________________________________________________
 
@@ -176,7 +174,7 @@ def coup_add(request, kvar, p_t, p_id):
     else:
         form = add_Coup_Form()
 
-    return render(request, 'cable_new.html', {'form_c': form, 'kvar': kvar, })
+    return render(request, 'cable_new.html', {'form_c': form, 'kvar': kvar,})
 
 #___________________________________________________________________________
 
@@ -210,7 +208,7 @@ def coup_view(request, s_coup):
 
     firms = firm.objects.filter(coup=True)
     p_all = Coupling_ports.objects.all()    #TODO danger, если данных будет много - переделать
-    coup_p_list = p_all.filter(parrent_id=coup.id).order_by('cable_num','fiber_num')
+    coup_p_list = p_all.filter(parrent_id=coup.id).order_by('cable_num', 'fiber_num')
     coup_clean = True if coup_p_list.count() == 0 else False
     parr1 = find_parrent(coup)
     p_list = []
@@ -337,8 +335,7 @@ def coup_view(request, s_coup):
 
     try:    to_print = int(request.GET['to_print'])
     except: to_print = False
-    # for ob in parr_cache:
-    #     print(ob)
+
     return render(request, 'coup_view.html', {
                                             'kvar': kvar,
                                             'coup': coup,

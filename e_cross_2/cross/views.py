@@ -271,7 +271,7 @@ def show_dev(request, bu_id, lo_id, dev_id, l2=0):
                                                })
 
     dev_list = Device.objects.filter(parrent_id=lo_id).values().order_by('name')
-    dev_p_list = Device_ports.objects.filter(parrent_id=dev.id).values().order_by('num')
+    dev_p_list = Device_ports.objects.filter(parrent_id=dev.id).values().order_by('num', 'id')
     dev_p_v_list = Device_ports_v.objects.filter(parrent_id=dev.id).values().order_by('parrent_p', 'vlan_untag')
 
     c_down = ()

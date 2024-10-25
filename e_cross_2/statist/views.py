@@ -359,11 +359,6 @@ def agr_to_abon(request, dev_id):
         root_dev = Device.objects.get(pk=dev_id)
     except ObjectDoesNotExist:
         return render(request, 'error.html', {'mess': 'объект не найден', 'back': 2})
-    #if root_dev.parrent.agr and not request.user.has_perm("kpp.can_sh_agr"):
-    #    return render(request, 'denied.html', {'mess': 'нет прав для доступа',
-    #                                           'back': 1,
-    #                                           #'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/dev='+dev_id+'/'
-    #                                           })
 ###
     def allready_dev(dev_id):
         nonlocal dev_list
@@ -416,7 +411,4 @@ def agr_to_abon(request, dev_id):
 
 
     return render(request, 'agr_to_abon.html', {'abon_list': box_p_list, 'count': box_p_list.count()})
-
-
-####################################################################################################
 
