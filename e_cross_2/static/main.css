@@ -12,11 +12,11 @@
 
 * { margin: 0; padding: 0;}
 body {
-    background: var(--tone1-color) 
+    background: var(--tone1-color)
                 url(./images/_back3_1.png) no-repeat center top;
-    background-size: cover;
+/*     background-size: cover; */
     /* font-family: "GOST_0", "Arial"; */
-    font-family: "Arial";
+    font-family: "Arial", serif;
     font-size: 13px;
 }
 
@@ -25,7 +25,7 @@ body {
 .tone3 { background-color: var(--tone3-color); }
 .tone4 { background-color: var(--tone4-color); }
 .tone_error { background: #ff7575 !important; }
-.tone_gray { background-color: gray; }
+.tone_gray { background-color: grey; }
 .tone_none { background: none; }
 .color_link1 { color: var(--link1-color); }
 .color_link2 { color: var(--link2-color) !important; }
@@ -56,7 +56,7 @@ body {
     padding: 0 10px;
 }
 .header .header_logo a {
-/*     font-family: "SimplerMrnUp"; */
+/*     font-family: "SimplerMrnUp", serif; */
     font-family: "Montserrat";
     color: #ffff00;
     font-size: 26px;
@@ -99,7 +99,7 @@ body {
     flex-wrap: wrap;
     gap: 0 20px;
     padding: 1px 10px;
-    font-size: 12px;
+    font-size: 14px;
 }
 .c_header .c_kv_card {
     display: flex;
@@ -140,7 +140,7 @@ body {
     gap: 0 6px;
     padding: 0 10px;
 }
-.c_footer .c_footer_txt { font-size: 12px; }
+.c_footer .c_footer_txt { font-size: 13px; }
 
 .fixed-bottom {
     position: fixed;
@@ -249,11 +249,11 @@ a:hover {
 }
 
 /* H */
-h1 { font-size: 16px; }
-h2 { font-size: 15px; }
-h3 { font-size: 14px; }
-h4 { font-size: 13px; }
-h5 { font-size: 12px; }
+h1 { font-size: 17px; }
+h2 { font-size: 16px; }
+h3 { font-size: 15px; }
+h4 { font-size: 14px; }
+h5 { font-size: 13px; }
 
 hr {
     clear: both;

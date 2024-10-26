@@ -6,7 +6,7 @@
 <div class="c_base_w tone2">
     <div class="serv_header">
         <h3>менеджер схем ВОЛС</h3>
-    {% if not ok %}
+    {% if cut %}
         <label style="color:red;"><b>Выполняется фоновая задача, некоторые операции недоступны</b></label>    
     {% endif %}
     </div>
@@ -41,7 +41,7 @@
                             <td>
                                 <table width="200px" border="1"><tr align="center"><td>
                                 <h3>{{ ob.0 }}</h3>
-                                {% if ok %}
+                                {% if not cut %}
                                     <input type="button" value="обработка" onClick='location.href="cut/?f_name={{ ob.0 }}"' {% if ob.2 %}disabled="1"{% endif %}>
                                     <input type="button" value="удаление" onClick='location.href="del=1/?d_file={{ ob.0 }}"'>
                                 {% endif %}
@@ -61,7 +61,7 @@
                             {% if ob.1 %}
                                 <h3>{{ ob.1 }}</h3>
                                 {% if not ob.2 %}
-                                    {% if ok %}
+                                    {% if not cut %}
                                         <input type="button" value="подключение" onClick='location.href="map_on/?f_name={{ ob.1 }}"'>
                                         <input type="button" value="удаление" onClick='location.href="del=2/?d_file={{ ob.1 }}"'>
                                     {% endif %}
@@ -94,6 +94,8 @@
                 <input type="submit" value="добавить" style="width:100px">&nbsp;
             {% if f_exist %}
                 <label style="color:red;"><b>файл с таким именем существует на сервере</b></label>
+            {% elif not f_png %}
+                <label style="color:red;"><b>файл не .png</b></label>
             {% else %}
                 <label>обработка изображения займет насколько секунд</label>
             {% endif %}
@@ -107,13 +109,10 @@
 <br><br>
 
 <div class="c_base_w tone2">
-debug:
-<br>
-{{ ok }}
-<br>
-{% for ob in deb %}
-{{ ob }}<br>
-{% endfor %}
+    debug:
+    <br>is_cut: {{ cut }}
+    <br>last lock: {{ debug.1 }} -> {{ debug.0|date:'d.m.Y..H:i' }}
 </div>
+
 
 {% endblock %}

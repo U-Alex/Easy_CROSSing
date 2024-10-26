@@ -148,7 +148,8 @@
 .row_grid ._txt_c { text-align: center; }
 .row_grid ._txt_coup { font-size: 12px; }
 .row_grid ._prim {
-    font-size: 10px;
+    font-size: 13px;
+    color: #222222;
     /* text-wrap: nowrap; */
     /* padding-top: 3px; */
 }
@@ -172,7 +173,7 @@
 }
 
 .bil_rq span {
-    font-size: 11px;
+    font-size: 13px;
     padding: 0 10px;
     /* background: linear-gradient(var(--tone1-color), var(--tone2-color), var(--tone1-color)); */
     /* border-radius: 4px; */

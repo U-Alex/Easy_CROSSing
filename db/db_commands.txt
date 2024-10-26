@@ -1,0 +1,6 @@
+#backup
+/usr/bin/pg_dump -U postgres -F t e_cr2 > /home/uaa/PycharmProjects/django_2/db/pqsql-e_cr2-clean.dump
+
+#restore
+/usr/bin/pg_restore -U postgres -F t -d e_cr2 /home/uaa/PycharmProjects/django_2/db/pqsql-e_cr2-clean.dump
+

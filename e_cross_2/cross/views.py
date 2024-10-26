@@ -231,11 +231,15 @@ def show_cr(request, bu_id, lo_id, cr_id):
         ob['c_up_l'] = c_up_l
         ob['c_down'] = c_down
 
-    try:    sel = int(request.GET['sel'])
-    except: sel = False
-
-    try:    to_print = int(request.GET['to_print'])
-    except: to_print = False
+    # try:    sel = int(request.GET['sel'])
+    # except: sel = False
+    # try:    to_print = int(request.GET['to_print'])
+    # except: to_print = False
+    try:
+        select = int(request.GET.get('sel', 0))
+        to_print = int(request.GET.get('to_print', 0))
+    except:
+        select, to_print = 0, 0
 
     return render(request, 'show_cross.html', { 'bu': bu,
                                                 'kv': kv,
@@ -243,7 +247,7 @@ def show_cr(request, bu_id, lo_id, cr_id):
                                                 'cr_list': cr_list,
                                                 'cr': cr,
                                                 'cr_p_list': cr_p_list,
-                                                'sel': sel,
+                                                'sel': select,
                                                 'to_print': to_print,
                                                 'coup': coup,
                                                 })
@@ -364,24 +368,34 @@ def show_dev(request, bu_id, lo_id, dev_id, l2=0):
             except:
                 ob['vlan_tag_list'] = 'ошибка построения, сообщите разработчику'
 
-    try:    sel = int(request.GET['sel'])
-    except: sel = False
+    # try:    sel = int(request.GET['sel'])
+    # except: sel = False
     try:
-        gog = request.GET['bil_rq']
-        bil_rq = from_bgb_gog_rq(gog)
+        select = int(request.GET.get('sel', 0))
+        select_su = request.GET.get('su_rq', False)
+        su_rq = from_db_su_rq(lo.id, select_su) if select_su else False
+        select_bil = request.GET.get('bil_rq', False)
+        bil_rq = from_bgb_gog_rq(select_bil) if select_bil else (False, False)
     except:
-        bil_rq = (False, False)
+        select, su_rq, bil_rq = 0, False, (False, False)
+    # try:
+    #     gog = request.GET['bil_rq']
+    #     bil_rq = from_bgb_gog_rq(gog)
+    # except:
+    #     bil_rq = (False, False)
+    upd_td = False
     try:
-        td = datetime.datetime.now() - dev.date_upd
-        tmin, tsec = divmod(td.seconds, 60)
-        th, tmin = divmod(tmin, 60)
-        upd_td = [td.days, "%02d:%02d:%02d" % (th, tmin, tsec)]
+        if dev.date_upd:
+            td = datetime.datetime.now() - dev.date_upd
+            tmin, tsec = divmod(td.seconds, 60)
+            th, tmin = divmod(tmin, 60)
+            upd_td = [td.days, "%02d:%02d:%02d" % (th, tmin, tsec)]
     except:
         upd_td = False
-    try:
-        su_rq = from_db_su_rq(lo.id, request.GET['su_rq'])
-    except:
-        su_rq = False
+    # try:
+    #     su_rq = from_db_su_rq(lo.id, request.GET['su_rq'])
+    # except:
+    #     su_rq = False
 
     context = {'bu': bu,
                'kv': kv,
@@ -389,7 +403,7 @@ def show_dev(request, bu_id, lo_id, dev_id, l2=0):
                'dev_list': dev_list,
                'dev': dev,
                'dev_p_list': dev_p_list,
-               'sel': sel,
+               'sel': select,
                'bil_rq': bil_rq,
                'su_rq': su_rq,
                'upd_td': upd_td,
@@ -549,13 +563,14 @@ def show_box(request, bu_id, lo_id, box_id):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1,
                                                'next_url': f"/cross/build={bu_id}/locker={lo_id}/box={box_id}/"
                                                })
-    try:    select = int(request.GET['sel'])
-    except: select = 0
     try:
-        gog = request.GET['bil_rq']
-        bil_rq = from_bgb_gog_rq(gog)
+        select = int(request.GET.get('sel', 0))
+        select_su = request.GET.get('su_rq', False)
+        su_rq = from_db_su_rq(lo.id, select_su) if select_su else False
+        select_bil = request.GET.get('bil_rq', False)
+        bil_rq = from_bgb_gog_rq(select_bil) if select_bil else (False, False)
     except:
-        bil_rq = [False, False]
+        select, su_rq, bil_rq = 0, False, (False, False)
     try:
         if bil_rq[0]:
             comm = bil_rq[0]['comment']
@@ -568,10 +583,6 @@ def show_box(request, bu_id, lo_id, box_id):
                 to_his([request.user, 7, box_p.id, 17, 0, h_text])
     except:
         to_his([request.user, 4, box.id, 17, 0, f"error- {bil_rq[0]['comment']}"])
-    try:
-        su_rq = from_db_su_rq(lo.id, request.GET['su_rq'])
-    except:
-        su_rq = False
 
     box_list = Box.objects.filter(parrent_id=lo_id).values().order_by('name', 'num')
     box_p_list = Box_ports.objects.filter(parrent_id=box.id).values().order_by('num')

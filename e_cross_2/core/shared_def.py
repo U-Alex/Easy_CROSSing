@@ -23,6 +23,7 @@ def from_bgb_gog_rq(gog):
     return False, False
 
 def from_db_su_rq(lo_id, su):
+    if not su: return False
     rq1 = False
     if su.startswith('_su_'):
         rq1 = Subunit.objects.get(pk=su.replace('_su_', ''), parrent_id=lo_id)

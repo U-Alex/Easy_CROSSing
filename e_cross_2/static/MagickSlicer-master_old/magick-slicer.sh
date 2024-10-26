@@ -1,7 +1,7 @@
 #!/bin/bash
+
 version="0.004"
 date="05/08/2015"
-
 # ####### Options ####### #
 # resultExt='png'
 resultExt=''
@@ -567,7 +567,7 @@ do
 done
 
 # Cheking for installed applications
-command -v magick >/dev/null 2>&1 || { echo >&2 "I require ImageMagick tool 'convert', but it's not installed. Aborting."; exit 1; }
+command -v convert >/dev/null 2>&1 || { echo >&2 "I require ImageMagick tool 'convert', but it's not installed. Aborting."; exit 1; }
 command -v identify >/dev/null 2>&1 || { echo >&2 "I require ImageMagick tool 'identify', but it's not installed. Aborting."; exit 1; }
 
 # Checking if file was defined
@@ -703,7 +703,7 @@ zoomImage(){ # zoom size -> file_path
     # local file="${dir}.png"
     # local size=`scaleToPercents $s`
     mkdir -p $dir   # Imagemagick can't create directories
-    magick $imageSource $resizeFilter -resize $size $imOptions $file
+    convert $imageSource $resizeFilter -resize $size $imOptions $file
     echo $file
 }
 
@@ -743,7 +743,7 @@ sliceImage(){ # zoom image
 
     # Slice image to tiles
     # convert $src -crop $wxh -set filename:tile $tilesFormat +repage +adjoin -background none -gravity $gravity $ext $file
-    magick $src -gravity $gravity -crop $wxh -set filename:tile $tilesFormat +repage +adjoin -gravity $gravity $ext $file
+    convert $src -gravity $gravity -crop $wxh -set filename:tile $tilesFormat +repage +adjoin -gravity $gravity $ext $file
 }
 
 sliceA(){
@@ -834,7 +834,7 @@ resizeImageH(){ # zoom -> file_path
     local file="${dir}.${resultExt}"
     local size=`zoomPixels $zoom $tileW`
     mkdir -p $dir   # Imagemagick can't create directories
-    magick $imageSource $resizeFilter -resize $size $imOptions $file
+    convert $imageSource $resizeFilter -resize $size $imOptions $file
     echo $file
 }
 
@@ -844,7 +844,7 @@ resizeImageV(){ # zoom -> file_path
     local file="${dir}.${resultExt}"
     local size=`zoomPixels $zoom $tileH`
     mkdir -p $dir   # Imagemagick can't create directories
-    magick $imageSource $resizeFilter -resize "x${size}" $imOptions $file
+    convert $imageSource $resizeFilter -resize "x${size}" $imOptions $file
     echo $file
 }
 
@@ -903,10 +903,6 @@ setDziFormat(){
     local dziFileName="${resultDir}.dzi"
     resultDir="${resultDir}_files"
     tileH=$tileW
-
-    mkdir -p "$(dirname "${dziFileName}")"
-    touch ${dziFileName}
-
     echo '<?xml version="1.0"?>' > "$dziFileName"
     echo "<Image TileSize=\"${tileW}\" Overlap=\"0\" Format=\"${resultExt}\" xmlns=\"http://schemas.microsoft.com/deepzoom/2008\">" >> "$dziFileName"
     echo "<Size Width=\"${imageW}\" Height=\"${imageH}\"/>" >> "$dziFileName"

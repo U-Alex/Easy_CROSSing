@@ -12,7 +12,7 @@ DZI and custom map tiles generator.
 * Linux
 * OSX
 
-## Viewers support
+## Viewers supprot
 * [OpenSeadragon](https://github.com/openseadragon/openseadragon)
 
 ## Usage

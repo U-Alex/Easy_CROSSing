@@ -16,8 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import re_path, include#, path
 
-from django.conf import settings            #### for dev server
-from django.conf.urls.static import static  #### for dev server
+from django.conf import settings            #### for dev server only
+from django.conf.urls.static import static  #### for dev server only
 
 urlpatterns = [
     re_path('admin/', admin.site.urls),
@@ -35,4 +35,4 @@ urlpatterns = [
     re_path(r'^', include('find.urls')),
     re_path(r'^__debug__/', include('debug_toolbar.urls')),
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  #### for dev server
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  #### for dev server only
