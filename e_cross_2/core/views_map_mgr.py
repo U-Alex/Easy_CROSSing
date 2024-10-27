@@ -1,10 +1,9 @@
 #
-import datetime
+# import datetime
 import os
 import shutil
 import subprocess
 import imghdr
-import time
 
 from PIL import Image
 
@@ -19,7 +18,7 @@ from .models import map_slot
 
 from .forms import upl_Form
 from core.e_config import conf
-from views_ext import ProcessLock as lock
+from core.views_ext import ProcessLock as lock
 
 ####################################################################################################
 
@@ -118,7 +117,6 @@ def m_manager_cut(request, m_num):
     )
     lock.set_map_cut(True, request.user.get_full_name())
     creator.create(source, destination)
-    # time.sleep(10)
     lock.set_map_cut(False)
 
     return HttpResponseRedirect(f'/core/m_manager{m_num}/')

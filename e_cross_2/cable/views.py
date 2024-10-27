@@ -626,10 +626,8 @@ def int_c_multi(s_p, d_p, stat, e_p):
                                             )
     d_p_list = Coupling_ports.objects.filter(parrent_id=d_p.parrent_id,cable_num=d_p.cable_num,fiber_num__gt=d_p.fiber_num)
     count_op = s_p_list.count() if (s_p_list.count() < d_p_list.count()) else d_p_list.count()
+    i = 0
     for i in range(1, count_op + 1):
-    # i = 0
-    # while i < count_op:
-    #     i += 1
         #s_p_m = Coupling_ports.objects.get(parrent_id=s_p.parrent_id,cable_num=s_p.cable_num,fiber_num=(s_p.fiber_num+i))
         s_p_m = s_p_list.get(parrent_id=s_p.parrent_id, cable_num=s_p.cable_num, fiber_num=(s_p.fiber_num+i))
         #d_p_m = Coupling_ports.objects.get(parrent_id=d_p.parrent_id,cable_num=d_p.cable_num,fiber_num=(d_p.fiber_num+i))
@@ -646,7 +644,6 @@ def int_c_multi(s_p, d_p, stat, e_p):
                 d_p_m.changed = False
                 s_p_m.save()
                 d_p_m.save()
-
     return i
 
 def int_c_multi_cross(s_p, d_p, e_p):
@@ -659,14 +656,12 @@ def int_c_multi_cross(s_p, d_p, e_p):
                                             )
     d_p_list = Cross_ports.objects.filter(parrent_id=d_p.parrent_id, num__gt=d_p.num)
     count_op = s_p_list.count() if (s_p_list.count() < d_p_list.count()) else d_p_list.count()
+    i = 0
     for i in range(1, count_op + 1):
-    # i = 0
-    # while i < count_op:
-    #     i += 1
         #s_p_m = Coupling_ports.objects.get(parrent_id=s_p.parrent_id, cable_num=s_p.cable_num, fiber_num=(s_p.fiber_num+i))
-        s_p_m = s_p_list.get(parrent_id=s_p.parrent_id,cable_num=s_p.cable_num,fiber_num=(s_p.fiber_num+i))
+        s_p_m = s_p_list.get(parrent_id=s_p.parrent_id, cable_num=s_p.cable_num, fiber_num=(s_p.fiber_num+i))
         #d_p_m = Cross_ports.objects.get(parrent_id=d_p.parrent_id, num=(d_p.num+i))
-        d_p_m = d_p_list.get(parrent_id=d_p.parrent_id,num=(d_p.num+i))
+        d_p_m = d_p_list.get(parrent_id=d_p.parrent_id, num=(d_p.num+i))
         if s_p_m.int_c_status == 0 and d_p_m.cab_p_id == 0:
             with transaction.atomic():
                 s_p_m.int_c_id = d_p_m.id
@@ -676,7 +671,6 @@ def int_c_multi_cross(s_p, d_p, e_p):
                 s_p_m.changed = False
                 s_p_m.save()
                 d_p_m.save()
-
     return i
 
 #___________________________________________________________________________

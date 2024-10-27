@@ -86,9 +86,9 @@
                 <div class="ob_ports tone2">
                 {% for ob2 in ob1.1 %}
                     <div class="ob_ports_item">
-                        <input type="radio" name="cr_port" id="{{ ob2.id }}" value="{{ ob2.id }}" 
+                        <input type="radio" name="cr_port" id="c{{ ob2.id }}" value="{{ ob2.id }}"
                         {% if ob2.cab_p_id != 0 %} disabled="1" {% endif %}>
-                        <label for="{{ ob2.id }}" class="
+                        <label for="c{{ ob2.id }}" class="
                         {% if ob2.cab_p_id == 0 %} _cab_st_0
                         {% else %} _cab_st_1
                         {% endif %}">

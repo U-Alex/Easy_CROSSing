@@ -76,9 +76,6 @@ def logout(request):
 @login_required(login_url='/core/login/')
 def service(request):
 
-    #if not request.user.has_perm("core.can_adm"):
-    #    return render(request, 'denied.html', {'mess': 'не достаточно прав', 'back': 2})
-
     #perm = Permission.objects.get(codename='can_adm')
     #user_list = User.objects.filter(groups__name__in=['tu','tp','adm']).order_by('id')
 

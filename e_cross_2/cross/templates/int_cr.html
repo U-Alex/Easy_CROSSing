@@ -87,7 +87,7 @@
                 <div class="ob_ports tone2">
                     <div class="ob_ports_line">
                     {% for ob2 in ob1.box_p %}
-                    <input type="button" value="{{ ob2.pair }}" title="{{ ob2.p_alias }} ▲ {{ ob2.prim }}" 
+                    <input type="button" value="{{ ob2.pair }}" title="{{ ob2.p_alias }} ▲ {{ ob2.dogovor }} ▲ {{ ob2.ab_kv }}"
                            class="_cr_ext_int_st_{{ ob2.up_status }} {% if not ob2.p_valid %} not_valid {% endif %}
                                   _plint_color_cr_ext_int_{{ ob2.plint }}"
                            {% if not ob2.up_status %} onClick='location.href="d_p={{ ob2.id }}/d_type=3"' {% endif %}>
