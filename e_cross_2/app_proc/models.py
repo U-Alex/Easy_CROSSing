@@ -4,6 +4,7 @@ import datetime
 
 from django.db import models
 
+
 class Appp(models.Model):
 
     app_status = models.IntegerField(default=0)

@@ -1,0 +1,198 @@
+{% extends 'main.html' %}
+
+{% block service %}
+<link rel="stylesheet" type="text/css" href="/static/serv.css">
+
+<div class="c_base_w tone2">
+    <div class="serv_header">
+        <h3>сервис | отчеты</h3>
+        <input type="button" value="закрыть" onClick='location.href="/"'>
+    </div>
+</div>
+<br>
+    
+<table class="c_base_w tone1">
+    <tr valign="top">
+        <td>
+            <table width="350px" border="1">
+                <tr class="t_header1"><td align="center">сервисные операции</td></tr>
+                <tr><td><b><a href="/core/o_manager/">добавление / удаление объектов</a></b></td></tr>
+                <tr><td><b><a href="/core/sprav/">справочник УК</a></b></td></tr>
+                <tr><td><b><a href="/core/templ/">шаблоны оборудования</a></b></td></tr>
+                <tr><td><b><a href="/core/m_manager1/">менеджер схем ВОЛС</a></b></td></tr>
+                <tr><td><b><a href="/core/switch_agr/">уст./снятие свойства "агрегация" для УД</a></b></td></tr>
+                <tr><td><b><a href="/statist/check_link/">поиск нарушеных кроссировок</a></b></td></tr>
+                <tr><td><b><a href="/statist/sync_co_lo/">УД без муфты <--> муфты без УД</a></b></td></tr>
+                <tr><td><b><a href="/core/service/">история пользователей</a></b></td></tr>
+{#                <tr class="t_header1"><td colspan="3">&nbsp;</td></tr>#}
+            </table>
+            <br>
+            <table width="350px" border="1">
+                <tr class="t_header1"><td align="center">Отчёты</td></tr>
+                <tr><td><b><a href="/statist/obj_no_coord/">объекты без координат</a></b></td></tr>
+                <tr><td><b><a href="/statist/stat4">абоненты</a></b></td></tr>
+                <tr><td><b><a href="/statist/stat2/">задействованная ёмкость</a></b></td></tr>
+                <tr><td><b><a href="/statist/stat3/">загрузка УД</a></b></td></tr>
+                <tr><td><b><a href="/statist/stat_energy/">показания эл.счетчиков</a></b></td></tr>
+                <tr><td><b><a href="/statist/stat_subunit/">служебные устройства</a></b></td></tr>
+                <tr><td><b><a href="/statist/stat_block_ports/">блокировка портов</a></b></td></tr>
+                <tr><td><b><a href="/statist/suspicious_ip/">подозрительные ip адреса</a></b></td></tr>
+                <tr><td><b><a href="/statist/stat_last_update_config/">обновление конфигураций</a></b></td></tr>
+                <tr><td><b><a href="/statist/stat_log_update_config/">лог обновления конфигураций</a></b></td></tr>
+{#                <tr class="t_header1"><td colspan="3">&nbsp;</td></tr>#}
+            </table>
+        </td>
+        <td>
+            <table width="450px" border="1">
+                <tr class="t_header1"><td colspan="3" align="center">Узлы доступа</td></tr>
+                <tr>
+                    <td><b>все УД</b></td>
+                    <td colspan="2" align="center"><b>{{ lo.0 }}</b></td>
+                </tr>
+                <tr>
+                    <td>в работе</td>
+                    <td colspan="2" align="center" style="background-color:lime">{{ lo.3 }}</td>
+                </tr>
+                <tr>
+                    <td>в проекте</td>
+                    <td width="40px" align="center" style="background-color:#FF707E">{{ lo.1 }}</td>
+                    <td rowspan="4" align="center">
+                        <a href="/statist/lockers/"><img src='/static/images/_app1.png' alt="" title="подробная информация по УД" height="50"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>монтаж</td>
+                    <td align="center" style="background-color:yellow">{{ lo.2 }}</td>
+                </tr>
+                <tr>
+                    <td>принятые в работу за последние 60 дней</td>
+                    <td align="center" style="background-color:lime">{{ lo.4 }}</td>
+                </tr>
+                <tr>
+                    <td>отключены</td>
+                    <td align="center" style="background-color:grey">{{ lo.7 }}</td>
+                </tr>
+                <tr>
+                    <td colspan="3"><b><a href="/statist/building/">принятые в работу за период</a></b></td>
+                </tr>
+                <tr>
+                    <td>индивидуальные подключения</td>
+                    <td colspan="2" align="center"><b><a href="/statist/lockers_det/">{{ lo.5 }}</a></b></td>
+                </tr>
+                <tr>
+                    <td>без CO</td>
+                    <td colspan="2" align="center"><b><a href="/statist/lockers_noco/">{{ lo.6 }}</a></b></td>
+                </tr>
+{#                <tr class="t_header1"><td colspan="3">&nbsp;</td></tr>#}
+            </table>
+            <br>
+            <table width="450px" border="1">
+                <tr class="t_header1"><td colspan="2" align="center">Муфты</td></tr>
+                <tr>
+                    <td>на зданиях</td>
+                    <td align="center">{{ coup.1 }}</td>
+                </tr>
+                <tr>
+                    <td>вне зданий</td>
+                    <td align="center">{{ coup.2 }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><b><a href="/statist/null_len/">кабели с нулевой длиной</a></b></td>
+                </tr>
+                <tr class="t_header1">
+                    <td colspan="2" align="center">общее состояние волокон</td>
+                </tr>
+                <tr>
+                    <td>свободно</td>
+                    <td align="center">{{ coup.3 }}</td>
+                </tr>
+                <tr>
+                    <td>сварок внутри муфт</td>
+                    <td align="center">{{ coup.4 }}</td>
+                </tr>
+                <tr>
+                    <td>сварок с кроссами</td>
+                    <td align="center">{{ coup.5 }}</td>
+                </tr>
+                <tr>
+                    <td>запланированы изменения</td>
+                    <td align="center"><b><a href="/statist/coup_changed/">{{ coup.6 }}</a></b></td>
+                </tr>
+{#                <tr class="t_header1"><td colspan="2">&nbsp;</td></tr>#}
+            </table>
+
+            <br>
+            <table width="450px" border="1">
+                <tr class="t_header1"><td colspan="2" align="center">КРТ</td></tr>
+                <tr>
+                    <td>всего КРТ</td>
+                    <td align="center">{{ box.0 }}</td>
+                </tr>
+                <tr>
+                    <td>свободно портов</td>
+                    <td align="center">{{ box.1 }}</td>
+                </tr>
+                <tr>
+                    <td>занято портов</td>
+                    <td align="center" style="background-color:lime">{{ box.2 }}</td>
+                </tr>
+                <tr>
+                    <td>бронь A_1</td>
+                    <td align="center" style="background-color:yellow"><b><a href="/statist/box_br=1/">{{ box.6 }}/{{ box.7 }}</a></b></td>
+                </tr>
+                <tr>
+                    <td>бронь A_2</td>
+                    <td align="center" style="background-color:yellow"><b><a href="/statist/box_br=1/">{{ box.8 }}/{{ box.9 }}</a></b></td>
+                </tr>
+                <tr>
+                    <td>служебные порты</td>
+                    <td align="center" style="background-color:violet">{{ box.3 }}</td>
+                </tr>
+                <tr>
+                    <td>неисправно портов</td>
+                    <td align="center" style="background-color:grey"><b><a href="/statist/box_bad/">{{ box.5 }}</a></b></td>
+                </tr>
+                <tr>
+                    <td>ожидание снятия</td>
+                    <td align="center" style="background-color:silver">{{ box.10 }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><b><a href="/statist/duple_dog/">повторяющиеся договоры</a></b></td>
+                </tr>
+{#                <tr class="t_header1"><td colspan="2">&nbsp;</td></tr>#}
+            </table>
+        </td>
+
+        <td>
+            <table width="400px" border="1">
+                <tr class="t_header1"><td colspan="3" align="center">Активное оборудование</td></tr>
+                {% for ob in dev %}
+                <tr>
+                    <td align="center"><img src='/static/images/obj_dev/dev_{{ ob.parrent_id }}.png' alt="" title="" height="12"></td>
+                    <td><a href="/statist/dev_type/{{ ob.id }}/"><b>{{ ob.name }}</b></a></td>
+                    <td align="center">{{ ob.dev }}</td>
+                </tr>
+                {% endfor %}
+                <tr class="t_header1">
+                    <td colspan="3" align="center"><a href="/statist/dev_all/"><b>выгрузить весь список в .xls</b></a></td>
+                </tr>
+            </table>
+            <table width="400px" border="1">
+                <tr>
+                    <td width="50%" align="center" style="background-color:yellow"><b><a href="/statist/dev_br/">забронированные порты</a></b></td>
+                    <td width="50%" align="center" style="background-color:grey"><b><a href="/statist/dev_bad/">неисправные порты</a></b></td>
+                </tr>
+            </table>
+        </td>
+
+    </tr>
+</table>
+<br>
+
+<div class="c_base_w tone2">
+    <div class="serv_r">
+        <input type="button" value="закрыть" onClick='location.href="/"'>
+    </div>
+</div>
+
+{% endblock %}

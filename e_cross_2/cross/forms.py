@@ -1,7 +1,6 @@
 #  cross__forms
 
 from django import forms
-# from django.forms.widgets import SelectDateWidget
 
 from .models import Kvartal#, Street, Building
 from core.models import Templ_locker, Templ_cross, Templ_box_cable, Templ_box, Templ_subunit
@@ -9,6 +8,7 @@ from core.models import engineer, COffice, firm, manage_comp, Energy_type
 from core.e_config import conf
 
 ####################################################################################################
+
 
 class edit_bu_Form(forms.Form):
     kvar = forms.ChoiceField(label='квартал', widget=forms.Select, choices=[], required=False)
@@ -35,6 +35,7 @@ class edit_bu_Form(forms.Form):
         self.fields['deadline_d'].choices = d_list
         self.fields['deadline_m'].choices = [(key, value) for key, value in conf.MONTHS.items()]
 
+
 class new_locker_Form(forms.Form):
     lo_name = forms.CharField(label='Имя (УД-1, УА-5-2, ...)', max_length=30)
     lo_name_type = forms.ChoiceField(label='Тип', widget=forms.Select, choices=[])
@@ -45,6 +46,7 @@ class new_locker_Form(forms.Form):
         self.fields['lo_name_type'].choices = Templ_locker.objects.values_list('id', 'name').order_by('name')
         co_list2 = COffice.objects.values_list('name', flat=True).order_by('name')
         self.fields['co'].choices = [(i, i) for i in co_list2]
+
 
 class edit_lo_Form(new_locker_Form):#(forms.Form):
     status = forms.ChoiceField(label='статус', widget=forms.RadioSelect, choices=conf.STATUS_LIST_LO)
@@ -69,6 +71,7 @@ class edit_lo_Form(new_locker_Form):#(forms.Form):
         self.fields['object_owner_list'].choices = [('', '')] + [(i, i) for i in own_list]
         self.fields['coord'].disabled = True
 
+
 class energy_Form(forms.Form):
     en_model = forms.ChoiceField(label='тип/модель', required=False, widget=forms.Select, choices=[])
     en_sn = forms.CharField(label='номер счетчика', max_length=20, required=False, widget=forms.TextInput(attrs={'size': 26}))
@@ -88,6 +91,7 @@ class new_cr_Form(forms.Form):
         super(new_cr_Form, self).__init__(*args, **kwargs)
         self.fields['cr_name_type'].choices = Templ_cross.objects.values_list('id', 'name').order_by('name')
 
+
 class edit_cr_Form(new_cr_Form):
     ch_type = forms.BooleanField(required=False)
     prim = forms.CharField(label='примечание', max_length=190, required=False, widget=forms.TextInput(attrs={'size': 66}))
@@ -100,12 +104,13 @@ class edit_cr_Form(new_cr_Form):
         super(edit_cr_Form, self).__init__(*args, **kwargs)
         own_list = list(firm.objects.filter(lo=True).values_list('name', flat=True).order_by('name'))
         self.fields['object_owner_list'].choices = [('', '')] + [(i, i) for i in own_list]
-
 #####
+
 
 class new_dev_Form(forms.Form):
     dev_name = forms.CharField(label='Имя устройства (Abc-1-1-1,...)', max_length=20, widget=forms.TextInput(attrs={'size': 30}))
     vlantz = forms.CharField(label='vlan ТЗ', max_length=30, required=False, widget=forms.TextInput(attrs={'size': 30}))
+
 
 class edit_dev_Form(forms.Form):
     dev_name = forms.CharField(label='имя устройства', max_length=20)
@@ -122,9 +127,7 @@ class edit_dev_Form(forms.Form):
     man_install = forms.CharField(label='монтаж', max_length=30, required=False, widget=forms.TextInput(attrs={'size': 20}))
     man_install_list = forms.ChoiceField(required=False, widget=forms.Select, choices=[])
 
-    # date_ent = forms.DateField(label='дата ввода', required=False, widget=SelectDateWidget(months=conf.MONTHS, years=conf.YEARS))
     date_ent = forms.DateField(label='дата ввода', required=False, widget=forms.DateInput(attrs={'type': 'date'}))
-    # date_repl = forms.DateField(label='дата замены', required=False, widget=SelectDateWidget(months=conf.MONTHS, years=conf.YEARS))
     date_repl = forms.DateField(label='дата замены', required=False, widget=forms.DateInput(attrs={'type': 'date'}))
 
     prim = forms.CharField(label='примечание', max_length=190, required=False, widget=forms.TextInput(attrs={'size': 51}))
@@ -141,8 +144,8 @@ class edit_dev_Form(forms.Form):
         self.fields['man_install_list'].choices = eng_list
         own_list = firm.objects.filter(lo=True).values_list('name', flat=True).order_by('name')
         self.fields['object_owner_list'].choices = [('', '')] + [(i, i) for i in own_list]
-
 #####
+
 
 class new_box_Form(forms.Form):
     box_name_type = forms.ChoiceField(label='тип коробки', widget=forms.RadioSelect, choices=[])
@@ -154,6 +157,7 @@ class new_box_Form(forms.Form):
         super(new_box_Form, self).__init__(*args, **kwargs)
         self.fields['box_name_type'].choices = Templ_box.objects.values_list('id', 'name').order_by('name')
         self.fields['cable_name_type'].choices = Templ_box_cable.objects.values_list('id', 'name').order_by('ports')
+
 
 class edit_box_Form(new_box_Form):
     box_stairway = forms.CharField(label='подъезд', max_length=8, required=False, widget=forms.TextInput(attrs={'size': 3}))
@@ -170,8 +174,10 @@ class edit_box_Form(new_box_Form):
         self.fields['cable_name_type'].required = False
         self.fields['cable_name_type'].label = 'тип добавляемого кабеля'
 
+
 class new_su_Form(forms.Form):
     su_name = forms.CharField(label='Имя устройства', max_length=20, widget=forms.TextInput(attrs={'size': 50}))
+
 
 class edit_subunit_Form(forms.Form):
     name = forms.CharField(label='имя устройства', max_length=20)
@@ -193,7 +199,7 @@ class edit_subunit_Form(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(edit_subunit_Form, self).__init__(*args, **kwargs)
-        self.fields['name_type'].choices = Templ_subunit.objects.values_list('id', 'name').order_by('parrent_id', 'name')#conf.SUBUNIT_TYPE
+        self.fields['name_type'].choices = Templ_subunit.objects.values_list('id', 'name').order_by('parrent_id', 'name')
         self.fields['poe'].choices = conf.POE_TYPE
         eng_list2 = engineer.objects.filter(lo=True).values_list('fio', flat=True).order_by('fio')
         self.fields['man_install_list'].choices = [(i, i) for i in eng_list2]
@@ -202,8 +208,10 @@ class edit_subunit_Form(forms.Form):
 
 ####################################################################################################
 
+
 class sel_up_status_Form(forms.Form):
     status = forms.ChoiceField(label='статус кроссировки', widget=forms.RadioSelect, choices=conf.STATUS_LIST)
+
 
 class cr_ab_Form(forms.Form):
     dog = forms.CharField(label='договор', max_length=12, required=False, widget=forms.TextInput(attrs={'size': 12}))
@@ -212,13 +220,16 @@ class cr_ab_Form(forms.Form):
     prim = forms.CharField(label='примечание', max_length=190, required=False, widget=forms.TextInput(attrs={'size': 62}))
     status = forms.ChoiceField(label='статус кроссировки', widget=forms.RadioSelect, choices=conf.STATUS_LIST)
 
+
 class del_ab_Form(forms.Form):
     pri = forms.ChoiceField(label='причина снятия', widget=forms.RadioSelect, choices=conf.PRI_LIST_F)
+
 
 class edit_racks_Form(forms.Form):
     racks = forms.CharField(label='стойки, ёмкость', max_length=190, required=False, widget=forms.TextInput(attrs={'size': 101}))
 
 ####################################################################################################
+
 
 class edit_cr_p_Form(forms.Form):
     status1 = forms.ChoiceField(label='статус (внешняя связь)', required=False, widget=forms.RadioSelect, choices=conf.STATUS_LIST)
@@ -227,16 +238,17 @@ class edit_cr_p_Form(forms.Form):
     prim = forms.CharField(label='примечание', max_length=50, required=False, widget=forms.TextInput(attrs={'size': 51}))
     opt_len = forms.IntegerField(label='оптическая длина', min_value=0, max_value=9999)
 
+
 class edit_dev_p_Form(forms.Form):
     status = forms.ChoiceField(label='статус (внешняя связь)', required=False, widget=forms.RadioSelect, choices=conf.STATUS_LIST)
     valid = forms.BooleanField(required=False)
-    #alias = forms.CharField(label='алиас', max_length=190, required=False, widget=forms.TextInput(attrs={'size': 51}))
     alias = forms.CharField(label='алиас', max_length=50, widget=forms.TextInput(attrs={'size': 51}))
     desc = forms.CharField(label='description', max_length=50, required=False, widget=forms.TextInput(attrs={'size': 51}))
     prim = forms.CharField(label='примечание', max_length=50, required=False, widget=forms.TextInput(attrs={'size': 51}))
     uplink = forms.BooleanField(required=False)
     sfp_type = forms.ChoiceField(label='тип sfp модуля', required=False, widget=forms.RadioSelect,
-        choices=((0, '1 опт.кабель'), (1, '2 опт.кабеля'),) )
+                                 choices=((0, '1 опт.кабель'), (1, '2 опт.кабеля'),) )
+
 
 class new_dev_p_v_Form(forms.Form):
     parrent_p = forms.IntegerField(label='родительский порт', min_value=0, max_value=128, required=False)
@@ -245,12 +257,15 @@ class new_dev_p_v_Form(forms.Form):
     vlan_untag = forms.CharField(label='vlan_untag', max_length=32, required=False, widget=forms.TextInput(attrs={'size': 51}))
     ip = forms.CharField(label='ip-addr', max_length=32, required=False, widget=forms.TextInput(attrs={'size': 51}))
 
+
 class edit_dev_p_v_Form(new_dev_p_v_Form):
     desc = forms.CharField(label='description', max_length=50, required=False, widget=forms.TextInput(attrs={'size': 51}))
     vlan_tag_list = forms.CharField(label='vlan_tag_list', max_length=2048, required=False, widget=forms.TextInput(attrs={'size': 51}))
     shut = forms.BooleanField(required=False)
-    mvr = forms.ChoiceField(label='mvr type', widget=forms.Select, choices=[('', '---'), ('s', 'source'), ('r', 'receiver')], required=False)
+    mvr = forms.ChoiceField(label='mvr type', widget=forms.Select,
+                            choices=[('', '---'), ('s', 'source'), ('r', 'receiver')], required=False)
     vlantz = forms.CharField(label='vlan ТЗ', max_length=30, widget=forms.TextInput(attrs={'size': 51}), required=False)
+
 
 class edit_box_p_Form(forms.Form):
     status1 = forms.ChoiceField(label='статус (кабельная связь)', required=False, widget=forms.RadioSelect, choices=conf.STATUS_LIST)

@@ -9,9 +9,6 @@ from .models import Templ_coupling
 from .models import links
 from .models import labels
 
-# admin.site.register(PW_cont)
-# admin.site.register(Coupling)
-# admin.site.register(Coupling_ports)
 admin.site.register(Templ_cable)
 admin.site.register(Templ_coupling)
 

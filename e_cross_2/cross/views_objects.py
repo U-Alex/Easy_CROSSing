@@ -25,11 +25,12 @@ from .forms import edit_subunit_Form
 from core.shared_def import to_his
 from core.e_config import conf
 
+
 ####################################################################################################
+
 
 @login_required(login_url='/core/login/')
 def new_locker(request, bu_id):
-
     if not request.user.has_perm("core.can_new"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
@@ -56,7 +57,7 @@ def new_locker(request, bu_id):
                                              name_type='кассета (УД)',
                                              )
 
-            return HttpResponseRedirect(request.get_full_path()+'../')
+            return HttpResponseRedirect(request.get_full_path() + '../')
     else:
         form = new_locker_Form(initial={'kvar': bu.kvar})
 
@@ -65,7 +66,6 @@ def new_locker(request, bu_id):
 
 @login_required(login_url='/core/login/')
 def new_cr(request, bu_id, lo_id):
-
     if not request.user.has_perm("core.can_new"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
@@ -84,18 +84,15 @@ def new_cr(request, bu_id, lo_id):
                                             v_row=cr.v_row,
                                             v_forw_l_r=cr.v_forw_l_r
                                             )
-                #i = 0
-                #while i < cr.ports:
-                #    i = i + 1
                 for i in range(1, cr.ports + 1):
                     Cross_ports.objects.create(parrent_id=n_cr.id,
                                                num=i,
                                                port_t_x=cr.port_t_x
-                                               #prim='...'
+                                               # prim='...'
                                                )
-            to_his([request.user, 2, n_cr.id, 1, 0, 'name: '+n_cr.name+', УД: '+n_cr.parrent.name])
+            to_his([request.user, 2, n_cr.id, 1, 0, f'name: {n_cr.name}, УД: {n_cr.parrent.name}'])
 
-            return HttpResponseRedirect(request.get_full_path()+'../')
+            return HttpResponseRedirect(request.get_full_path() + '../')
     else:
         form = new_cr_Form(initial={'cr_name': 'kc-1', 'cr_name_type': 1})
 
@@ -104,15 +101,16 @@ def new_cr(request, bu_id, lo_id):
 
 @login_required(login_url='/core/login/')
 def new_dev(request, bu_id, lo_id):
-
     if not request.user.has_perm("core.can_new"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
     lo = Locker.objects.get(pk=lo_id)
     if request.method == 'POST':
         form = new_dev_Form(request.POST)
-        try:    dev_type2 = form.data['dev_name_type2']
-        except: dev_type2 = False
+        try:
+            dev_type2 = form.data['dev_name_type2']
+        except:
+            dev_type2 = False
 
         if form.is_valid() and dev_type2:
             dev = Templ_device.objects.get(pk=dev_type2)
@@ -126,25 +124,22 @@ def new_dev(request, bu_id, lo_id):
                                               name=form.cleaned_data['dev_name'],
                                               obj_type=dev
                                               )
-                #i = 0
-                #while i < dev.ports:
-                #    i = i + 1
                 for i in range(1, dev.ports + 1):
                     Device_ports.objects.create(parrent_id=n_dev.id,
                                                 num=i,
-                                                port_t_x=p_tx_list[i-1],
-                                                port_speed=p_sp_list[i-1],
-                                                p_alias=p_al_list[i-1],
-                                                #prim='...'
+                                                port_t_x=p_tx_list[i - 1],
+                                                port_speed=p_sp_list[i - 1],
+                                                p_alias=p_al_list[i - 1],
+                                                # prim='...'
                                                 vlantz=form.cleaned_data['vlantz']
                                                 )
 
-            to_his([request.user, 3, n_dev.id, 1, 0, 'name: '+n_dev.name])
+            to_his([request.user, 3, n_dev.id, 1, 0, f'name: {n_dev.name}'])
 
-            return HttpResponseRedirect(request.get_full_path()+'../')
+            return HttpResponseRedirect(request.get_full_path() + '../')
     else:
         dev_c = Device.objects.filter(parrent_id=lo_id).count()
-        form = new_dev_Form(initial={'dev_name': (lo.name+'-'+str(dev_c+1))})#, 'dev_name_type': 2})
+        form = new_dev_Form(initial={'dev_name': (lo.name + '-' + str(dev_c + 1))})  # , 'dev_name_type': 2})
 
     t_list = Templ_device.objects.values('parrent_id', 'id', 'name', 'ports').order_by('parrent_id', 'name')
     i = 0
@@ -152,19 +147,18 @@ def new_dev(request, bu_id, lo_id):
     for ob in t_list:
         if ob['parrent_id'] != i:
             i = ob['parrent_id']
-            #ob['next_type'] = Device_type.objects.get(pk=ob['parrent_id']).name
+            # ob['next_type'] = Device_type.objects.get(pk=ob['parrent_id']).name
             ob['next_type'] = dev_type_list.get(pk=ob['parrent_id']).name
-            #ob['count_type'] = Templ_device.objects.filter(parrent_id=i).count()
+            # ob['count_type'] = Templ_device.objects.filter(parrent_id=i).count()
         else:
             ob['next_type'] = False
-            #ob['count_type'] = False
+            # ob['count_type'] = False
 
     return render(request, 'new_dev.html', {'form': form, 'lo': lo, 't_list': t_list})
 
 
 @login_required(login_url='/core/login/')
 def add_v_port(request, bu_id, lo_id, dev_id):
-
     try:
         lo = Locker.objects.get(pk=lo_id)
         dev = Device.objects.get(pk=dev_id)
@@ -174,7 +168,7 @@ def add_v_port(request, bu_id, lo_id, dev_id):
     if lo.parrent_id != int(bu_id) or dev.parrent_id != int(lo_id):
         return render(request, 'error.html', {'mess': 'несоответствие вложенных контейнеров', 'back': 2})
 
-    if not request.user.has_perm("kpp.can_edit"):
+    if not request.user.has_perm("core.can_edit"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     if request.method == 'POST':
@@ -188,10 +182,11 @@ def add_v_port(request, bu_id, lo_id, dev_id):
                                                 vlan_untag=sel_vlan_untag,
                                                 ip=form.cleaned_data['ip']
                                                 )
-            
-            to_his([request.user, 11, n_p.id, 1, 0, 'УД: '+dev.parrent.name+', dev: '+dev.name+', alias: '+form.cleaned_data['p_alias']])
-            
-            return HttpResponseRedirect(request.get_full_path()+'../l2=1/')
+
+            to_his([request.user, 11, n_p.id, 1, 0,
+                    f'УД: {dev.parrent.name}, dev: {dev.name}, alias: {form.cleaned_data["p_alias"]}'])
+
+            return HttpResponseRedirect(request.get_full_path() + '../l2=1/')
         else:
             form = new_dev_p_v_Form(initial={'parrent_p': 0,
                                              'p_alias': form.data['p_alias'],
@@ -207,7 +202,6 @@ def add_v_port(request, bu_id, lo_id, dev_id):
 
 @login_required(login_url='/core/login/')
 def new_box(request, bu_id, lo_id):
-
     if not request.user.has_perm("core.can_new"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
@@ -229,20 +223,17 @@ def new_box(request, bu_id, lo_id):
                                            con_type=form.cleaned_data['box_name_type'],
                                            num_plints=cable.num_plints
                                            )
-                #i = 0
-                #while i < cable.ports:
-                #    i = i + 1
                 for i in range(1, cable.ports + 1):
                     Box_ports.objects.create(parrent_id=n_box.id,
                                              cable_id=cable.id,
                                              num=i,
                                              port_t_x=2,
-                                             p_alias=a_list[i-1]
+                                             p_alias=a_list[i - 1]
                                              )
 
-            to_his([request.user, 4, n_box.id, 1, 0, 'name: '+n_box.name+'-'+n_box.num+', УД: '+n_box.parrent.name])
+            to_his([request.user, 4, n_box.id, 1, 0, f'name: {n_box.name}-{n_box.num}, УД: {n_box.parrent.name}'])
 
-            return HttpResponseRedirect(request.get_full_path()+'../')
+            return HttpResponseRedirect(request.get_full_path() + '../')
     else:
         form = new_box_Form(initial={'box_name_type': 'крт 30'})
 
@@ -251,7 +242,6 @@ def new_box(request, bu_id, lo_id):
 
 @login_required(login_url='/core/login/')
 def new_su(request, bu_id, lo_id):
-
     if not request.user.has_perm("core.can_new"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
@@ -268,14 +258,12 @@ def new_su(request, bu_id, lo_id):
                                           name=form.cleaned_data['su_name'],
                                           con_type=su.id,
                                           )
-            h_text = 'УД: '+lo.name+'; name: '+n_su.name+'; type: '+su.name
-            to_his([request.user, 13, n_su.id, 1, 0, h_text])
-            
+            to_his([request.user, 13, n_su.id, 1, 0, f'УД: {lo.name}; name: {n_su.name}; type: {su.name}'])
+
             return HttpResponseRedirect('../')
     else:
         su_c = Subunit.objects.filter(parrent_id=lo_id).count()
-        #form = new_su_Form(initial={'su_name': (lo.name+'-su-'+str(su_c+1))})
-        form = new_su_Form(initial={'su_name': f"{lo.name}-su-{su_c+1}"})
+        form = new_su_Form(initial={'su_name': f"{lo.name}-su-{su_c + 1}"})
 
     t_list = Templ_subunit.objects.values('parrent_id', 'id', 'name').order_by('parrent_id', 'name')
     i = 0
@@ -287,14 +275,15 @@ def new_su(request, bu_id, lo_id):
         else:
             ob['next_type'] = False
             ob['count_type'] = False
-    
+
     return render(request, 'new_su.html', {'form': form, 'lo': lo, 't_list': t_list})
+
 
 ####################################################################################################
 
+
 @login_required(login_url='/core/login/')
 def edit_build(request, bu_id):
-
     if not request.user.has_perm("core.can_edit_bu"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
@@ -304,43 +293,42 @@ def edit_build(request, bu_id):
         form = edit_bu_Form(request.POST)
         if form.is_valid():
             change = False
-            h_text = 'ЗД: '+bu.name+' '+str(bu.house_num)+'; '
+            h_text = f'ЗД: {bu.name} {bu.house_num}; '
 
             if form.cleaned_data['kvar'] != str(bu.kvar):
                 change = True
-                h_text += 'квартал: '+Kvartal.objects.get(pk=bu.kvar).name+' -> '+Kvartal.objects.get(pk=int(form.cleaned_data['kvar'])).name+'; '
+                h_text += f'квартал: {Kvartal.objects.get(pk=bu.kvar).name} -> {Kvartal.objects.get(pk=int(form.cleaned_data["kvar"])).name}; '
                 bu.kvar = form.cleaned_data['kvar']
 
             id_comp = bu.info_comp
-            if id_comp == 0: id_comp = 1                        ### debug
+            if id_comp == 0: id_comp = 1  ### debug
             if int(form.cleaned_data['info_comp']) != id_comp:
                 change = True
-                h_text += 'упр_к: '+manage_comp.objects.get(pk=id_comp).name+' -> '+manage_comp.objects.get(pk=int(form.cleaned_data['info_comp'])).name+'; '
+                h_text += f'упр_к: {manage_comp.objects.get(pk=id_comp).name} -> {manage_comp.objects.get(pk=int(form.cleaned_data["info_comp"])).name}; '
                 bu.info_comp = form.cleaned_data['info_comp']
             if form.cleaned_data['info_cont'] != bu.info_cont:
                 change = True
-                h_text += 'конт_инф: '+bu.info_cont+' -> '+form.cleaned_data['info_cont']+'; '
+                h_text += f'конт_инф: {bu.info_cont} -> {form.cleaned_data["info_cont"]}; '
                 bu.info_cont = form.cleaned_data['info_cont']
             if form.cleaned_data['cnt_place'] != bu.cnt_place:
                 change = True
-                h_text += 'дог_разм: '+bu.cnt_place+' -> '+form.cleaned_data['cnt_place']+'; '
+                h_text += f'дог_разм: {bu.cnt_place} -> {form.cleaned_data["cnt_place"]}; '
                 bu.cnt_place = form.cleaned_data['cnt_place']
             if form.cleaned_data['cnt_price'] != bu.cnt_price:
                 change = True
-                h_text += 'цена_дог_разм: '+bu.cnt_price+' -> '+form.cleaned_data['cnt_price']+'; '
+                h_text += f'цена_дог_разм: {bu.cnt_price} -> {form.cleaned_data["cnt_price"]}; '
                 bu.cnt_price = form.cleaned_data['cnt_price']
 
             d_date = bu.deadline
             if d_date is None:
-                d_m = 0
-                d_d = 0
+                d_m, d_d = 0, 0
             else:
-                d_m = int(d_date.month)
-                d_d = int(d_date.day)
+                d_m, d_d = int(d_date.month), int(d_date.day)
             if form.cleaned_data['deadline_use']:
                 if d_m != int(form.cleaned_data['deadline_m']) or d_d != int(form.cleaned_data['deadline_d']):
                     change = True
-                    bu.deadline = datetime.datetime(2000, int(form.cleaned_data['deadline_m']), int(form.cleaned_data['deadline_d'])).date()
+                    bu.deadline = datetime.datetime(2000, int(form.cleaned_data['deadline_m']),
+                                                    int(form.cleaned_data['deadline_d'])).date()
             else:
                 if d_date is not None:
                     change = True
@@ -348,27 +336,27 @@ def edit_build(request, bu_id):
 
             if form.cleaned_data['electricity'] != bu.electricity:
                 change = True
-                h_text += 'эл/эн: '+bu.electricity+' -> '+form.cleaned_data['electricity']+'; '
+                h_text += f'эл/эн: {bu.electricity} -> {form.cleaned_data["electricity"]}; '
                 bu.electricity = form.cleaned_data['electricity']
             if form.cleaned_data['info_signs'] != bu.info_signs:
                 change = True
-                h_text += 'info_signs: '+str(bu.info_signs)+' -> '+str(form.cleaned_data['info_signs'])+'; '
+                h_text += f'info_signs: {bu.info_signs} -> {form.cleaned_data["info_signs"]}; '
                 bu.info_signs = form.cleaned_data['info_signs']
             if form.cleaned_data['senior_home'] != bu.senior_home:
                 change = True
-                h_text += 'ст_дома: '+bu.senior_home+' -> '+form.cleaned_data['senior_home']+'; '
+                h_text += f'ст_дома: {bu.senior_home} -> {form.cleaned_data["senior_home"]}; '
                 bu.senior_home = form.cleaned_data['senior_home']
             if form.cleaned_data['tech_conditions'] != bu.tech_conditions:
                 change = True
-                h_text += 'тех.усл.: '+bu.tech_conditions+' -> '+form.cleaned_data['tech_conditions']+'; '
+                h_text += f'тех.усл.: {bu.tech_conditions} -> {form.cleaned_data["tech_conditions"]}; '
                 bu.tech_conditions = form.cleaned_data['tech_conditions']
             if form.cleaned_data['access'] != bu.access:
                 change = True
-                h_text += 'доступ: '+bu.access+' -> '+form.cleaned_data['access']+'; '
+                h_text += f'доступ: {bu.access} -> {form.cleaned_data["access"]}; '
                 bu.access = form.cleaned_data['access']
             if form.cleaned_data['prim'] != bu.prim:
                 change = True
-                h_text += 'прим: '+bu.prim+' -> '+form.cleaned_data['prim']+'; '
+                h_text += f'прим: {bu.prim} -> {form.cleaned_data["prim"]}; '
                 bu.prim = form.cleaned_data['prim']
 
             if change:
@@ -407,7 +395,6 @@ def edit_build(request, bu_id):
 
 @login_required(login_url='/core/login/')
 def edit_locker(request, bu_id, lo_id):
-
     if not request.user.has_perm("core.can_edit"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
@@ -416,18 +403,17 @@ def edit_locker(request, bu_id, lo_id):
         cab_key1 = lo.cab_key.split('-')[0]
         cab_key2 = lo.cab_key.split('-')[1]
     except:
-        cab_key1 = None
-        cab_key2 = None
+        cab_key1, cab_key2 = None, None
 
     if request.method == 'POST':
         form = edit_lo_Form(request.POST)
         if form.is_valid():
             change = False
-            #sel_status = form.cleaned_data['status']
+            # sel_status = form.cleaned_data['status']
             if str(lo.status) != form.cleaned_data['status']:
                 change = True
                 lo.status = form.cleaned_data['status']
-            #if form.cleaned_data['date1'] != lo.date_ent:
+            # if form.cleaned_data['date1'] != lo.date_ent:
             #    change = True
             #    lo.date_ent = form.cleaned_data['date1']
             try:
@@ -453,7 +439,7 @@ def edit_locker(request, bu_id, lo_id):
             if form.cleaned_data['prim'] != lo.prim:
                 change = True
                 lo.prim = form.cleaned_data['prim']
-            #if form.cleaned_data['racks'] != lo.racks:
+            # if form.cleaned_data['racks'] != lo.racks:
             #    if (len(form.cleaned_data['racks'].split(',')) % 2 == 0) or form.cleaned_data['racks'] == '':
             #        change = True
             #        lo.racks = form.cleaned_data['racks']
@@ -486,33 +472,34 @@ def edit_locker(request, bu_id, lo_id):
                 change = True
                 lo.cab_door = form.cleaned_data['cab_door']
             key_door_ind = conf.KEY_DOOR_TYPE.index(form.cleaned_data['cab_door'])
-            if key_door_ind == 1 and form.cleaned_data['cab_key1'] != None and form.cleaned_data['cab_key2'] != None:
-                cab_key = str(form.cleaned_data['cab_key1'])+'-'+str(form.cleaned_data['cab_key2'])
+            if (key_door_ind == 1 and
+                    (form.cleaned_data['cab_key1'] is not None) and (form.cleaned_data['cab_key2'] is not None)):
+                cab_key = f'{form.cleaned_data["cab_key1"]}-{form.cleaned_data["cab_key2"]}'
                 if cab_key != lo.cab_key:
                     change = True
                     lo.cab_key = cab_key
 
-            #if form.cleaned_data['kvar'] != str(lo.parrent.kvar):
+            # if form.cleaned_data['kvar'] != str(lo.parrent.kvar):
             #    change = True
             #    lo.parrent.kvar = form.cleaned_data['kvar']
             #    lo.parrent.save()
 
             if change:
                 lo.save()
-                to_his([request.user, 1, lo.id, 2, 0, 'УД: '+lo.name])
+                to_his([request.user, 1, lo.id, 2, 0, f'УД: {lo.name}'])
 
             return HttpResponseRedirect('../../')
     else:
         form = edit_lo_Form(initial={'lo_name': lo.name,
                                      'lo_name_type': lo.con_type,
-                                     #'date1': lo.date_ent,
+                                     # 'date1': lo.date_ent,
                                      'status': lo.status,
                                      'rasp': lo.rasp,
                                      'prim': lo.prim,
-                                     #'kvar': lo.parrent.kvar,
+                                     # 'kvar': lo.parrent.kvar,
                                      'co': lo.co,
                                      'detached': lo.detached,
-                                     'coord': str(round(lo.coord_x))+','+str(round(lo.coord_y)),
+                                     'coord': str(round(lo.coord_x)) + ',' + str(round(lo.coord_y)),
                                      'racks': lo.racks,
                                      'cab_door': lo.cab_door,
                                      'cab_key1': cab_key1,
@@ -532,7 +519,6 @@ def edit_locker(request, bu_id, lo_id):
 
 @login_required(login_url='/core/login/')
 def edit_cr(request, bu_id, lo_id, cr_id):
-
     if not request.user.has_perm("core.can_edit"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
@@ -542,7 +528,7 @@ def edit_cr(request, bu_id, lo_id, cr_id):
     rack_list = [[0, '---']]
     i = 0
     while i < len(rack_pos_list) / 2:
-        rack_list.append([i+1, rack_pos_list[i*2]])
+        rack_list.append([i + 1, rack_pos_list[i * 2]])
         i += 1
 
     if request.method == 'POST':
@@ -560,7 +546,7 @@ def edit_cr(request, bu_id, lo_id, cr_id):
                 change = True
                 cr.prim = form.cleaned_data['prim']
 
-            if form.cleaned_data['ch_type'] == True:
+            if form.cleaned_data['ch_type']:
                 sou = Templ_cross.objects.get(pk=cr.con_type)
                 dst = Templ_cross.objects.get(pk=int(form.cleaned_data['cr_name_type']))
                 if sou.ext_p and dst.ext_p:
@@ -582,11 +568,11 @@ def edit_cr(request, bu_id, lo_id, cr_id):
 
             if form.cleaned_data['rack_num'] != cr.rack_num:
                 change = True
-                #h_text += 'rack_num: '+str(cr.rack_num)+' -> '+str(form.cleaned_data['rack_num'])+'; '
+                # h_text += 'rack_num: '+str(cr.rack_num)+' -> '+str(form.cleaned_data['rack_num'])+'; '
                 cr.rack_num = form.cleaned_data['rack_num']
             if form.cleaned_data['rack_pos'] != cr.rack_pos:
                 change = True
-                #h_text += 'rack_pos: '+str(cr.rack_pos)+' -> '+str(form.cleaned_data['rack_pos'])+'; '
+                # h_text += 'rack_pos: '+str(cr.rack_pos)+' -> '+str(form.cleaned_data['rack_pos'])+'; '
                 cr.rack_pos = form.cleaned_data['rack_pos']
 
             if change:
@@ -610,7 +596,6 @@ def edit_cr(request, bu_id, lo_id, cr_id):
 
 @login_required(login_url='/core/login/')
 def edit_cr_p(request, bu_id, lo_id, cr_id, p_id):
-
     if not request.user.has_perm("core.can_edit"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
@@ -630,7 +615,7 @@ def edit_cr_p(request, bu_id, lo_id, cr_id, p_id):
                 s_p.opt_len = form.cleaned_data['opt_len'] if str(form.cleaned_data['opt_len']).isdigit else 0
             if s_p.up_status != 0:
                 if form.cleaned_data['status1'] != str(s_p.up_status):
-                    #change = True
+                    # change = True
                     s_p.up_status = form.cleaned_data['status1']
                     d_p = Cross_ports.objects.get(pk=s_p.up_cross_id)
                     d_p.up_status = form.cleaned_data['status1']
@@ -640,11 +625,11 @@ def edit_cr_p(request, bu_id, lo_id, cr_id, p_id):
                     to_his([request.user, 5, s_p.id, 9, 1, ''])
             if s_p.int_c_status != 0:
                 if form.cleaned_data['status2'] != str(s_p.int_c_status):
-                    #change = True
+                    # change = True
                     s_p.int_c_status = form.cleaned_data['status2']
                     if s_p.int_c_dest == 1:
                         d_p = Cross_ports.objects.get(pk=s_p.int_c_id)
-                        #if d_p.int_c_status != s_p.int_c_status: return HttpResponseRedirect('err027')
+                        # if d_p.int_c_status != s_p.int_c_status: return HttpResponseRedirect('err027')
                         d_p.int_c_status = form.cleaned_data['status2']
                         d_p.save()
                         s_p.save()
@@ -652,7 +637,7 @@ def edit_cr_p(request, bu_id, lo_id, cr_id, p_id):
                         to_his([request.user, 5, s_p.id, 9, 2, ''])
                     if s_p.int_c_dest == 2:
                         d_p = Device_ports.objects.get(pk=s_p.int_c_id)
-                        #if d_p.int_c_status != s_p.int_c_status: return HttpResponseRedirect('err028')
+                        # if d_p.int_c_status != s_p.int_c_status: return HttpResponseRedirect('err028')
                         d_p.int_c_status = form.cleaned_data['status2']
                         d_p.save()
                         s_p.save()
@@ -676,81 +661,79 @@ def edit_cr_p(request, bu_id, lo_id, cr_id, p_id):
 
 @login_required(login_url='/core/login/')
 def edit_dev(request, bu_id, lo_id, dev_id):
-
     if not request.user.has_perm("core.can_edit"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     dev = Device.objects.get(pk=dev_id)
-    #rack_pos = dev.rack_pos.split(',') if dev.rack_pos != '' else ['', '']
-    #rack_pos = dev.rack_pos.split(',') if len(dev.rack_pos) > 2 else ['', '']
+    # rack_pos = dev.rack_pos.split(',') if dev.rack_pos != '' else ['', '']
+    # rack_pos = dev.rack_pos.split(',') if len(dev.rack_pos) > 2 else ['', '']
     rack_pos_list = dev.parrent.racks.split(',')
     rack_list = [[0, '---']]
     i = 0
     while i < len(rack_pos_list) / 2:
-        rack_list.append([i+1, rack_pos_list[i*2]])
-        #max_unit = int(rack_pos_list[i*2+1]) if int(rack_pos_list[i*2+1]) > max_unit else max_unit
+        rack_list.append([i + 1, rack_pos_list[i * 2]])
+        # max_unit = int(rack_pos_list[i*2+1]) if int(rack_pos_list[i*2+1]) > max_unit else max_unit
         i += 1
     if request.method == 'POST':
         form = edit_dev_Form(request.POST)
         form.fields['rack_num'].choices = rack_list
         if form.is_valid():
             change = False
-            h_text = 'комм: '+dev.name+'; '
+            h_text = f'комм: {dev.name}; '
             if form.cleaned_data['dev_name'] != dev.name:
                 change = True
-                h_text += 'name: '+dev.name+' -> '+form.cleaned_data['dev_name']+'; '
+                h_text += f'name: {dev.name} -> {form.cleaned_data["dev_name"]}; '
                 dev.name = form.cleaned_data['dev_name']
             if form.cleaned_data['object_owner'] != dev.object_owner:
                 change = True
-                h_text += 'own: '+dev.object_owner+' -> '+form.cleaned_data['object_owner']+'; '
+                h_text += f'own: {dev.object_owner} -> {form.cleaned_data["object_owner"]}; '
                 dev.object_owner = form.cleaned_data['object_owner']
             ip = form.cleaned_data['ip'] if form.cleaned_data['ip'] != '' else None
             if ip != dev.ip_addr:
                 if Device.objects.filter(ip_addr=ip).exclude(pk=dev_id).exists():
                     return render(request, 'error.html', {'mess': 'ip адрес уже существует в базе', 'back': 0})
                 change = True
-                h_text += 'ip: '+str(dev.ip_addr)+' -> '+form.cleaned_data['ip']+'; '
+                h_text += f'ip: {dev.ip_addr} -> {form.cleaned_data["ip"]}; '
                 dev.ip_addr = ip
             mac = form.cleaned_data['mac']
             if mac != dev.mac_addr:
                 if (re.match(conf.MAC_RE, mac) and len(mac) == 17) or mac == '':
                     change = True
-                    h_text += 'mac: '+dev.mac_addr+' -> '+mac+'; '
-                    dev.mac_addr = mac.replace('-', ':').upper()     #.lower()
+                    h_text += f'mac: {dev.mac_addr} -> {mac}; '
+                    dev.mac_addr = mac.replace('-', ':').upper()
             if form.cleaned_data['ip_mask'] != dev.ip_mask:
                 change = True
-                h_text += 'ip_mask: '+str(dev.ip_mask)+' -> '+str(form.cleaned_data['ip_mask'])+'; '
+                h_text += f'ip_mask: {dev.ip_mask} -> {form.cleaned_data["ip_mask"]}; '
                 dev.ip_mask = form.cleaned_data['ip_mask']
             ip_gateway = form.cleaned_data['ip_gateway'] if form.cleaned_data['ip_gateway'] != '' else None
             if ip_gateway != dev.ip_gateway:
                 change = True
-                h_text += 'ip_gateway: '+str(dev.ip_gateway)+' -> '+str(ip_gateway)+'; '
+                h_text += f'ip_gateway: {dev.ip_gateway} -> {ip_gateway}; '
                 dev.ip_gateway = ip_gateway
             if form.cleaned_data['vlan'] != dev.vlan:
                 change = True
-                h_text += 'vlan: '+str(dev.vlan)+' -> '+str(form.cleaned_data['vlan'])+'; '
+                h_text += f'vlan: {dev.vlan} -> {form.cleaned_data["vlan"]}; '
                 dev.vlan = form.cleaned_data['vlan']
 
             if form.cleaned_data['sn'] != dev.sn:
                 change = True
-                h_text += 'sn: '+dev.sn+' -> '+form.cleaned_data['sn']+'; '
+                h_text += f'sn: {dev.sn} -> {form.cleaned_data["sn"]}; '
                 dev.sn = form.cleaned_data['sn']
             if form.cleaned_data['vers_po'] != dev.vers_po:
                 change = True
-                h_text += 'vers_po: '+dev.vers_po+' -> '+form.cleaned_data['vers_po']+'; '
+                h_text += f'vers_po: {dev.vers_po} -> {form.cleaned_data["vers_po"]}; '
                 dev.vers_po = form.cleaned_data['vers_po']
             if form.cleaned_data['man_conf'] != dev.man_conf:
                 change = True
-                h_text += 'man_conf: '+dev.man_conf+' -> '+form.cleaned_data['man_conf']+'; '
+                h_text += f'man_conf: {dev.man_conf} -> {form.cleaned_data["man_conf"]}; '
                 dev.man_conf = form.cleaned_data['man_conf']
             if form.cleaned_data['man_install'] != dev.man_install:
                 change = True
-                h_text += 'man_install: '+dev.man_install+' -> '+form.cleaned_data['man_install']+'; '
+                h_text += f'man_install: {dev.man_install} -> {form.cleaned_data["man_install"]}; '
                 dev.man_install = form.cleaned_data['man_install']
             if form.cleaned_data['date_ent'] != dev.date_ent:
                 change = True
                 h_text += 'date_ent: changed; '
-                #h_text += 'date_ent: '+str(dev.date_ent)+' -> '+form.cleaned_data['date_ent']+'; '
                 dev.date_ent = form.cleaned_data['date_ent']
             if form.cleaned_data['date_repl'] != dev.date_repl:
                 change = True
@@ -758,15 +741,15 @@ def edit_dev(request, bu_id, lo_id, dev_id):
                 dev.date_repl = form.cleaned_data['date_repl']
             if form.cleaned_data['prim'] != dev.prim:
                 change = True
-                h_text += 'prim: '+dev.prim+' -> '+form.cleaned_data['prim']+'; '
+                h_text += f'prim: {dev.prim} -> {form.cleaned_data["prim"]}; '
                 dev.prim = form.cleaned_data['prim']
             if form.cleaned_data['rack_num'] != str(dev.rack_num):
                 change = True
-                h_text += 'rack_num: '+str(dev.rack_num)+' -> '+str(form.cleaned_data['rack_num'])+'; '
+                h_text += f'rack_num: {dev.rack_num} -> {form.cleaned_data["rack_num"]}; '
                 dev.rack_num = form.cleaned_data['rack_num']
             if form.cleaned_data['rack_pos'] != dev.rack_pos:
                 change = True
-                h_text += 'rack_pos: '+str(dev.rack_pos)+' -> '+str(form.cleaned_data['rack_pos'])+'; '
+                h_text += f'rack_pos: {dev.rack_pos} -> {form.cleaned_data["rack_pos"]}; '
                 dev.rack_pos = form.cleaned_data['rack_pos']
 
             if change:
@@ -800,7 +783,6 @@ def edit_dev(request, bu_id, lo_id, dev_id):
 
 @login_required(login_url='/core/login/')
 def edit_dev_p(request, bu_id, lo_id, dev_id, p_id):
-
     if not request.user.has_perm("core.can_edit"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
@@ -809,6 +791,7 @@ def edit_dev_p(request, bu_id, lo_id, dev_id, p_id):
     except ObjectDoesNotExist:
         return render(request, 'error.html', {'mess': 'объект не найден', 'back': 1})
 
+    # s_p2 = Device_ports.objects.filter(parrent_id=s_p.parrent_id, num=s_p.num).exclude(pk=s_p.id).first()
     s_p1 = Device_ports.objects.filter(parrent_id=s_p.parrent_id, num=s_p.num).order_by('id')
     s_p2 = False if s_p1.count() == 1 else s_p1.last()
 
@@ -829,15 +812,14 @@ def edit_dev_p(request, bu_id, lo_id, dev_id, p_id):
                 change = True
                 s_p.uplink = form.cleaned_data['uplink']
 
-            if request.user.has_perm("kpp.can_adm") and \
+            if request.user.has_perm("core.can_adm") and \
                     s_p.port_t_x != 2 and bool(int(form.cleaned_data['sfp_type'])) != bool(s_p2):
                 if not s_p2:
                     Device_ports.objects.create(parrent_id=s_p.parrent_id,
                                                 num=s_p.num,
                                                 port_t_x=s_p.port_t_x,
                                                 port_speed=s_p.port_speed,
-                                                #p_alias=f"{s_p.p_alias}_2",
-                                                p_alias=s_p.p_alias,
+                                                p_alias=s_p.p_alias,  # p_alias=f"{s_p.p_alias}_2",
                                                 )
                     to_his([request.user, 6, s_p.id, 11, 0, '2 порта'])
                 else:
@@ -852,7 +834,7 @@ def edit_dev_p(request, bu_id, lo_id, dev_id, p_id):
                     s_p.int_c_status = form.cleaned_data['status']
                     if s_p.int_c_dest == 1:
                         d_p = Cross_ports.objects.get(pk=s_p.int_c_id)
-                        #if d_p.int_c_status != s_p.int_c_status: return HttpResponseRedirect('err027')
+                        # if d_p.int_c_status != s_p.int_c_status: return HttpResponseRedirect('err027')
                         d_p.int_c_status = form.cleaned_data['status']
                         d_p.save()
                         s_p.save()
@@ -860,7 +842,7 @@ def edit_dev_p(request, bu_id, lo_id, dev_id, p_id):
                         to_his([request.user, 6, s_p.id, 9, 0, ''])
                     if s_p.int_c_dest == 2:
                         d_p = Device_ports.objects.get(pk=s_p.int_c_id)
-                        #if d_p.int_c_status != s_p.int_c_status: return HttpResponseRedirect('err028')
+                        # if d_p.int_c_status != s_p.int_c_status: return HttpResponseRedirect('err028')
                         d_p.int_c_status = form.cleaned_data['status']
                         d_p.save()
                         s_p.save()
@@ -868,7 +850,7 @@ def edit_dev_p(request, bu_id, lo_id, dev_id, p_id):
                         to_his([request.user, 6, s_p.id, 9, 0, ''])
                     if s_p.int_c_dest == 3:
                         d_p = Box_ports.objects.get(pk=s_p.int_c_id)
-                        #if d_p.int_c_status != s_p.int_c_status: return HttpResponseRedirect('err028')
+                        # if d_p.int_c_status != s_p.int_c_status: return HttpResponseRedirect('err028')
                         d_p.up_status = form.cleaned_data['status']
                         d_p.save()
                         s_p.save()
@@ -888,7 +870,7 @@ def edit_dev_p(request, bu_id, lo_id, dev_id, p_id):
                                         'uplink': s_p.uplink,
                                         'sfp_type': 1 if s_p2 else 0,
                                         })
-        if not request.user.has_perm("kpp.can_adm") or s_p.port_t_x == 2:
+        if not request.user.has_perm("core.can_adm") or s_p.port_t_x == 2:
             form.fields['sfp_type'].disabled = True
 
     return render(request, 'edit_dev_p.html', {'form': form, 'port': s_p})
@@ -896,7 +878,6 @@ def edit_dev_p(request, bu_id, lo_id, dev_id, p_id):
 
 @login_required(login_url='/core/login/')
 def edit_dev_p_v(request, bu_id, lo_id, dev_id, f_p_id=None, v_p_id=None):
-
     if not request.user.has_perm("core.can_edit"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
@@ -915,49 +896,49 @@ def edit_dev_p_v(request, bu_id, lo_id, dev_id, f_p_id=None, v_p_id=None):
         form = edit_dev_p_v_Form(request.POST)
         if form.is_valid():
             change = False
-            h_text = 'комм: '+port.parrent.name+'; '
+            h_text = f'комм: {port.parrent.name}; '
             if v_p_id:
                 if form.cleaned_data['parrent_p'] != port.parrent_p:
                     change = True
-                    h_text += 'parrent_p: '+str(port.parrent_p)+' -> '+str(form.cleaned_data['parrent_p'])+'; '
+                    h_text += f'parrent_p: {port.parrent_p} -> {form.cleaned_data["parrent_p"]}; '
                     port.parrent_p = form.cleaned_data['parrent_p']
             if form.cleaned_data['p_alias'] != port.p_alias:
                 change = True
-                h_text += 'p_alias: '+port.p_alias+' -> '+form.cleaned_data['p_alias']+'; '
+                h_text += f'p_alias: {port.p_alias} -> {form.cleaned_data["p_alias"]}; '
                 port.p_alias = form.cleaned_data['p_alias']
             if form.cleaned_data['desc'] != port.desc:
                 change = True
-                h_text += 'desc: '+port.desc+' -> '+form.cleaned_data['desc']+'; '
+                h_text += f'desc: {port.desc} -> {form.cleaned_data["desc"]}; '
                 port.desc = form.cleaned_data['desc']
             if f_p_id:
                 if form.cleaned_data['vlan_tag_list'] != port.vlan_tag_list:
                     change = True
-                    h_text += 'vlan_tag_list: '+port.vlan_tag_list+' -> '+form.cleaned_data['vlan_tag_list']+'; '
+                    h_text += f'vlan_tag_list: {port.vlan_tag_list} -> {form.cleaned_data["vlan_tag_list"]}; '
                     port.vlan_tag_list = form.cleaned_data['vlan_tag_list']
                 if form.cleaned_data['mvr'] != port.mvr:
                     change = True
-                    h_text += 'mvr: '+port.mvr+' -> '+form.cleaned_data['mvr']+'; '
+                    h_text += f'mvr: {port.mvr} -> {form.cleaned_data["mvr"]}; '
                     port.mvr = form.cleaned_data['mvr']
             if form.cleaned_data['vlan_untag'] != port.vlan_untag:
                 change = True
-                h_text += 'vlan_untag: '+str(port.vlan_untag)+' -> '+form.cleaned_data['vlan_untag']+'; '
+                h_text += f'vlan_untag: {port.vlan_untag} -> {form.cleaned_data["vlan_untag"]}; '
                 port.vlan_untag = form.cleaned_data['vlan_untag']
 
             if form.cleaned_data['ip'] != port.ip:
                 change = True
-                h_text += 'ip: '+port.ip+' -> '+form.cleaned_data['ip']+'; '
+                h_text += f'ip: {port.ip} -> {form.cleaned_data["ip"]}; '
                 port.ip = form.cleaned_data['ip']
             if form.cleaned_data['shut'] != port.shut:
                 change = True
-                h_text += 'shut: '+str(port.shut)+' -> '+str(form.cleaned_data['shut'])+'; '
+                h_text += f'shut: {port.shut} -> {form.cleaned_data["shut"]}; '
                 port.shut = form.cleaned_data['shut']
             if form.cleaned_data['prim'] != port.prim:
                 change = True
-                h_text += 'prim: '+port.prim+' -> '+form.cleaned_data['prim']+'; '
+                h_text += f'prim: {port.prim} -> {form.cleaned_data["prim"]}; '
                 port.prim = form.cleaned_data['prim']
             if form.cleaned_data['vlantz'] != port.vlantz:
                 change = True
-                h_text += 'vlantz: '+port.vlantz+' -> '+form.cleaned_data['vlantz']+'; '
+                h_text += f'vlantz: {port.vlantz} -> {form.cleaned_data["vlantz"]}; '
                 port.vlantz = form.cleaned_data['vlantz']
 
             if change:
@@ -982,22 +963,21 @@ def edit_dev_p_v(request, bu_id, lo_id, dev_id, f_p_id=None, v_p_id=None):
                                                  'port': port,
                                                  'vlan_tag_list': True if f_p_id else False,
                                                  'parrent_p': True if v_p_id else False,
-                                                })
+                                                 })
 
 
 @login_required(login_url='/core/login/')
 def edit_box(request, bu_id, lo_id, box_id):
-
     if not request.user.has_perm("core.can_edit"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
 
     box = Box.objects.get(pk=box_id)
 
     rack_pos_list = box.parrent.racks.split(',')
-    rack_list = [[0, '---']]
+    rack_list = [(0, '---')]
     i = 0
     while i < len(rack_pos_list) / 2:
-        rack_list.append([i+1, rack_pos_list[i*2]])
+        rack_list.append((i + 1, rack_pos_list[i * 2]))
         i += 1
 
     if request.method == 'POST':
@@ -1005,35 +985,35 @@ def edit_box(request, bu_id, lo_id, box_id):
         form.fields['rack_num'].choices = rack_list
         if form.is_valid():
             change = False
-            h_text = 'УД: '+box.parrent.name+'; крт: '+box.name+'-'+box.num+'; '
+            h_text = f'УД: {box.parrent.name}; крт: {box.name}-{box.num}; '
             if form.cleaned_data['box_name'] != box.name:
                 change = True
-                h_text += 'name: '+box.name+' -> '+form.cleaned_data['box_name']+'; '
+                h_text += f'name: {box.name} -> {form.cleaned_data["box_name"]}; '
                 box.name = form.cleaned_data['box_name']
             if form.cleaned_data['box_num'] != box.num:
                 change = True
-                h_text += 'num: '+box.num+' -> '+form.cleaned_data['box_num']+'; '
+                h_text += f'num: {box.num} -> {form.cleaned_data["box_num"]}; '
                 box.num = form.cleaned_data['box_num']
             if form.cleaned_data['box_name_type'] != str(box.con_type):
                 change = True
-                h_text += 'name_type: '+str(box.con_type)+' -> '+form.cleaned_data['box_name_type']+'; '
+                h_text += f'name_type: {box.con_type} -> {form.cleaned_data["box_name_type"]}; '
                 box.con_type = form.cleaned_data['box_name_type']
                 box.name_type = Templ_box.objects.get(pk=int(form.cleaned_data['box_name_type'])).name
             if form.cleaned_data['box_stairway'] != box.stairway:
                 change = True
-                h_text += 'stairway: '+box.stairway+' -> '+form.cleaned_data['box_stairway']+'; '
+                h_text += f'stairway: {box.stairway} -> {form.cleaned_data["box_stairway"]}; '
                 box.stairway = form.cleaned_data['box_stairway']
             if form.cleaned_data['floor'] != box.floor:
                 change = True
-                h_text += 'floor: '+box.floor+' -> '+form.cleaned_data['floor']+'; '
+                h_text += f'floor: {box.floor} -> {form.cleaned_data["floor"]}; '
                 box.floor = form.cleaned_data['floor']
             if form.cleaned_data['serv_area'] != box.serv_area:
                 change = True
-                h_text += 'serv_area: '+box.serv_area+' -> '+form.cleaned_data['serv_area']+'; '
+                h_text += f'serv_area: {box.serv_area} -> {form.cleaned_data["serv_area"]}; '
                 box.serv_area = form.cleaned_data['serv_area']
             if form.cleaned_data['prim'] != box.prim:
                 change = True
-                h_text += 'prim: '+box.prim+' -> '+form.cleaned_data['prim']+'; '
+                h_text += f'prim: {box.prim} -> {form.cleaned_data["prim"]}; '
                 box.prim = form.cleaned_data['prim']
 
             if form.cleaned_data['add_cable'] is True:
@@ -1041,7 +1021,6 @@ def edit_box(request, bu_id, lo_id, box_id):
                 if cable_type.isdigit():
                     cable = Templ_box_cable.objects.get(pk=cable_type)
                     a_list = cable.alias_list.split(',')
-                    #print(a_list)                   ########
                     if len(a_list) != cable.ports:
                         return render(request, 'error.html', {'mess': 'ошибка в шаблоне', 'back': 2})
                     source_box_p = Box_ports.objects.filter(parrent_id=box.id).order_by('num')
@@ -1056,56 +1035,47 @@ def edit_box(request, bu_id, lo_id, box_id):
                         else:
                             if int(i.p_alias[0]) > source_pl:
                                 source_pl = int(i.p_alias[0])
-                    #print(source_p_utp)                   ########
                     dest_pl = cable.num_plints
                     dest_utp = False
                     for i in range(len(a_list)):
                         al = a_list[i]
                         al0 = al[al.find('('):al.find(')')][1:].split('-')
-                        #print(al)                   ########
-                        #print(al0)                   ########
                         if not al[0].isdigit():
                             dest_utp = True
-                            #a_list[i] = 'u-('+str(source_p_utp*2+int(al[3]))+'-'+str(source_p_utp*2+int(al[5]))+')'
-                            a_list[i] = 'u-('+str(source_p_utp*2+int(al0[0]))+'-'+str(source_p_utp*2+int(al0[1]))+')'
-                            #print('u-('+str(source_p_utp*2+int(al0[0]))+'-'+str(source_p_utp*2+int(al0[1]))+')')
-                            #print(str(source_p_utp*2+int(al[3])))                   ########
-                            #print(str(source_p_utp*2+int(al[5])))                   ########
+                            a_list[i] = f'u-({source_p_utp * 2 + int(al0[0])}-{source_p_utp * 2 + int(al0[1])})'
                         else:
-                            a_list[i] = str(int(al[0])+source_pl)+al[1:]
+                            a_list[i] = str(int(al[0]) + source_pl) + al[1:]
 
-                    num_pl = box.num_plints+dest_pl
+                    num_pl = box.num_plints + dest_pl
                     if source_utp and dest_utp:
                         num_pl -= 1
                     if num_pl > 9:
-                        return render(request, 'error.html', {'mess': 'ограничение на количество плинтов (>9)', 'back': 2})
+                        return render(request, 'error.html',
+                                      {'mess': 'ограничение на количество плинтов (>9)', 'back': 2})
                     box.num_plints = num_pl
 
                     with transaction.atomic():
-                        i = 0
-                        while i < cable.ports:
-                            i = i + 1
+                        for i in range(1, cable.ports + 1):
                             Box_ports.objects.create(parrent_id=box.id,
                                                      cable_id=cable.id,
-                                                     num=source_num_p+i,
+                                                     num=source_num_p + i,
                                                      port_t_x=2,
-                                                     p_alias=a_list[i-1]
+                                                     p_alias=a_list[i - 1]
                                                      )
-                    #box.save()
+                    # box.save()
                     change = True
-                    to_his([request.user, 4, box.id, 10, cable_type, 'УД: '+box.parrent.name+'; крт: '+box.name+'-'+box.num])
-            
-            elif form.cleaned_data['del_cable'] is True:        # delete last cable from box
+                    to_his(
+                        [request.user, 4, box.id, 10, cable_type, f'УД: {box.parrent.name}; крт: {box.name}-{box.num}'])
+
+            elif form.cleaned_data['del_cable'] is True:  # delete last cable from box
                 all_b_p = Box_ports.objects.filter(parrent_id=box_id).order_by('-num')
                 cable = Templ_box_cable.objects.get(pk=all_b_p.first().cable_id)
-                #cab_b_p = all_b_p[:cable.ports]
+                # cab_b_p = all_b_p[:cable.ports]
                 ok = True
-                del_utp = False
-                box_utp = False
-                np_list = []
-                id_list = []
+                del_utp, box_utp = False, False
+                np_list, id_list = [], []
+
                 for ob in all_b_p[:cable.ports]:
-                    #print(ob.p_alias)
                     if ob.up_status != 0 or ob.int_c_status != 0:
                         ok = False
                     if not ob.p_alias[:1].isdigit():
@@ -1114,31 +1084,25 @@ def edit_box(request, bu_id, lo_id, box_id):
                         np_list.append(ob.p_alias[:1])
                     id_list.append(ob.id)
                 del_plint = len(list(set(np_list)))
-                
+
                 for ob in all_b_p[cable.ports:]:
                     if not ob.p_alias[:1].isdigit():
                         box_utp = True
-                #print(box_utp)
-                #print(id_list)
-                if ok and request.user.has_perm("kpp.can_adm"):
+
+                if ok and request.user.has_perm("core.can_adm"):
                     change = True
                     del_count = all_b_p.filter(id__in=id_list).delete()
-                    #print('box.num_plints')
-                    #print(box.num_plints)
                     if del_utp and not box_utp:
                         del_plint += 1
                     box.num_plints = box.num_plints - del_plint
-                    #print('box.num_plints')
-                    #print(box.num_plints)
-                    #print(del_count)
 
             if form.cleaned_data['rack_num'] != str(box.rack_num):
                 change = True
-                h_text += 'rack_num: '+str(box.rack_num)+' -> '+str(form.cleaned_data['rack_num'])+'; '
+                h_text += f'rack_num: {box.rack_num} -> {form.cleaned_data["rack_num"]}; '
                 box.rack_num = form.cleaned_data['rack_num']
             if form.cleaned_data['rack_pos'] != box.rack_pos:
                 change = True
-                h_text += 'rack_pos: '+str(box.rack_pos)+' -> '+str(form.cleaned_data['rack_pos'])+'; '
+                h_text += f'rack_pos: {box.rack_pos} -> {form.cleaned_data["rack_pos"]}; '
                 box.rack_pos = form.cleaned_data['rack_pos']
 
             if change:
@@ -1166,7 +1130,6 @@ def edit_box(request, bu_id, lo_id, box_id):
 
 @login_required(login_url='/core/login/')
 def edit_box_p(request, bu_id, lo_id, box_id, p_id):
-
     if not request.user.has_perm("core.can_edit"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
@@ -1175,7 +1138,7 @@ def edit_box_p(request, bu_id, lo_id, box_id, p_id):
         form = edit_box_p_Form(request.POST)
         if form.is_valid():
             change = False
-            h_text = 'УД: '+s_p.parrent.parrent.name+'; крт: '+s_p.parrent.name+'-'+s_p.parrent.num+'-'+s_p.p_alias+'; '
+            h_text = f'УД: {s_p.parrent.parrent.name}; крт: {s_p.parrent.name}-{s_p.parrent.num}-{s_p.p_alias}; '
             if s_p.up_status != 0:
                 if form.cleaned_data['status1'] != str(s_p.up_status):
                     s_p.up_status = form.cleaned_data['status1']
@@ -1183,60 +1146,60 @@ def edit_box_p(request, bu_id, lo_id, box_id, p_id):
                     d_p.int_c_status = form.cleaned_data['status1']
                     d_p.save()
                     s_p.save()
-                    to_his([request.user, 6, d_p.id, 9, 0, h_text+'int_c_status_to: '+form.cleaned_data['status1']])
-                    to_his([request.user, 7, s_p.id, 9, 1, h_text+'up_status_to: '+form.cleaned_data['status1']])
+                    to_his([request.user, 6, d_p.id, 9, 0, f'{h_text}int_c_status_to: {form.cleaned_data["status1"]}'])
+                    to_his([request.user, 7, s_p.id, 9, 1, f'{h_text}up_status_to: {form.cleaned_data["status1"]}'])
             if s_p.int_c_status != 0:
                 if form.cleaned_data['status2'] != str(s_p.int_c_status):
                     s_p.int_c_status = form.cleaned_data['status2']
                     s_p.save()
-                    to_his([request.user, 7, s_p.id, 9, 2, h_text+'int_c_status_to: '+form.cleaned_data['status2']])
-            if request.user.has_perm("kpp.can_adm"):
+                    to_his([request.user, 7, s_p.id, 9, 2, f'{h_text}int_c_status_to: {form.cleaned_data["status2"]}'])
+            if request.user.has_perm("core.can_adm"):
                 if form.cleaned_data['dog'] != s_p.dogovor and form.cleaned_data['dog'] != '':
                     change = True
-                    h_text += 'dogovor: '+s_p.dogovor+' -> '+form.cleaned_data['dog']+'; '
+                    h_text += f'dogovor: {s_p.dogovor} -> {form.cleaned_data["dog"]}; '
                     s_p.dogovor = form.cleaned_data['dog'].strip()
             if form.cleaned_data['valid'] != s_p.p_valid:
                 change = True
-                h_text += 'valid: '+str(s_p.p_valid)+' -> '+str(form.cleaned_data['valid'])+'; '
+                h_text += f'valid: {s_p.p_valid} -> {form.cleaned_data["valid"]}; '
                 s_p.p_valid = form.cleaned_data['valid']
             if form.cleaned_data['kv'] != s_p.ab_kv:
                 change = True
-                h_text += 'ab_kv: '+s_p.ab_kv+' -> '+form.cleaned_data['kv']+'; '
+                h_text += f'ab_kv: {s_p.ab_kv} -> {form.cleaned_data["kv"]}; '
                 s_p.ab_kv = form.cleaned_data['kv']
             if form.cleaned_data['fio'] != s_p.ab_fio:
                 change = True
-                h_text += 'ab_fio: '+s_p.ab_fio+' -> '+form.cleaned_data['fio']+'; '
+                h_text += f'ab_fio: {s_p.ab_fio} -> {form.cleaned_data["fio"]}; '
                 s_p.ab_fio = form.cleaned_data['fio']
             if form.cleaned_data['prim'] != s_p.ab_prim:
                 change = True
-                h_text += 'ab_prim: '+s_p.ab_prim+' -> '+form.cleaned_data['prim']+'; '
+                h_text += f'ab_prim: {s_p.ab_prim} -> {form.cleaned_data["prim"]}; '
                 s_p.ab_prim = form.cleaned_data['prim']
             if form.cleaned_data['h_dog'] != s_p.his_dogovor:
                 change = True
-                h_text += 'h_dog: '+s_p.his_dogovor+' -> '+form.cleaned_data['h_dog']+'; '
+                h_text += f'h_dog: {s_p.his_dogovor} -> {form.cleaned_data["h_dog"]}; '
                 s_p.his_dogovor = form.cleaned_data['h_dog']
             if form.cleaned_data['h_kv'] != s_p.his_ab_kv:
                 change = True
-                h_text += 'h_kv: '+s_p.his_ab_kv+' -> '+form.cleaned_data['h_kv']+'; '
+                h_text += f'h_kv: {s_p.his_ab_kv} -> {form.cleaned_data["h_kv"]}; '
                 s_p.his_ab_kv = form.cleaned_data['h_kv']
             if form.cleaned_data['h_fio'] != s_p.his_ab_fio:
                 change = True
-                h_text += 'h_fio: '+s_p.his_ab_fio+' -> '+form.cleaned_data['h_fio']+'; '
+                h_text += f'h_fio: {s_p.his_ab_fio} -> {form.cleaned_data["h_fio"]}; '
                 s_p.his_ab_fio = form.cleaned_data['h_fio']
             if form.cleaned_data['h_prim'] != s_p.his_ab_prim:
                 change = True
-                h_text += 'h_prim: '+s_p.his_ab_prim+' -> '+form.cleaned_data['h_prim']+'; '
+                h_text += f'h_prim: {s_p.his_ab_prim} -> {form.cleaned_data["h_prim"]}; '
                 s_p.his_ab_prim = form.cleaned_data['h_prim']
             if form.cleaned_data['changed'] != s_p.changed:
                 change = True
-                h_text += 'changed: '+str(s_p.changed)+' -> '+str(form.cleaned_data['changed'])+'; '
+                h_text += f'changed: {s_p.changed} -> {form.cleaned_data["changed"]}; '
                 s_p.changed = form.cleaned_data['changed']
 
             if change:
                 s_p.save()
                 to_his([request.user, 7, s_p.id, 2, 0, h_text])
 
-            return HttpResponseRedirect('../?sel=' + str(p_id))
+            return HttpResponseRedirect(f'../?sel={p_id}')
     else:
         form = edit_box_p_Form(initial={'valid': s_p.p_valid,
                                         'changed': s_p.changed,
@@ -1257,56 +1220,55 @@ def edit_box_p(request, bu_id, lo_id, box_id, p_id):
 
 @login_required(login_url='/core/login/')
 def edit_subunit(request, bu_id, lo_id, su_id):
-
     if not request.user.has_perm("core.can_edit"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
-    
+
     lo = Locker.objects.get(pk=lo_id)
     su = Subunit.objects.get(pk=int(su_id)) if (su_id != '0') else 0
-    
+
     if request.method == 'POST':
         form = edit_subunit_Form(request.POST)
         if form.is_valid():
             h_text = ''
-            if True: ####
+            if True:  # TODO
                 change = False
                 if form.cleaned_data['name'] != su.name:
                     change = True
-                    h_text += 'name: '+su.name+' -> '+form.cleaned_data['name']+'; '
+                    h_text += 'name: ' + su.name + ' -> ' + form.cleaned_data['name'] + '; '
                     su.name = form.cleaned_data['name']
                 if form.cleaned_data['object_owner'] != su.object_owner:
                     change = True
-                    h_text += 'own: '+su.object_owner+' -> '+form.cleaned_data['object_owner']+'; '
+                    h_text += 'own: ' + su.object_owner + ' -> ' + form.cleaned_data['object_owner'] + '; '
                     su.object_owner = form.cleaned_data['object_owner']
                 if form.cleaned_data['name_type'] != str(su.con_type):
                     change = True
-                    h_text += 'name_type: '+str(su.con_type)+' -> '+form.cleaned_data['name_type']+'; '
+                    h_text += 'name_type: ' + str(su.con_type) + ' -> ' + form.cleaned_data['name_type'] + '; '
                     su.con_type = int(form.cleaned_data['name_type'])
                 if form.cleaned_data['poe'] != str(su.poe):
                     change = True
-                    h_text += 'poe: '+str(su.poe)+' -> '+form.cleaned_data['poe']+'; '
+                    h_text += 'poe: ' + str(su.poe) + ' -> ' + form.cleaned_data['poe'] + '; '
                     su.poe = int(form.cleaned_data['poe'])
                 if form.cleaned_data['ip'] != su.ip_addr:
                     change = True
-                    h_text += 'ip: '+str(su.ip_addr)+' -> '+form.cleaned_data['ip']+'; '
+                    h_text += 'ip: ' + str(su.ip_addr) + ' -> ' + form.cleaned_data['ip'] + '; '
                     su.ip_addr = form.cleaned_data['ip']
                 mac = form.cleaned_data['mac']
                 if mac != su.mac_addr:
                     if re.match(conf.MAC_RE, mac) and len(mac) == 17:
                         change = True
-                        h_text += 'mac: '+su.mac_addr+' -> '+mac+'; '
+                        h_text += 'mac: ' + su.mac_addr + ' -> ' + mac + '; '
                         su.mac_addr = mac.replace('-', ':').upper()
                 if form.cleaned_data['sn'] != su.sn:
                     change = True
-                    h_text += 'sn: '+su.sn+' -> '+form.cleaned_data['sn']+'; '
+                    h_text += 'sn: ' + su.sn + ' -> ' + form.cleaned_data['sn'] + '; '
                     su.sn = form.cleaned_data['sn']
                 if form.cleaned_data['inv'] != su.inv:
                     change = True
-                    h_text += 'inv: '+su.inv+' -> '+form.cleaned_data['inv']+'; '
+                    h_text += 'inv: ' + su.inv + ' -> ' + form.cleaned_data['inv'] + '; '
                     su.inv = form.cleaned_data['inv']
                 if form.cleaned_data['man_install'] != su.man_install:
                     change = True
-                    h_text += 'man_install: '+su.man_install+' -> '+form.cleaned_data['man_install']+'; '
+                    h_text += 'man_install: ' + su.man_install + ' -> ' + form.cleaned_data['man_install'] + '; '
                     su.man_install = form.cleaned_data['man_install']
                 if form.cleaned_data['date_ent'] != su.date_ent:
                     change = True
@@ -1318,31 +1280,32 @@ def edit_subunit(request, bu_id, lo_id, su_id):
                     su.date_repl = form.cleaned_data['date_repl']
                 if form.cleaned_data['stairway'] != su.stairway:
                     change = True
-                    h_text += 'stairway: '+su.stairway+' -> '+form.cleaned_data['stairway']+'; '
+                    h_text += 'stairway: ' + su.stairway + ' -> ' + form.cleaned_data['stairway'] + '; '
                     su.stairway = form.cleaned_data['stairway']
                 if form.cleaned_data['floor'] != su.floor:
                     change = True
-                    h_text += 'floor: '+su.floor+' -> '+form.cleaned_data['floor']+'; '
+                    h_text += 'floor: ' + su.floor + ' -> ' + form.cleaned_data['floor'] + '; '
                     su.floor = form.cleaned_data['floor']
                 if form.cleaned_data['prim'] != su.prim:
                     change = True
-                    h_text += 'prim: '+su.prim+' -> '+form.cleaned_data['prim']+'; '
+                    h_text += 'prim: ' + su.prim + ' -> ' + form.cleaned_data['prim'] + '; '
                     su.prim = form.cleaned_data['prim']
 
                 if change:
                     su.save()
                     to_his([request.user, 13, su.id, 2, 0, h_text])
-            
+
             return HttpResponseRedirect('../')
-    
+
     else:
         su_f = {}
         if su:
             su_f['name'] = su.name
             su_f['object_owner'] = su.object_owner
-            su_f['name_type'] = su.con_type#Templ_subunit.objects.get(pk=su.con_type).name#conf.SUBUNIT_TYPE[su.con_type]
+            su_f[
+                'name_type'] = su.con_type  # Templ_subunit.objects.get(pk=su.con_type).name#conf.SUBUNIT_TYPE[su.con_type]
             su_f['poe'] = conf.POE_TYPE[su.poe]
-            su_f['ip'] = su.ip_addr# if su.ip_addr != None else ''
+            su_f['ip'] = su.ip_addr  # if su.ip_addr != None else ''
             su_f['mac'] = su.mac_addr
             su_f['sn'] = su.sn
             su_f['inv'] = su.inv
@@ -1352,16 +1315,17 @@ def edit_subunit(request, bu_id, lo_id, su_id):
             su_f['stairway'] = su.stairway
             su_f['floor'] = su.floor
             su_f['prim'] = su.prim
-    
+
         form = edit_subunit_Form(initial=su_f)
-    
+
     return render(request, 'edit_subunit.html', {'form': form, 'lo': lo, 'su': su})
-    
-#############################################################################################################################
+
+
+####################################################################################################
+
 
 @login_required(login_url='/core/login/')
 def del_locker(request, bu_id, lo_id):
-
     try:
         lo = Locker.objects.get(pk=lo_id)
     except ObjectDoesNotExist:
@@ -1373,13 +1337,13 @@ def del_locker(request, bu_id, lo_id):
     if not request.user.has_perm("core.can_del"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights',
                                                'back': 1,
-                                               'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/'
+                                               'next_url': f'/cross/build={bu_id}/locker={lo_id}/'
                                                })
     del_ok = True
     if Cross.objects.filter(parrent=lo.id).exists() \
-    or Device.objects.filter(parrent=lo.id).exists() \
-    or Box.objects.filter(parrent=lo.id).exists() \
-    or Subunit.objects.filter(parrent=lo.id).exists():
+            or Device.objects.filter(parrent=lo.id).exists() \
+            or Box.objects.filter(parrent=lo.id).exists() \
+            or Subunit.objects.filter(parrent=lo.id).exists():
         del_ok = False
     else:
         coup = Coupling.objects.get(parrent=lo.id, parr_type=0)
@@ -1387,8 +1351,8 @@ def del_locker(request, bu_id, lo_id):
             del_ok = False
 
     if request.method == 'POST' and del_ok:
-        to_his([request.user, 0, bu_id, 13, 0, 'coup_name: '+coup.name])
-        to_his([request.user, 0, bu_id, 13, 0, 'lo_name: '+lo.name])
+        to_his([request.user, 0, bu_id, 13, 0, f'coup_name: {coup.name}'])
+        to_his([request.user, 0, bu_id, 13, 0, f'lo_name: {lo.name}'])
         coup.delete()
         lo.delete()
 
@@ -1399,7 +1363,6 @@ def del_locker(request, bu_id, lo_id):
 
 @login_required(login_url='/core/login/')
 def del_cross(request, bu_id, lo_id, cr_id):
-
     try:
         lo = Locker.objects.get(pk=lo_id)
         cr = Cross.objects.get(pk=cr_id)
@@ -1412,23 +1375,22 @@ def del_cross(request, bu_id, lo_id, cr_id):
     if not request.user.has_perm("core.can_del"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights',
                                                'back': 1,
-                                               'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/'
+                                               'next_url': f'/cross/build={bu_id}/locker={lo_id}/'
                                                })
 
-    del_ok = False if Cross_ports.objects.filter(parrent=cr.id).exclude(up_status=0, int_c_status=0, cab_p_id=0).count() != 0 else True
+    del_ok = False if Cross_ports.objects.filter(parrent=cr.id).exclude(up_status=0, int_c_status=0,
+                                                                        cab_p_id=0).count() != 0 else True
     if request.method == 'POST' and del_ok:
-
-        to_his([request.user, 1, lo.id, 13, 0, 'cross name: '+cr.name])
+        to_his([request.user, 1, lo.id, 13, 0, f'cross name: {cr.name}'])
         cr.delete()
 
-        return HttpResponseRedirect(request.get_full_path()+'../')
+        return HttpResponseRedirect(request.get_full_path() + '../')
 
     return render(request, 'del.html', {'cr': cr, 'del_ok': del_ok})
 
 
 @login_required(login_url='/core/login/')
 def del_dev(request, bu_id, lo_id, dev_id):
-
     try:
         lo = Locker.objects.get(pk=lo_id)
         dev = Device.objects.get(pk=dev_id)
@@ -1441,23 +1403,21 @@ def del_dev(request, bu_id, lo_id, dev_id):
     if not request.user.has_perm("core.can_del"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights',
                                                'back': 1,
-                                               'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/'
+                                               'next_url': f'/cross/build={bu_id}/locker={lo_id}/'
                                                })
 
     del_ok = False if Device_ports.objects.filter(parrent=dev.id).exclude(int_c_status=0).count() != 0 else True
     if request.method == 'POST' and del_ok:
-
-        to_his([request.user, 1, lo.id, 13, 0, 'dev name: '+dev.name])
+        to_his([request.user, 1, lo.id, 13, 0, f'dev name: {dev.name}'])
         dev.delete()
 
-        return HttpResponseRedirect(request.get_full_path()+'../')
+        return HttpResponseRedirect(request.get_full_path() + '../')
 
     return render(request, 'del.html', {'dev': dev, 'del_ok': del_ok})
 
 
 @login_required(login_url='/core/login/')
 def del_v_port(request, bu_id, lo_id, dev_id, v_p_id):
-
     try:
         lo = Locker.objects.get(pk=lo_id)
         dev = Device.objects.get(pk=dev_id)
@@ -1471,21 +1431,19 @@ def del_v_port(request, bu_id, lo_id, dev_id, v_p_id):
     if not request.user.has_perm("core.can_del"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights',
                                                'back': 1,
-                                               'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/'
+                                               'next_url': f'/cross/build={bu_id}/locker={lo_id}/'
                                                })
     if request.method == 'POST':
-
-        to_his([request.user, 3, dev.id, 13, 0, 'v_port alias: '+v_p.p_alias])
+        to_his([request.user, 3, dev.id, 13, 0, f'v_port alias: {v_p.p_alias}'])
         v_p.delete()
 
-        return HttpResponseRedirect(request.get_full_path()+'../l2=1/')
+        return HttpResponseRedirect(request.get_full_path() + '../l2=1/')
 
-    return render(request, 'del_v_p.html', {'v_p': v_p,})
+    return render(request, 'del_v_p.html', {'v_p': v_p, })
 
 
 @login_required(login_url='/core/login/')
 def del_box(request, bu_id, lo_id, box_id):
-
     try:
         lo = Locker.objects.get(pk=lo_id)
         box = Box.objects.get(pk=box_id)
@@ -1498,23 +1456,22 @@ def del_box(request, bu_id, lo_id, box_id):
     if not request.user.has_perm("core.can_del"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights',
                                                'back': 1,
-                                               'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/'
+                                               'next_url': f'/cross/build={bu_id}/locker={lo_id}/'
                                                })
 
-    del_ok = False if Box_ports.objects.filter(parrent=box.id).exclude(up_status=0, int_c_status=0).count() != 0 else True
+    del_ok = False if Box_ports.objects.filter(parrent=box.id).exclude(up_status=0,
+                                                                       int_c_status=0).count() != 0 else True
     if request.method == 'POST' and del_ok:
-
-        to_his([request.user, 1, lo.id, 13, 0, 'box name: '+box.name+'-'+box.num])
+        to_his([request.user, 1, lo.id, 13, 0, f'box name: {box.name}-{box.num}'])
         box.delete()
 
-        return HttpResponseRedirect(request.get_full_path()+'../')
+        return HttpResponseRedirect(request.get_full_path() + '../')
 
     return render(request, 'del.html', {'box': box, 'del_ok': del_ok})
 
 
 @login_required(login_url='/core/login/')
 def del_subunit(request, bu_id, lo_id, su_id):
-
     try:
         lo = Locker.objects.get(pk=lo_id)
         su = Subunit.objects.get(pk=su_id)
@@ -1527,17 +1484,17 @@ def del_subunit(request, bu_id, lo_id, su_id):
     if not request.user.has_perm("core.can_del"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights',
                                                'back': 1,
-                                               'next_url': '/cross/build='+bu_id+'/locker='+lo_id+'/'
+                                               'next_url': f'/cross/build={bu_id}/locker={lo_id}/'
                                                })
 
     del_ok = False if su.box_p_id != 0 else True
     if request.method == 'POST' and del_ok:
-
-        to_his([request.user, 1, lo.id, 13, 0, 'su name: '+su.name])
+        to_his([request.user, 1, lo.id, 13, 0, f'su name: {su.name}'])
         su.delete()
 
-        return HttpResponseRedirect(request.get_full_path()+'../')
+        return HttpResponseRedirect(request.get_full_path() + '../')
 
     return render(request, 'del.html', {'su': su, 'del_ok': del_ok})
 
 ####################################################################################################
+

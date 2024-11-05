@@ -30,7 +30,7 @@ from core.e_config import conf
 from core.views import trans_his
 
 ####################################################################################################
-####################################################################################################
+
 
 @login_required(login_url='/core/login/')
 def app(request, status=0):
@@ -60,15 +60,15 @@ def app(request, status=0):
         app_list = pag.page(pag.num_pages)
 
     form_f = app_find_Form()
-    return render(request, 'app_'+str(status)+'.html', {'app_list': app_list,
-                                                        'form_f': form_f,
-                                                        'app_t': True,
-                                                        'exp_date_3': start_date_3,
-                                                        'exp_date_10': start_date_10,
-                                                        'count': app_l.count(),
-                                                        'count0': Appp.objects.filter(app_status=0).count(),
-                                                        'count4': Appp.objects.filter(app_status=4).count(),
-                                                        })
+    return render(request, f'app_{status}.html', {'app_list': app_list,
+                                                  'form_f': form_f,
+                                                  'app_t': True,
+                                                  'exp_date_3': start_date_3,
+                                                  'exp_date_10': start_date_10,
+                                                  'count': app_l.count(),
+                                                  'count0': Appp.objects.filter(app_status=0).count(),
+                                                  'count4': Appp.objects.filter(app_status=4).count(),
+                                                  })
 
 
 @login_required(login_url='/core/login/')
@@ -102,6 +102,7 @@ def app_sort(request, status=0):
 
 ####################################################################################################
 
+
 @login_required(login_url='/core/login/')
 def app_find(request, status):
 
@@ -130,8 +131,8 @@ def app_find(request, status):
 
     return HttpResponseRedirect('/app/status='+str(status))
 
-
 ####################################################################################################
+
 
 @csrf_exempt
 def from_bgb(request):
@@ -147,8 +148,8 @@ def from_bgb(request):
 
     return render(request, 'from_bgb.html', {'c_par': c_par, 'c_tv': c_tv})
 
-
 ####################################################################################################
+
 
 @login_required(login_url='/core/login/')
 def add_app(request):
@@ -160,7 +161,6 @@ def add_app(request):
                                                'back': 2,
                                                'next_url': '/app/add_app/'
                                                })
-
     if request.method == 'POST':
         form = add_app_Form(request.POST)
         if form.is_valid():
@@ -173,9 +173,7 @@ def add_app(request):
                                                       'back': 0,
                                                       'next_url': '/app/status%3D0/'
                                                       })
-
             str_name = Street.objects.get(pk=form.cleaned_data['street']).name
-
             n_app = Appp.objects.create(type_proc=type_proc,
                                         dogovor='0' if type_proc == 0 else form.cleaned_data['dog'],
                                         n_order=form.cleaned_data['n_order'],
@@ -185,16 +183,14 @@ def add_app(request):
                                         fio=form.cleaned_data['fio'],
                                         prim=form.cleaned_data['prim'],
                                         )
-
             return HttpResponseRedirect('/app/status=0/')
-
     else:
         form = add_app_Form()
 
     return render(request, 'add_app.html', {'form': form})
 
-
 ####################################################################################################
+
 
 @login_required(login_url='/core/login/')
 def edit(request, app_id):
@@ -206,7 +202,6 @@ def edit(request, app_id):
                                                'back': 2,
                                                'next_url': '/app/edit='+app_id+'/'
                                                })
-
     app = Appp.objects.get(pk=app_id)
 
     if request.method == 'POST':
@@ -254,8 +249,8 @@ def edit(request, app_id):
 
     return render(request, 'app_edit.html', {'app_edit': app, 'form': form})
 
-
 ####################################################################################################
+
 
 @login_required(login_url='/core/login/')
 def app_install(request, app_id, box_p_id=0):
@@ -384,8 +379,8 @@ def app_install(request, app_id, box_p_id=0):
                                                 'kv_exists': kv_exists,
                                                 })
 
-
 ####################################################################################################
+
 
 def res_for_bil(p_id):
 
@@ -428,8 +423,8 @@ def res_for_bil(p_id):
 
     return lite
 
-
 ####################################################################################################
+
 
 @login_required(login_url='/core/login/')
 def app_reject(request, app_id):
@@ -439,7 +434,6 @@ def app_reject(request, app_id):
                                                'back': 1,
                                                'next_url': '/app/status%3D0/'
                                                })
-
     bron = False
     app = Appp.objects.get(pk=app_id)
     dog_list = Box_ports.objects.filter(dogovor=app.dogovor)
@@ -505,8 +499,8 @@ def app_delay(request, app_id):
 
     return render(request, 'comment.html', {'app': app, 'form': form})
 
-
 ####################################################################################################
+
 
 @login_required(login_url='/core/login/')
 def to_inbox(request, app_id):
@@ -611,8 +605,8 @@ def app_check(request, app_id, check):
 
     return HttpResponseRedirect('/app/status='+str(cur_status))
 
-
 ####################################################################################################
+
 
 @login_required(login_url='/core/login/')
 def app_remove(request, app_id):
@@ -655,8 +649,8 @@ def app_remove(request, app_id):
                                                'bu_b_p': bu_b_p,        #порты - бронь + квартира из заявки
                                                })
 
-
 ####################################################################################################
+
 
 @login_required(login_url='/core/login/')
 def app_reject2(request, app_id):
@@ -732,8 +726,8 @@ def app_complete2(request, app_id):
 
     return HttpResponseRedirect('/app/remove='+str(app.id))
 
-
 ####################################################################################################
+
 
 def gen_pdf_0(request, app_id):
 
@@ -788,6 +782,7 @@ def gen_pdf_0(request, app_id):
 
 ###############################
 
+
 def gen_pdf_1(request, app_id):
 
     app = Appp.objects.get(pk=app_id)
@@ -817,7 +812,6 @@ def gen_pdf_1(request, app_id):
                                                   })#.encode('utf-8')
 
     result = HTML(string=html_string).write_pdf()
-
     #f_name = str(app.id)+'_'+str(app.type_proc)+'.pdf'
     f_name = 'REM_'+app.n_order[4:]+'.pdf'
 
@@ -835,6 +829,7 @@ def gen_pdf_1(request, app_id):
     return response
 
 ###############################
+
 
 def gen_pdf_2(request, box_p_id):
 
@@ -872,8 +867,8 @@ def gen_pdf_2(request, box_p_id):
 
     return render(request, 'n_order.html', {'box_p': box_p, 'form': form})
 
-
 ####################################################################################################
+
 
 @login_required(login_url='/core/login/')
 def show_logs_nsd(request, td):
@@ -901,6 +896,5 @@ def show_logs_nsd(request, td):
         p_list = pag.page(pag.num_pages)
 
     return render(request, 'app_logs_nsd.html', {'his': p_list})
-
 
 ####################################################################################################

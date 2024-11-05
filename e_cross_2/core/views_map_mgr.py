@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.files.storage import default_storage
 from django.shortcuts import render
 
-import deepzoom
+from . import deepzoom
 from .models import map_slot
 
 from .forms import upl_Form

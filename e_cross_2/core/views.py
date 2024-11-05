@@ -1,8 +1,6 @@
 # core__views
 
 import datetime
-import time
-import requests
 
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -11,7 +9,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User#, Group#, Permission
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-#from django.db.models import Avg
 from django.shortcuts import render
 from django.template.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
@@ -53,7 +50,6 @@ def login(request):
         else:
             args['next_url'] = next_url
             args['login_error'] = "user not found"
-            #request.session['username'] = 'test_session2'
             return render(request, 'login.html', args)
     else:
         try:
@@ -61,7 +57,6 @@ def login(request):
         except:
             next_url = '/'
         args['next_url'] = next_url
-        #print(request.session.get('username'))
         return render(request, 'login.html', args)
 
 
@@ -70,12 +65,11 @@ def logout(request):
     auth.logout(request)
     return HttpResponseRedirect('/')
 
-
 ####################################################################################################
+
 
 @login_required(login_url='/core/login/')
 def service(request):
-
     #perm = Permission.objects.get(codename='can_adm')
     #user_list = User.objects.filter(groups__name__in=['tu','tp','adm']).order_by('id')
 
@@ -84,10 +78,7 @@ def service(request):
     user_list2 = []
     for ob in user_list1:
         if User.objects.filter(pk=ob.id).exists():
-            if ob.date_l_v > start_date:
-                user_list2.append([ob, True])
-            else:
-                user_list2.append([ob, False])
+            user_list2.append([ob, True if ob.date_l_v > start_date else False])
         else:
             ob.delete()
 
@@ -105,6 +96,7 @@ def service_clean_his(request):
     return HttpResponseRedirect('/core/service/')
 
 ####################################################################################################
+
 
 @login_required(login_url='/core/login/')
 def sprav(request):
@@ -161,13 +153,13 @@ def sprav_upr_del(request, upr_id):
 
 ####################################################################################################
 
+
 @login_required(login_url='/core/login/')
 def switch_agr(request):
 
     if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
-    ok = False
-    err = False
+    ok, err = False, False
     if request.method == 'POST':
         form = switch_agr_Form(request.POST)
         if form.is_valid():
@@ -188,6 +180,7 @@ def switch_agr(request):
     return render(request, 'serv_switch_agr.html', {'ok': ok, 'form': form, 'err': err})
 
 ####################################################################################################
+
 
 @login_required(login_url='/core/login/')
 def show_all_logs(request, u, td):

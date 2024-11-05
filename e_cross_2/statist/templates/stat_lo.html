@@ -1,0 +1,151 @@
+{% extends 'main.html' %}
+
+{% block statist %}
+
+{% if lo_det %}
+
+    <table class="c_base_w t_header1">
+        <tr>
+            <td width="1000px" align="left"><h3>&nbsp;Cтатистика по Узлам Доступа</h3></td>
+            <td width="280px" align="right">&nbsp;</td>
+        </tr>
+    </table>
+    <br>
+    <table class="c_base_w" border="1">
+    <caption style="background-color:lime">УД (индивидуальные подключения):</caption>
+        <tr class="t_header1">
+            <td width="260px" align="center">адрес</td>
+            <td width="240px" align="center">УД</td>
+            <td width="120px" align="center">дата приемки</td>
+            <td width="260px" align="center">примечание</td>
+        </tr>
+        {% for ob in lo_det %}
+        {% if ob.status == 3 %}
+        <tr style="background-color:gray">
+        {% else %}
+        <tr>
+        {% endif %}
+            <td align="center">{{ ob.parrent.name }} {{ ob.parrent.house_num }}</td>
+            <td align="center"><strong><a href="/cross/build={{ ob.parrent.id }}/locker={{ ob.id }}/" target="_blank">{{ ob.name }}</a></strong></td>
+            <td align="center">{{ ob.date_ent|date:"d.m.Y" }}</td>
+            <td align="center">{{ ob.prim }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+{% elif lo_noco %}
+    
+    <table class="c_base_w t_header1">
+        <tr>
+            <td width="1000px" align="left"><h3>&nbspCтатистика по Узлам Доступа</h3></td>
+            <td width="280px" align="right">&nbsp</td>
+        </tr>
+    </table>
+    <br>
+    <table class="c_base_w" border="1">
+    <caption style="background-color:lime">УД (не принадлежащие CO):</caption>
+        <tr class="t_header1">
+            <td width="260px" align="center">адрес</td>
+            <td width="240px" align="center">УД</td>
+            <td width="120px" align="center">дата приемки</td>
+            <td width="260px" align="center">примечание</td>
+        </tr>
+        {% for ob in lo_noco %}
+        {% if ob.status == 3 %}
+        <tr style="background-color:gray">
+        {% else %}
+        <tr>
+        {% endif %}
+            <td align="center">{{ ob.parrent.name }} {{ ob.parrent.house_num }}</td>
+            <td align="center"><strong><a href="/cross/build={{ ob.parrent.id }}/locker={{ ob.id }}/" target="_blank">{{ ob.name }}</a></strong></td>
+            <td align="center">{{ ob.date_ent|date:"d.m.Y" }}</td>
+            <td align="center">{{ ob.prim }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+{% else %}
+    
+    <table class="c_base_w t_header1">
+        <tr>
+            <td width="1000px" align="left"><h3>&nbspCтатистика по Узлам Доступа</h3></td>
+            <td width="280px" align="right">&nbsp</td>
+        </tr>
+    </table>
+    <br>
+    <table class="c_base_w" border="1">
+    <caption style="background-color:#FF707E">УД в проекте:</caption>
+        <tr class="t_header1">
+            <td width="260px" align="center">адрес</td>
+            <td width="240px" align="center">УД</td>
+            <td width="120px" align="center"></td>
+        </tr>
+        {% for ob in st0 %}
+        <tr>
+            <td align="center">{{ ob.parrent.name }} {{ ob.parrent.house_num }}</td>
+            <td align="center"><strong><a href="/cross/build={{ ob.parrent.id }}/locker={{ ob.id }}/" target="_blank">{{ ob.name }}</a></strong></td>
+            <td align="center">{{ ob.date_ent|date:"d.m.Y" }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <table class="c_base_w" border="1">
+    <caption style="background-color:yellow">УД в процессе монтажа:</caption>
+        <tr class="t_header1">
+            <td width="260px" align="center">адрес</td>
+            <td width="240px" align="center">УД</td>
+            <td width="120px" align="center"></td>
+        </tr>
+        {% for ob in st1 %}
+        <tr>
+            <td align="center">{{ ob.parrent.name }} {{ ob.parrent.house_num }}</td>
+            <td align="center"><strong><a href="/cross/build={{ ob.parrent.id }}/locker={{ ob.id }}/" target="_blank">{{ ob.name }}</a></strong></td>
+            <td align="center">{{ ob.date_ent|date:"d.m.Y" }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <table class="c_base_w" border="1">
+    <caption style="background-color:lime">УД принятые в работу за последние 60 дней:</caption>
+        <tr class="t_header1">
+            <td width="260px" align="center">адрес</td>
+            <td width="240px" align="center">УД</td>
+            <td width="120px" align="center">дата приемки</td>
+        </tr>
+        {% for ob in st2 %}
+        <tr>
+            <td align="center">{{ ob.parrent.name }} {{ ob.parrent.house_num }}</td>
+            <td align="center"><strong><a href="/cross/build={{ ob.parrent.id }}/locker={{ ob.id }}/" target="_blank">{{ ob.name }}</a></strong></td>
+            <td align="center">{{ ob.date_ent|date:"d.m.Y" }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <table class="c_base_w" border="1">
+    <caption style="background-color:gray">УД отключенные:</caption>
+        <tr class="t_header1">
+            <td width="260px" align="center">адрес</td>
+            <td width="240px" align="center">УД</td>
+            <td width="120px" align="center"></td>
+        </tr>
+        {% for ob in st3 %}
+        <tr>
+            <td align="center">{{ ob.parrent.name }} {{ ob.parrent.house_num }}</td>
+            <td align="center"><strong><a href="/cross/build={{ ob.parrent.id }}/locker={{ ob.id }}/" target="_blank">{{ ob.name }}</a></strong></td>
+            <td align="center"></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+{% endif %}
+
+    <br>
+    <table class="c_base_w t_footer">
+        <tr>
+            <td width="1000px">&nbsp</td>
+            <td width="280px" align="right"><input type="button" value="назад" onClick='location.href="../"'>&nbsp</td>
+        </tr>
+    </table>
+    
+    
+{% endblock %}

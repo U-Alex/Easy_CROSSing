@@ -1,0 +1,48 @@
+{% extends 'main.html' %}
+
+{% block statist %}
+
+    <table class="c_base_w t_header1">
+        <tr>
+            <td width="1000px" align="left"><h3>&nbsp;Статистика по конфигурациям</h3></td>
+            <td width="280px" align="right"><input type="button" value="назад" onClick='location.href="/statist/"'>&nbsp;</td>
+        </tr>
+    </table>
+    <br>
+    
+    <table class="c_base_w" width="800px" border="1">
+        <tr class="t_header1">
+            <td align="center">коммутатор</td>
+            <td width="160px" align="center">модель</td>
+            <td width="120px" align="center">ip</td>
+            <td width="120px" align="center">дата последней загрузки конфига</td>
+            <td width="120px" align="center">прошло дней</td>
+        </tr>
+    {% for ob in dev_list %}
+        <tr>
+            <td><a href="/cross/build={{ ob.parrent__parrent__id }}/locker={{ ob.parrent__id }}/dev={{ ob.id }}/l2=1/" target="_blank">{{ ob.name }}</a></td>
+            <td>{{ ob.obj_type__name }}</td>
+            <td>{{ ob.ip_addr }}</td>
+            <td align="center">{% if ob.date_upd %}{{ ob.date_upd|date:"d.m.Y / H:m" }}{% endif %}</td>
+            <td align="center" style="background-color: {{ ob.color }}">{% if ob.d_days %}{{ ob.d_days }}{% endif %}</td>
+        </tr>
+    {% endfor %}
+<!--        <tr style="background-color:silver">
+            <td>&nbspВСЕГО: <b>{{ bu_count }}</b></td>
+            <td align="center"></td>
+            <td align="center"></td>
+            <td align="center"></td>
+            <td align="center"></td>
+        </tr>-->
+    </table>
+    
+    <br>
+    <table class="c_base_w t_footer">
+        <tr>
+            <td width="1000px">&nbsp;</td>
+            <td width="280px" align="right"><input type="button" value="назад" onClick='location.href="/statist/"'>&nbsp;</td>
+        </tr>
+    </table>
+
+    
+{% endblock %}

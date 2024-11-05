@@ -1,0 +1,37 @@
+{% extends 'main.html' %}
+
+{% block statist %}
+    
+    <table class="c_base_w t_header1">
+        <tr>
+            <td width="880px" align="left"><h3>Подозрительные ip адреса</h3></td>
+            <td width="300px" align="right"></td>
+            <td width="100px" align="left"></td>
+            </td>
+        </tr>
+    </table>
+
+    <br>
+    <table class="c_base_w" border="1">
+        <tr class="t_header2">
+            <td width="140px" align="center">коммутатор</td>
+            <td width="40px" align="center">ip</td>
+        </tr>
+    
+    {% for ob in dev_list %}
+        <tr>
+            <td><a href="/cross/build={{ ob.parrent.parrent.id }}/locker={{ ob.parrent.id }}/dev={{ ob.id }}/l2=1/" target="_blank">{{ ob.name }}</a></td>
+            <td>{{ ob.ip_addr }}</td>
+        </tr>
+    {% endfor %}
+    
+    </table>
+    <br>
+    <table class="c_base_w t_footer">
+        <tr>
+            <td width="1000px">&nbsp</td>
+            <td width="280px" align="right"><input type="button" value="назад" onClick='location.href="/statist/"'>&nbsp;</td>
+        </tr>
+    </table>
+    
+{% endblock %}

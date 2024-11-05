@@ -1,0 +1,61 @@
+{% extends 'main.html' %}
+
+{% block statist %}
+
+    <table class="c_base_w t_header1">
+        <tr>
+            <td width="1000px" align="left"><h3>&nbsp;Статистика по задействованной ёмкости</h3></td>
+            <td width="280px" align="right"><input type="button" value="назад" onClick='location.href="/statist/"'>&nbsp;</td>
+        </tr>
+    </table>
+    <table class="c_base_w tone2">
+        <tr>
+            <td width="1000px" align="left">
+                <i>примечание:</i><br>
+{#                показаны только те адреса, где присутствуют коммутаторы edge-core<br>#}
+{#                медиаконвертеры и серверные коммутаторы игнорируются<br>#}
+                исключены шкафы-агрегации и служебные шкафы (не для подключения абонентов)<br>
+                ёмкость указана для портов коммутатора<br>
+                задействованная ёмкость включает в себя так же и забронированные порты
+            </td>
+            <td width="280px" align="right">&nbsp;</td>
+        </tr>
+    </table>
+    <br>
+    
+    <table class="c_base_w" width="800px" border="1">
+        <tr class="t_header1">
+            <td align="center">адрес</td>
+            <td width="120px" align="center">колич. УД</td>
+            <td width="120px" align="center">колич. коммутаторов</td>
+            <td width="120px" align="center">монтированная ёмкость</td>
+            <td width="120px" align="center">задействованная ёмкость</td>
+        </tr>
+    {% for ob in st_list %}
+        <tr>
+            <td>{{ ob.0.name }} {{ ob.0.house_num }}</td>
+            <td align="center">{{ ob.1 }}</td>
+            <td align="center">{{ ob.2 }}</td>
+            <td align="center">{{ ob.3 }}</td>
+            <td align="center">{{ ob.5 }}</td>
+        </tr>
+    {% endfor %}
+        <tr class="tone2">
+            <td>ВСЕГО:</td>
+            <td align="center">{{ c_list.0 }}</td>
+            <td align="center">{{ c_list.1 }}</td>
+            <td align="center">{{ c_list.2 }}</td>
+            <td align="center">{{ c_list.3 }}</td>
+        </tr>
+    </table>
+    
+    <br>
+    <table class="c_base_w t_footer">
+        <tr>
+            <td width="1000px">&nbsp</td>
+            <td width="280px" align="right"><input type="button" value="назад" onClick='location.href="/statist/"'>&nbsp;</td>
+        </tr>
+    </table>
+
+    
+{% endblock %}

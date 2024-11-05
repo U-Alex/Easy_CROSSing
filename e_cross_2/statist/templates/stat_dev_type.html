@@ -1,0 +1,62 @@
+{% extends 'main.html' %}
+
+{% block statist %}
+    
+    <table class="c_base_w t_header1">
+        <tr>
+            <td width="880px" align="left"><h3>&nbspСтатистика по оборудованию <label style="color:blue"><strong>{{ type }}</strong></label></h3></td>
+            <td width="300px" align="right">
+                {% if dev_list.has_previous %}
+                    <a href="?page={{ dev_list.previous_page_number }}">предыдущая</a>
+                {% endif %}
+                <!--<span class="current">страница {{ dev_list.number }} из {{ dev_list.paginator.num_pages }}.</span>-->
+            </td>
+            <td width="100px" align="right">
+                {% if dev_list.has_next %}
+                    <a href="?page={{ dev_list.next_page_number }}">следующая&nbsp</a>
+                {% endif %}
+                <input type="button" value="назад" onClick='location.href="../../"'>&nbsp
+            </td>
+        </tr>
+    </table>
+
+    <br>
+    <table class="c_base_w" border="1">
+    <caption>список оборудования:</caption>
+        <tr class="t_header1">
+            <td width="140px" align="center">CO</td>
+            <td width="260px" align="center">адрес</td>
+            <td width="140px" align="center">УД</td>
+            <td width="140px" align="center">название</td>
+            <td width="140px" align="center">sn</td>
+            <td width="140px" align="center">mac</td>
+        </tr>
+    
+    {% for ob in dev_list %}
+    <!--{{ ob.full_name|upper }}<br />-->
+        <tr>
+            <td align="center">{{ ob.parrent.co }}</td>
+            <td align="center">{{ ob.parrent.parrent.name }} {{ ob.parrent.parrent.house_num }}</td>
+            {% if ob.parrent.status == 3 %}
+            <td align="center" style="background-color:silver">
+            {% else %}
+            <td align="center">
+            {% endif %}
+                {{ ob.parrent.name }}
+            </td>
+            <td align="center"><strong><a href="/cross/build={{ ob.parrent.parrent.id }}/locker={{ ob.parrent.id }}/dev={{ ob.id }}" target="_blank">{{ ob.name }}</a></strong></td>
+            <td align="center">{{ ob.sn }}</td>
+            <td align="center">{{ ob.mac_addr }}</td>
+        </tr>
+    {% endfor %}
+    
+    </table>
+    <br>
+    <table class="c_base_w t_footer">
+        <tr>
+            <td width="1000px">&nbsp</td>
+            <td width="280px" align="right"><input type="button" value="назад" onClick='location.href="../../"'>&nbsp</td>
+        </tr>
+    </table>
+    
+{% endblock %}

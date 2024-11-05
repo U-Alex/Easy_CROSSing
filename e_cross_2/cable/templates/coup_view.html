@@ -148,8 +148,7 @@
             {% if ob.cr.0 != 0 and ob.cr.1 == 0 %}
                 <td style="background-color: {{ ob.cr.4 }}">каб.: <b>{{ ob.cr.2.cable_num }}</b> вол.: <b>{{ ob.cr.2.fiber_num }}</b></td>
             {% elif ob.cr.0 != 0 and ob.cr.1 == 1 %}
-                <td><a href="/cross/build={{ ob.cr.3.parrent.parrent.parrent_id }}/locker={{ ob.cr.3.parrent.parrent_id }}/cr={{ ob.cr.3.parrent_id }}/?sel={{ ob.cr.3.id }}" target="_blank">
-                    кр: <b>{{ ob.cr.3.parrent.name }}</b> п.: <b>{{ ob.cr.3.num }}</b></a></td>
+                <td><a href="/cross/build={{ ob.cr.3.parrent.parrent.parrent_id }}/locker={{ ob.cr.3.parrent.parrent_id }}/cr={{ ob.cr.3.parrent_id }}/?sel={{ ob.cr.3.id }}" target="_blank">&nbspкр: <b>{{ ob.cr.3.parrent.name }}</b> п.: <b>{{ ob.cr.3.num }}</b></a></td>
             {% else %}
                 <td>&nbsp</td>
             {% endif %}

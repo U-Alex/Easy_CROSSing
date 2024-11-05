@@ -6,6 +6,7 @@
     <div class="c_header_nav">
         <h3>
         {% if coup %} редактирование муфты: <b>{{ coup.name }}</b> ({{ coup.name_type }})
+            {% if bu %}&nbsp;{{ bu.name }}-{{ bu.house_num }}{% endif %}
         {% elif pw %} редактирование объекта: <b>{{ pw.name }}</b>
         {% else %}    Добавление объекта
         {% endif %}
@@ -74,6 +75,13 @@
             <td align="center">&#9658;</td>
             <td align="left">{{ form_c.name }}</td>
         </tr>
+        {% if bu %}
+        <tr>
+            <td width="160px" align="right">&nbsp{{ form_c.change_bu.label }}</td>
+            <td align="center">&#9658;</td>
+            <td align="left">&nbsp{{ form_c.change_bu }}&emsp;{{ form_c.street }}&nbsp{{ form_c.house_num }}</td>
+        </tr>
+        {% endif %}
         <tr>
             <td align="right">{{ form_c.object_owner.label }}</td>
             <td align="center">&#9658;</td>
@@ -137,6 +145,51 @@ id_object_owner.addEventListener('change', function(){
 id_object_owner_list.addEventListener('change', function(){
     id_object_owner.value = id_object_owner_list.value;
 }, false);
+
+
+{% if bu %}
+id_change_bu.addEventListener('change', function(){
+    if (id_change_bu.checked) {
+        id_street.disabled = 0; id_house_num.disabled = 0;
+        h_num_list();
+    }
+    else {
+        id_street.disabled = 1; id_house_num.disabled = 1;
+    }
+}, false);
+
+id_street.addEventListener('change', function(){
+    h_num_list();
+}, false);
+
+function h_num_list() {
+    var http = new getXmlHttp();
+    var url = "/find/js_request/?str=" + id_street.value;
+    http.open("GET", url, true);
+    http.onreadystatechange = function() {
+        if (http.readyState == 4 && http.status == 200) {
+            var answer = http.responseText;
+            if (answer != 'False') {
+                var arr1 = answer.slice(2,-3).split("',)('");
+                id_house_num.options.length = 0;
+                {#id_house_num.options[id_house_num.options.length] = new Option('');#}
+                for (var i=0, len=arr1.length; i<len; i++) {
+                    id_house_num.options[id_house_num.options.length] = new Option(arr1[i]);
+                }
+            }
+        }
+    }
+    http.send(null);
+}
+function getXmlHttp() {
+    var xmlhttp;
+    try { xmlhttp = new ActiveXObject("Msxml2.XMLHTTP"); } catch (e) {
+        try { xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); } catch (e2) {
+            xmlhttp = false; } }
+    if (!xmlhttp && typeof XMLHttpRequest!='undefined') { xmlhttp = new XMLHttpRequest(); }
+    return xmlhttp;
+}
+{% endif %}
 
 </script>
 

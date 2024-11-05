@@ -1,7 +1,6 @@
 # cable__views
 
-import datetime
-
+# import datetime
 from django.shortcuts import render
 #from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -17,7 +16,7 @@ from cross.models import Cross_ports
 from core.models import firm
 
 from find.forms import find_Form_kv
-from .forms import add_PW_Form, add_Coup_Form
+from .forms import add_PW_Form, add_Coup_Form, edit_Coup_Form
 from .forms import coup_link_Form
 from .forms import coup_p_edit_Form, coup_cab_edit_Form
 
@@ -46,7 +45,7 @@ def cable_main2(request, kv_id=0):
     except ObjectDoesNotExist as error:
         return render(request, 'error.html', {'mess': f'объект не найден ({error})', 'back': 1})
 
-    kv_list = Kvartal.objects.exclude(pk=kv_id).values().order_by('name')   #TODO .exclude ???
+    kv_list = Kvartal.objects.exclude(pk=kv_id).values().order_by('name')
     bu_list = Building.objects.all()
     pw_list = PW_cont.objects.all()
     for ob in kv_list:
@@ -83,8 +82,7 @@ def cable_main2(request, kv_id=0):
 
 def create_obj_list(kvar):
 
-    list1 = []
-    list2 = []
+    list1, list2 = [], []
     qs1 = Building.objects.filter(kvar=kvar).order_by('name', 'house_num')
     qs2 = PW_cont.objects.filter(parrent=kvar).order_by('obj_type', 'name')
     for ob in qs1:
@@ -93,21 +91,13 @@ def create_obj_list(kvar):
         lo_ob = []
         for lo in lo_list:
             lo_coup = Coupling.objects.filter(parr_type=0, parrent=lo.id).order_by('name').first()
-            lo_ob.append((lo.name,
-                          lo_coup,
-                          lo.id,
-                          ))
-        list1.append((ob,
-                      coup_list,
-                      lo_ob,
-                      ))
+            lo_ob.append((lo.name, lo_coup, lo.id,))
+        list1.append((ob, coup_list, lo_ob,))
     for ob in qs2:
         coup_list = Coupling.objects.filter(parr_type=2, parrent=ob.id).order_by('name')
-        list2.append((ob,
-                      coup_list,
-                      ))
+        list2.append((ob, coup_list,))
 
-    return (list1, list2)
+    return list1, list2
 
 #___________________________________________________________________________
 
@@ -133,13 +123,13 @@ def pw_add(request, kvar):
                                         coord_x=c_xy[0],
                                         coord_y=c_xy[1],
                                         )
-            to_his([request.user, 10, n_PW.id, 1, 0, 'name: '+n_PW.name])
+            to_his([request.user, 10, n_PW.id, 1, 0, f'name: {n_PW.name}'])
 
             return HttpResponseRedirect(f"/cable/kv={kvar}")
     else:
         form = add_PW_Form()
 
-    return render(request, 'cable_new.html', {'form_pw': form, 'kvar': kvar,})
+    return render(request, 'cable_new.html', {'form_pw': form, 'kvar': kvar})
 
 #___________________________________________________________________________
 
@@ -168,13 +158,13 @@ def coup_add(request, kvar, p_t, p_id):
                                             coord_x=c_xy[0],
                                             coord_y=c_xy[1],
                                             )
-            to_his([request.user, 8, n_coup.id, 1, 0, 'name: '+n_coup.name])
+            to_his([request.user, 8, n_coup.id, 1, 0, f'name: {n_coup.name}'])
 
             return HttpResponseRedirect(f"/cable/kv={kvar}")
     else:
         form = add_Coup_Form()
 
-    return render(request, 'cable_new.html', {'form_c': form, 'kvar': kvar,})
+    return render(request, 'cable_new.html', {'form_c': form, 'kvar': kvar})
 
 #___________________________________________________________________________
 
@@ -193,12 +183,6 @@ def coup_view(request, s_coup):
             return res
         except:
             return False
-        # if f_coup.parr_type == 0:
-        #     return Locker.objects.get(pk=f_coup.parrent)
-        # elif f_coup.parr_type == 1:
-        #     return Building.objects.get(pk=f_coup.parrent)
-        # else:
-        #     return PW_cont.objects.get(pk=f_coup.parrent)
 
     upd_visit(request.user, 'coup')
     try:
@@ -207,7 +191,7 @@ def coup_view(request, s_coup):
         return render(request, 'error.html', {'mess': 'объект не найден', 'back': 1})
 
     firms = firm.objects.filter(coup=True)
-    p_all = Coupling_ports.objects.all()    #TODO danger, если данных будет много - переделать
+    p_all = Coupling_ports.objects.all()
     coup_p_list = p_all.filter(parrent_id=coup.id).order_by('cable_num', 'fiber_num')
     coup_clean = True if coup_p_list.count() == 0 else False
     parr1 = find_parrent(coup)
@@ -228,14 +212,13 @@ def coup_view(request, s_coup):
             parr2 = find_parrent(rem_coup)
             info = ob.up_info.split('∿')
             if info[1] != '0':
-                try:
-                    info[0] = firms.get(pk=int(info[1])).name
-                except:
-                    info[0] = 'владелец не найден в справочнике фирм... '
+                try:    info[0] = firms.get(pk=int(info[1])).name
+                except: info[0] = 'владелец не найден в справочнике фирм... '
+
             cab_title = {'cab': (ob.cable_num,
                                  Templ_cable.objects.get(pk=ob.cable_type).name,
                                  info,
-                                 conf.N_CAB_COLORS[ob.cable_num] if ob.cable_num < 15 else '#B5FFCE',
+                                 conf.N_CAB_COLORS[ob.cable_num] if ob.cable_num < 15 else '#B5FFCE',   #TODO conf -> css
                                  ob.prim.split('∿'),
                                  ),
                          'rem': (rem_coup,
@@ -354,7 +337,7 @@ def cab_up(request, s_coup, cab_num):
 
     if not request.user.has_perm("core.can_cable_edit"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
-    
+
     c_num = int(cab_num)
     n_num = c_num-1
     if c_num == 1:
@@ -370,19 +353,19 @@ def cab_up(request, s_coup, cab_num):
         p_list2 = p_list.filter(cable_num=n_num)
         if p_list2.count() != 0:
             p_list2.update(cable_num=0)
-        
+
         p_list1 = p_list.filter(cable_num=c_num)
         if p_list1.count() != 0:
             p_list1.update(cable_num=n_num)
         else:
             return HttpResponseRedirect('../')
-        
+
         p_list2 = p_list.filter(cable_num=0)
         if p_list2.count() != 0:
             p_list2.update(cable_num=c_num)
-    
+
     vols_cab_up(s_coup, c_num)
-    
+
     return HttpResponseRedirect('../')
 
 #___________________________________________________________________________
@@ -450,7 +433,7 @@ def cab_add2(request, s_coup, kvar, d_coup):
             res_len = form.cleaned_data['res_len']
             date_ent = form.cleaned_data['date_ent']
             owner = form.cleaned_data['owner']
-            
+
             cab_num1 = 1
             while Coupling_ports.objects.filter(parrent_id=s_c.id, cable_num=cab_num1).count() != 0:#exists() TODO
                 cab_num1 += 1
@@ -458,15 +441,15 @@ def cab_add2(request, s_coup, kvar, d_coup):
             while (Coupling_ports.objects.filter(parrent_id=d_c.id, cable_num=cab_num2).count() != 0) or \
                   ((s_coup == d_coup) and (cab_num1 == cab_num2)):     #experimental
                 cab_num2 += 1
-            
+
             with transaction.atomic():
-                #for i in range(1, sel_cable.capacity+1):# TODO
-                i = 0
-                while i < sel_cable.capacity:
-                    i = i + 1
+                for i in range(1, sel_cable.capacity+1):
+                # i = 0
+                # while i < sel_cable.capacity:
+                #     i = i + 1
                     m_num = int(m_capa_list[i-1].split('-')[1])
                     m_col = m_col_list[m_num-1]
-                    
+
                     s_c_p = Coupling_ports.objects.create(
                                                         parrent_id=s_c.id,
                                                         cable_num=cab_num1,
@@ -487,18 +470,18 @@ def cab_add2(request, s_coup, kvar, d_coup):
                                                         )
                     s_c_p.up_id = d_c_p.id
                     d_c_p.up_id = s_c_p.id
-                    
+
                     if i == 1:
-                        #s_c_p.up_info = '∿'+str(owner)+'∿'+str(phys_len)+'∿'+res_len+'∿'+str(date_ent)
                         s_c_p.up_info = f"∿{owner}∿{phys_len}∿{res_len}∿{date_ent}"
-                        #d_c_p.up_info = '∿'+str(owner)+'∿'+str(phys_len)+'∿'+res_len+'∿'+str(date_ent)
                         d_c_p.up_info = f"∿{owner}∿{phys_len}∿{res_len}∿{date_ent}"
-                    
+
                     s_c_p.save()
                     d_c_p.save()
-            
-            to_his([request.user, 8, s_c.id, 12, 0, 'from: '+str(s_c.name)+' cab_num: '+str(cab_num1)+'; to: '+str(d_c.name)+' cab_num: '+str(cab_num2)+'; cab: '+sel_cable.name])
-            to_his([request.user, 8, d_c.id, 12, 0, 'from: '+str(s_c.name)+' cab_num: '+str(cab_num1)+'; to: '+str(d_c.name)+' cab_num: '+str(cab_num2)+'; cab: '+sel_cable.name])
+
+            to_his([request.user, 8, s_c.id, 12, 0,
+                    f'from: {s_c.name} cab_num: {cab_num1}; to: {d_c.name} cab_num: {cab_num2}; cab: {sel_cable.name}'])
+            to_his([request.user, 8, d_c.id, 12, 0,
+                    f'from: {s_c.name} cab_num: {cab_num1}; to: {d_c.name} cab_num: {cab_num2}; cab: {sel_cable.name}'])
 
             return HttpResponseRedirect('../../')
 
@@ -516,13 +499,14 @@ def cab_add2(request, s_coup, kvar, d_coup):
 
 @login_required(login_url='/core/login/')
 def int_c(request, s_coup, s_port, stat, multi, dest_type=None):
-    
+
     if not request.user.has_perm("core.can_cable_edit"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 3})
-    
+
     coup = Coupling.objects.get(pk=s_coup)
     s_p = Coupling_ports.objects.get(pk=s_port)
-    
+    e_p = ''  # end_port
+
     if request.method == 'POST':
         try:
             if dest_type == '0':
@@ -533,7 +517,7 @@ def int_c(request, s_coup, s_port, stat, multi, dest_type=None):
                 d_p = Cross_ports.objects.get(pk=d_port)
         except:
             return HttpResponseRedirect('../')
-        
+
         if dest_type == '0':
             with transaction.atomic():
                 if s_p.int_c_status != 0 or d_p.int_c_status != 0:      #проверка портов перед записью
@@ -552,14 +536,14 @@ def int_c(request, s_coup, s_port, stat, multi, dest_type=None):
                 d_p.changed = False
                 s_p.save()
                 d_p.save()
-            
+            # multi
             if s_p.cable_num != d_p.cable_num: #разные кабели -> попытаться скроссировать остальные стекла
                 if Coupling_ports.objects.filter(parrent_id=s_p.parrent_id, cable_num=s_p.cable_num, fiber_num=(s_p.fiber_num+1)).exists():
                     if Coupling_ports.objects.filter(parrent_id=d_p.parrent_id, cable_num=d_p.cable_num, fiber_num=(d_p.fiber_num+1)).exists():
                         if multi == '1':
                             e_p = int(request.POST['end_p0'])
                             int_c_multi(s_p, d_p, int(stat), e_p)
-        
+
         if dest_type == '1':
             with transaction.atomic():
                 if s_p.int_c_status != 0 or d_p.cab_p_id != 0:          #проверка портов перед записью
@@ -577,12 +561,12 @@ def int_c(request, s_coup, s_port, stat, multi, dest_type=None):
                     if multi == '1':
                         e_p = int(request.POST['end_p1'])
                         int_c_multi_cross(s_p, d_p, e_p)
-        
-        to_his([request.user, 9, s_p.id, 4, 0, 'муфта: '+coup.name+'; from: id-'+str(s_p.id)+' to: id-'+str(d_p.id)+'; dest_type: '+dest_type+'; multi:'+multi])
-        to_his([request.user, 9, d_p.id, 4, 0, 'муфта: '+coup.name+'; from: id-'+str(d_p.id)+' to: id-'+str(s_p.id)+'; dest_type: '+dest_type+'; multi:'+multi])
-        
+
+        to_his([request.user, 9, s_p.id, 4, 0, f'муфта: {coup.name}; from: id-{s_p.id} to: id-{d_p.id}; dst_type: {dest_type}; multi:{multi}.{e_p}'])
+        to_his([request.user, 9, d_p.id, 4, 0, f'муфта: {coup.name}; from: id-{d_p.id} to: id-{s_p.id}; dst_type: {dest_type}; multi:{multi}.{e_p}'])
+
         return HttpResponseRedirect('../../../../')
-    
+
     curr_cab = 0
     p_list1, p_list2 = [], []
 
@@ -594,8 +578,7 @@ def int_c(request, s_coup, s_port, stat, multi, dest_type=None):
             curr_cab = ob.cable_num
             p_list1.append((curr_cab,
                             Coupling_ports.objects.get(pk=ob.up_id).parrent.name,
-                            coup_p_list.filter(cable_num=curr_cab)\
-                                .values('id', 'fiber_num', 'int_c_status', 'changed')
+                            coup_p_list.filter(cable_num=curr_cab).values('id', 'fiber_num', 'int_c_status', 'changed')
                             ))
 
     if coup.parr_type == 0 and int(stat) != 1:
@@ -603,12 +586,11 @@ def int_c(request, s_coup, s_port, stat, multi, dest_type=None):
             .values('parrent__parrent_id', 'parrent_id', 'id', 'name', 'name_type')
         for ob in cr_list:
             p_list2.append((ob,
-                            Cross_ports.objects.filter(parrent_id=ob['id']).order_by('num')\
-                                .values('id', 'cab_p_id', 'num')
+                            Cross_ports.objects.filter(parrent_id=ob['id']).order_by('num').values('id', 'cab_p_id', 'num')
                             ))
-            
-    e_p = Coupling_ports.objects.filter(parrent_id=s_p.parrent_id, cable_num=s_p.cable_num).count() #end_port
-    
+
+    e_p = Coupling_ports.objects.filter(parrent_id=s_p.parrent_id, cable_num=s_p.cable_num).count()
+
     return render(request, 'coup_int_c.html',  {'s_p': s_p,
                                                 'e_p': (e_p, int(multi)),
                                                 'p_list1': p_list1,
@@ -618,14 +600,17 @@ def int_c(request, s_coup, s_port, stat, multi, dest_type=None):
 
 def int_c_multi(s_p, d_p, stat, e_p):
 
-    s_p_list = Coupling_ports.objects.filter(
-                                            parrent_id=s_p.parrent_id,
-                                            cable_num=s_p.cable_num,
-                                            fiber_num__gt=s_p.fiber_num,
-                                            fiber_num__lte=e_p
-                                            )
-    d_p_list = Coupling_ports.objects.filter(parrent_id=d_p.parrent_id,cable_num=d_p.cable_num,fiber_num__gt=d_p.fiber_num)
-    count_op = s_p_list.count() if (s_p_list.count() < d_p_list.count()) else d_p_list.count()
+    s_p_list = Coupling_ports.objects.filter(parrent_id=s_p.parrent_id,
+                                             cable_num=s_p.cable_num,
+                                             fiber_num__gt=s_p.fiber_num,
+                                             fiber_num__lte=e_p
+                                             )
+    d_p_list = Coupling_ports.objects.filter(parrent_id=d_p.parrent_id,
+                                             cable_num=d_p.cable_num,
+                                             fiber_num__gt=d_p.fiber_num
+                                             )
+    #count_op = s_p_list.count() if (s_p_list.count() < d_p_list.count()) else d_p_list.count()
+    count_op = min(s_p_list.count(), d_p_list.count())
     i = 0
     for i in range(1, count_op + 1):
         #s_p_m = Coupling_ports.objects.get(parrent_id=s_p.parrent_id,cable_num=s_p.cable_num,fiber_num=(s_p.fiber_num+i))
@@ -648,14 +633,16 @@ def int_c_multi(s_p, d_p, stat, e_p):
 
 def int_c_multi_cross(s_p, d_p, e_p):
 
-    s_p_list = Coupling_ports.objects.filter(
-                                            parrent_id=s_p.parrent_id,
-                                            cable_num=s_p.cable_num,
-                                            fiber_num__gt=s_p.fiber_num,
-                                            fiber_num__lte=e_p
-                                            )
-    d_p_list = Cross_ports.objects.filter(parrent_id=d_p.parrent_id, num__gt=d_p.num)
-    count_op = s_p_list.count() if (s_p_list.count() < d_p_list.count()) else d_p_list.count()
+    s_p_list = Coupling_ports.objects.filter(parrent_id=s_p.parrent_id,
+                                             cable_num=s_p.cable_num,
+                                             fiber_num__gt=s_p.fiber_num,
+                                             fiber_num__lte=e_p
+                                             )
+    d_p_list = Cross_ports.objects.filter(parrent_id=d_p.parrent_id,
+                                          num__gt=d_p.num
+                                          )
+    #count_op = s_p_list.count() if (s_p_list.count() < d_p_list.count()) else d_p_list.count()
+    count_op = min(s_p_list.count(), d_p_list.count())
     i = 0
     for i in range(1, count_op + 1):
         #s_p_m = Coupling_ports.objects.get(parrent_id=s_p.parrent_id, cable_num=s_p.cable_num, fiber_num=(s_p.fiber_num+i))
@@ -673,7 +660,7 @@ def int_c_multi_cross(s_p, d_p, e_p):
                 d_p_m.save()
     return i
 
-#___________________________________________________________________________
+##########################################################################################
 
 
 @login_required(login_url='/core/login/')
@@ -682,38 +669,61 @@ def int_del(request, s_coup, s_port):
     if not request.user.has_perm("core.can_cable_edit"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
+    def _get_d_p(_s_p):
+        if _s_p.int_c_dest == 0:
+            _d_p = Coupling_ports.objects.get(pk=_s_p.int_c_id)
+            return _d_p if _d_p.int_c_status != 0 else False
+        elif _s_p.int_c_dest == 1:
+            _d_p = Cross_ports.objects.get(pk=_s_p.int_c_id)
+            return _d_p if _d_p.cab_p_id != 0 else False
+
+    def _del_cr(_s_p, _d_p):
+        with transaction.atomic():
+            if _s_p.int_c_dest == 0:
+                _d_p.int_c_dest = 0
+                _d_p.int_c_id = 0
+                _d_p.int_c_status = 0
+            elif _s_p.int_c_dest == 1:
+                _d_p.cab_p_id = 0
+            _s_p.int_c_dest = 0
+            _s_p.int_c_id = 0
+            _s_p.int_c_status = 0
+            _s_p.save()
+            _d_p.save()
+
     s_p = Coupling_ports.objects.get(pk=s_port)
     if s_p.int_c_status == 0:
         return render(request, 'error.html', {'mess': 's_p.int_c_status == 0', 'back': 1})
-    if s_p.int_c_dest == 0:
-        d_p = Coupling_ports.objects.get(pk=s_p.int_c_id)
-        if d_p.int_c_status == 0:
-            return render(request, 'error.html', {'mess': 'd_p.int_c_status == 0', 'back': 1})
-    elif s_p.int_c_dest == 1:
-        d_p = Cross_ports.objects.get(pk=s_p.int_c_id)
-        if d_p.cab_p_id == 0:
-            return render(request, 'error.html', {'mess': 'd_p.cab_p_id == 0', 'back': 1})
+    d_p = _get_d_p(s_p)
+    if not d_p:
+        return render(request, 'error.html', {'mess': 'd_p.int_c_status/.cab_p_id/ == 0', 'back': 1})
 
     if request.method == 'POST':
-        with transaction.atomic():
-            if s_p.int_c_dest == 0:
-                d_p.int_c_dest = 0
-                d_p.int_c_id = 0
-                d_p.int_c_status = 0
-            elif s_p.int_c_dest == 1:
-                d_p.cab_p_id = 0
-            s_p.int_c_dest = 0
-            s_p.int_c_id = 0
-            s_p.int_c_status = 0
-            s_p.save()
-            d_p.save()
+        multi, e_p = 0, 0
+        _del_cr(s_p, d_p)
+        if bool(request.POST.get('multi', False)):
+            if (e_p := int(request.POST.get('end_p0'))) > s_p.fiber_num:
+                multi = 1
+                s_p_list = Coupling_ports.objects.filter(parrent_id=s_p.parrent_id,
+                                                         cable_num=s_p.cable_num,
+                                                         fiber_num__gt=s_p.fiber_num,
+                                                         fiber_num__lte=e_p
+                                                         )
+                for s_p_m in s_p_list:
+                    if s_p_m.int_c_status != 0:
+                        if d_p_m := _get_d_p(s_p_m):
+                            _del_cr(s_p_m, d_p_m)
 
-        to_his([request.user, 9, s_p.id, 7, 0, 'муфта: '+s_p.parrent.name+'; from: id-'+str(s_p.id)+' to: id-'+str(d_p.id)])
-        to_his([request.user, 9, d_p.id, 7, 0, 'муфта: '+d_p.parrent.name+'; from: id-'+str(d_p.id)+' to: id-'+str(s_p.id)])
+        to_his([request.user, 9, s_p.id, 7, 0,
+                f'муфта: {s_p.parrent.name}; from: id-{s_p.id} to: id-{d_p.id}; multi:{multi}.{e_p}'])
+        to_his([request.user, 9, d_p.id, 7, 0,
+                f'муфта: {d_p.parrent.name}; from: id-{d_p.id} to: id-{s_p.id}; multi:{multi}.{e_p}'])
 
         return HttpResponseRedirect('../')
 
-    return render(request, 'coup_int_del.html', {'s_p': s_p, 'd_p': d_p})
+    e_p = Coupling_ports.objects.filter(parrent_id=s_p.parrent_id, cable_num=s_p.cable_num).count()
+
+    return render(request, 'coup_int_del.html', {'s_p': s_p, 'd_p': d_p, 'e_p': e_p})
 
 #___________________________________________________________________________
 
@@ -765,9 +775,22 @@ def int_edit(request, s_coup, p_id):
                 #s_p.save()
                 d_p.save()
 
+            if form.cleaned_data['int_c_status_multi'] and s_p.int_c_status:
+                e_p = int(form.data['int_c_status_e_p'])
+                if e_p > s_p.fiber_num:
+                    sp_list = Coupling_ports.objects.filter(parrent_id=s_p.parrent_id,
+                                                            cable_num=s_p.cable_num,
+                                                            fiber_num__gt=s_p.fiber_num,
+                                                            fiber_num__lte=e_p
+                                                            ).order_by('fiber_num')
+                    sp_list.update(int_c_status=s_p.int_c_status)
+                to_his([request.user, 9, s_p.id, 2, 0,
+                        f'муфта: {s_p.parrent.name}; cab: {s_p.cable_num}; fiber: {s_p.fiber_num}; multi:1.{e_p}'])
+
             if change:
                 s_p.save()
-                to_his([request.user, 9, s_p.id, 2, 0, 'муфта: '+s_p.parrent.name+'; cab: '+str(s_p.cable_num)+'; fiber: '+str(s_p.fiber_num)])
+                to_his([request.user, 9, s_p.id, 2, 0,
+                        f'муфта: {s_p.parrent.name}; cab: {s_p.cable_num}; fiber: {s_p.fiber_num}'])
 
             return HttpResponseRedirect('../')
 
@@ -778,8 +801,9 @@ def int_edit(request, s_coup, p_id):
                                     'prim': s_p.prim.split('∿')[0],
                                     'owner': s_p.up_info.split('∿')[0],
                                     })
+    e_p = Coupling_ports.objects.filter(parrent_id=s_p.parrent_id, cable_num=s_p.cable_num).count()
 
-    return render(request, 'coup_int_edit.html', {'form': form, 's_p': s_p})
+    return render(request, 'coup_int_edit.html', {'form': form, 's_p': s_p, 'e_p': e_p})
 
 #___________________________________________________________________________
 
@@ -802,7 +826,7 @@ def cab_edit(request, s_coup, p_id):
         s_info = ['', '0', '0', '0', None]
     if len(d_info) < 5:
         d_info = ['', '0', '0', '0', None]
-    
+
     if request.method == 'POST':
         form = coup_cab_edit_Form(request.POST)
         if form.is_valid():
@@ -819,7 +843,7 @@ def cab_edit(request, s_coup, p_id):
                 d_p.up_info = '∿'.join(d_info)
                 s_p.save()
                 d_p.save()
-            
+
             if form.cleaned_data['owner_f']:
                 owner_f = owner if (owner != '0') else ''
                 sd_p_list = Coupling_ports.objects.filter(Q (parrent_id=s_p.parrent_id, cable_num=s_p.cable_num) |
@@ -850,11 +874,8 @@ def cab_edit(request, s_coup, p_id):
                                        'date_ent': s_info[4],
                                        'prim': prim[1],
                                        })
-    
-    return render(request, 'coup_cab_edit.html', {'form': form,
-                                                  's_p': s_p,
-                                                  'd_p': d_p,
-                                                  })
+
+    return render(request, 'coup_cab_edit.html', {'form': form, 's_p': s_p, 'd_p': d_p})
 
 #___________________________________________________________________________
 
@@ -879,8 +900,8 @@ def cab_del(request, s_coup, cab):
             del_p_list1.delete()
             del_p_list2.delete()
 
-        to_his([request.user, 8, coup.id, 13, 0, 'from: '+coup.name+' to: '+rem_p.parrent.name+'; cab_num: '+cab])
-        to_his([request.user, 8, rem_p.parrent.id, 13, 0, 'from: '+coup.name+' to: '+rem_p.parrent.name+'; cab_num: '+cab])
+        to_his([request.user, 8, coup.id, 13, 0, f'from: {coup.name} to: {rem_p.parrent.name}; cab_num: {cab}'])
+        to_his([request.user, 8, rem_p.parrent.id, 13, 0, f'from: {coup.name} to: {rem_p.parrent.name}; cab_num: {cab}'])
 
         vols_cab_remove(s_coup, cab)
 
@@ -956,9 +977,10 @@ def cab_move2(request, s_coup, kvar, cab, d_coup):
         return render(request, 'error.html', {'mess': 'not del_ok', 'back': 3})
     else:
         with transaction.atomic():
-            i = 0
-            while i < capa:
-                i = i + 1
+            for i in range(1, capa + 1):
+            # i = 0
+            # while i < capa:
+            #     i = i + 1
                 s_p = p_list1.get(fiber_num=i)
                 c_p = p_list2.get(fiber_num=i)
                 d_p = Coupling_ports.objects.create(parrent_id=coup3.id,
@@ -977,8 +999,10 @@ def cab_move2(request, s_coup, kvar, cab, d_coup):
 
             p_list1.delete()
 
-    to_his([request.user, 8, coup1.id, 14, 0, 'from: '+coup1.name+' to: '+coup3.name+' cab_num: '+str(cab_num3)+'; change: '+coup2.name+' cab_num: '+str(p1_c2.cable_num)])
-    to_his([request.user, 8, coup3.id, 14, 0, 'from: '+coup1.name+' to: '+coup3.name+' cab_num: '+str(cab_num3)+'; change: '+coup2.name+' cab_num: '+str(p1_c2.cable_num)])
+    to_his([request.user, 8, coup1.id, 14, 0,
+            f'from: {coup1.name} to: {coup3.name} cab_num: {cab_num3}; change: {coup2.name} cab_num: {p1_c2.cable_num}'])
+    to_his([request.user, 8, coup3.id, 14, 0,
+            f'from: {coup1.name} to: {coup3.name} cab_num: {cab_num3}; change: {coup2.name} cab_num: {p1_c2.cable_num}'])
 
     vols_cab_remove(s_coup, cab)
 
@@ -1058,7 +1082,7 @@ def pw_del(request, kvar, s_pw):
 
     if request.method == 'POST' and del_ok:
 
-        to_his([request.user, 10, pw.id, 13, 0, 'name: '+pw.name])
+        to_his([request.user, 10, pw.id, 13, 0, f'name: {pw.name}'])
         pw.delete()
 
         return HttpResponseRedirect(f"/cable/kv={kvar}")
@@ -1074,10 +1098,11 @@ def coup_edit(request, s_coup):
     if not request.user.has_perm("core.can_cable_edit"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1})
 
+    bu = False
     move_pos = False
     coup = Coupling.objects.get(pk=s_coup)
     if request.method == 'POST':
-        form = add_Coup_Form(request.POST)
+        form = edit_Coup_Form(request.POST)
         if form.is_valid():
             change = False
 
@@ -1125,27 +1150,37 @@ def coup_edit(request, s_coup):
                 except:
                     pass
 
+            if coup.parr_type == 1 and form.cleaned_data['change_bu']:
+                try:
+                    bu_id = Building.objects.get(parrent_id=int(form.data['street']), house_num=form.data['house_num']).id
+                    change = True
+                    coup.parrent = bu_id
+                except Exception as e:
+                    return render(request, 'error.html', {'mess': str(e), 'back': 1})
+
             if change:
                 coup.save()
-                to_his([request.user, 8, coup.id, 2, 0, 'name: '+coup.name])
+                to_his([request.user, 8, coup.id, 2, 0, f'name: {coup.name}'])
             if move_pos:
                 vols_coup_move(coup.id, move_pos)
 
             return HttpResponseRedirect('../')
 
     else:
-        form = add_Coup_Form(initial={'name': coup.name,
-                                      'name_type': coup.name_type,
-                                      'object_owner': coup.object_owner,
-                                      #'object_owner_list': coup.object_owner,
-                                      'installed': coup.installed,
-                                      'date_ent': coup.date_ent,
-                                      'rasp': coup.rasp,
-                                      'prim': coup.prim,
-                                      'coord': f"{round(coup.coord_x)},{round(coup.coord_y)}"
-                                      })
+        if coup.parr_type == 1:
+            bu = Building.objects.get(pk=coup.parrent)
+        form = edit_Coup_Form(initial={'name': coup.name,
+                                       'name_type': coup.name_type,
+                                       'object_owner': coup.object_owner,
+                                       'installed': coup.installed,
+                                       'date_ent': coup.date_ent,
+                                       'rasp': coup.rasp,
+                                       'prim': coup.prim,
+                                       'coord': f"{round(coup.coord_x)},{round(coup.coord_y)}",
+                                       # 'street': bu.parrent_id if bu else False,
+                                       })
 
-    return render(request, 'cable_new.html', {'coup': coup, 'form_c': form})
+    return render(request, 'cable_new.html', {'coup': coup, 'form_c': form, 'bu': bu})
 
 #___________________________________________________________________________
 
@@ -1162,7 +1197,7 @@ def coup_del(request, s_coup):
     del_ok2 = False if coup.parr_type == 0 else True
 
     if request.method == 'POST' and del_ok1 and del_ok2:
-        to_his([request.user, 8, coup.id, 13, 0, 'name: '+coup.name])
+        to_his([request.user, 8, coup.id, 13, 0, f'name: {coup.name}'])
         coup.delete()
 
         return HttpResponseRedirect('../../')

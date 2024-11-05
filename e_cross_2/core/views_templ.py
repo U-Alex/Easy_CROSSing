@@ -1,9 +1,5 @@
 # core__views_templ
 
-#import datetime
-#import time
-#import requests
-
 #from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
@@ -27,12 +23,13 @@ from core.e_config import conf
 
 ####################################################################################################
 
+
 @login_required(login_url='/core/login/')
 def templ(request):
 
     if not request.user.has_perm("core.can_adm"):
         return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 2})
-    
+
     return render(request, 'templ.html', {'lo_list': Templ_locker.objects.all().order_by('id'),
                                           'cr_list': Templ_cross.objects.all().order_by('id'),
                                           'dev_list': Templ_device.objects.all().order_by('parrent_id', 'id'),
@@ -45,6 +42,7 @@ def templ(request):
 
 
 ###############################--locker--###########################################################
+
 
 @login_required(login_url='/core/login/')
 def templ_lo(request, lo_id):
@@ -92,6 +90,7 @@ def templ_lo_del(request, lo_id):
                                               })
 
 ###############################--cross--############################################################
+
 
 @login_required(login_url='/core/login/')
 def templ_cr(request, cr_id):
@@ -148,6 +147,7 @@ def templ_cr_del(request, cr_id):
 
 ###############################--device--###########################################################
 
+
 @login_required(login_url='/core/login/')
 def templ_dev(request, dev_id):
 
@@ -161,12 +161,10 @@ def templ_dev(request, dev_id):
     if request.method == 'POST':
         if dev_id != '0':
             form = templ_dev_Form(request.POST, instance=dev)
-            #ch_dev = Device.objects.filter(con_type=dev.id)
-            #ch_dev.update(name_type=form.data['name'].strip())
+            # TODO под вопросом
             if (dev.port_alias_list != form.data['port_alias_list']) or \
                     (dev.port_t_x_list != form.data['port_t_x_list']) or \
                     (dev.port_speed_list != form.data['port_speed_list']):
-                #ch_dev_ports = Device_ports.objects.filter(parrent_id__con_type=dev.id)
                 ch_dev_ports = Device_ports.objects.filter(parrent_id__obj_type_id=dev.id)
                 alias_list = form.data['port_alias_list'].split(',')
                 t_x_list = form.data['port_t_x_list'].split(',')
@@ -210,6 +208,7 @@ def templ_dev_del(request, dev_id):
                                               })
 
 ###############################--box--##############################################################
+
 
 @login_required(login_url='/core/login/')
 def templ_box(request, box_id):
@@ -259,6 +258,7 @@ def templ_box_del(request, box_id):
                                               })
 
 ###############################--box_cable--#######################################################
+
 
 @login_required(login_url='/core/login/')
 def templ_box_cable(request, b_cab_id):
@@ -315,6 +315,7 @@ def templ_box_cable_del(request, b_cab_id):
 
 ###############################--subunit--##########################################################
 
+
 @login_required(login_url='/core/login/')
 def templ_su(request, su_id):
 
@@ -362,6 +363,7 @@ def templ_su_del(request, su_id):
 
 ###############################--cable--############################################################
 
+
 @login_required(login_url='/core/login/')
 def templ_cab(request, cab_id):
 
@@ -375,7 +377,9 @@ def templ_cab(request, cab_id):
     if request.method == 'POST':
         if cab_id != '0':
             form = templ_cab_Form(request.POST, instance=cab)
-            if (cab.mod_capa_list != form.data['mod_capa_list']) or (cab.mod_color_list != form.data['mod_color_list']) or (cab.fiber_colors_list != form.data['fiber_colors_list']):
+            if (cab.mod_capa_list != form.data['mod_capa_list'])\
+                    or (cab.mod_color_list != form.data['mod_color_list'])\
+                    or (cab.fiber_colors_list != form.data['fiber_colors_list']):
                 ch_cab_ports = Coupling_ports.objects.filter(cable_type=cab.id)
                 mod_capa_list = form.data['mod_capa_list'].split(',')
                 mod_color_list = form.data['mod_color_list'].split(',')
@@ -421,6 +425,7 @@ def templ_cab_del(request, cab_id):
                                               })
 
 ###############################--coupling--#########################################################
+
 
 @login_required(login_url='/core/login/')
 def templ_coup(request, coup_id):

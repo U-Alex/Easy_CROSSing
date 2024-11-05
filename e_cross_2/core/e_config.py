@@ -179,6 +179,12 @@ class conf:
     #длина кроссировки патчкордом по умолчанию, m
     CROSS_LEN = 3
 
+#mod statist
+    #
+    OFFICE_LIST = ([''],
+                   ['AREA_1'],
+                   ['AREA_2', 'AREA_3']
+                   )
 
 #mod eq_rent
     #

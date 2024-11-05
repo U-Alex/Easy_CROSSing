@@ -17,7 +17,7 @@
             <td align="left">{{ form.valid }}<br></td>
         </tr>
         <tr>
-            <td width="260px" align="right">{{ form.int_c_status.label }}:</td>
+            <td width="230px" align="right">{{ form.int_c_status.label }}:</td>
             <td align="left">
             {% if s_p.int_c_status == 0 %}
                 не сварено
@@ -26,6 +26,12 @@
                 {{ form.int_c_status.2 }}<br>
             {% endif %}
             </td>
+            <td  width="430px">
+                <label for="id_int_c_status_multi" >{{ form.int_c_status_multi.label }}:</label>
+                &nbsp;{{ form.int_c_status_multi }}&emsp;
+                конечное волокно:
+                <input class="int_field" type="number" name="int_c_status_e_p" min="{{ s_p.fiber_num }}" max="{{ e_p }}" value="{{ e_p }}">
+            </td>
         </tr>
         <tr>
             <td align="right">{{ form.changed.label }}:</td>
@@ -33,7 +39,7 @@
         </tr>
         <tr>
             <td align="right">{{ form.prim.label }}:</td>
-            <td align="left">{{ form.prim }}<br></td>
+            <td colspan="2" align="left">{{ form.prim }}<br></td>
         </tr>
         <tr>
             <td align="right">{{ form.owner.label }}:</td>

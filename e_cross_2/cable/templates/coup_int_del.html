@@ -13,20 +13,25 @@
 </div>
 <br>
 
+<div class="c_base_w ">
+    <form method="post">
+        {% csrf_token %}
 
-<form method="post">
-    {% csrf_token %}
-
-    <h3 class="c_base_w color_warn1" align="center">удалить кроссировку?</h3>
-    <br>
-
-    <div class="c_base_w t_footer3">
-        <div class="_flex_c">
-            <input type="submit" value="     OK     ">
-            <input type="button" value="отмена" onClick='location.href="../"'>
+        <h3 class="c_base_w color_warn1" align="center">удалить кроссировку?</h3>
+        <br>
+        <div class="_flex_c cab_txt_r" align="center">
+            множественное снятие:
+            <input type="checkbox" name="multi"><br>
+            конечное волокно в исходном кабеле:
+            <input type="number" name="end_p0" min="{{ s_p.fiber_num }}" max="{{ e_p }}" value="{{ e_p }}" size="5">
         </div>
-    </div>
-
-</form>
+        <div class="c_base_w t_footer3">
+            <div class="_flex_c">
+                <input type="submit" value="     OK     ">
+                <input type="button" value="отмена" onClick='location.href="../"'>
+            </div>
+        </div>
+    </form>
+</div>
 
 {% endblock %}

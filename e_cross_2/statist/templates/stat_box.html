@@ -1,0 +1,102 @@
+{% extends 'main.html' %}
+
+{% block statist %}
+<meta http-equiv="refresh" content="60">
+    
+    <table class="c_base_w t_header1">
+        <tr>
+            <td width="880px" align="left"><h3>&nbsp;Статистика по КРТ</h3></td>
+            <td width="300px" align="right">
+                {% if p_list.has_previous %}
+                    <a href="?page={{ p_list.previous_page_number }}">предыдущая</a>
+                {% endif %}
+                {% if not uninstall %}
+                <span class="current">страница {{ p_list.number }} из {{ p_list.paginator.num_pages }}.</span>
+                {% endif %}
+            </td>
+            <td width="100px" align="left">
+                {% if p_list.has_next %}
+                    <a href="?page={{ p_list.next_page_number }}">следующая&nbsp</a>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+
+    <br>
+    <table class="c_base_w" border="1">
+    {% if br %}
+    <caption style="background-color:yellow">Забронированные пары:</caption>
+    {% elif bad %}
+    <caption style="background-color:gray">Неисправные пары:</caption>
+    {% elif uninstall %}
+    <caption style="background-color:silver">Ожидание снятия:</caption>
+    {% endif %}
+        <tr class="t_header1">
+        {% if br %}
+            <td colspan="2" align="center">дата&nbspбронирования</td>
+            <td width="70px" align="center">договор</td>
+            <td align="center">ФИО</td>
+        {% elif uninstall %}
+            <td colspan="2" align="center">дата&nbspснятия</td>
+            <td width="70px" align="center">договор</td>
+            <td align="center">ФИО</td>
+        {% endif %}
+            <td align="center">адрес</td>
+        {% if br or uninstall %}
+            <td width="40px" align="center">кв.</td>
+        {% endif %}
+            <td align="center">УД</td>
+            <td align="center">крт</td>
+        </tr>
+
+    {% for ob in p_list %}
+    <!--{{ ob.full_name|upper }}<br />-->
+        {% if bad %}
+        <tr>
+        {% elif uninstall %}
+            {% if ob.int_c_status == 1 %}
+            <tr style="background-color:lawngreen">
+            {% elif ob.int_c_status == 2 %}
+            <tr style="background-color:yellow">
+            {% elif ob.int_c_status == 3 %}
+            <tr style="background-color:pink">
+            {% else %}
+            <tr>
+            {% endif %}
+        {% elif ob.date_cr|date:"Y.m.d" < date_exp|date:"Y.m.d" %}
+        <tr style="background-color:orange">
+        {% else %}
+        <tr>
+        {% endif %}
+        {% if br %}
+            <td width="75px" align="center">{{ ob.date_cr|date:"d.m.Y" }}</td>
+            <td width="50px" align="center">{{ ob.date_cr|time:"H:i" }}</td>
+            <td align="center"><strong>{{ ob.dogovor }}</strong></td>
+            <td>&nbsp{{ ob.ab_fio }}&nbsp</td>
+        {% elif uninstall %}
+            <td width="75px" align="center">{{ ob.date_del|date:"d.m.Y" }}</td>
+            <td width="50px" align="center">{{ ob.date_del|time:"H:i" }}</td>
+            <td align="center"><strong>{{ ob.his_dogovor }}</strong></td>
+            <td>&nbsp{{ ob.his_ab_fio }}&nbsp</td>
+        {% endif %}
+            <td>&nbsp{{ ob.parrent.parrent.parrent.name }}&nbsp{{ ob.parrent.parrent.parrent.house_num }}&nbsp</td>
+        {% if br %}
+            <td align="center">&nbsp{{ ob.ab_kv }}&nbsp</td>
+        {% elif uninstall %}
+            <td align="center">&nbsp{{ ob.his_ab_kv }}&nbsp</td>
+        {% endif %}
+            <td>&nbsp{{ ob.parrent.parrent.name }}&nbsp</td>
+            <td align="center">&nbsp<strong><a href="/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/box={{ ob.parrent.id }}/?sel={{ ob.id }}" target="_blank">{{ ob.parrent.name }}-{{ ob.parrent.num }}-{{ ob.p_alias }}</a></strong>&nbsp</td>
+        </tr>
+    {% endfor %}
+    </table>
+    
+    <br>
+    <table class="c_base_w t_footer">
+        <tr>
+            <td width="1000px">&nbsp</td>
+            <td width="280px" align="right"><input type="button" value="назад" onClick='location.href="../"'>&nbsp;</td>
+        </tr>
+    </table>
+    
+{% endblock %}

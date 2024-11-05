@@ -1,0 +1,57 @@
+{% extends 'main.html' %}
+
+{% block statist %}
+    
+    <table class="c_base_w t_header1">
+        <tr>
+            <td width="880px" align="left"><h3>&nbsp;Статистика по оборудованию</h3></td>
+            <td width="300px" align="right">
+                {% if p_list.has_previous %}
+                    <a href="?page={{ p_list.previous_page_number }}">предыдущая</a>
+                {% endif %}
+                <span class="current">страница {{ p_list.number }} из {{ p_list.paginator.num_pages }}.</span>
+            </td>
+            <td width="100px" align="left">
+                {% if p_list.has_next %}
+                    <a href="?page={{ p_list.next_page_number }}">следующая&nbsp</a>
+                {% endif %}
+            </td>
+            </td>
+        </tr>
+    </table>
+
+    <br>
+    <table class="c_base_w" border="1">
+    {% if br %}
+    <caption style="background-color:yellow">Забронированные порты:</caption>
+    {% elif bad %}
+    <caption style="background-color:gray">Неисправные порты:</caption>
+    {% endif %}
+        <tr class="t_header1">
+            <td width="260px" align="center">адрес</td>
+            <td width="140px" align="center">УД</td>
+            <td width="140px" align="center">коммутатор</td>
+            <td width="40px" align="center">порт</td>
+            <!--<td width="140px" align="center">дата бронирования</td>-->
+        </tr>
+    
+    {% for ob in p_list %}
+    <!--{{ ob.full_name|upper }}<br />-->
+        <tr>
+            <td align="center">{{ ob.parrent.parrent.parrent.name }} {{ ob.parrent.parrent.parrent.house_num }}</td>
+            <td align="center">{{ ob.parrent.parrent.name }}</td>
+            <td align="center"><strong><a href="/cross/build={{ ob.parrent.parrent.parrent.id }}/locker={{ ob.parrent.parrent.id }}/dev={{ ob.parrent.id }}" target="_blank">{{ ob.parrent.name }}</a></strong></td>
+            <td align="center"><strong>{{ ob.num }}</strong></td>
+        </tr>
+    {% endfor %}
+    
+    </table>
+    <br>
+    <table class="c_base_w t_footer">
+        <tr>
+            <td width="1000px">&nbsp</td>
+            <td width="280px" align="right"><input type="button" value="назад" onClick='location.href="../"'>&nbsp</td>
+        </tr>
+    </table>
+    
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'main.html' %}
+
+{% block statist %}
+
+<link rel="stylesheet" type="text/css" href="/static/cssworld.ru-xcal.css" />
+<script type="text/javascript" src="/static/js/cssworld.ru-xcal-en.js"></script>
+<script>xCal.all("datepicker");</script>
+    
+    <table class="c_base_w t_header1">
+        <tr>
+            <td width="1000px" align="left"><h3>&nbspпринятые УД за период</h3></td>
+            <td width="280px" align="right">&nbsp</td>
+        </tr>
+    </table>
+    <br>
+<div class="c_base_w" align="center">
+    <form method="post">
+        <input id="id_start_date" name="start_date" type="text" value="{{ start_date|date:"d.m.Y" }}" size="12" onClick="xCal(this)" onKeyUp="xCal()">
+        <a href="" onClick="document.getElementById('id_start_date').value=''; return false">X</a>&nbsp;&nbsp;-----
+        <input id="id_end_date" name="end_date" type="text" value="{{ end_date|date:"d.m.Y" }}" size="12" onClick="xCal(this)" onKeyUp="xCal()">
+        <a href="" onClick="document.getElementById('id_end_date').value=''; return false">X</a>&nbsp;&nbsp;
+        <input type="submit" value="OK" style="width:100px">&nbsp;
+    </form>
+</div>
+    {% if lo_c %}
+    <table class="c_base_w" border="1">
+    <caption style="background-color:lime">Принятые УД - {{ lo_c }}<br>Здания - {{ bu_c }}<br>Принятые УД без даты - {{ lo_nodate }}</caption>
+        <tr style="background-color:#B5FFCE">
+            <td width="260px" align="center">адрес</td>
+            <td width="240px" align="center">УД</td>
+            <td width="120px" align="center"></td>
+        </tr>
+        {% for ob in lo_st %}
+        <tr>
+            <td align="center">{{ ob.parrent.name }} {{ ob.parrent.house_num }}</td>
+            <td align="center"><strong><a href="/cross/build={{ ob.parrent.id }}/locker={{ ob.id }}/" target="_blank">{{ ob.name }}</a></strong></td>
+            <td align="center">{{ ob.date_ent|date:"d.m.Y" }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+    <br>
+    <table class="c_base_w t_footer">
+        <tr>
+            <td width="1000px">&nbsp</td>
+            <td width="280px" align="right"><input type="button" value="назад" onClick='location.href="../"'>&nbsp;</td>
+        </tr>
+    </table>
+    
+    
+{% endblock %}

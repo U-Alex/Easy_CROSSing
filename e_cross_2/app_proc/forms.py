@@ -8,6 +8,7 @@ from core.e_config import conf
 
 ####################################################################################################
 
+
 class add_app_Form(forms.Form):
     type_proc = forms.ChoiceField(label='тип операции', widget=forms.Select, choices=conf.TYPE_PROC_LIST)
     street = forms.ChoiceField(label='список улиц', widget=forms.Select, choices=[])
@@ -23,6 +24,7 @@ class add_app_Form(forms.Form):
         self.fields['street'].choices = Street.objects.values_list('id', 'name').order_by('name')
         #self.fields['dog'].disabled = True
 
+
 class edit_app_Form(forms.Form):
     #type_proc = forms.ChoiceField(label='тип операции', widget=forms.Select, choices=conf.TYPE_PROC_LIST)
     street = forms.ChoiceField(label='улица', widget=forms.Select, choices=[])
@@ -37,18 +39,23 @@ class edit_app_Form(forms.Form):
         super(edit_app_Form, self).__init__(*args, **kwargs)
         self.fields['street'].choices = Street.objects.values_list('id', 'name').order_by('name')
 
+
 class app_Form(forms.Form):
     comment = forms.CharField(label='комментарий', max_length=350, required=False, widget=forms.TextInput(attrs={'size': 60}))
+
 
 class app_reject_Form(app_Form):
     reject = forms.ChoiceField(label='причина отказа', widget=forms.Select, choices=conf.APP_REJECT)
 
+
 class app_delay_Form(app_Form):
     delay = forms.ChoiceField(label='причина откладывания', widget=forms.Select, choices=conf.APP_DELAY)
+
 
 class app_complete_Form(app_Form):
     dog = forms.CharField(label='договор', max_length=12, required=False, widget=forms.TextInput(attrs={'size': 10}))
     man_install = forms.ChoiceField(label='инсталлятор', widget=forms.Select, choices=[], required=False)
+
     def __init__(self, *args, **kwargs):
         super(app_complete_Form, self).__init__(*args, **kwargs)
         eng_list2 = list(engineer.objects.values_list('fio', flat=True).order_by('fio'))
@@ -56,8 +63,11 @@ class app_complete_Form(app_Form):
             eng_list2[eng_list2.index(ob)] = [ob, ob]
         self.fields['man_install'].choices = eng_list2
 
+
 class app_find_Form(forms.Form):
     dog = forms.CharField(label='договор: ', max_length=12, widget=forms.TextInput(attrs={'size': 14}))
 
+
 class n_order_Form(forms.Form):
     n_order = forms.CharField(label='ордер', max_length=12, widget=forms.TextInput(attrs={'size': 14}))
+

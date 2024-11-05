@@ -23,6 +23,7 @@ from core.e_config import conf
 
 ####################################################################################################
 
+
 @login_required(login_url='/core/login/')
 def show_bu_lo(request, bu_id, lo_id=0):
 
@@ -37,9 +38,8 @@ def show_bu_lo(request, bu_id, lo_id=0):
 
     # if lo and lo['agr'] and not request.user.has_perm("core.can_sh_agr"):
     if lo and lo.agr and not request.user.has_perm("core.can_sh_agr"):
-        return render(request, 'denied.html', {'mess': 'insufficient access rights', 'back': 1,
-                                               'next_url': f"/cross/build={bu_id}/locker={lo_id}/"
-                                               })
+        return render(request, 'denied.html', {
+            'mess': 'insufficient access rights', 'back': 1, 'next_url': f"/cross/build={bu_id}/locker={lo_id}/"})
 
     jyr_info = check_deadline(bu) if not lo_id else False
     bu_double = False
@@ -61,7 +61,7 @@ def show_bu_lo(request, bu_id, lo_id=0):
         cross_list = Cross.objects.filter(parrent_id=lo_id).order_by('name')\
             .values('id', 'name', 'name_type', 'prim', 'object_owner')
         device_list = Device.objects.filter(parrent_id=lo_id).order_by('obj_type__parrent_id', 'name')\
-            .values('id', 'name', 'obj_type__name', 'ip_addr', 'prim', 'ip_mask', 'ip_gateway', 'vlan', \
+            .values('id', 'name', 'obj_type__name', 'ip_addr', 'prim', 'ip_mask', 'ip_gateway', 'vlan',
                     'object_owner', 'obj_type__parrent_id', 'obj_type__parrent__name')
         box_list = Box.objects.filter(parrent_id=lo_id).order_by('name', 'num').values()
         subunit_list = Subunit.objects.filter(parrent_id=lo_id).order_by('name').values()
@@ -79,8 +79,9 @@ def show_bu_lo(request, bu_id, lo_id=0):
                                                         'bu_double': bu_double,
                                                         'jyr_info': jyr_info,
                                                })
-# if (request.user.groups.filter(name='test').exists())
+
 ####################################################################################################
+
 
 def repack_su(subunit_list, lo_id):
     for ob in subunit_list:
@@ -141,9 +142,10 @@ def check_deadline(bu):
 
 ####################################################################################################
 
+
 @login_required(login_url='/core/login/')
 def show_cr(request, bu_id, lo_id, cr_id):
-    
+
     upd_visit(request.user, 'sh_cr')
     try:
         bu = Building.objects.get(pk=bu_id)
@@ -241,7 +243,7 @@ def show_cr(request, bu_id, lo_id, cr_id):
     except:
         select, to_print = 0, 0
 
-    return render(request, 'show_cross.html', { 'bu': bu,
+    return render(request, 'show_cross.html', {'bu': bu,
                                                 'kv': kv,
                                                 'lo': lo,
                                                 'cr_list': cr_list,
@@ -253,6 +255,7 @@ def show_cr(request, bu_id, lo_id, cr_id):
                                                 })
 
 ####################################################################################################
+
 
 @login_required(login_url='/core/login/')
 def show_dev(request, bu_id, lo_id, dev_id, l2=0):
@@ -291,7 +294,7 @@ def show_dev(request, bu_id, lo_id, dev_id, l2=0):
                     if down.up_status:
                         ext_cr = Cross_ports.objects\
                             .select_related('parrent', 'parrent__parrent', 'parrent__parrent__parrent')\
-                            .only('id', 'num', 'parrent_id', 'parrent__name', 'parrent__parrent_id', 'parrent__parrent__name',\
+                            .only('id', 'num', 'parrent_id', 'parrent__name', 'parrent__parrent_id', 'parrent__parrent__name',
                                   'parrent__parrent__parrent__name', 'parrent__parrent__parrent__house_num')\
                             .get(pk=down.up_cross_id)
                         down_ext = ((ext_cr.parrent.parrent.parrent_id,
@@ -417,6 +420,7 @@ def show_dev(request, bu_id, lo_id, dev_id, l2=0):
 
 ####################################################################################################
 
+
 @login_required(login_url='/core/login/')
 def show_dev_ips(request, bu_id, lo_id, dev_id):
 
@@ -446,7 +450,7 @@ def show_dev_ips(request, bu_id, lo_id, dev_id):
     #t_list2 = []
     t_list3 = []                            # 'паровозные' линки
 ###
-###
+
     def add_total(obj):
         nonlocal dev_vector, t_list2, t_list3
         dev_vector.append(obj[3])
@@ -456,14 +460,15 @@ def show_dev_ips(request, bu_id, lo_id, dev_id):
             obj0 = t_list2[obj[0]-1][0].copy()
             obj0[2] = obj[1]
             t_list3.append([obj0, obj])
-### проверка на повторяющийся коммут
+
+    ### проверка на повторяющийся коммут
     def check_vector(dev_id):
         nonlocal dev_vector
         return dev_id in dev_vector
+
 ###
     def ch_cr(lev, p_id, p_up, num):
         cr_p = Cross_ports.objects.get(pk=p_id)
-        #cr = Cross.objects.get(pk=cr_p.parrent_id)
         if cr_p.up_status != 0:
             cr_p_up = Cross_ports.objects.get(pk=cr_p.up_cross_id)
             if cr_p_up.int_c_dest == 1:
@@ -474,11 +479,11 @@ def show_dev_ips(request, bu_id, lo_id, dev_id):
                 add_total([num, lev, 0, 0, False])
         elif lev == 0:
             add_total([num, lev, 0, 0, False])
+
 ###
     def ch_dev(lev, p_id, type_c, p_up, num):
         dev_p = Device_ports.objects.get(pk=p_id)
         dev = Device.objects.get(pk=dev_p.parrent_id)
-        #dev_type = Templ_device.objects.get(pk=dev.con_type).parrent_id
         dev_type = dev.obj_type.parrent_id
         loop = check_vector(dev.id)
         if dev_type in [8] and lev != 0: # poe не показывать во вложениях
@@ -544,6 +549,7 @@ def show_dev_ips(request, bu_id, lo_id, dev_id):
 
 ####################################################################################################
 
+
 @login_required(login_url='/core/login/')
 def show_box(request, bu_id, lo_id, box_id):
 
@@ -593,7 +599,6 @@ def show_box(request, bu_id, lo_id, box_id):
     for ob in box_p_list:
         if ob['up_status'] == 0:
             c_up = []
-            #l_up = ''###
         else:
             try:
                 up = Device_ports.objects.get(pk=ob['up_device_id'])
@@ -601,7 +606,6 @@ def show_box(request, bu_id, lo_id, box_id):
                         (str(up.id), str(up.num)))
             except ObjectDoesNotExist:
                 c_up = ('link_err',)
-                #l_up = ''
 
         plint = ob['p_alias'][:1]
         if not plint.isdigit():
@@ -619,7 +623,7 @@ def show_box(request, bu_id, lo_id, box_id):
             res = templ_box_cab_list.only('color_cable').get(pk=int(ob['cable_id'])).color_cable
             color_cache[int(ob['cable_id'])] = res
         ob['c_color'] = res
-        
+
         i = i-1
         if i == 0:
             c_ports = templ_box_cab_list.get(pk=int(ob['cable_id'])).ports
@@ -643,8 +647,8 @@ def show_box(request, bu_id, lo_id, box_id):
                                              'su_rq': su_rq,
                                              })
 
-
 ####################################################################################################
+
 
 @login_required(login_url='/core/login/')
 def energy(request, bu_id, lo_id):
@@ -711,8 +715,8 @@ def energy(request, bu_id, lo_id):
                                            'en_his': en_his,
                                            })
 
-
 ####################################################################################################
+
 
 @login_required(login_url='/core/login/')
 def show_racks(request, bu_id, lo_id):
