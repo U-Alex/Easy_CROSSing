@@ -32,6 +32,7 @@ urlpatterns = [
     #re_path(r'^rent/', include('eq_rent.urls')),
     #re_path(r'^mess/', include('mess.urls')),
     #url(r'^hard/', include('hard.urls')),
+    re_path(r'^api/vols/', include('vols_api.urls')),
     re_path(r'^', include('find.urls')),
     re_path(r'^__debug__/', include('debug_toolbar.urls')),
 
