@@ -28,8 +28,27 @@ class PwcontSerializer(serializers.ModelSerializer):
                   'rasp', 'prim',  'coord_x', 'coord_y']
 
 
-class LinksSerializer(serializers.ModelSerializer):
+class PolylineSerializer(serializers.ModelSerializer):
     class Meta:
         model = links
         fields = ['id', 'lineidid', 'linecncn', 'cabtype', 'cabcolor', 'path', 'param']
+
+
+class CreatePolylineSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = links
+        fields = ['id', 'lineidid', 'linecncn', 'cabtype', 'cabcolor', 'path', 'param']
+
+    def create(self, validated_data):
+        poly = links(
+            lineidid=validated_data['lineidid'],
+            linecncn=validated_data['linecncn'],
+            cabtype=validated_data['cabtype'],
+            cabcolor=validated_data['cabcolor'],
+            path=validated_data['path'],
+            param=validated_data['param'],
+        )
+        # poly.save()
+        return poly
+
 
