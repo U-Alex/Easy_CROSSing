@@ -10,7 +10,7 @@ from rest_framework.authtoken.models import Token
 
 def check_perm(func: Callable) -> Callable:
     @wraps(func)
-    def wrapper(request, c_id=0):
+    def wrapper(request, o_id=0):
 
         if token := request.environ.get('HTTP_TOKEN'):      # 'environ' or 'META'
             if user := Token.objects.filter(key=token).first().user:
@@ -19,7 +19,7 @@ def check_perm(func: Callable) -> Callable:
                              'vols_read' in groups,
                              'vols_update' in groups,
                              'vols_delete' in groups)
-                return func(request, c_id, crud_perm)
+                return func(request, o_id, crud_perm)
             else:
                 return JsonResponse({}, status=status.HTTP_403_FORBIDDEN)
         else:

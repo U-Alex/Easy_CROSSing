@@ -15,15 +15,17 @@ urlpatterns = [
 
     # re_path(r'^login/$', views.login, name='login'),
     re_path(r'^coup/$', views.coup, name='coup'),
-    re_path(r'^coup/(?P<c_id>[0-9]+)$', views.coup, name='coup'),
+    re_path(r'^coup/(?P<o_id>[0-9]+)/$', views.coup, name='coup'),
     re_path(r'^locker/$', views.locker, name='locker'),
-    re_path(r'^locker/(?P<l_id>[0-9]+)$', views.locker, name='locker'),
+    re_path(r'^locker/(?P<o_id>[0-9]+)/$', views.locker, name='locker'),
     re_path(r'^pwcont/$', views.pwcont, name='pwcont'),
-    re_path(r'^pwcont/(?P<p_id>[0-9]+)$', views.pwcont, name='pwcont'),
+    re_path(r'^pwcont/(?P<o_id>[0-9]+)/$', views.pwcont, name='pwcont'),
     re_path(r'^polyline/$', views.polyline, name='polyline'),
-    re_path(r'^polyline/(?P<p_id>[0-9]+)$', views.polyline, name='polyline'),
+    re_path(r'^polyline/(?P<o_id>[0-9]+)/$', views.polyline, name='polyline'),
 
-    re_path(r'^coup/(?P<c_id>[0-9]+)/links/$', views.coup_links, name='coup_links'),
+    re_path(r'^coup/(?P<o_id>[0-9]+)/links/$', views.coup_links, name='coup_links'),
+
+    re_path(r'^coup/(?P<o_id>[0-9]+)/paint/$', views.coup_paint, name='coup_paint'),
 
     # path('', include(router.urls)),
     # path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
