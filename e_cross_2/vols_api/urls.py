@@ -27,6 +27,8 @@ urlpatterns = [
 
     re_path(r'^coup/(?P<o_id>[0-9]+)/paint/$', views.coup_paint, name='coup_paint'),
 
+    re_path(r'^coup/(?P<o_id>[0-9]+)/paintext/(?P<cab_l>[0-9,-]+)/$', views.coup_paint_ext, name='coup_paint_ext'),
+
     # path('', include(router.urls)),
     # path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api-token-auth/', t_views.obtain_auth_token)
