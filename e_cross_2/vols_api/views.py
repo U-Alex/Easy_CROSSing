@@ -195,7 +195,7 @@ def coup_paint_ext(request, o_id, cab_l, crud_perm=(True,) * 4):
 
     if request.method == 'GET' and _R and o_id:
         cab_list = cab_l.split('-')
-        coup_p = Coupling_ports.objects.filter(parrent_id=o_id, cable_num__in=cab_list)
+        coup_p = Coupling_ports.objects.filter(parrent_id=o_id, cable_num__in=cab_list).order_by('fiber_num')
         # for ob in coup_p: print(ob)
         result = {int(key): list() for (key) in cab_list}
         for c_p in coup_p:
@@ -224,7 +224,10 @@ def coup_paint_ext(request, o_id, cab_l, crud_perm=(True,) * 4):
         # for k, v in result.items():
         #     for ob in v:
         #         print(k, ob)
-        return JsonResponse(result, safe=False, status=status.HTTP_200_OK)
+        result_list = [v for v in result.values()]
+        for ob in result_list:
+            print(ob)
+        return JsonResponse(result_list, safe=False, status=status.HTTP_200_OK)
 
     return JsonResponse({}, status=status.HTTP_400_BAD_REQUEST)
 

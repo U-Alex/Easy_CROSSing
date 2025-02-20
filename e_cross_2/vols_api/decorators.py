@@ -12,7 +12,7 @@ def check_perm(func: Callable) -> Callable:
     @wraps(func)
     def wrapper(*args, **kwargs):
 
-        if token := args[0].environ.get('HTTP_TOKEN'):
+        if token := args[0].environ.get('HTTP_TOKEN'):# 'environ' or 'META'
             if user := Token.objects.filter(key=token).first().user:
                 groups = list(Group.objects.filter(user=user, name__startswith='vols').values_list('name', flat=True))
                 crud_perm = ('vols_create' in groups,
