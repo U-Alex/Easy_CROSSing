@@ -200,25 +200,25 @@ def coup_paint_ext(request, o_id, cab_l, crud_perm=(True,) * 4):
         result = {int(key): list() for (key) in cab_list}
         for c_p in coup_p:
             res = CoupPortsSerializer(c_p).data
-            hop = chain_trace(c_p.id, '0', True)
-            # print(c_p.cable_num, c_p.fiber_num, hop)
+            hop, count_hop = chain_trace(c_p.id, '0', True, True)
+            # print(c_p.cable_num, c_p.fiber_num, hop, count_hop)
             if hop:
                 if hop[0] == 2:
-                    res.update({'end_type': 'cross'})
+                    res.update({'end_type': 'cross', 'count_hop': count_hop})
                     hop_cross = CrossSerializer(Cross.objects.get(pk=hop[1].parrent_id)).data
                     hop_parent = find_coup_parrent(0, hop_cross['parrent'], True)
                     hop_cross.update({'hop_parent_lo': hop_parent[0], 'hop_parent_full': hop_parent[1]})
                     res.update({'hop_cross': hop_cross})
                     res.update({'hop_port': CrossPortsSerializer(hop[1]).data})
                 if hop[0] == 1:
-                    res.update({'end_type': 'coup'})
+                    res.update({'end_type': 'coup', 'count_hop': count_hop})
                     hop_coup = CoupSerializer(Coupling.objects.get(pk=hop[1].parrent_id)).data
                     hop_parent = find_coup_parrent(hop_coup['parr_type'], hop_coup['parrent'], True)
                     hop_coup.update({'hop_parent_lo': hop_parent[0], 'hop_parent_full': hop_parent[1]})
                     res.update({'hop_coup': hop_coup})
-                    res.update({'items_hop': CoupPortsSerializer(hop[1]).data})
+                    res.update({'hop_port': CoupPortsSerializer(hop[1]).data})
             else:
-                res.update({'end_type': 'loopback detected'})
+                res.update({'end_type': 'loopback detected', 'count_hop': count_hop})
 
             result[c_p.cable_num].append(res)
         # for k, v in result.items():

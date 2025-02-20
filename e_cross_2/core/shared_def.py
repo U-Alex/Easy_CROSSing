@@ -32,7 +32,7 @@ def from_db_su_rq(lo_id, su):
 
 ####################################################################################################
 
-def chain_trace(p_id, p_type, transit=False):
+def chain_trace(p_id, p_type, transit=False, count_hop=False):
     #   ch_list[n][0]:
     #   1-Coupling_ports
     #   2-Cross_ports
@@ -41,7 +41,7 @@ def chain_trace(p_id, p_type, transit=False):
     ch_list = []
     p_all = Coupling_ports.objects.all()
     c_all = Templ_cable.objects.all()
-
+    hop = 1
     if p_type == '1':
         start_cr = Cross_ports.objects.get(pk=p_id)
         ch_list.append([2,
@@ -107,6 +107,7 @@ def chain_trace(p_id, p_type, transit=False):
                             c_all.get(pk=par3.cable_type)
                             ])
             start_id = par3.up_id
+            hop += 1
             continue
         elif par2.int_c_dest == 1:              #кросс
             par4 = Cross_ports.objects.get(pk=par2.int_c_id)
@@ -168,8 +169,9 @@ def chain_trace(p_id, p_type, transit=False):
         if res[0] == 4:
             res = ch_list.pop()
         elif res[0] == 8:
+            if count_hop: return False, hop
             return False
-
+        if count_hop: return res, hop
         return res
 #
     if len(ch_list) %2 > 0:
