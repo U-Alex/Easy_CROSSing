@@ -225,9 +225,33 @@ def coup_paint_ext(request, o_id, cab_l, crud_perm=(True,) * 4):
         #     for ob in v:
         #         print(k, ob)
         result_list = [v for v in result.values()]
-        for ob in result_list:
-            print(ob)
+        # for ob in result_list:
+        #     print(ob)
         return JsonResponse(result_list, safe=False, status=status.HTTP_200_OK)
+
+    return JsonResponse({}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@check_perm
+def show_hop(request, o_id, crud_perm=(True,) * 4):
+    _C, _R, _U, _D = crud_perm
+    
+    if request.method == 'GET' and _R and o_id:
+        res = chain_trace(o_id, '0', False, False)
+        coup_id_list, cab_num_list, cab_len_list = [], [], []
+        for ob in res:
+            for ob2 in ob:
+                # print(ob2)
+                if ob2[0] == 1:
+                    # print(ob2[1],'++', ob2[2],'++', ob2[3],'++', ob2[4])
+                    coup_id_list.append(ob2[1].parrent_id)
+                    cab_num_list.append(ob2[1].cable_num)
+                    cab_len_list.append(ob2[3][1] if ob2[3] else 0)
+
+        return JsonResponse({'coup_id_list': coup_id_list,
+                             'cab_num_list': cab_num_list,
+                             'cab_len_list': cab_len_list},
+                            safe=False, status=status.HTTP_200_OK)
 
     return JsonResponse({}, status=status.HTTP_400_BAD_REQUEST)
 

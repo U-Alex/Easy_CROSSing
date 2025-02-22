@@ -163,7 +163,7 @@ def chain_trace(p_id, p_type, transit=False, count_hop=False):
         li0.extend(ch_list)
         ch_list = li0
         #ch_list.reverse(); ch_list.append([0]); ch_list.reverse()
-#experimental
+
     if transit:
         res = ch_list.pop()
         if res[0] == 4:
