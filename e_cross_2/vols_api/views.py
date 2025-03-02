@@ -1,5 +1,5 @@
 #
-
+# import time
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
@@ -129,7 +129,7 @@ def polyline(request, o_id=0, crud_perm=(True,) * 4):
 
     if request.method == 'DELETE' and _D and o_id:
         links.objects.filter(pk=o_id).delete()
-        return JsonResponse({}, status=status.HTTP_204_NO_CONTENT)  # 204 - Broken pipe from ...
+        return JsonResponse({}, status=status.HTTP_200_OK)  # 204 - Broken pipe from ...
 
     return JsonResponse({}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -183,7 +183,7 @@ def coup_paint(request, o_id, crud_perm=(True,) * 4):
                 .only('id', 'num', 'parrent__name')\
                 .values_list('id', 'num', 'parrent__name')
         result['cross_p'] = list(cross_p)
-
+        # time.sleep(1)
         return JsonResponse(result, safe=False, status=status.HTTP_200_OK)
 
     return JsonResponse({}, status=status.HTTP_400_BAD_REQUEST)
@@ -227,6 +227,7 @@ def coup_paint_ext(request, o_id, cab_l, crud_perm=(True,) * 4):
         result_list = [v for v in result.values()]
         # for ob in result_list:
         #     print(ob)
+        # time.sleep(2)
         return JsonResponse(result_list, safe=False, status=status.HTTP_200_OK)
 
     return JsonResponse({}, status=status.HTTP_400_BAD_REQUEST)
