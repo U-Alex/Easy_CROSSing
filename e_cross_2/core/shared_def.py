@@ -169,9 +169,11 @@ def chain_trace(p_id, p_type, transit=False, count_hop=False):
         if res[0] == 4:
             res = ch_list.pop()
         elif res[0] == 8:
-            if count_hop: return False, hop
+            if count_hop:
+                return False, hop
             return False
-        if count_hop: return res, hop
+        if count_hop:
+            return res, hop
         return res
 #
     if len(ch_list) %2 > 0:

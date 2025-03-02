@@ -53,13 +53,6 @@ def locker(request, o_id=0, crud_perm=(True,) * 4):
     _C, _R, _U, _D = crud_perm
     if request.method == 'GET' and _R:
         lockers = Locker.objects.all()
-        # if o_id:
-        #     try:
-        #         lo = lockers.get(pk=o_id)
-        #         serializer = LockerSerializer(lo)
-        #         return JsonResponse(serializer.data, safe=False)
-        #     except ObjectDoesNotExist:
-        #         return JsonResponse({}, status=status.HTTP_404_NOT_FOUND)
 
         serializer = LockerSerializer(lockers, many=True)
         return JsonResponse(serializer.data, safe=False)
@@ -73,13 +66,6 @@ def pwcont(request, o_id=0, crud_perm=(True,) * 4):
     _C, _R, _U, _D = crud_perm
     if request.method == 'GET' and _R:
         pwpw = PW_cont.objects.all()
-        # if o_id:
-        #     try:
-        #         pw = pwpw.get(pk=o_id)
-        #         serializer = PwcontSerializer(pw)
-        #         return JsonResponse(serializer.data, safe=False)
-        #     except ObjectDoesNotExist:
-        #         return JsonResponse({}, status=status.HTTP_404_NOT_FOUND)
 
         serializer = PwcontSerializer(pwpw, many=True)
         return JsonResponse(serializer.data, safe=False)
@@ -101,13 +87,6 @@ def polyline(request, o_id=0, crud_perm=(True,) * 4):
     _C, _R, _U, _D = crud_perm
     if request.method == 'GET' and _R:
         _links = links.objects.all()
-        # if o_id:
-        #     try:
-        #         link = _links.get(pk=o_id)
-        #         serializer = PolylineSerializer(link)
-        #         return JsonResponse(serializer.data, safe=False)
-        #     except ObjectDoesNotExist:
-        #         return JsonResponse({}, status=status.HTTP_404_NOT_FOUND)
 
         serializer = PolylineSerializer(_links, many=True)
         return JsonResponse(serializer.data, safe=False)
@@ -242,7 +221,6 @@ def show_hop(request, o_id, crud_perm=(True,) * 4):
         coup_id_list, cab_num_list, cab_len_list = [], [], []
         for ob in res:
             for ob2 in ob:
-                # print(ob2)
                 if ob2[0] == 1:
                     # print(ob2[1],'++', ob2[2],'++', ob2[3],'++', ob2[4])
                     coup_id_list.append(ob2[1].parrent_id)
