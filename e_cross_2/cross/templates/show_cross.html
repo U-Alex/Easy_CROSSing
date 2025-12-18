@@ -21,12 +21,14 @@
 <div class="c_base_w {% if not to_print %}t_cross{% endif %}">
     <div class="cr_list">
         <div class="cr_h_1 t_header1 _col_2">порт</div>
-        <div class="cr_h_1 t_header1 _col_5">внешняя связь</div>
+        <div class="cr_h_1 t_header1">физическая связь</div>
+        <div class="cr_h_1 t_header1 _col_5">логическая связь</div>
         <div class="cr_h_1 t_header1 _col_4">внутренняя связь</div>
         <div class="cr_h_1 t_header1 _col_4"></div>
 
         <div class="cr_h_2 t_footer">№</div>
         <div class="cr_h_2 t_footer"><img src="/static/images/chain1_1.png" alt="ch" title="цепочка по кабелю"></div>
+        <div class="cr_h_2 t_footer">конечная точка</div>
         <div class="cr_h_2 t_footer">адрес</div>
         <div class="cr_h_2 t_footer">УД</div>
         <div class="cr_h_2 t_footer">кросс</div>
@@ -52,15 +54,18 @@
             {% endif %}
             </div>
         {% if ob.c_up.0 == 'link_err' %}
-            <div class="cr_p tone_error _col_5">link error!!!</div>
+            <div class="cr_p tone_error _col_6">link error!!!</div>
         {% else %}
-            {% if ob.c_up.0 == 'ext_coup' %}
-                <div class="cr_p _txt_l _col_2 _txt_coup">
-                    &#9669;&nbsp;&nbsp;<i>{{ ob.c_up.1 }}</i>
-                </div>
-                <div class="cr_p"></div>
-                <div class="cr_p"></div>
-            {% else %}
+            <div class="cr_p _txt_l {% if ob.up_status and ob.ext_coup.0 and ob.ext_coup.0 != ob.c_up.6 %}_cr_st_txt_warn{% endif %}">
+                {{ ob.ext_coup.1 }}
+            </div>
+{#            {% if ob.c_up.0 == 'ext_coup' %}#}
+{#                <div class="cr_p _txt_l _col_2 _txt_coup">#}
+{#                    &#9669;&nbsp;&nbsp;<i>{{ ob.c_up.1 }}</i>#}
+{#                </div>#}
+{#                <div class="cr_p"></div>#}
+{#                <div class="cr_p"></div>#}
+{#            {% else %}#}
                 <div class="cr_p _cr_st_{{ ob.up_status }}">
                     {{ ob.c_up.0 }} {{ ob.c_up.1 }}
                 </div>
@@ -75,7 +80,7 @@
                     <a href="{{ ob.c_up_l }}/?sel={{ ob.c_up.5 }}" target="_blank"><b>&nbsp;{{ ob.c_up.4 }}&nbsp;</b></a>
                 {% endif %}
                 </div>
-            {% endif %}
+{#            {% endif %}#}
             <div class="cr_p">
                 {% if ob.up_status != 0 %}
                 <a href="s_p={{ ob.id }}/del_cr/">&nbsp;<img src="/static/images/icon_deletelink.gif" alt="X" title="удаление кабельной связи">&nbsp;</a>

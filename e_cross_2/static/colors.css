@@ -36,6 +36,10 @@
 ._cr_st_txt_1, ._cr_st_txt_2, ._cr_st_txt_3, ._cr_st_txt_4 {
     color: #222;
 }
+._cr_st_txt_warn {
+    text-shadow: blue 0 0 6px;
+    font-weight: bold;
+}
 
 ._cr_ext_int_st_0 { background: white !important; }
 ._cr_ext_int_st_1 { background: radial-gradient( white, lawngreen) !important; }

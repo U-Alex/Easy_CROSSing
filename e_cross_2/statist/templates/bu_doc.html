@@ -4,7 +4,12 @@
 
     <table class="c_base_w t_header1">
         <tr>
-            <td width="1000px" align="left"><h3>&nbsp;&nbsp;{{ bu.name }} {{ bu.house_num }}</h3></td>
+            <td width="1000px" align="left">
+                <h3>&nbsp;&nbsp;{{ bu.name }} {{ bu.house_num }}&nbsp;&nbsp;
+                <b><a class="color_link1" href="/statist/bu_input_card={{ bu.id }}/">карточка ввода</a>
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+                <label class="color_link2">документы</label></b></h3>
+            </td>
             <td width="280px" align="right">&nbsp;</td>
         </tr>
     </table>
@@ -15,67 +20,34 @@
     {% endif %}
         <br>
         {% if f_list %}
-        <table class="c_base_w tone1" width="1284px">
-            <tr>
-                <td width="104px" align="center" valign="top">
+            <table class="c_base_w t_header1">
+                <tr><td>&nbsp;</td></tr>
                 {% for ob in f_list %}
-                    <table class="tone2" width="100%">
-                        <tr>
-                            <td colspan="2" align="center">
-                                <a href="javascript:doPic('/media/{{ url }}{{ ob }}');"><img src="/media/{{ url }}{{ ob }}" width=99 height=66 border=0></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td valign="top">
-                                <font size="1">{{ ob }}</font>
-                            </td>
-                            <td align="right" valign="top">
-                                <a href="/statist/bu_doc_del={{ bu.id }}/?d_file={{ ob }}" class="color_warn1"><font size="1">[X]</font></a>
-                            </td>
-                        </tr>
-                    </table>
+                <tr>
+                    <td width="20px" align="left"><a href="/statist/bu_doc_del={{ bu.id }}/?d_file={{ ob }}" class="color_warn1"><font size="1">[X]</font></a></td>
+                    <td width="1260px" align="left"><a href="/media/{{ url }}{{ ob }}">{{ ob }}</a></td>
+                </tr>
                 {% endfor %}
-                </td>
-                <td>
-                    <img name="mainpic" src="/media/{{ url }}{{ f_list.0 }}" width=100% height=100% border=0>
-                </td>
-            </tr>
-        </table>
+                <tr><td>&nbsp;</td></tr>
+            </table>
         {% else %}
         <div class="c_base_w" align="center">файлы отсутствуют</div>
-        <br>
         {% endif %}
 
-    <br>
     <table class="c_base_w t_footer">
         <tr>
             <td width="1000px">
                 <form enctype="multipart/form-data" method="post" action="">
                     {% csrf_token %}
                     {{ form.file }}
-                    <input type="submit" value="добавить" style="width:100px">&nbsp
+                    <input type="submit" value="добавить" style="width:100px">&nbsp;
                 </form>
             </td>
             <td width="280px" align="right">
-                <input type="button" value="закрыть" onClick='location.href="/cross/build={{ bu.id }}/"'>&nbsp
+                <input type="button" value="закрыть" onClick='location.href="/cross/build={{ bu.id }}/"'>&nbsp;
             </td>
         </tr>
     </table>
     
-    
-<script>
 
-browserName = navigator.appName;
-browserVer = parseInt(navigator.appVersion);
-ns3up = (browserName == "Netscape" && browserVer >= 3);
-ie4up = (browserName.indexOf("Microsoft") >= 0 && browserVer >= 4);
-function doPic(imgName) {
-    if (ns3up || ie4up) {
-        imgOn = ("" + imgName);
-        document.mainpic.src = imgOn;
-    }
-}
-
-</script>
-    
 {% endblock %}

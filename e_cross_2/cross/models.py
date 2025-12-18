@@ -7,7 +7,7 @@ from core.models import Device_type, Subunit_type, Templ_device
 
 
 class Kvartal(models.Model):
-    #id = models.BigAutoField(primary_key=True)    ############## после update to 3.2
+    #id = models.BigAutoField(primary_key=True)    # ?
     name = models.CharField(max_length=30)
 
     def __str__(self):

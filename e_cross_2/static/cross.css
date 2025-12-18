@@ -23,8 +23,8 @@
 .cr_list {
     display: grid;
     grid-template-columns: 
-        repeat(2, 36px) 
-        auto auto auto repeat(2, 36px) 
+        repeat(2, 36px) auto
+        auto auto auto repeat(2, 36px)
         46px auto repeat(2, 36px)
         minmax(90px, 340px) 60px 36px 36px;
     grid-template-rows: auto;

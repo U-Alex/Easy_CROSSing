@@ -257,11 +257,13 @@ def app_install(request, app_id, box_p_id=0):
 
     upd_visit(request.user, 'a_inst')
 
-    if not request.user.has_perm("core.can_app_edit"):
-        return render(request, 'denied.html', {'mess': 'нет прав для доступа',
-                                               'back': 2,
-                                               'next_url': '/app/install='+app_id+'/'
-                                               })
+    if not request.user.has_perm("core.can_app_view"):
+        return render(request, 'denied.html', {'mess': 'нет прав просмотра заявок', 'back': 1})
+    # if not request.user.has_perm("core.can_app_edit"):
+    #     return render(request, 'denied.html', {'mess': 'нет прав для доступа',
+    #                                            'back': 2,
+    #                                            'next_url': '/app/install='+app_id+'/'
+    #                                            })
     #title = False
     bron = False    #есть бронь на кроссе
     box_list = []
@@ -292,6 +294,11 @@ def app_install(request, app_id, box_p_id=0):
             bron = True
 
     if request.method == 'POST' and accept:
+        if not request.user.has_perm("core.can_app_edit"):
+            return render(request, 'denied.html', {'mess': 'нет прав для доступа',
+                                                   'back': 2,
+                                                   'next_url': '/app/install=' + app_id + '/'
+                                                   })
         app.app_status = 1
         app.box_port = box_p_id
         app.man_oper = request.user.get_full_name()

@@ -1,11 +1,12 @@
     <span>
         <label style="color: #FF3B65"><i><b>устройство:</b></i></label>
-        &nbsp;&nbsp;<a href="/cross/build={{ bu.id }}/locker={{ lo.id }}/subunit={{ su_rq.id }}" target="_blank"><b>{{ su_rq.name }}</b></a>
-        {% if su_rq.ip_addr %}&nbsp;&nbsp;IP: <b>{{ su_rq.ip_addr }}</b>{% endif %}
-        {% if su_rq.mac_addr %}&nbsp;&nbsp;MAC: <b>{{ su_rq.mac_addr }}</b>{% endif %}
-        {% if su_rq.sn %}&nbsp;&nbsp;sn <b>{{ su_rq.sn }}</b>{% endif %}
-        {% if su_rq.man_install %}&nbsp;&nbsp;монтаж: <b>{{ su_rq.man_install }}</b>{% endif %}
-        {% if su_rq.date_ent %}&nbsp;&nbsp;ввод <b>{{ su_rq.date_ent|date:"d.m.Y" }}</b>{% endif %}
-        {% if su_rq.date_repl %}&nbsp;&nbsp;замена: <b>{{ su_rq.date_repl|date:"d.m.Y" }}</b>{% endif %}
-        {% if su_rq.prim %}&nbsp;&nbsp;прим: <b>{{ su_rq.prim }}</b>{% endif %}
+        &nbsp;&nbsp;<a href="/cross/build={{ bu.id }}/locker={{ lo.id }}/subunit={{ su_rq.0.id }}" target="_blank"><b>{{ su_rq.0.name }}</b></a>
+        &nbsp;&nbsp;тип: <b>{{ su_rq.1 }}</b>
+        {% if su_rq.0.ip_addr %}&nbsp;&nbsp;IP: <b>{{ su_rq.0.ip_addr }}</b>{% endif %}
+        {% if su_rq.0.mac_addr %}&nbsp;&nbsp;MAC: <b>{{ su_rq.0.mac_addr }}</b>{% endif %}
+        {% if su_rq.0.sn %}&nbsp;&nbsp;sn <b>{{ su_rq.0.sn }}</b>{% endif %}
+        {% if su_rq.0.man_install %}&nbsp;&nbsp;монтаж: <b>{{ su_rq.0.man_install }}</b>{% endif %}
+        {% if su_rq.0.date_ent %}&nbsp;&nbsp;ввод <b>{{ su_rq.0.date_ent|date:"d.m.Y" }}</b>{% endif %}
+        {% if su_rq.0.date_repl %}&nbsp;&nbsp;замена: <b>{{ su_rq.0.date_repl|date:"d.m.Y" }}</b>{% endif %}
+        {% if su_rq.0.prim %}&nbsp;&nbsp;прим: <b>{{ su_rq.0.prim }}</b>{% endif %}
     </span>

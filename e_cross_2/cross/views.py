@@ -170,18 +170,26 @@ def show_cr(request, bu_id, lo_id, cr_id):
     cr_list = Cross.objects.filter(parrent_id=lo_id).values().order_by('name')
     cr_p_list = Cross_ports.objects.filter(parrent_id=cr.id).values().order_by('num')
 
-    c_up, c_down = (), ()
+    ext_coup, c_up, c_down = (), (), ()
     for ob in cr_p_list:
+        if ob['cab_p_id'] != 0:
+            res = chain_trace(ob['id'], '1', transit=True)
+            if res and res[0] == 1: ext_coup = (0, f"m: {res[1].parrent.name}")#⊙
+            if res and res[0] == 2: ext_coup = (res[1].parrent.parrent_id, f"уд: {res[1].parrent.parrent.name}")#⊲
+        else:
+            ext_coup = (0, "")
+
         if ob['up_status'] == 0:
-            if ob['cab_p_id'] != 0:
-                res = chain_trace(ob['id'], '1', transit=True)
-                try:
-                    if res[0] == 1: c_up = ('ext_coup', f"m: {res[1].parrent.name}")
-                    if res[0] == 2: c_up = ('ext_coup', f"уд: {res[1].parrent.parrent.name}")
-                except:
-                    c_up = ()
-            else:
-                c_up = ()
+            # if ob['cab_p_id'] != 0:
+            #     res = chain_trace(ob['id'], '1', transit=True)
+            #     try:
+            #         if res[0] == 1: c_up = ('ext_coup', f"m: {res[1].parrent.name}")
+            #         if res[0] == 2: c_up = ('ext_coup', f"уд: {res[1].parrent.parrent.name}")
+            #     except:
+            #         c_up = ()
+            # else:
+            #     c_up = ()
+            c_up = ()
             c_up_l = ''
         else:
             try:
@@ -195,7 +203,8 @@ def show_cr(request, bu_id, lo_id, cr_id):
                         up.parrent.parrent.name,                    #2 УД
                         up.parrent.name,                            #3 кросс
                         str(up.num),                                #4 порт
-                        str(up.id)                                  #6 ид противоположного порта для маркера
+                        str(up.id),                                 #5 ид противоположного порта для маркера
+                        up.parrent.parrent.id                       #6 для проверки конечной точки
                         )
                 c_up_l = f"/cross/build={up.parrent.parrent.parrent.id}/locker={up.parrent.parrent.id}/cr={up.parrent.id}"
             except ObjectDoesNotExist:
@@ -229,6 +238,7 @@ def show_cr(request, bu_id, lo_id, cr_id):
                 except ObjectDoesNotExist:
                     c_down = ('kom2.png', 'link_err')
 
+        ob['ext_coup'] = ext_coup
         ob['c_up'] = c_up
         ob['c_up_l'] = c_up_l
         ob['c_down'] = c_down

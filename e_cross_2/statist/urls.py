@@ -2,9 +2,13 @@
 
 from django.urls import re_path
 
-from . import views
+from . import views, views_storage
 
 urlpatterns = [
+    re_path(r'^bu_input_card=(?P<bu_id>[0-9]+)/$', views_storage.bu_input_card, name='bu_input_card'),
+    re_path(r'^bu_input_card_del=(?P<bu_id>[0-9]+)/$', views_storage.bu_input_card_del, name='bu_input_card_del'),
+    re_path(r'^bu_doc=(?P<bu_id>[0-9]+)/$', views_storage.bu_doc, name='bu_doc'),
+    re_path(r'^bu_doc_del=(?P<bu_id>[0-9]+)/$', views_storage.bu_doc_del, name='bu_doc_del'),
 
     re_path(r'^$', views.stat, name='stat'),
     re_path(r'^stat2/$', views.stat2, name='stat2'),
@@ -34,9 +38,6 @@ urlpatterns = [
 
     re_path(r'^null_len/$', views.cable_null_len, name='cable_null_len'),
     re_path(r'^coup_changed/$', views.coup_changed, name='coup_changed'),
-
-    re_path(r'^bu_doc=(?P<bu_id>[0-9]+)/$', views.bu_doc, name='bu_doc'),
-    re_path(r'^bu_doc_del=(?P<bu_id>[0-9]+)/$', views.bu_doc_del, name='bu_doc_del'),
 
     #re_path(r'^bil/id=(?P<p_id>[0-9]+)/$', views.res_for_bil, name='res_for_bil'),
 

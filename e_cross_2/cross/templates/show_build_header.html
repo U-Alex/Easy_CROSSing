@@ -44,8 +44,11 @@
         <a class="kvar" href="/cable/kv={{ kv.id }}" title="квартал" target="_blank">
             <img src="/static/images/kvar1.png" alt="&#9636;">{{ kv.name }}
         </a>
-        <a href="/statist/bu_doc={{ bu.id }}" target="_blank">
-            <img class="link_oper" src="/static/images/input_card1.png" alt="фото" title="фотоотчет"></a>
+        {% if bu.kv_count %}
+        <label class="kvar" title="количество квартир / офисов"><img src="/static/images/kran3.png" alt="&#9636;">{{ bu.kv_count }}</label>
+        {% endif %}
+        <a href="/statist/bu_input_card={{ bu.id }}" target="_blank">
+            <img class="link_oper" src="/static/images/input_card1.png" alt="фото" title="фотоотчет, карточка ввода"></a>
         <a href="/statist/bu_doc={{ bu.id }}" target="_blank">
             <img class="link_oper" src="/static/images/input_card2.png" alt="док." title="документация"></a>
     {% endif %}

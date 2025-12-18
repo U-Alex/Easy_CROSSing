@@ -14,7 +14,7 @@
                 <i>примечание:</i><br>
 {#                показаны только те адреса, где присутствуют коммутаторы edge-core<br>#}
 {#                медиаконвертеры и серверные коммутаторы игнорируются<br>#}
-                исключены шкафы-агрегации и служебные шкафы (не для подключения абонентов)<br>
+                исключены шкафы-агрегации и шкафы, где отсутствуют коммутаторы<br>
                 ёмкость указана для портов коммутатора<br>
                 задействованная ёмкость включает в себя так же и забронированные порты
             </td>
@@ -23,9 +23,10 @@
     </table>
     <br>
     
-    <table class="c_base_w" width="800px" border="1">
+    <table class="c_base_w" width="900px" border="1">
         <tr class="t_header1">
             <td align="center">адрес</td>
+            <td width="120px" align="center">колич. квартир<br>в здании</td>
             <td width="120px" align="center">колич. УД</td>
             <td width="120px" align="center">колич. коммутаторов</td>
             <td width="120px" align="center">монтированная ёмкость</td>
@@ -34,6 +35,7 @@
     {% for ob in st_list %}
         <tr>
             <td>{{ ob.0.name }} {{ ob.0.house_num }}</td>
+            <td align="center">{{ ob.0.kv_count }}</td>
             <td align="center">{{ ob.1 }}</td>
             <td align="center">{{ ob.2 }}</td>
             <td align="center">{{ ob.3 }}</td>
@@ -41,7 +43,7 @@
         </tr>
     {% endfor %}
         <tr class="tone2">
-            <td>ВСЕГО:</td>
+            <td colspan="2">ВСЕГО:</td>
             <td align="center">{{ c_list.0 }}</td>
             <td align="center">{{ c_list.1 }}</td>
             <td align="center">{{ c_list.2 }}</td>

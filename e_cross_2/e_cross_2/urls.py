@@ -20,7 +20,7 @@ from django.conf import settings            #### for dev server only
 from django.conf.urls.static import static  #### for dev server only
 
 urlpatterns = [
-    re_path('admin/', admin.site.urls),
+    re_path(r'^admin/', admin.site.urls),
     re_path(r'^core/', include('core.urls')),
     re_path(r'^find/', include('find.urls')),
     re_path(r'^cross/', include('cross.urls')),

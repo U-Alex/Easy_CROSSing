@@ -10,8 +10,8 @@
     </table>
     
     <div class="c_base_w" align="center">
-        <h3 style="color:red">удалить файл?</h3><br>
-        <label>{{ d_file }}</label>
+        <h3 style="color:red">удалить файл?</h3>
+        <img src="/media/input_card/{{ bu.id }}/{{ d_file }}" width=40% height=40% border=0>
     </div>
     <br>
     <table class="c_base_w t_footer">
@@ -23,7 +23,7 @@
                 <input type="submit" value="     OK     ">&nbsp
             </td>
             <td width="640px" align="left">
-                <input type="button" value="отмена" onClick='location.href="/statist/bu_doc={{ bu.id }}"'>
+                <input type="button" value="отмена" onClick='location.href="/statist/bu_input_card={{ bu.id }}"'>
             </td>
         </form>
         </tr>

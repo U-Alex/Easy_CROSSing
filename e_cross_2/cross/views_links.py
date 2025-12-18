@@ -179,9 +179,9 @@ def ext_ok(request, bu_id, lo_id, cr_id, s_port_id, d_bu_id, d_port_id):
                 s_p_id.save()
                 d_p_id.save()
 
-                h_text = 'УД: '+s_p_id.parrent.parrent.name+' кросс: '+s_p_id.parrent.name+' порт: '+str(s_p_id.num)
-                h_text += ' >>> УД: '+d_p_id.parrent.parrent.name+' кросс: '+d_p_id.parrent.name+' порт: '+str(d_p_id.num)
-                h_text += ' >>>  status: '+conf.STATUS_LIST[int(s_p_id.up_status)][1]
+                h_text = f'УД: {s_p_id.parrent.parrent.name} кросс: {s_p_id.parrent.name} порт: {s_p_id.num}'
+                h_text += f' >>> УД: {d_p_id.parrent.parrent.name} кросс: {d_p_id.parrent.name} порт: {d_p_id.num}'
+                h_text += f' >>>  status: {conf.STATUS_LIST[int(s_p_id.up_status)][1]}'
                 to_his([request.user, 5, s_p_id.id, 3, 0, h_text])
                 to_his([request.user, 5, d_p_id.id, 3, 0, h_text])
 

@@ -505,7 +505,7 @@ def duple_dog(request):
 
 
 ####################################################################################################
-
+"""
 @login_required(login_url='/core/login/')
 def bu_doc(request, bu_id):
 
@@ -571,7 +571,7 @@ def bu_doc_del(request, bu_id):
     d_file = request.GET['d_file']
 
     return render(request, 'bu_doc_del.html', {'bu': bu, 'd_file': d_file})
-
+"""
 ####################################################################################################
 
 

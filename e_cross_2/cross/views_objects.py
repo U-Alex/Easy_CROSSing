@@ -299,6 +299,10 @@ def edit_build(request, bu_id):
                 change = True
                 h_text += f'квартал: {Kvartal.objects.get(pk=bu.kvar).name} -> {Kvartal.objects.get(pk=int(form.cleaned_data["kvar"])).name}; '
                 bu.kvar = form.cleaned_data['kvar']
+            if form.cleaned_data['kv_count'] != bu.kv_count:
+                change = True
+                h_text += f'kv_count: {bu.kv_count} -> {form.cleaned_data["kv_count"]}; '
+                bu.kv_count = form.cleaned_data['kv_count']
 
             id_comp = bu.info_comp
             if id_comp == 0: id_comp = 1  ### debug
@@ -375,6 +379,7 @@ def edit_build(request, bu_id):
             deadline_m = False
 
         form = edit_bu_Form(initial={'kvar': bu.kvar,
+                                     'kv_count': bu.kv_count,
                                      'info_comp': bu.info_comp,
                                      'info_cont': bu.info_cont,
                                      'cnt_place': bu.cnt_place,

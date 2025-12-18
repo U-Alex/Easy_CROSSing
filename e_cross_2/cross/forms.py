@@ -12,6 +12,7 @@ from core.e_config import conf
 
 class edit_bu_Form(forms.Form):
     kvar = forms.ChoiceField(label='квартал', widget=forms.Select, choices=[], required=False)
+    kv_count = forms.IntegerField(label='количество квартир / офисов', min_value=0, max_value=512, required=False)
 
     info_comp = forms.ChoiceField(widget=forms.Select(attrs={'size': 1}), choices=[])
     info_cont = forms.CharField(max_length=2000, required=False, widget=forms.TextInput(attrs={'size': 151}))
