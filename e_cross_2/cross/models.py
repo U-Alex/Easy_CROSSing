@@ -30,6 +30,7 @@ class Building(models.Model):
     house_num = models.CharField(max_length=10)
     kvar = models.IntegerField(default=1)
     double_id = models.IntegerField(default=0)
+    kv_count = models.IntegerField(default=0)
                                                                         # TODO перенести в др.табл. one to one
     info_comp = models.IntegerField(default=1)                          # УК/ТСЖ/ЖСК   kpp.manage_comp
     info_cont = models.CharField(max_length=2048, blank=True)           # Контактная информация уполномоченного представителя собственников
